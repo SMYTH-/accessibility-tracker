@@ -5,21 +5,23 @@
 | Gate | 2.1 — Design Research |
 | Status | Ready for product-owner review |
 | Creative preference (research only) | Fintech clarity (Monzo, Wise, Trading 212) + social accountability (Strava, AllTrails) |
-| Product baseline | PRS v1.0 §15; Gate 1.1 amendment (read-only) |
+| Product baseline | PRS v1.0 §15 and §10.1; Gate 1.1 amendment (read-only) |
 | Scope | Observed patterns and design recommendations only — no product-requirement changes |
 
-**How to read this document:** **Observed** = patterns documented from public product, brand, or design-system sources. **Recommendation** = how Accountability Tracker might adapt the pattern without copying another brand or inventing new product rules.
+**How to read this document:** **Observed** = patterns documented from public product, brand, or design-system sources. **Recommendation** = creative guidance for Gate 2 exploration — not a binding product constraint, and not a licence to invent MVP features. **Approved MVP** = behaviours already frozen in the PRS / Gate 1.1. **Optional design exploration** = interaction ideas that may be moodboarded later; they are **not** MVP requirements.
 
 ---
 
 ## 1. Research frame
 
-Accountability Tracker is a **social savings accountability** product (not a bank, budgeter, or custody app). Users report savings manually; money stays in their own banks. Design must therefore borrow:
+Accountability Tracker is a **social savings accountability** product (not a bank, budgeter, or custody app). Users report savings manually; money stays in their own banks. Design may therefore learn from:
 
-- **Clarity and trust** from consumer fintech (amounts, progress, privacy, self-reported labelling).
-- **Habit loops and group energy** from social activity products (feeds, challenges, streaks, recognition).
+- **Clarity and trust** in consumer fintech (amounts, progress, privacy, self-reported labelling).
+- **Habit loops and group energy** in social activity products (feeds, challenges, streaks, recognition).
 
-Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Design, Reward Meaningful Progress, Distinctive Visual Identity, Accessible and Predictable, Mobile First.
+Cross-cutting principles from PRS §15: **Trust Before Decorations**, Social by Design, Reward Meaningful Progress, Distinctive Visual Identity, Accessible and Predictable, Mobile First.
+
+Accessibility target from PRS §10.1: **WCAG 2.2 AA** (do not raise or lower this bar in research).
 
 ---
 
@@ -35,7 +37,7 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 | Navigation / IA | Account-centric home; pots as persistent goal “vision board” on home; progressive disclosure for savings types. |
 | Motion / a11y | Semantic tokens; WCAG-oriented web system; app respects OS reduce-motion; high-contrast themes in Labs; accessibility statement emphasises OS text size / colour / screen reader ([accessibility statement](https://monzo.com/accessibility-statement); community reduce-motion note). |
 
-**Recommendation:** Adopt Monzo’s *clarity of money hierarchy* and *goal-as-named-object* feeling — not coral, card motif, or proprietary type. For Accountability Tracker, the analogous “object” is the challenge + personal target, with self-reported amounts labelled clearly.
+**Recommendation (creative):** Learn from Monzo’s *clarity of money hierarchy* and *goal-as-named-object* feeling. For Accountability Tracker, the analogous “object” is the challenge + personal target, with self-reported amounts labelled clearly. Avoiding literal coral, card motif, or proprietary type is a **creative recommendation** to keep exploration original — not a product ban on any specific hue or face.
 
 ### 2.2 Wise — fintech clarity + systemised foundations
 
@@ -48,7 +50,7 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 | Transitions | Upwards = new flow; sideways = continuation; modals/sheets for supplementary tasks ([transitions](https://wise.design/foundations/transitions)). |
 | Accessibility | Colour combinations documented as good/bad; content greys with green tint; list items warn against colour-only meaning; custom screen-reader labelling guidance. |
 
-**Recommendation:** Treat Wise as the **reference design-system maturity model** — semantic colour roles, content greys, intentional motion, transition grammar. Do not adopt Wise green or Inter-as-brand (PRS Distinctive Visual Identity + project frontend rules discourage default Inter stacks for branded surfaces).
+**Recommendation (creative):** Treat Wise as a **reference for design-system maturity** — semantic colour roles, content greys, intentional motion, transition grammar. Prefer original type and palette choices over adopting Wise green or Inter-as-brand (aligns with PRS Distinctive Visual Identity and project frontend preferences). These are creative guidance, not locked token constraints.
 
 ### 2.3 Trading 212 — fintech clarity + data density
 
@@ -59,7 +61,7 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 | Data presentation | Portfolio value as hero metric; charts and performance as primary content; high information density with restrained chrome. |
 | IA | Invest/trade platforms historically struggled with clutter; redesign case studies emphasise simplifying long-term goals vs trading noise ([Invest platform case study](https://www.dantsonkov.com/t212-invest)). |
 
-**Recommendation:** Borrow **metric scarcity** (one primary number, one accent action colour, muted secondary) for personal progress and visible-member totals. Avoid defaulting Accountability Tracker to dark-mode-first (user design preference + social warmth conflict); use the density discipline without the trading aesthetic.
+**Recommendation (creative):** Borrow **metric scarcity** (one primary number, one accent action colour, muted secondary) for personal progress and visible-member totals. Prefer not defaulting Accountability Tracker to dark-mode-first (social warmth preference); apply the density discipline without the trading aesthetic. Accent and mode choices remain open for Gate 2.2 exploration.
 
 ### 2.4 Strava — social accountability + habit loops
 
@@ -72,7 +74,7 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 | Challenges | Clear goal, time remaining, progress, rewards, leaderboards; private group challenges among friends ([Strava Help collections](https://support.strava.com/en-us/collections/19657598-clubs-challenges-and-community)). |
 | Achievements | Named titles / trophies with transparent earning rules; identity-worthy recognition rather than opaque badges. |
 
-**Recommendation:** Map Strava’s loop to Accountability Tracker’s **eligible contribution** as the single meaningful action that advances personal progress, weekly commitment, milestones (25/50/75/100% per G1.1-08), streak (with automatic recovery per G1.1-09), and privacy-respecting activity feed. Prefer “personal status before social scroll.” Do not copy orange, map heroes, or competitive segment culture — wealth/competition framing conflicts with Reward Meaningful Progress.
+**Recommendation (creative):** Map Strava’s loop to Accountability Tracker’s **approved MVP** **eligible contribution** as the single meaningful action that advances personal progress, weekly commitment, milestones (25/50/75/100% per G1.1-08), streak (with automatic recovery per G1.1-09), and privacy-respecting activity feed. Prefer “personal status before social scroll.” Do not copy orange, map heroes, or competitive segment culture — wealth/competition framing conflicts with Reward Meaningful Progress. **Kudos-style reactions are Observed elsewhere and may be explored as optional design explorations only — they are not MVP requirements.**
 
 ### 2.5 AllTrails — social progress + approachable exploration
 
@@ -84,7 +86,7 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 | UX clarity | Difficulty labels with inline explanation; dynamic filter feedback; pause-before-finish forcing function on live tracking ([IXD critique](https://ixd.prattsi.org/2025/02/design-critique-alltrails-ios-app-2/)). |
 | Accessibility | Style guide cites WCAG 2.1 A/AA aims; 4.5:1 normal text / 3:1 large; don’t convey meaning by colour alone; heading order and plain language. |
 
-**Recommendation:** Borrow **approachable progress storytelling**, **explain-in-place labels** (e.g. “visible-member total” per G1.1-06), and **achievement browsing that celebrates completion without shaming**. Avoid trail-map literalism and neon-green brand cloning.
+**Recommendation (creative):** Borrow **approachable progress storytelling**, **explain-in-place labels** (e.g. “visible-member total” per G1.1-06), and **achievement browsing that celebrates completion without shaming**. Avoid trail-map literalism and neon-green brand cloning as creative guidance for originality — not as a hard product palette ban. Competitor WCAG 2.1 citations are Observed; Accountability Tracker’s target remains **WCAG 2.2 AA** (PRS §10.1).
 
 ---
 
@@ -99,11 +101,11 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 - Tabular / consistent numeral treatment and muted secondary labels keep dense screens scannable (Trading 212 / Strava metric grids).
 - Goal containers are named and personalised (Monzo pots; Wise jars).
 
-**Recommendations for Accountability Tracker**
+**Recommendations for Accountability Tracker (creative)**
 
-- Establish a three-tier type system: celebration display (milestones/streaks), UI sans for chrome, and a dedicated **financial numerals** style (weight + tracking tuned for GBP amounts).
+- Explore a three-tier type system: celebration display (milestones/streaks), UI sans for chrome, and a dedicated **financial numerals** style (weight + tracking tuned for GBP amounts). Exact families remain open.
 - Challenge dashboard hierarchy: (1) personal progress amount vs target, (2) commitment status this week, (3) visible-member group progress with explicit labelling, (4) recent activity.
-- Always pair amounts with context labels (“self-reported”, “visible members”) — Trust Before Decoration.
+- Always pair amounts with context labels (“self-reported”, “visible members”) — **Trust Before Decorations**.
 
 ### 3.2 Mobile navigation and information architecture
 
@@ -114,7 +116,7 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 - Fintech flows use directional transition grammar (Wise upwards vs sideways) so users know if they started a new task or continued one.
 - AllTrails uses dual affordances (explicit button + gesture) for primary modes.
 
-**Recommendations**
+**Recommendations (creative)**
 
 - Mobile-first web shell: Home (personal + active challenges), Challenge (deep context), Activity (feed), Profile/Settings — exact labels to be decided in Gate 2.2 IA, not invented as requirements here.
 - Keep invitation, privacy, pause, and correction flows as intentional “upward” tasks with clear dismiss/back.
@@ -128,10 +130,10 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 - Milestone celebrations at clear thresholds.
 - Achievements work best when **named**, **rule-transparent**, and **worth repeating to friends** (Strava); AllTrails emphasises browsable badge collections with motion focus.
 
-**Recommendations**
+**Recommendations (creative + MVP-aligned)**
 
-- Visualise **personal % of target** and **weekly commitment fulfilment** as primary progress; surface G1.1-08 milestones (25/50/75/100%) as celebration moments, not wealth leaderboards.
-- Group progress must use **visible-member** aggregates only (G1.1-06) with non-inferential treatment of private members.
+- Visualise **personal % of target** and **weekly commitment fulfilment** as primary progress; surface G1.1-08 milestones (25/50/75/100%) as celebration moments, not wealth leaderboards (**approved MVP** behaviours).
+- Group progress must use **visible-member** aggregates only (G1.1-06) with non-inferential treatment of private members (**approved MVP**).
 - Prefer consistency milestones (streaks, commitments kept) over amount-based ranking — Reward Meaningful Progress.
 
 ### 3.4 Social activity feeds and group challenges
@@ -145,8 +147,8 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 
 **Recommendations**
 
-- Feed items from existing product events only (approved joins, reported contributions subject to privacy, commitments completed, milestones, challenge completed) — as already scoped in reconciled requirements; do not invent new social post types in research.
-- Design a one-tap encouragement affordance analogous to kudos, framed as support rather than competition.
+- **Approved MVP:** Feed items from existing product events only (approved joins, reported contributions subject to privacy, commitments completed, milestones, challenge completed) — as already scoped in reconciled requirements; do not invent new social post types in research.
+- **Optional design exploration only (not MVP):** A one-tap encouragement / kudos-analogue affordance on permitted activity may be moodboarded in later design gates if desired. It must not be treated as an MVP requirement or used to expand product scope.
 - Challenge home = shared purpose + individual targets side-by-side (PRS model), not equal-split pots.
 
 ### 3.5 Motivation, streaks, and positive reinforcement
@@ -157,7 +159,7 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 - Monzo: celebrate goal reached; personal imagery for emotional attachment to goals.
 - AllTrails: stats snapshots that inspire return without only shaming incomplete trails.
 
-**Recommendations**
+**Recommendations (creative + MVP-aligned)**
 
 - Align streak UI with approved **automatic recovery** and **prospective pause** rules (G1.1-09, G1.1-11): copy and visuals must feel non-punitive when a period is missed then recovered.
 - Celebrate consistency and milestone crossings; avoid “top saver” wealth flex.
@@ -171,11 +173,11 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 - Wise documents motion principles and transition types; Monzo ties motion to delight but respects reduce-motion.
 - AllTrails / Strava use motion to emphasise selection and success, not decoration.
 
-**Recommendations**
+**Recommendations (creative)**
 
-- Choose a distinctive primary accent that is **not** hot coral, Wise green, Strava orange, or Trading cyan — and that does not conflict with semantic success/error colours.
-- Motion budget: progress fill, milestone celebration, feed item entrance — all honour `prefers-reduced-motion`.
-- Interaction: large tap targets for “record contribution” and encouragement; predictable Material Design 3 patterns for sheets/dialogs without Material aesthetic cloning (PRS §15).
+- Prefer a distinctive primary accent that is not a near-clone of hot coral, Wise green, Strava orange, or Trading cyan, and that does not collide with semantic success/error roles. This is **creative guidance for originality**, not a binding ban list of hues.
+- Motion budget: progress fill, milestone celebration, feed item entrance — all honour `prefers-reduced-motion` (supports WCAG 2.2 AA expectations).
+- Interaction: large tap targets for **approved MVP** “record contribution”; predictable Material Design 3 patterns for sheets/dialogs without Material aesthetic cloning (PRS §15). Encouragement controls remain **optional design exploration only**.
 
 ### 3.7 Accessibility and responsive behaviour
 
@@ -184,9 +186,10 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 - Wise publishes contrast pairings and SR labelling guidance; Monzo publishes accessibility commitments and high-contrast experiments; AllTrails style guide cites WCAG 2.1 A/AA.
 - Responsive fintech marketing systems stress content density across locales; AllTrails warns against directional-only instructions.
 
-**Recommendations**
+**Recommendations (binding a11y target + creative layout guidance)**
 
-- Target WCAG 2.1 AA as design floor for Gate 2 exploration (aligns with Accessible and Predictable).
+- Target **WCAG 2.2 AA** as the accessibility floor for Gate 2 exploration — exact PRS §10.1 target. Include keyboard accessibility, visible focus states, semantic controls, accessible validation, sufficient colour contrast, and screen-reader-compatible information. Do not invent a higher or lower bar.
+- Competitor documents that cite WCAG 2.1 are **Observed** only; they do not redefine AT’s target.
 - Financial figures must remain legible when OS text scaling is increased; avoid locking key amounts in non-wrapping hero treatments that clip.
 - Status (missed / recovered / paused / private) must never rely on colour alone — icon + text.
 - Responsive: single-column mobile challenge dashboards; desktop may show personal + group progress concurrently without adding new metrics.
@@ -199,17 +202,17 @@ Cross-cutting constraint from PRS §15: Trust Before Decoration, Social by Desig
 | --- | --- | --- |
 | Trustworthy amount hierarchy | Event-generated feed | Clear money + living social proof |
 | Named goals / pots / jars | Group challenges & clubs | Shared challenge with independent targets |
-| Scarce accent + calm chrome | Streaks & lightweight kudos | Motivation without dashboard clutter |
+| Scarce accent + calm chrome | Streaks & (optional) lightweight recognition | Motivation without dashboard clutter |
 | Explicit privacy & labelling | Visibility controls on activities | Privacy-first social finance |
 | Reduce-motion & contrast systems | Achievement storytelling | Inclusive celebration of consistency |
 
-**Anti-patterns to avoid (Observed failure risks)**
+**Anti-patterns to avoid (Observed failure risks + creative guidance)**
 
 - Trading-floor dark dashboards that feel cold for friend groups.
 - Public competitive leaderboards that emphasise who saved the most money.
-- Generic purple/gradient SaaS or cream-serif fintech clichés (conflicts with Distinctive Visual Identity and project design preferences).
+- Generic purple/gradient SaaS or cream-serif fintech clichés (conflicts with Distinctive Visual Identity and project design preferences — creative guidance).
 - Composition-heavy social feeds that demand posting instead of logging a contribution.
-- Copying any competitor’s proprietary type, colour, or illustration system.
+- Direct imitation of any competitor’s proprietary type, colour, or illustration system — prefer original exploration informed by principles, not clone palettes.
 
 ---
 
@@ -219,7 +222,7 @@ These are design-exploration questions only; they do not alter Gate 1 rules:
 
 1. Exact mobile IA labels and tab count.
 2. Visual metaphor for progress (bar vs ring vs track) that stays distinctive.
-3. Encouragement interaction name/affordance (kudos analogue).
+3. Whether (and how) to explore an optional encouragement interaction (kudos analogue) — **not an MVP requirement**.
 4. How private members appear in lists without leaking amounts.
 5. Motion language for milestone 25/50/75/100% celebrations.
 
@@ -227,6 +230,6 @@ These are design-exploration questions only; they do not alter Gate 1 rules:
 
 ## 6. Provenance
 
-- Product constraints: `/cursor/stores/self/docs/product/specification-v1.md` §15; Gate 1.1 amendment; reconciled vision/requirements (read-only).
-- Competitive sources listed in `/cursor/stores/self/docs/design/research/references.md`.
+- Product constraints: `docs/product/specification-v1.md` §15 and §10.1; Gate 1.1 amendment; reconciled vision/requirements (read-only).
+- Competitive sources listed in `docs/design/research/references.md`.
 - Creative preference authorised for research only; **not** a final visual identity.

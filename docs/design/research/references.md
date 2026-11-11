@@ -6,8 +6,9 @@
 | Status | Ready for product-owner review |
 | Usage | Evidence base for competitor analysis, principles, and territories |
 | Note | Prefer official blogs, design systems, help centres, brand guidelines, and reputable public case studies. Third-party token captures are marked as **secondary**. |
+| Accessibility | Accountability Tracker target is **WCAG 2.2 AA** (PRS §10.1). Competitor citations of WCAG 2.1 (or other levels) are Observed only. |
 
-For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, **How it might inform Accountability Tracker** (Recommendation).
+For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, **How it might inform Accountability Tracker** (Recommendation — creative guidance unless restating frozen product rules). Visual colour/type notes are creative recommendations, not binding product constraints. Features beyond frozen MVP (e.g. kudos-style reactions) are **optional design explorations only**.
 
 ---
 
@@ -19,7 +20,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Hot coral as primary brand warmth; navy + soft white support; expressive marketing type + functional Monzo Sans; distinctive illustration system.
 - **Why it works:** A single memorable colour and friendly type make a regulated category feel human.
 - **Limitations:** Marketing brand ≠ full product UI; coral can collide with error semantics if overused in app chrome.
-- **Inform AT:** Pursue a scarce, human accent and readable functional type — do not adopt coral or Monzo typefaces.
+- **Inform AT:** Pursue a scarce, human accent and readable functional type — prefer originality over adopting coral or Monzo typefaces (**creative recommendation**).
 
 ### A2. Monzo community Q&A on visual refresh
 
@@ -35,7 +36,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Semantic tokens for colour/type/spacing/motion; accessibility built in; intentional restraint of hot coral in UI; subtle guiding animation.
 - **Why it works:** Tokens keep brand expressive while components stay usable and themeable.
 - **Limitations:** Web marketing system differs from native banking app constraints.
-- **Inform AT:** Plan semantic tokens early in Gate 2; treat brand accent as “moments,” not default large fills behind balances.
+- **Inform AT:** Plan semantic tokens early in Gate 2; treat brand accent as “moments,” not default large fills behind balances (**creative recommendation**).
 
 ### A4. Monzo accessibility statement
 
@@ -43,7 +44,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Public commitment; reliance on OS text size, colour, and screen readers; inclusive writing principles.
 - **Why it works:** Sets user expectations and orients product work to platform accessibility features.
 - **Limitations:** Statement is aspirational/compliance-oriented; not a component checklist.
-- **Inform AT:** Design to respect OS settings; publish accessibility intent later without waiting for marketing polish.
+- **Inform AT:** Design to respect OS settings; plan against **WCAG 2.2 AA** (PRS §10.1); publish accessibility intent later without waiting for marketing polish.
 
 ### A5. High contrast themes (Monzo Labs / community)
 
@@ -59,7 +60,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Animations disabled when OS reduce-motion is on.
 - **Why it works:** Prevents vestibular/cognitive overload; aligns with WCAG motion preferences.
 - **Limitations:** OS-wide toggle; not a per-animation product control.
-- **Inform AT:** All celebration/progress motion needs a non-animated equivalent.
+- **Inform AT:** All celebration/progress motion needs a non-animated equivalent (supports WCAG 2.2 AA).
 
 ### A7. Pots Goals launch
 
@@ -91,7 +92,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Display vs text cuts; heavy display weights; modular type scale.
 - **Why it works:** Clear hierarchy without relying on colour alone.
 - **Limitations:** **Secondary** — not official Monzo docs; proprietary fonts not usable.
-- **Inform AT:** Separate celebration display from UI text; license original faces later.
+- **Inform AT:** Separate celebration display from UI text; license original faces later (**creative recommendation**).
 
 ---
 
@@ -103,7 +104,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Inter default for product clarity; Wise Sans for short success/display moments; international glyphs sparingly.
 - **Why it works:** Functional default + rare brand spice prevents fatigue.
 - **Limitations:** Inter is Wise’s functional choice; AT brand direction should not default to Inter for distinctive identity.
-- **Inform AT:** Adopt the *role split* (functional vs celebratory), not Wise’s exact families.
+- **Inform AT:** Adopt the *role split* (functional vs celebratory), not Wise’s exact families (**creative recommendation**).
 
 ### B2. Wise Design — Colour
 
@@ -111,7 +112,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Bright Green + Forest Green core; secondary palette after green is established; content greys with green tint; documented good/bad combos; white-space-heavy product proportions.
 - **Why it works:** Accessible pairings are designed in; brand stays recognisable without painting every surface green.
 - **Limitations:** Palette is strongly owned by Wise; copying green reads as derivative.
-- **Inform AT:** Build content neutrals + one interactive dark + one bright accent; publish allowed/forbidden combos in Gate 2–4.
+- **Inform AT:** Build content neutrals + one interactive dark + one bright accent; publish allowed/forbidden combos in Gate 2–4 as design-system work — not as frozen product bans on hues.
 
 ### B3. Wise Design — Motion system
 
@@ -119,7 +120,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Snappy, fluid, intuitive motion; natural easing; avoid nausea; flashing colour frequency limits; media accessibility (captions, transcripts, audio description).
 - **Why it works:** Motion communicates brand energy without harming comprehension.
 - **Limitations:** Brand film language ≠ dense transactional UI motion budgets.
-- **Inform AT:** Define a small motion vocabulary (confirm, progress, celebrate) with accessibility constraints.
+- **Inform AT:** Define a small motion vocabulary (confirm, progress, celebrate) with accessibility constraints aligned to WCAG 2.2 AA.
 
 ### B4. Wise Design — Transitions
 
@@ -143,7 +144,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Don’t convey meaning by colour alone; explain disabled states; careful SR labelling/order for value rows.
 - **Why it works:** Financial lists are dense; SR users need structured announcements.
 - **Limitations:** Wise component API specifics won’t match AT stack.
-- **Inform AT:** Challenge member rows and activity rows need bespoke accessible names (especially when amounts are hidden).
+- **Inform AT:** Challenge member rows and activity rows need bespoke accessible names (especially when amounts are hidden) — supports WCAG 2.2 AA.
 
 ### B7. Wise Design — Card cluster / savings pot imagery
 
@@ -171,7 +172,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Dark minimal UI chrome; cyan accent; Aeonik type reported; portfolio value hero.
 - **Why it works:** Scarcity of colour makes data and CTAs pop.
 - **Limitations:** Third-party capture; investing context ≠ friend savings accountability; dark-default conflicts with AT social warmth preference.
-- **Inform AT:** Reuse metric scarcity and single action colour discipline on light, social surfaces.
+- **Inform AT:** Reuse metric scarcity and single action colour discipline on light, social surfaces (**creative recommendation** — exact accent/mode open).
 
 ### C2. Brandfetch — Trading 212 colours
 
@@ -179,7 +180,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Public brand colour listing including `#00A7E1`, neutrals, orange secondary.
 - **Why it works:** Confirms constrained palette from brand assets.
 - **Limitations:** Aggregator, not a full design system.
-- **Inform AT:** Prefer a short official palette over many decorative colours.
+- **Inform AT:** Prefer a short official palette over many decorative colours (**creative recommendation**).
 
 ### C3. Secondary — Mozaika token decode from store screenshots
 
@@ -215,7 +216,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Challenges with progress and rewards; clubs; feed; kudos; comments; private group challenges among friends.
 - **Why it works:** Social accountability is a first-class product area with clear verbs.
 - **Limitations:** Athletic domain; some features subscription-gated; scale differs from private friend savings groups.
-- **Inform AT:** Structure challenge pages around goal, time, progress, members, and activity — mapped to AT’s private invitation-only model.
+- **Inform AT:** Structure challenge pages around goal, time, progress, members, and activity — mapped to AT’s private invitation-only model (**approved MVP** surfaces). Kudos observed here is not an AT MVP requirement.
 
 ### D2. Strava partner — “Speaking Strava” (kudos definition)
 
@@ -223,7 +224,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Kudos as quick thumbs-up recognition.
 - **Why it works:** Near-zero friction reinforcement.
 - **Limitations:** Partner marketing page; interaction semantics are product-specific.
-- **Inform AT:** Consider a lightweight encouragement control on permitted feed events (design exploration — not a new mandated requirement inventing scope).
+- **Inform AT:** A lightweight encouragement control on permitted feed events is an **optional design exploration only** — **not** an MVP requirement and not a scope expansion.
 
 ### D3. Strava developer brand guidelines (logo/colour usage)
 
@@ -231,7 +232,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Orange `#FC5200` as identifiable link/brand accent; strict logo rules.
 - **Why it works:** Protects scarce brand colour.
 - **Limitations:** API/partner logo rules, not full UX system.
-- **Inform AT:** Protect AT’s future accent the same way — actions and key highlights only.
+- **Inform AT:** Protect AT’s future accent the same way — actions and key highlights only (**creative recommendation**).
 
 ### D4. Strava brand guidelines excerpts (partner PDF mirror)
 
@@ -247,7 +248,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Personal streak before community feed; content-aware streak marks; stats row includes a recognition metric; self-generating map heroes; named achievements with clear rules.
 - **Why it works:** Sequences intrinsic habit loop before social pressure; makes cards visually unique without user-authored posts.
 - **Limitations:** Third-party UX critique; athletic map hero won’t translate literally.
-- **Inform AT:** Lead with personal commitment/streak status; let contribution events generate feed cards; name milestones plainly.
+- **Inform AT:** Lead with personal commitment/streak status; let contribution events generate feed cards; name milestones plainly. Recognition metrics remain optional explorations if considered.
 
 ### D6. Gamification case synthesis — Strava loops
 
@@ -255,7 +256,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** One activity powers streak, challenges, trophies, feed, rankings; weekly streak window.
 - **Why it works:** Single atomic action reduces participation friction.
 - **Limitations:** Secondary analysis; ranking/segment culture can become elitist.
-- **Inform AT:** Eligible contribution is the atomic action; prefer weekly commitment cadence; avoid wealth/segment-style ranking.
+- **Inform AT:** Eligible contribution is the atomic action (**approved MVP**); prefer weekly commitment cadence; avoid wealth/segment-style ranking.
 
 ### D7. Clubs marketing — business.strava.com
 
@@ -274,8 +275,8 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **URL:** https://assets-global.website-files.com/650d0d523ce1729e6e4e0626/650d47c95f79fc1f3665097c_AllTrails%20Style%20Guide.pdf
 - **Pattern:** Dark green `#142800` + neon green `#5DE372`; heading hierarchy; WCAG 2.1 A/AA contrast aims; no colour-only meaning; plain language; avoid directional-only instructions.
 - **Why it works:** Outdoor brand stays inclusive and readable.
-- **Limitations:** Partner/content style guide may be thinner than internal product DS.
-- **Inform AT:** Bake contrast rules and non-colour status into Gate 2 explorations; write UI copy without “see left/right only” instructions.
+- **Limitations:** Partner/content style guide may be thinner than internal product DS. WCAG 2.1 citation is **Observed** for AllTrails — AT’s target remains **WCAG 2.2 AA** (PRS §10.1).
+- **Inform AT:** Bake contrast rules and non-colour status into Gate 2 explorations at WCAG 2.2 AA; write UI copy without “see left/right only” instructions. Prefer originality over cloning AllTrails greens (**creative recommendation**).
 
 ### E2. Apple App of the Year announcement (AllTrails features)
 
@@ -299,7 +300,7 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Horizontal badge carousel with scale emphasis on selected badge.
 - **Why it works:** Makes browsing achievements feel tangible and delightful.
 - **Limitations:** Motion demo; may conflict with reduce-motion if mandatory.
-- **Inform AT:** Milestone history can be browsable; provide static fallback.
+- **Inform AT:** Milestone history can be browsable; provide static fallback (WCAG 2.2 AA).
 
 ### E5. IXD Pratt — AllTrails design critique
 
@@ -323,32 +324,32 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - **Pattern:** Friends vs community filters; likes/comments; audience picker; notification affordances.
 - **Why it works:** Shows how outdoor apps think about social layering.
 - **Limitations:** **Concept portfolio**, not shipped AllTrails UI — treat as inspirational only.
-- **Inform AT:** Keep MVP feed scoped to approved event types; audience/privacy picking resonates with AT privacy controls.
+- **Inform AT:** Keep MVP feed scoped to approved event types; likes/comments are **optional design explorations / future** unless already in frozen scope; audience/privacy picking resonates with AT privacy controls.
 
 ---
 
 ## F. Cross-cutting / method references
 
-### F1. PRS §15 Design Principles (authoritative product)
+### F1. PRS §15 Design Principles and §10.1 Accessibility (authoritative product)
 
-- **Path:** `/cursor/stores/self/docs/product/specification-v1.md` (§15)
-- **Pattern:** Six approved discovery principles.
-- **Why it works:** Prevents Gate 2 from drifting into generic SaaS or decorative finance UI.
-- **Limitations:** Principles are directional, not a visual system.
-- **Inform AT:** All research recommendations must map back here (`design-principles.md`).
+- **Path:** `docs/product/specification-v1.md` (§15; §10.1)
+- **Pattern:** Six approved discovery principles, including **Trust Before Decorations**; accessibility target **WCAG 2.2 AA**.
+- **Why it works:** Prevents Gate 2 from drifting into generic SaaS, decorative finance UI, or invented a11y bars.
+- **Limitations:** Principles are directional, not a visual system; a11y methodology details remain open (PRS open decisions).
+- **Inform AT:** All research recommendations must map back here (`design-principles.md`); a11y recommendations must not exceed or undercut §10.1.
 
 ### F2. Gate 1.1 product rules amendment
 
-- **Path:** `/cursor/stores/self/docs/product/amendments/gate-1-1-product-rules.md`
+- **Path:** `docs/product/amendments/gate-1-1-product-rules.md`
 - **Pattern:** Privacy+targets, milestones, recovery, pauses, lifecycle, etc.
 - **Why it works:** Defines states the UI must express honestly.
 - **Limitations:** Not a design doc.
-- **Inform AT:** Territories and flows must visualise these states — not invent alternate rules.
+- **Inform AT:** Territories and flows must visualise these states — not invent alternate rules or new MVP features.
 
 ### F3. Reconciled vision (design principles table)
 
-- **Path:** `/cursor/stores/self/docs/product/vision.md`
-- **Pattern:** Restates §15 and social-savings positioning.
+- **Path:** `docs/product/vision.md`
+- **Pattern:** Restates §15 (including **Trust Before Decorations**) and social-savings positioning.
 - **Why it works:** Keeps research tied to product mission.
 - **Limitations:** Defers visual identity to Gate 2.
 - **Inform AT:** Use as north star copy when writing design rationale.
@@ -373,3 +374,4 @@ For each reference: **Pattern** (Observed), **Why it works**, **Limitations**, *
 - Trading 212 official brand PDF if obtainable (current public system docs are thin).
 - Monzo in-app (vs web) token documentation if any is publicly released later.
 - Material Design 3 motion/accessibility pages when mapping predictable patterns to web components (PRS §15 reference) — consult at flow/system time, not as visual identity.
+- Confirm WCAG 2.2 AA testing methodology when that open product decision is closed (do not invent methodology in research).
