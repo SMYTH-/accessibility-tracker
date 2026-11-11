@@ -347,6 +347,13 @@ body {
   align-items: center;
 }
 
+.roster li[hidden],
+.feed li[hidden],
+.card[hidden],
+.is-hidden {
+  display: none !important;
+}
+
 .avatar {
   width: 40px;
   height: 40px;
@@ -863,6 +870,52 @@ body:has(#screen-privacy.active) .nav,
 body:has(#screen-join.active) .nav,
 #bottom-nav[hidden] {
   display: none !important;
+}
+
+.viewer-banner {
+  flex-shrink: 0;
+  margin: 0 12px 4px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--honey-soft);
+  border: 1px solid #ebcfa0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.viewer-banner[hidden] {
+  display: none !important;
+}
+
+.viewer-banner p {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: #6d4512;
+  line-height: 1.35;
+}
+
+.banner-btn {
+  appearance: none;
+  border: 1px solid #d4b07a;
+  background: #fff;
+  color: #6d4512;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+body.member-view .self-only {
+  display: none !important;
+}
+
+body.member-view .screen-scroll {
+  padding-bottom: calc(72px + var(--safe-bottom));
 }
 
 /* Capture mode — phone-only framing for media/mid-fi screenshots */

@@ -2,8 +2,8 @@
 
 | Field | Value |
 | --- | --- |
-| Pass | Authorised mid-fi after signed-off A+B wireframes (`fe206ee`) |
-| Status | **Ready for PO review** — stop here |
+| Pass | Mid-fi re-review after PO gaps on `58957a4` (wireframes `fe206ee`) |
+| Status | **Ready for PO re-review** — stop here |
 | Fidelity | Interactive mid-fi click-through (plain HTML/CSS/JS) |
 | Direction | **Clear Companions (A) + Crew Momentum (B)**; Shared Horizon (C) retained for personal vs sharing-member labelling |
 | Accents | Deep Sea `#1A6B7C` · Honey Amber `#C9842A` — **working only** |
@@ -13,13 +13,11 @@
 
 ## 1. How to open
 
-Open the interactive prototype in a browser (no install) from this checkout:
+Open the interactive prototype in a browser (no install):
 
-`docs/design/mid-fi/index.html`
+`/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/docs/design/mid-fi/index.html`
 
 Or serve the folder locally, e.g. `python3 -m http.server` from `docs/design/mid-fi/`.
-
-Sibling assets (`./styles.css`, `./app.js`) resolve relative to that folder. Screen captures live at `media/mid-fi/` (repo root) with a `docs/media/mid-fi/` mirror for `../../media/mid-fi/` embeds from under `docs/`.
 
 Deep links: `#home` · `#challenge` · `#activity` · `#profile` · `#record` · `#confirm` · `#privacy` · `#join`
 
@@ -29,24 +27,26 @@ Deep links: `#home` · `#challenge` · `#activity` · `#profile` · `#record` ·
 
 ### Docs (`docs/design/mid-fi/`)
 
-| File | Checkout path |
+| File | Absolute path |
 | --- | --- |
-| `README.md` | `docs/design/mid-fi/README.md` |
-| `walkthrough.md` | `docs/design/mid-fi/walkthrough.md` |
-| `index.html` | `docs/design/mid-fi/index.html` |
-| `styles.css` | `docs/design/mid-fi/styles.css` |
-| `app.js` | `docs/design/mid-fi/app.js` |
+| `README.md` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/docs/design/mid-fi/README.md` |
+| `walkthrough.md` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/docs/design/mid-fi/walkthrough.md` |
+| `index.html` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/docs/design/mid-fi/index.html` |
+| `styles.css` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/docs/design/mid-fi/styles.css` |
+| `app.js` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/docs/design/mid-fi/app.js` |
 
 ### Media (`media/mid-fi/`)
 
-| Screen | Checkout path |
+| Screen | Absolute path |
 | --- | --- |
-| Dashboard | `media/mid-fi/dashboard.png` |
-| Challenge activity | `media/mid-fi/challenge-activity.png` |
-| Record savings | `media/mid-fi/record-savings.png` |
-| Contribution confirm | `media/mid-fi/contribution-confirm.png` |
-| Privacy settings | `media/mid-fi/privacy-settings.png` |
-| Join disclosure | `media/mid-fi/privacy-disclosure-join.png` |
+| Dashboard (before £50) | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/mid-fi/dashboard.png` |
+| Dashboard (after £50) | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/mid-fi/dashboard-after.png` |
+| Challenge activity | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/mid-fi/challenge-activity.png` |
+| Challenge · approved-member view (Alex opted out) | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/mid-fi/challenge-member-view.png` |
+| Record savings | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/mid-fi/record-savings.png` |
+| Contribution confirm | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/mid-fi/contribution-confirm.png` |
+| Privacy settings | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/mid-fi/privacy-settings.png` |
+| Join disclosure | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/mid-fi/privacy-disclosure-join.png` |
 
 ---
 
@@ -54,10 +54,10 @@ Deep links: `#home` · `#challenge` · `#activity` · `#profile` · `#record` ·
 
 | # | Flow | Screens in prototype |
 | --- | --- | --- |
-| 1 | Dashboard | Home — personal £1,240/£2,000 · **Current 62%** · separate **50% Halfway** · **Your streak** · Sharing members only £3,080/£5,500 |
+| 1 | Dashboard | Starts **£1,190 / 60%** · separate **50% Halfway** · after Done **£1,240 / 62%** · Sharing members only £3,030→£3,080 |
 | 2 | Challenge activity | Roster (Alex / Sam **65%** / Riley 43% / Jordan Private) · sharing-member total · feed · no Leaderboard |
-| 3 | Record savings | Amount entry → Confirm (required sharing-member copy) |
-| 4 | Privacy | Settings (one opt-out + cannot-undo warning) · Join disclosure (before joining · ack prerequisite) |
+| 3 | Record savings | Fixed £50 · Confirm (was £1,190 → £1,240) · required sharing-member copy · Done updates Home |
+| 4 | Privacy | Opt-out Save → **simulated approved-member view** (Alex Private · £1,840/£3,500) · self still sees own figures · Join disclosure |
 
 Working bottom nav: **Home · Challenge · Activity · Profile** — **no Leaderboard**. Exact labels/count remain open.
 
@@ -67,9 +67,11 @@ Working bottom nav: **Home · Challenge · Activity · Profile** — **no Leader
 
 - **Your streak** (never “Best streak” / “Challenge streak”)
 - Confirm: *“Your contribution is included in the sharing-member total if you share monetary information.”*
-- **50% Halfway** kept distinct from **62% current**
+- **50% Halfway** kept distinct from current % (60% before / 62% after)
+- Fixed £50 beat: dashboard **£1,190 → £1,240** after confirm Done
 - Join: privacy disclosure **before** joining; acknowledgement prerequisite (Continue disabled until checked)
 - Opt-out warning: **cannot undo what others already saw**
+- Opt-out **Save** connects to simulated approved-member challenge view
 - Sharing-member total labelling per **G1.1-06** (not full-group total)
 - No Leaderboard tab
 - Encourage / kudos omitted (not MVP)

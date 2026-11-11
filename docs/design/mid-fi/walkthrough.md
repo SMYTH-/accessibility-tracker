@@ -1,68 +1,68 @@
 # Mid-fi PO walkthrough
 
-Short click-path for product-owner review of the authorised mid-fi pass.
+Short click-path for product-owner **re-review** after 58957a4 gaps.
 
-**Open:** [`index.html`](./index.html) · side panel jumps work if you prefer not to tap the phone chrome.
+**Open:** [`index.html`](./index.html) · side panel jumps · **Reset scenario** restores £1,190 / Alex sharing / self view.
 
 ---
 
-## Path A — Home → Record → Confirm (core loop)
+## Path A — Record £50 shows the change (£1,190 → £1,240)
 
-1. **Home / Dashboard** — Read personal stack first: **£1,240 of £2,000 · Current 62%**, then the separate **50% Halfway milestone · reached** chip (not merged into 62%).  
-2. Confirm **Your streak · 3 weeks** next to This week · £50 · Completed.  
-3. Confirm secondary aggregate is labelled **Sharing members only** (£3,080 of £5,500), not a full-group total.  
-4. Tap **Record savings**.  
-5. On amount entry, read the callout: *Your contribution is included in the sharing-member total if you share monetary information.* (Alex/Sam/Riley; excludes Jordan.)  
-6. Tap **Continue** → Confirm: Saved £50 · personal 62% · separate Halfway · **Your streak · 3 weeks** · same sharing-member copy.  
-7. Tap **Done** → returns Home.  
+1. **Reset scenario** (side panel) so Home starts clean.  
+2. **Home** — Personal **£1,190 of £2,000 · Current 60%**, separate **50% Halfway · reached**, weekly **Not started**, Sharing members only **£3,030 of £5,500**.  
+3. Tap **Record savings** — fixed **£50**; helper notes £1,190 → £1,240.  
+4. Read sharing-member callout (*Your contribution is included…*).  
+5. **Continue** → Confirm: **Saved £50** · personal **£1,240 of £2,000 (62%) · was £1,190** · Halfway already reached · **Your streak · 3 weeks** · total updates to **£3,080 of £5,500**.  
+6. Tap **Done** → Home now shows **£1,240 / 62%**, commitment **Completed**, sharing total **£3,080**.  
    - **OPEN — requires product-owner approval:** exact post-confirm navigation.
 
 ---
 
 ## Path B — Challenge activity
 
-1. Bottom nav → **Challenge**.  
-2. Streak / commitment strip appears **before** roster and feed.  
-3. Roster: Alex 62% + Halfway; Sam **65%** with matching bar; Riley 43% (not Halfway); Jordan **Private** (no amount, no target).  
+1. Bottom nav → **Challenge** (self view).  
+2. Streak / commitment strip **before** roster and feed.  
+3. Roster tracks recorded state for Alex; Sam **65%**; Riley 43%; Jordan **Private**.  
 4. Sharing-member total explains whose figures are included.  
-5. Confirm bottom nav is **Home · Challenge · Activity · Profile** — **no Leaderboard**.
+5. Nav: **Home · Challenge · Activity · Profile** — **no Leaderboard**.
 
 ---
 
-## Path C — Privacy settings
+## Path C — Privacy opt-out → simulated approved-member view
 
 1. **Profile** → **Financial privacy**.  
-2. Default copy: visible to **approved challenge members** (not private-by-default).  
-3. Single toggle: **Hide monetary information (opt-out)**.  
+2. Default: visible to **approved challenge members** (not private-by-default).  
+3. Turn **on** **Hide monetary information (opt-out)**.  
 4. Warning: **Opting out cannot undo what others already saw.**  
-5. Toggle on/off to preview Default vs Private.  
-6. Save returns to Profile.
+5. Tap **Save** → prototype opens **Challenge** as a **simulated approved-member view** (banner).  
+6. Check: **Alex** shows **Private** (no amount, no target); Sharing-member total is **£1,840 of £3,500** (Sam + Riley only — Alex and Jordan excluded).  
+7. Banner → **View as Alex (you)** — Alex still sees own personal figures; opted-out Alex remains excluded from the Sharing members only total.  
+8. Optional: Profile → **Demo: approved-member view** to re-enter the simulation without re-saving.
 
 ---
 
 ## Path D — Join disclosure (before joining)
 
-1. Profile → **Demo: join disclosure** (or deep link `#join`).  
-2. Disclosure sits **before** request join; invite preview constraints noted (no amounts).  
-3. Warning repeats cannot-undo.  
-4. **Continue to request join** stays disabled until acknowledgement is checked.  
-5. Check ack → Continue enables.
+1. Profile → **Demo: join disclosure** (or `#join`).  
+2. Disclosure **before** request join; invite preview had no amounts.  
+3. Cannot-undo warning.  
+4. **Continue to request join** disabled until acknowledgement checked.
 
 ---
 
 ## Review checklist
 
-- [ ] “Your streak” consistent everywhere  
-- [ ] 50% milestone ≠ 62% current  
-- [ ] Contribution confirm sharing-member copy present  
-- [ ] Sharing members only labelling (G1.1-06)  
-- [ ] Join disclosure before joining + ack prerequisite  
-- [ ] Opt-out cannot-undo warning  
-- [ ] No Leaderboard tab  
-- [ ] Working accents only; logo / final palette / type still open  
+- [ ] Home starts **£1,190**; after Done shows **£1,240** matching confirm  
+- [ ] Confirm stays **Saved £50** and matches dashboard update  
+- [ ] “Your streak” consistent  
+- [ ] 50% milestone ≠ current %  
+- [ ] Contribution sharing-member copy present  
+- [ ] Opt-out Save → member view: Alex amount/target gone; excluded from total  
+- [ ] Self view still shows Alex’s own figures  
+- [ ] Join ack prerequisite · no Leaderboard · OPEN flags intact  
 
 ---
 
 ## Stop
 
-Prototype is for **review only**. Implementation requires separate approval. Frozen product docs were not modified.
+Prototype is for **re-review only**. Implementation requires separate approval. Frozen product docs were not modified.

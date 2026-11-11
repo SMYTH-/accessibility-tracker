@@ -17,13 +17,15 @@
         A+B working direction (Clear Companions × Crew Momentum). Deep Sea / Honey Amber are
         <strong>working accents only</strong>. Logo, final palette, and type remain open.
         Sample: Portugal 2027 · self-reported · synthetic.
+        Fixed £50 scenario starts at <strong>£1,190</strong> → <strong>£1,240</strong> after confirm.
       </p>
     </div>
     <div class="badge-row">
-      <span class="badge">Gate mid-fi · PO review</span>
+      <span class="badge">Gate mid-fi · PO re-review</span>
       <span class="badge">No Leaderboard</span>
       <span class="badge open">OPEN items flagged</span>
       <span class="badge">Screen: <span id="current-screen-label">Home</span></span>
+      <span class="badge" id="scenario-state">Before £50 · Alex sharing · Self view</span>
     </div>
   </header>
 
@@ -32,6 +34,11 @@
       <div class="status-bar" aria-hidden="true">
         <span>9:41</span>
         <span class="icons">▮▮▮ · ▮</span>
+      </div>
+
+      <div id="viewer-banner" class="viewer-banner" hidden>
+        <p data-viewer-label>Simulated approved-member view</p>
+        <button type="button" class="banner-btn" data-viewer="self" data-viewer-go="home">View as Alex (you)</button>
       </div>
 
       <!-- 1. DASHBOARD / HOME -->
@@ -46,37 +53,55 @@
             <button class="icon-btn" type="button" aria-label="Notifications" tabindex="-1">🔔</button>
           </div>
 
-          <article class="card" aria-labelledby="personal-label">
+          <article class="card" id="home-personal-card" aria-labelledby="personal-label">
             <p class="section-label" id="personal-label">Personal progress</p>
-            <p class="amount">£1,240 of £2,000</p>
-            <p class="meta">Self-reported · Current 62%</p>
-            <div class="progress" aria-hidden="true"><span data-width="62%"></span></div>
+            <p class="amount" data-personal-amount>£1,190 of £2,000</p>
+            <p class="meta" data-personal-meta>Self-reported · Current 60%</p>
+            <div class="progress" aria-hidden="true"><span data-personal-bar data-width="60%"></span></div>
             <div class="milestone" role="status">
               <span class="dot" aria-hidden="true"></span>
               <span>50% Halfway milestone · reached</span>
             </div>
           </article>
 
-          <div class="strip" aria-label="Weekly commitment and streak">
-            <span class="chip success">✓ This week · £50 · Completed</span>
+          <article class="card" id="home-member-note" hidden>
+            <p class="section-label">Alex (challenge member)</p>
+            <div class="strip" style="margin:0">
+              <span class="chip private">🔒 Private</span>
+            </div>
+            <p class="meta" style="margin-top:10px">
+              Amount and target hidden from approved members. You are viewing as another member —
+              Alex’s figures do not appear here.
+            </p>
+          </article>
+
+          <div class="strip self-only" aria-label="Weekly commitment and streak">
+            <span data-commitment-chip class="chip">This week · £50 · Not started</span>
             <span class="chip streak">Your streak · 3 weeks</span>
           </div>
 
           <article class="card" aria-labelledby="share-label">
             <p class="section-label" id="share-label">Sharing members only</p>
-            <p class="amount sm">£3,080 of £5,500</p>
-            <p class="meta">Excludes members who opted out · not a full-group total</p>
-            <div class="progress secondary" aria-hidden="true"><span data-width="56%"></span></div>
+            <p class="amount sm" data-share-amount>£3,030 of £5,500</p>
+            <p class="meta" data-share-meta-short>Excludes members who opted out · not a full-group total</p>
+            <div class="progress secondary" aria-hidden="true"><span data-share-bar data-width="55%"></span></div>
           </article>
 
           <article class="card quiet" aria-labelledby="preview-label">
             <p class="section-label" id="preview-label">Activity preview</p>
             <ul class="feed">
-              <li>
+              <li data-alex-feed-public>
                 <div class="feed-icon amber" aria-hidden="true">★</div>
                 <div>
                   <p class="feed-title">Alex reached Halfway to target (50%)</p>
                   <p class="feed-meta">Milestone · personal target</p>
+                </div>
+              </li>
+              <li data-alex-feed-private hidden>
+                <div class="feed-icon lock" aria-hidden="true">🔒</div>
+                <div>
+                  <p class="feed-title">Alex · Private</p>
+                  <p class="feed-meta">Amounts and target hidden</p>
                 </div>
               </li>
               <li>
@@ -96,7 +121,7 @@
             </ul>
           </article>
         </div>
-        <div class="cta-stack">
+        <div class="cta-stack self-only">
           <button class="btn primary" type="button" data-go="record">Record savings</button>
         </div>
       </section>
@@ -112,26 +137,34 @@
             </div>
           </div>
 
-          <div class="strip">
+          <div class="strip self-only">
             <span class="chip streak">Your streak · 3 weeks</span>
-            <span class="chip success">✓ This week · £50 · Completed</span>
+            <span data-commitment-chip class="chip">This week · £50 · Not started</span>
           </div>
 
           <article class="card" aria-labelledby="roster-label">
             <p class="section-label" id="roster-label">Roster</p>
             <ul class="roster">
-              <li>
+              <li id="alex-roster-sharing">
                 <div class="avatar">A</div>
                 <div>
                   <p class="person-name">Alex (you)</p>
-                  <p class="person-meta">£1,240 of £2,000 · Self-reported · Current 62%</p>
-                  <div class="mini-bar" aria-hidden="true"><span style="width:62%"></span></div>
+                  <p class="person-meta" data-alex-roster-meta>£1,190 of £2,000 · Self-reported · Current 60%</p>
+                  <div class="mini-bar" aria-hidden="true"><span data-alex-mini style="width:60%"></span></div>
                   <div class="milestone" style="margin-top:8px;padding:6px 10px;font-size:0.78rem">
                     <span class="dot"></span>
                     <span>50% Halfway · reached</span>
                   </div>
                 </div>
-                <div class="person-pct">62%</div>
+                <div class="person-pct" data-personal-pct>60%</div>
+              </li>
+              <li id="alex-roster-private" hidden>
+                <div class="avatar private">A</div>
+                <div>
+                  <p class="person-name">Alex</p>
+                  <p class="person-meta">Private · no amount · no target</p>
+                </div>
+                <span class="chip private">🔒 Private</span>
               </li>
               <li>
                 <div class="avatar">S</div>
@@ -164,22 +197,29 @@
 
           <article class="card" aria-labelledby="share-total-label">
             <p class="section-label" id="share-total-label">Sharing-member total</p>
-            <p class="amount sm">£3,080 of £5,500</p>
-            <p class="meta">
+            <p class="amount sm" data-share-amount>£3,030 of £5,500</p>
+            <p class="meta" data-share-meta>
               <strong>Sharing members only</strong> — Alex, Sam, Riley.
               Excludes opted-out Jordan. Not a full-group total (G1.1-06).
             </p>
-            <div class="progress secondary" aria-hidden="true"><span data-width="56%"></span></div>
+            <div class="progress secondary" aria-hidden="true"><span data-share-bar data-width="55%"></span></div>
           </article>
 
           <article class="card quiet" aria-labelledby="chal-feed-label">
             <p class="section-label" id="chal-feed-label">Activity</p>
             <ul class="feed">
-              <li>
+              <li data-alex-feed-public>
                 <div class="feed-icon amber" aria-hidden="true">★</div>
                 <div>
                   <p class="feed-title">Alex reached Halfway to target (50%)</p>
-                  <p class="feed-meta">Distinct from current 62%</p>
+                  <p class="feed-meta">Distinct from current progress %</p>
+                </div>
+              </li>
+              <li data-alex-feed-private hidden>
+                <div class="feed-icon lock" aria-hidden="true">🔒</div>
+                <div>
+                  <p class="feed-title">Alex · Private</p>
+                  <p class="feed-meta">Milestone amounts/targets not shown</p>
                 </div>
               </li>
               <li>
@@ -199,7 +239,7 @@
             </ul>
           </article>
         </div>
-        <div class="cta-stack">
+        <div class="cta-stack self-only">
           <button class="btn primary" type="button" data-go="record">Record savings</button>
         </div>
       </section>
@@ -219,11 +259,18 @@
           </div>
           <article class="card">
             <ul class="feed">
-              <li>
+              <li data-alex-feed-public>
                 <div class="feed-icon amber" aria-hidden="true">★</div>
                 <div>
                   <p class="feed-title">Alex reached Halfway to target (50%)</p>
                   <p class="feed-meta">Milestone recognition · G1.1-08</p>
+                </div>
+              </li>
+              <li data-alex-feed-private hidden>
+                <div class="feed-icon lock" aria-hidden="true">🔒</div>
+                <div>
+                  <p class="feed-title">Alex · Private</p>
+                  <p class="feed-meta">No amounts or target in feed</p>
                 </div>
               </li>
               <li>
@@ -270,12 +317,15 @@
             <button class="btn secondary" type="button" data-go="privacy" style="margin-bottom:10px">
               Financial privacy
             </button>
-            <button class="btn secondary" type="button" data-go="join">
+            <button class="btn secondary" type="button" data-go="join" style="margin-bottom:10px">
               Demo: join disclosure
             </button>
+            <button class="btn secondary" type="button" data-viewer="member" data-viewer-go="challenge">
+              Demo: approved-member view
+            </button>
             <p class="meta" style="margin-top:12px">
-              One monetary privacy control (G1.1-06). Pause appears as status only elsewhere —
-              duration / resume not invented here.
+              One monetary privacy control (G1.1-06). After opt-out <strong>Save</strong>, prototype opens a
+              simulated approved-member challenge view. Pause is status-only elsewhere.
             </p>
           </article>
           <p class="note-open">
@@ -292,6 +342,7 @@
             <h2>Record savings</h2>
           </div>
           <p class="meta" style="margin-top:0">Portugal 2027 · Self-reported · not a bank deposit</p>
+          <p class="meta">Personal progress now <strong>£1,190 of £2,000</strong> (60%). Recording £50 → £1,240 (62%).</p>
 
           <label class="field-label" for="amount">Amount</label>
           <input class="amount-input" id="amount" type="text" value="£50" inputmode="decimal" aria-describedby="amount-help" />
@@ -346,13 +397,14 @@
             <strong>Sharing members only.</strong>
             Your contribution is included in the sharing-member total if you share monetary information.
             Includes Alex, Sam, Riley only — excludes opted-out Jordan. Distinct from your personal figures.
+            Sharing-member total updates to <strong>£3,080 of £5,500</strong> (was £3,030).
           </div>
 
           <p class="meta" style="margin:14px 0;text-align:center">
             Nice consistency — keep going at your own pace.
           </p>
 
-          <button class="btn primary" type="button" data-go="home">Done</button>
+          <button class="btn primary" type="button" id="confirm-done">Done</button>
           <p class="note-open">
             <strong>OPEN — requires product-owner approval:</strong> exact post-confirm navigation.
           </p>
@@ -391,7 +443,7 @@
             <p class="section-label">What others see</p>
             <div class="preview-box" id="privacy-preview-default">
               <div class="label">Default (sharing)</div>
-              <p class="person-name">Alex · £1,240 of £2,000 · Self-reported</p>
+              <p class="person-name" data-privacy-preview-amount>Alex · £1,190 of £2,000 · Self-reported</p>
               <p class="person-meta">Included in Sharing members only totals</p>
             </div>
             <div class="preview-box" id="privacy-preview-opted" hidden>
@@ -405,7 +457,11 @@
             </p>
           </article>
 
-          <button class="btn primary" type="button" data-go="profile">Save</button>
+          <button class="btn primary" type="button" id="privacy-save">Save</button>
+          <p class="meta" style="margin-top:10px">
+            With opt-out <strong>on</strong>, Save opens a <strong>simulated approved-member</strong> challenge view
+            (Alex private · excluded from total). Use the banner to return to your own view.
+          </p>
           <p class="note-open">
             <strong>OPEN — requires product-owner approval:</strong> small-group aggregate privacy edge cases (G1.1-06).
           </p>
@@ -477,29 +533,32 @@
 
     <aside class="panel">
       <h2>Click-through map</h2>
-      <p>Four connected flows from signed-off wireframes at <code>fe206ee</code>. Working IA tabs (labels/count open).</p>
+      <p>
+        PO re-review gaps: £1,190→£1,240 after £50 · opt-out Save → simulated approved-member view.
+        Working IA tabs (labels/count open).
+      </p>
       <ul class="flow-list">
         <li>
           <button type="button" data-go="home">
-            <span><strong>1. Dashboard</strong><span>Personal 62% · separate 50% Halfway · Your streak</span></span>
-            <span class="go">Open →</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" data-go="challenge">
-            <span><strong>2. Challenge activity</strong><span>Roster · Sam 65% · Sharing members only total</span></span>
+            <span><strong>1. Dashboard (before)</strong><span>Starts £1,190 · 60% · separate 50% Halfway</span></span>
             <span class="go">Open →</span>
           </button>
         </li>
         <li>
           <button type="button" data-go="record">
-            <span><strong>3. Record savings</strong><span>Amount → confirm with sharing-member copy</span></span>
+            <span><strong>2. Record £50 → Confirm</strong><span>Done updates Home to £1,240 · total £3,080</span></span>
+            <span class="go">Open →</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-go="challenge">
+            <span><strong>3. Challenge activity</strong><span>Roster · Sam 65% · Sharing members only</span></span>
             <span class="go">Open →</span>
           </button>
         </li>
         <li>
           <button type="button" data-go="privacy">
-            <span><strong>4a. Privacy settings</strong><span>One opt-out · cannot-undo warning</span></span>
+            <span><strong>4a. Privacy → Save opt-out</strong><span>Opens member view · Alex Private · £1,840/£3,500</span></span>
             <span class="go">Open →</span>
           </button>
         </li>
@@ -510,9 +569,13 @@
           </button>
         </li>
       </ul>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn secondary" type="button" data-reset-scenario>Reset scenario</button>
+        <button class="btn secondary" type="button" data-viewer="self" data-viewer-go="home">View as Alex</button>
+      </div>
       <p class="legend">
         Deep links: <code>#home</code> <code>#challenge</code> <code>#record</code> <code>#confirm</code>
-        <code>#privacy</code> <code>#join</code> · No Leaderboard tab · Encourage omitted (not MVP).
+        <code>#privacy</code> <code>#join</code> · Capture: <code>?capture=1&amp;recorded=1&amp;optout=1&amp;viewer=member</code>
       </p>
     </aside>
   </div>
