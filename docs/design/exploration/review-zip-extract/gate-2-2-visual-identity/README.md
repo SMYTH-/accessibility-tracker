@@ -1,22 +1,16 @@
-# Gate 2.2 — Visual Identity Exploration (export)
+# Gate 2.2 — Visual Identity Exploration (correction pack)
 
-Review pack for product-owner verification. Static design exploration only.
+**PO direction:** A+B approved. C retained as alternative + personal vs sharing-member reference.
+Working accents: Deep Sea + Honey Amber only. Logo / final palette / type open.
 
-## Contents
-- `docs/design/exploration/` — 8 markdown deliverables
-- `media/gate-2-2/` — 9 image studies (JPG)
-- `internal/gate-2-2-exploration-handoff.md` — worker handoff notes
+## Canonical sample
+- Personal: £1,240 of £2,000 · streak 3 · £50 week completed
+- Sharing members: Alex + Sam (£980/£1,500) + Riley (£860/£2,000) = £3,080 of £5,500
+- Jordan private (one control: amounts + target)
 
-## Start here
-1. `docs/design/exploration/decision-summary.md`
-2. `docs/design/exploration/moodboard-ab.md` (primary A+B)
-3. `docs/design/exploration/moodboard-c.md` (alternative C)
-4. Screen studies + `states-accessibility.md` + `flows-navigation.md`
+## Start
+1. docs/design/exploration/decision-summary.md
+2. moodboard-ab.md / moodboard-c.md
+3. screens + states-accessibility.md + flows-navigation.md
 
-Image embeds in the markdown use Project store absolute paths (`/cursor/stores/self/media/gate-2-2/...`). In this ZIP, open the matching files under `media/gate-2-2/`.
-
-## Recommendation (unlocked)
-Advance A+B; retain C as alternative. Working accents Deep Sea + Honey Amber. Logo / final palette / type still open.
-
-## Restrictions confirmed
-No Gate 1 / 1.1 product doc edits; no application code; stopped before wireframes.
+Image paths in markdown are relative (`../../media/gate-2-2/...`).

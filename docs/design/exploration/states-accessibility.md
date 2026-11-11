@@ -3,70 +3,70 @@
 | Field | Value |
 | --- | --- |
 | Gate | 2.2 — Visual Identity Exploration |
-| Accessibility target | PRS §10.1 — **WCAG 2.2 AA** |
-| Sample data | Synthetic · labelled **Self-reported** |
-| Interactive prototype | Not in this gate — checks flagged below |
+| Accessibility target | PRS §10.1 — **WCAG 2.2 AA** (planned checks; do not overclaim) |
+| Sample data | Reconciled synthetic · **Self-reported** |
+| Interactive prototype | Not in this gate — flagged below |
 
 ---
 
 ## 1. State panel artifact
 
-<img src="media/gate-2-2/states-accessibility-panels.jpg" alt="Four panels: private member, visible-member total, missed then recovered, paused commitment" />
+<img src="media/gate-2-2/states-accessibility-panels.jpg" alt="Four panels: private member, sharing-member total, missed then recovered, paused status only" />
 
 ---
 
 ## 2. Critical UI states (viewer visibility)
 
-Shared cast: Challenge **Portugal 2027** · Viewer **Alex** · Members Alex, Sam, Riley, **Jordan (private)** · amounts self-reported.
+Shared cast: **Portugal 2027** · Viewer **Alex** · Alex / Sam / Riley sharing · **Jordan private** · self-reported.
 
-### 2.1 Private member (Jordan)
+Canonical figures: personal **£1,240 of £2,000** · streak **3** (baseline screens) · sharing-member total **£3,080 of £5,500**.
 
-| Aspect | Treatment |
-| --- | --- |
-| What Alex sees | Jordan’s name/avatar + **Private** lock chip · **no** amount · **no** target |
-| What Jordan sees (own device) | Full own financials |
-| Group total | Jordan excluded from aggregates shown to others |
-| Governing rules | **G1.1-06** (also PRS §7 privacy model) |
-| Design guard | Person remains in roster — not an empty hole that implies a bug or leaks via inference |
-
-### 2.2 Visible-member total
+### 2.1 Private member (Jordan) — G1.1-06
 
 | Aspect | Treatment |
 | --- | --- |
-| Label | **Visible members only** (never “Group total” alone) |
-| Sample | £4,180 of £8,500 |
-| Scope | Sum of sharing members’ contributions/targets only |
-| Governing rules | **G1.1-06** |
-| Helper copy (study) | “Excludes members who hide amounts and targets.” |
+| Privacy control | **One** setting: share / hide monetary information |
+| Effect | Hides **both** amounts **and** individual target from others |
+| What Alex sees | Jordan name/avatar + **Private** lock · no amount · no target |
+| What Jordan sees (own) | Full own financials |
+| Aggregates | Jordan excluded from sharing-member totals shown to others |
+| Design guard | Person remains in roster — not a data hole; no inference affordances |
 
-### 2.3 Missed → recovered commitment
+### 2.2 Sharing-member total — G1.1-06
 
 | Aspect | Treatment |
 | --- | --- |
-| History | Missed week remains marked **Missed** (historical) |
+| Label | **Sharing members only** (never bare “Group total”) |
+| Sample | **£3,080 of £5,500** (= Alex+Sam+Riley; excludes Jordan) |
+| Distinction | Separate from **personal** £1,240 of £2,000 |
+| Helper | “Excludes members who hide amounts and targets.” |
+
+### 2.3 Missed → recovered commitment — G1.1-09
+
+| Aspect | Treatment |
+| --- | --- |
+| History | Missed week remains **Missed** |
 | Next success | **Recovered / New streak started** — automatic; no manual reset |
 | Tone | Supportive, non-punitive |
-| Governing rules | **G1.1-09** |
-| Must not | Retroactively rewrite miss as completed unless authorised correction changes that period |
+| Must not | Retroactively rewrite miss unless authorised correction changes that period |
+| Note | Recovery panel is a **scenario**; baseline screens keep streak **3** |
 
-### 2.4 Paused commitment
+### 2.4 Paused commitment — G1.1-11 (status only)
 
 | Aspect | Treatment |
 | --- | --- |
-| Chip | **Paused** — visually distinct from Completed and Missed |
-| Timing | Prospective — starts next weekly period |
-| Meaning | Not a successful savings week; not a miss |
-| Governing rules | **G1.1-11** |
-| Open product detail | Max pause duration / resume behaviour — **OPEN — requires product-owner approval** |
+| Chip | **Paused** — distinct from Completed and Missed (icon + text) |
+| Product fact | Pauses are prospective; paused weeks ≠ completed or missed |
+| **Removed from studies** | Invented max pause duration, resume flows, auto-resume rules |
+| Open | Duration and resume behaviour — **OPEN — requires product-owner approval** |
 
-### Related milestone state (cross-check)
+### Related milestone — G1.1-08
 
 | Aspect | Treatment |
 | --- | --- |
 | Thresholds | 25 / 50 / 75 / 100% of **individual** target |
-| Sample | Halfway at 50% |
-| Privacy | Milestone activity shown to others only per privacy |
-| Governing rules | **G1.1-08** |
+| Sample | Halfway at 50% of £2,000 |
+| Privacy | Milestone activity to others follows G1.1-06 |
 | Open | Exact streak milestone thresholds — **OPEN — requires product-owner approval** |
 
 ---
@@ -75,33 +75,34 @@ Shared cast: Challenge **Portugal 2027** · Viewer **Alex** · Members Alex, Sam
 
 | Area | Planned check | Static study now | Needs interactive prototype |
 | --- | --- | --- | --- |
-| Contrast | Text/icon vs surfaces ≥ AA (normal 4.5:1; large/UI 3:1 where applicable); Deep Sea / Ink / Mute pairs documented in moodboards | Partial — role table in `moodboard-ab.md` | Yes — theme tokens on real components |
-| Non-colour status | Completed / Missed / Recovered / Paused / Private always icon + text | Shown in panels | Yes — live chip component review |
-| Keyboard / focus | Tab order; visible focus on CTA, toggles, roster rows | Not testable statically | **Yes — required** |
-| Labels / SR | Accessible names for amounts (“£1,240 of £2,000, self-reported”); private rows announce Private without fabricating amounts; visible-member totals named with scope | Copy planned | **Yes — required** |
-| Validation | Contribution form errors programmatic + text | Not in this study | **Yes — required** |
-| Motion alternatives | Progress fill / milestone pulse off under `prefers-reduced-motion`; equivalent static feedback | Described | **Yes — required** |
-| Text resize | Amounts remain legible under OS text scaling; avoid clipped hero numerals | Risk noted | **Yes — required** |
-| Target size | Primary Record / Done controls thumb-friendly | Suggested in layouts | Yes |
+| Contrast | Ink/Mute/Deep Sea on Paper toward AA ratios | Role table in `moodboard-ab.md` | Yes — real tokens |
+| Honey Amber | Scarce accent; **verify** text/icon pairs — **do not claim AA yet** | Qualified in moodboard | **Yes — required** |
+| Non-colour status | Completed / Missed / Recovered / Paused / Private = icon + text | Shown in panels | Yes |
+| Keyboard / focus | Tab order; visible focus | Not testable statically | **Yes — required** |
+| Labels / SR | Personal vs sharing-member amounts named with scope; Private rows without fabricating money | Copy planned | **Yes — required** |
+| Validation | Contribution errors programmatic + text | Not in this study | **Yes — required** |
+| Motion | `prefers-reduced-motion` equivalents | Described | **Yes — required** |
+| Text resize | Amounts remain legible under OS scaling | Risk noted | **Yes — required** |
 
-Do **not** invent a higher/lower accessibility bar than WCAG 2.2 AA. Testing methodology remains an open product decision in the PRS — **OPEN — requires product-owner approval** (methodology only; target is fixed).
+Do not invent a higher/lower bar than WCAG 2.2 AA. Testing methodology — **OPEN — requires product-owner approval.**
 
 ---
 
-## 4. Viewer matrix (quick reference)
+## 4. Viewer matrix
 
-| Viewer | Sees Alex amounts | Sees Jordan amounts | Sees visible-member total |
+| Viewer | Sees Alex money | Sees Jordan money | Sees sharing-member total |
 | --- | --- | --- | --- |
-| Alex (self) | Yes | No (Jordan private) | Yes (scope-labelled) |
-| Sam (sharing) | Yes (Alex sharing) | No | Yes (excludes Jordan) |
-| Jordan (private) | Yes (Alex sharing) | Yes (own) | Yes as labelled aggregate of sharers |
+| Alex (self) | Yes | No | Yes (labelled; excludes Jordan) |
+| Sam (sharing) | Yes | No | Yes (excludes Jordan) |
+| Jordan (private) | Yes (Alex sharing) | Yes (own) | Yes as labelled sharers’ aggregate |
 
-Inference via aggregate differences in small groups — product edge case **OPEN — requires product-owner approval** (Gate 1.1 remaining opens). Design must not encourage UI patterns that make subtraction trivial (e.g. toggling one private member against an otherwise full total without care).
+Small-group aggregate inference edge cases — **OPEN — requires product-owner approval.**
 
 ---
 
 ## 5. Spec-safety
 
-- No new MVP requirements introduced  
-- Optional Encourage control, if pictured elsewhere, remains **optional exploration only — not MVP**  
-- Gate 1 / Gate 1.1 product docs were not modified
+- No new MVP requirements  
+- Encourage remains **optional exploration only — not MVP**  
+- Gate 1 / Gate 1.1 product docs not modified  
+- No invented pause duration / resume behaviour  

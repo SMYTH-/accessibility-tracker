@@ -4,14 +4,14 @@
 | --- | --- |
 | Gate | 2.2 — Visual Identity Exploration |
 | Fidelity | Lightweight sketches — **not** wireframe package / mid-fi |
+| Direction | A+B approved |
 | IA labels | Working proposals only |
-| Transition grammar | Informed by Wise-like “new vs continuation” (creative) |
 
 ---
 
 ## 1. Visual sketch
 
-<img src="/cursor/stores/self/media/gate-2-2/flows-navigation-sketch.jpg" alt="Bottom nav sketch and four flow step cards: create, invite/join, record contribution, privacy" />
+<img src="../../media/gate-2-2/flows-navigation-sketch.jpg" alt="Bottom nav and four flows including single monetary privacy toggle" />
 
 ---
 
@@ -19,20 +19,18 @@
 
 | Tab | Job | Notes |
 | --- | --- | --- |
-| Home | Personal status + active challenges | Answers “how am I doing?” first |
-| Challenge | Deep context: roster, totals, rules | First-class, not buried |
+| Home | Personal status + active challenges | “How am I doing?” first |
+| Challenge | Roster, sharing-member totals, rules | First-class |
 | Activity | Event-generated feed | Privacy-filtered |
-| Profile | Settings, privacy, account | Includes pause / target entry points |
+| Profile | Settings, **one** monetary privacy control, account | Target setup; pause entry exists in product — **no invented resume/max-duration flow** |
 
 Exact labels and tab count — **OPEN — requires product-owner approval.**
-
-Desktop = same IA, denser panes — not a second product model (PRS §15 Mobile First).
 
 ---
 
 ## 3. Flow sketches
 
-Transition cue (creative): **upward / new sheet** = new task; **sideways** = continuation within a task; **sheet** = supplementary edit.
+Transition cue (creative): **upward / new sheet** = new task; **sideways** = continuation; **sheet** = supplementary edit.
 
 ### 3.1 Create challenge
 
@@ -47,7 +45,7 @@ Home → Create (new)
 
 Owner without activated savings participation is **not** assessed for missed commitments (G1.1-01).
 
-Activation conditions detail — **OPEN — requires product-owner approval** (Gate 1.1 remaining opens).
+Activation conditions — **OPEN — requires product-owner approval.**
 
 ### 3.2 Invite / join
 
@@ -65,38 +63,51 @@ Must NOT show: targets, amounts, financial totals, member financial activity
 ```
 Home / Challenge → Record savings (primary)
   → Amount + date (within permitted period)
-  → Confirm (eligibility rules — G1.1-05)
+  → Confirm (eligibility — G1.1-05)
   → Success (see screens-contribution-confirm.md)
   → Updates: personal progress, commitment assessment, milestones, activity (privacy-aware)
 ```
 
-Backdating / allocation across weeks — **OPEN — requires product-owner approval** (do not invent).
+Backdating / week allocation — **OPEN — requires product-owner approval** (do not invent).
 
-### 3.4 Privacy settings
+### 3.4 Privacy settings — **one** monetary control (G1.1-06)
 
 ```
 Profile → Privacy
-  → Toggle: share monetary information
-  → Explainer: hides amounts AND target from others;
-    excludes you from others’ visible aggregates (G1.1-06)
+  → Single toggle: Share monetary information
+  → Explainer: when off, hides amounts AND individual target from others;
+    excludes you from others’ sharing-member aggregates
   → Preview: how roster / totals appear to friends
-  → Save → applied across feed, exports, notifications (server-side enforcement in product)
+  → Save → applied across feed, exports, notifications
 ```
 
-Self always sees own authorised financial information.
+- Do **not** offer separate toggles for amounts vs targets  
+- Self always sees own authorised financial information  
+
+### 3.5 Pause (status only — no invented behaviour)
+
+Product allows prospective pauses (G1.1-11). Exploration may show a **Paused** status chip distinct from Completed/Missed.
+
+**Do not** invent or mock:
+
+- Maximum pause duration  
+- Resume scheduling / auto-resume rules  
+- Retroactive pause  
+
+Those remain **OPEN — requires product-owner approval.**
 
 ---
 
-## 4. Hierarchy reminder across flows
+## 4. Hierarchy reminder
 
-| Moment | Personal progress | Weekly commitment | Shared activity |
-| --- | --- | --- | --- |
-| Home | Primary | Primary strip | Preview |
-| Challenge | In roster row | Strip / history | Full feed |
-| After contribution | Updated hero | Chip state | New event |
+| Moment | Personal progress | Weekly commitment | Sharing-member aggregate | Activity |
+| --- | --- | --- | --- | --- |
+| Home | Primary | Strip | Secondary, labelled | Preview |
+| Challenge | Roster row | Strip / history | Labelled total | Full feed |
+| After contribution | Updated hero | Chip state | May update for sharers | New event |
 
 ---
 
-## 5. Explicit non-advance
+## 5. Explicit stop
 
-These sketches stop at exploration. **No wireframes / mid-fidelity system work** until PO approves a visual direction (`decision-summary.md`).
+No wireframes / mid-fi in this pack. See `decision-summary.md` for approved A+B direction and open identity items.
