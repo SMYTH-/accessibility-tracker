@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Pass | Authorised design pass after Gate 2.2 A+B approval |
+| Pass | Authorised design pass after Gate 2.2 A+B approval (+ pre-sign-off corrections) |
 | Status | **Ready for PO review** — stop here |
 | Fidelity | Mobile wireframes only (grayscale / lightly annotated) |
 | Not authorised yet | Mid-fi polish · implementation · components · installs |
@@ -26,14 +26,14 @@
 
 ### Media (`media/wireframes/`)
 
-| File | Checkout path |
+| File | Absolute path |
 | --- | --- |
-| `dashboard-home.jpg` | `media/wireframes/dashboard-home.jpg` |
-| `challenge-activity.jpg` | `media/wireframes/challenge-activity.jpg` |
-| `contribution-amount.jpg` | `media/wireframes/contribution-amount.jpg` |
-| `contribution-confirm.jpg` | `media/wireframes/contribution-confirm.jpg` |
-| `privacy-settings.jpg` | `media/wireframes/privacy-settings.jpg` |
-| `privacy-disclosure-join.jpg` | `media/wireframes/privacy-disclosure-join.jpg` |
+| `dashboard-home.jpg` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/dashboard-home.jpg` |
+| `challenge-activity.jpg` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/challenge-activity.jpg` |
+| `contribution-amount.jpg` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/contribution-amount.jpg` |
+| `contribution-confirm.jpg` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/contribution-confirm.jpg` |
+| `privacy-settings.jpg` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/privacy-settings.jpg` |
+| `privacy-disclosure-join.jpg` | `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/privacy-disclosure-join.jpg` |
 
 ---
 
@@ -47,8 +47,10 @@
 | Weekly commitment | **£50** · Completed this week |
 | Streak | **Your streak · 3 weeks** |
 | Sharing-member total | **£3,080 of £5,500** · **Sharing members only** |
-| Roster | Alex / Sam £980 of £1,500 / Riley £860 of £2,000 (43%) / Jordan **Private** |
+| Roster | Alex / Sam £980 of £1,500 (**65%**) / Riley £860 of £2,000 (43%) / Jordan **Private** |
 | Privacy default | Visible to **approved challenge members**; **opt-out** hides amounts **and** target |
+| Privacy warning | Opting out **cannot undo** what others already saw |
+| Join disclosure | **Before joining**; acknowledgement **prerequisite** to continue |
 
 ---
 
@@ -58,6 +60,11 @@
 - [x] **50% milestone** shown separately from **62% current**
 - [x] Weekly commitment + **Your streak**
 - [x] Sharing-member aggregate labelled (not full-group total)
+- [x] Contribution screens explain **whose** contributions are included (Alex/Sam/Riley; excludes Jordan)
+- [x] Sam roster progress **65%** with matching bar
+- [x] Privacy disclosure **before joining**; ack prerequisite
+- [x] Opt-out warning: cannot undo prior visibility
+- [x] No Leaderboard tab on privacy sketch
 - [x] Privacy cues (Private lock; default ≠ private-by-default)
 - [x] Synthetic **self-reported** labelling
 - [x] Pause treated as status-only — no invented duration/resume
@@ -89,6 +96,14 @@ Local watched-folder re-sync: **coordinator-dispatched** after Context lands —
 
 ---
 
-## 6. Artifact caveats (for reviewers)
+## 6. Pre-sign-off corrections (this pass)
 
-Wireframe images are structure studies. Prefer markdown hierarchy tables when an image label drifts (e.g. “Best streak” → **Your streak**; non-canonical bottom-nav icons; illustrative join step counts). Content authority for sample figures and privacy copy is this pack’s markdown + Gate 2.2 reconciled set.
+1. Financial privacy disclosure moved to **before joining**; Continue disabled until acknowledgement.
+2. Warning added on disclosure + privacy settings: opting out **cannot undo** what others already saw.
+3. **Leaderboard** removed from privacy bottom nav (Home · Challenge · Activity · Profile only).
+4. Both contribution screens + notes explain whose contributions are in the **sharing-member total**.
+5. Sam progress corrected to **65%** with updated bar on challenge activity.
+
+## 7. Artifact caveats (for reviewers)
+
+Wireframe images are structure studies. Prefer markdown hierarchy tables when an image label drifts (e.g. “Best streak” → **Your streak**; illustrative join step counts). Content authority for sample figures and privacy copy is this pack’s markdown + Gate 2.2 reconciled set (with Sam **65%** correction above).

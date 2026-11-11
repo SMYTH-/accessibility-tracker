@@ -12,9 +12,9 @@
 
 ## Artifact
 
-<img src="../../media/wireframes/dashboard-home.jpg" alt="Dashboard wireframe: personal £1,240/£2,000 at 62%, separate 50% Halfway, Your streak 3, sharing-member £3,080/£5,500" />
+<img src="../../../media/wireframes/dashboard-home.jpg" alt="Dashboard wireframe: personal £1,240/£2,000 at 62%, separate 50% Halfway, Your streak 3, sharing-member £3,080/£5,500" />
 
-Path: `media/wireframes/dashboard-home.jpg` (checkout); embed via `../../media/wireframes/dashboard-home.jpg`
+Path: `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/dashboard-home.jpg`
 
 ---
 

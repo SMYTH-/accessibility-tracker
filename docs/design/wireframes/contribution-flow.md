@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Pass | A+B mobile wireframes — authorised structure pass |
+| Pass | A+B mobile wireframes — correction before PO sign-off |
 | Fidelity | Low / annotated wireframe — **not** mid-fi |
 | Direction | A+B |
 | Viewport | Mobile only |
@@ -14,9 +14,9 @@
 
 ### Step A — Amount entry
 
-<img src="../../media/wireframes/contribution-amount.jpg" alt="Record savings wireframe: £50 amount, date, self-reported labelling, Continue to confirm" />
+<img src="../../../media/wireframes/contribution-amount.jpg" alt="Record savings: £50, self-reported, sharing-member total includes Alex Sam Riley excludes Jordan" />
 
-Path: `media/wireframes/contribution-amount.jpg` (checkout); embed via `../../media/wireframes/contribution-amount.jpg`
+Path: `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/contribution-amount.jpg`
 
 | Element | Wireframe treatment |
 | --- | --- |
@@ -26,16 +26,16 @@ Path: `media/wireframes/contribution-amount.jpg` (checkout); embed via `../../me
 | Date | Within permitted period (sample date only) |
 | Labelling | **Self-reported** · not a bank deposit |
 | Helper | Updates personal progress + weekly commitment |
-| Privacy note | Sharing-member totals update only for friends who share (G1.1-06) |
+| **Sharing-member total explainer** | Includes contributions and targets **only from members who share monetary information** (sample: **Alex, Sam, Riley**). **Excludes** opted-out members (**Jordan**). Label: **Sharing members only** — not the full group. |
 | Actions | Cancel · Continue to confirm |
 
 No invented backdating / week-allocation UI (G1.1-05 open items remain open).
 
 ### Step B — Confirmation
 
-<img src="../../media/wireframes/contribution-confirm.jpg" alt="Contribution confirm: Saved £50, personal £1,240/£2,000 at 62%, separate 50% Halfway already reached, Your streak 3, Done" />
+<img src="../../../media/wireframes/contribution-confirm.jpg" alt="Confirm Saved £50: personal 62%, separate 50% Halfway, sharing-member total includes Alex Sam Riley only" />
 
-Path: `media/wireframes/contribution-confirm.jpg` (checkout); embed via `../../media/wireframes/contribution-confirm.jpg`
+Path: `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/contribution-confirm.jpg`
 
 ### Confirm hierarchy (reconciled beat)
 
@@ -45,7 +45,7 @@ Path: `media/wireframes/contribution-confirm.jpg` (checkout); embed via `../../m
 | 2 | Personal progress | Now **£1,240 of £2,000** · **Current 62%** (from £1,190) |
 | 2b | Milestone (separate) | **50% Halfway milestone · already reached** — not conflated with 62% |
 | 3 | Weekly commitment | Completed this week · **Your streak · 3 weeks** |
-| 4 | Sharing-member note | Totals update for friends who share — distinct from personal figures |
+| 4 | **Sharing-member total explainer** | Updates for members who share monetary information. Includes contributions from **Alex, Sam, Riley only**. Excludes opted-out **Jordan**. Label **Sharing members only** — not full group. Distinct from personal figures. |
 | 5 | Tone | Supportive, non-punitive (placeholder copy in wireframe) |
 | 6 | CTA | **Done** |
 

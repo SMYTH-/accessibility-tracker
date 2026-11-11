@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Pass | A+B mobile wireframes — authorised structure pass |
+| Pass | A+B mobile wireframes — correction before PO sign-off |
 | Fidelity | Low / annotated wireframe — **not** mid-fi |
 | Direction | A+B; C as personal vs sharing-member reference |
 | Viewport | Mobile only |
@@ -12,9 +12,9 @@
 
 ## Artifact
 
-<img src="../../media/wireframes/challenge-activity.jpg" alt="Challenge activity wireframe: Your streak, roster with Alex 62% and separate 50% Halfway, Jordan Private, sharing-member total" />
+<img src="../../../media/wireframes/challenge-activity.jpg" alt="Challenge activity: Your streak, Alex 62% + separate 50% Halfway, Sam 65%, Jordan Private, sharing-member total" />
 
-Path: `media/wireframes/challenge-activity.jpg` (checkout); embed via `../../media/wireframes/challenge-activity.jpg`
+Path: `/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/wireframes/challenge-activity.jpg`
 
 ---
 
@@ -25,8 +25,10 @@ Path: `media/wireframes/challenge-activity.jpg` (checkout); embed via `../../med
 | 1 | Challenge header | Portugal 2027 · Save together for the trip |
 | 2 | **Your streak** / commitment strip | **3 weeks** · This week £50 Completed — **before** feed |
 | 3 | **Roster** | Personal figures where sharing; opted-out as Private |
-| 4 | **Sharing-member total** | £3,080 of £5,500 · **Sharing members only** |
+| 4 | **Sharing-member total** | £3,080 of £5,500 · **Sharing members only** (Alex+Sam+Riley; excludes Jordan) |
 | 5 | **Activity feed** | Approved MVP event types only |
+
+Bottom nav: **Home · Challenge · Activity · Profile** — **no Leaderboard**.
 
 ---
 
@@ -35,14 +37,14 @@ Path: `media/wireframes/challenge-activity.jpg` (checkout); embed via `../../med
 | Member | What others see |
 | --- | --- |
 | Alex (you) | £1,240 of £2,000 · **Current 62%** · Self-reported · separate **50% Halfway · reached** |
-| Sam | £980 of £1,500 · **no** Halfway chip |
+| Sam | £980 of £1,500 · **Current 65%** · bar ~65% · **no** Halfway chip |
 | Riley | £860 of £2,000 · **43%** · **not** a 50% milestone |
 | Jordan | **Private** · lock · **no** amount · **no** target |
-| **Sharing-member total** | **£3,080 of £5,500** (Alex+Sam+Riley; excludes Jordan) |
+| **Sharing-member total** | **£3,080 of £5,500** (Alex+Sam+Riley contributions/targets; excludes Jordan) |
 
 ### Image correction note
 
-If the artifact ever reads “Best streak,” treat canonical label as **Your streak**. Halfway recognition belongs to **Alex only** (past 50% at 62% current).
+If the artifact ever reads “Best streak,” treat canonical label as **Your streak**. Halfway recognition belongs to **Alex only** (past 50% at 62% current). Sam percentage is **65%** (£980 of £1,500).
 
 ---
 

@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Pass | A+B mobile wireframes — authorised structure pass |
+| Pass | A+B mobile wireframes — correction before PO sign-off |
 | Fidelity | Flow map tying wireframe screens — **not** mid-fi |
 | IA labels | Working proposals only |
 
@@ -56,8 +56,10 @@ Owner: Challenge → Invite → private link (expires 7 days default — G1.1-14
 Invitee preview (G1.1-07) may show ONLY:
   name · description · start · end · participant count
 Must NOT show: targets, amounts, financial totals, member financial activity
+→ Financial privacy disclosure BEFORE joining (see privacy-flow.md)
+  · Warning: opting out cannot undo what others already saw
+  · Acknowledgement is a prerequisite (Continue disabled until checked)
 → Request join → Owner approval
-→ Financial privacy acknowledgement (see privacy-flow.md)
 → Configure personal target + weekly commitment before recording savings
 ```
 
@@ -74,6 +76,8 @@ Home / Challenge → Record savings
 
 Canonical confirm sample: Saved £50 → personal **£1,240 of £2,000 (62%)** · separate **50% Halfway already reached** · **Your streak 3**.
 
+Both contribution screens explain **whose contributions** are in the sharing-member total: **Alex, Sam, Riley** included; **Jordan** excluded (Sharing members only).
+
 Backdating / week allocation — **OPEN**.
 
 ---
@@ -81,11 +85,13 @@ Backdating / week allocation — **OPEN**.
 ## 4. Privacy
 
 ```
+Invite preview → Financial privacy disclosure BEFORE joining
+  → Acknowledgement prerequisite → Request join → …
 Profile → Privacy (one monetary control)
-  OR join disclosure → acknowledgement → target setup
+  → Warning: opting out cannot undo what others already saw
 ```
 
-Default = visible to approved challenge members; **opt-out** hides amounts **and** target; aggregates = **sharing members only** (G1.1-06).
+Default = visible to approved challenge members; **opt-out** hides amounts **and** target; aggregates = **sharing members only** (G1.1-06). Bottom nav: **no Leaderboard**.
 
 ---
 
