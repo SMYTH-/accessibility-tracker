@@ -22,7 +22,7 @@ Personal figures and sharing-member aggregates are never conflated.
 
 ## 2. Primary study — A+B (approved)
 
-<img src="../../media/gate-2-2/screen-dashboard-ab.jpg" alt="A+B dashboard: personal £1,240/£2,000, streak 3, sharing-member £3,080/£5,500" />
+<img src="../../../media/gate-2-2/screen-dashboard-ab.jpg" alt="A+B dashboard: personal £1,240/£2,000, streak 3, sharing-member £3,080/£5,500" />
 
 **Clear Companions (A)** — large calm personal amount; Deep Sea progress; quiet chrome.  
 **Crew Momentum (B)** — commitment/streak strip before activity; Honey Amber only on Halfway mark.  
@@ -32,7 +32,7 @@ Personal figures and sharing-member aggregates are never conflated.
 
 ## 3. Comparable study — Shared Horizon (C, retained)
 
-<img src="../../media/gate-2-2/screen-dashboard-c.jpg" alt="C dashboard: My path personal vs Our horizon sharing-member aggregates" />
+<img src="../../../media/gate-2-2/screen-dashboard-c.jpg" alt="C dashboard: My path personal vs Our horizon sharing-member aggregates" />
 
 Same sample content. Dual composition: **My path** vs **Our horizon (sharing members)**.
 

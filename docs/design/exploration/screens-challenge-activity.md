@@ -17,33 +17,33 @@ Challenge as a **crew board**: shared purpose + independent personal targets, ev
 
 ## 2. Visual study — A+B
 
-<img src="media/gate-2-2/screen-challenge-activity-ab.jpg" alt="Challenge roster and activity: streak 3, reconciled sharing amounts, private Jordan" />
+<img src="../../media/gate-2-2/screen-challenge-activity-ab.jpg" alt="Challenge roster and activity: streak 3, reconciled sharing amounts, private Jordan" />
 
 ### Layout reading order
 
 1. Challenge title + shared purpose  
-2. **Personal streak / commitment strip** — streak **3 weeks** (B — before feed)  
-3. **Roster** — personal figures where sharing; Private where not  
-4. **Sharing-member total** — £3,080 of £5,500 labelled  
+2. **Your streak** / commitment strip — **3 weeks** (B — before feed; not “Challenge streak”)  
+3. **Roster** — personal figures where sharing; opted-out as Private  
+4. **Sharing-member total** — £3,080 of £5,500 labelled **Sharing members only** (G1.1-06)  
 5. **Activity feed** — approved MVP event types only  
 
 ### Roster (reconciled → sharing-member total)
 
 | Member | What others see |
 | --- | --- |
-| Alex (you) | £1,240 of £2,000 |
+| Alex (you) | £1,240 of £2,000 (62% — past Halfway) |
 | Sam | £980 of £1,500 |
-| Riley | £860 of £2,000 |
-| Jordan | **Private** — lock; **no** amount; **no** target (G1.1-06) |
-| **Sharing-member total** | **£3,080 of £5,500** (excludes Jordan) |
+| Riley | £860 of £2,000 (43% — not a 50% milestone) |
+| Jordan | **Private** — lock; **no** amount; **no** target (G1.1-06 opt-out) |
+| **Sharing-member total** | **£3,080 of £5,500** (sharing members only; excludes Jordan) |
 
-One privacy setting hides amounts **and** target. Private members remain listed without leaking monetary values (G1.1-06).
+Default visibility is to **approved challenge members**; **one** opt-out hides amounts **and** target. Opted-out members remain listed without leaking monetary values (G1.1-06).
 
-### Feed events (approved MVP patterns)
+### Feed events (approved MVP patterns · sample-consistent)
 
-- Contribution recorded (amount only if sharing)  
-- Weekly commitment completed  
-- Milestone — “Halfway to target” (G1.1-08)  
+- **Alex** reached Halfway to target (50%) — consistent with Alex at £1,240/£2,000 (G1.1-08)  
+- **Riley** completed weekly commitment — **not** a 50% milestone (roster is £860/£2,000)  
+- Sam recorded savings (amount only if sharing)  
 - Joins / challenge lifecycle as scoped in product docs  
 
 No amount-based leaderboard. No invented pause/resume behaviour in feed copy.

@@ -1,16 +1,7 @@
-# Gate 2.2 — Visual Identity Exploration (correction pack)
+# Gate 2.2 — Visual Identity (closeout)
 
-**PO direction:** A+B approved. C retained as alternative + personal vs sharing-member reference.
-Working accents: Deep Sea + Honey Amber only. Logo / final palette / type open.
+A+B approved. C retained. Logo / final palette / type open. Working accents Deep Sea + Honey Amber #C9842A.
 
-## Canonical sample
-- Personal: £1,240 of £2,000 · streak 3 · £50 week completed
-- Sharing members: Alex + Sam (£980/£1,500) + Riley (£860/£2,000) = £3,080 of £5,500
-- Jordan private (one control: amounts + target)
+Privacy default: visible to approved challenge members; opt-out. Totals: sharing members only.
 
-## Start
-1. docs/design/exploration/decision-summary.md
-2. moodboard-ab.md / moodboard-c.md
-3. screens + states-accessibility.md + flows-navigation.md
-
-Image paths in markdown are relative (`../../media/gate-2-2/...`).
+From docs/design/exploration/*.md images resolve at ../../../media/gate-2-2/

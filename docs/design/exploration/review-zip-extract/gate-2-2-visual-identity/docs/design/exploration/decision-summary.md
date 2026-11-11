@@ -21,7 +21,7 @@
 | Deep Sea + Honey Amber | **Working accents only** — not locked palette tokens |
 | Logo / final palette / type | **Remain open** |
 
-Correction pass before Gate 2.2 close addresses: single G1.1-06 privacy control; personal vs aggregate labelling; no invented pause/resume rules; corrected G1.1 state IDs; reconciled sample figures/streaks; qualified Honey Amber contrast; relative media paths.
+Correction passes before Gate 2.2 close: single G1.1-06 opt-out privacy (default = approved challenge members); personal vs **sharing members only** aggregates; no invented pause/resume; G1.1 IDs (visible-total panel **G1.1-06**); reconciled samples / **Your streak**; Honey Amber `#C9842A` contrast qualified; relative media paths; ZIP archive links use `../../../../media/gate-2-2/`.
 
 ---
 
@@ -34,7 +34,7 @@ Correction pass before Gate 2.2 close addresses: single G1.1-06 privacy control;
 | **Flows** | `flows-navigation.md` — create, invite/join, record contribution, **one** monetary privacy control |
 | **States / a11y** | `states-accessibility.md` — private, sharing-member total, miss→recover, paused **status only** |
 
-Media: `media/gate-2-2/` (repo-relative from `docs/design/exploration/`: `../../media/gate-2-2/`)
+Media: `media/gate-2-2/` (repo-relative from `docs/design/exploration/`: `../../../media/gate-2-2/`)
 
 ### Canonical sample set (reconciled)
 
@@ -46,8 +46,10 @@ Media: `media/gate-2-2/` (repo-relative from `docs/design/exploration/`: `../../
 | Streak (baseline) | **3 weeks** |
 | Sharing members | Alex £1,240/£2,000 · Sam £980/£1,500 · Riley £860/£2,000 |
 | Private | Jordan — amounts **and** target hidden (one privacy setting) |
-| Sharing-member total | **£3,080 of £5,500** (Alex+Sam+Riley only; excludes Jordan) |
-| Contribution confirm beat | Saved £50 · progress reaches £1,240 (from £1,190) · streak remains 3 |
+| Sharing-member total | **£3,080 of £5,500** (**sharing members only**; excludes opted-out Jordan) |
+| Privacy default | Visible to **approved challenge members**; **opt-out** (not private-by-default) |
+| Contribution confirm beat | Saved £50 · progress reaches £1,240 (from £1,190) · **Your streak** remains 3 |
+| Activity milestone | Alex Halfway (62% past 50%); Riley £860/£2,000 is not shown as 50% |
 
 ---
 

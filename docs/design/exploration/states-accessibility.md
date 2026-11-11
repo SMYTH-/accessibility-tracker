@@ -11,7 +11,7 @@
 
 ## 1. State panel artifact
 
-<img src="media/gate-2-2/states-accessibility-panels.jpg" alt="Four panels: private member, sharing-member total, missed then recovered, paused status only" />
+<img src="../../media/gate-2-2/states-accessibility-panels.jpg" alt="Four panels: private member, sharing-member total, missed then recovered, paused status only" />
 
 ---
 
@@ -21,25 +21,28 @@ Shared cast: **Portugal 2027** · Viewer **Alex** · Alex / Sam / Riley sharing 
 
 Canonical figures: personal **£1,240 of £2,000** · streak **3** (baseline screens) · sharing-member total **£3,080 of £5,500**.
 
-### 2.1 Private member (Jordan) — G1.1-06
+### 2.1 Opted-out member (Jordan) — G1.1-06
 
 | Aspect | Treatment |
 | --- | --- |
-| Privacy control | **One** setting: share / hide monetary information |
-| Effect | Hides **both** amounts **and** individual target from others |
+| Default | Amounts and target visible to **approved challenge members** |
+| Privacy control | **One** opt-out: hide monetary information (not “private by default”) |
+| Effect | Hides **both** amounts **and** individual target from other approved members |
 | What Alex sees | Jordan name/avatar + **Private** lock · no amount · no target |
 | What Jordan sees (own) | Full own financials |
-| Aggregates | Jordan excluded from sharing-member totals shown to others |
+| Aggregates | Jordan excluded from **sharing members only** totals |
 | Design guard | Person remains in roster — not a data hole; no inference affordances |
 
 ### 2.2 Sharing-member total — G1.1-06
 
 | Aspect | Treatment |
 | --- | --- |
-| Label | **Sharing members only** (never bare “Group total”) |
+| Rule ID | **G1.1-06** (not G1.1-08) |
+| Label | **Sharing members only** (whose figures are included — never bare “Group total”) |
+| Audience term | **Approved challenge members** (who may see shared monetary info by default) |
 | Sample | **£3,080 of £5,500** (= Alex+Sam+Riley; excludes Jordan) |
 | Distinction | Separate from **personal** £1,240 of £2,000 |
-| Helper | “Excludes members who hide amounts and targets.” |
+| Helper | “Excludes members who opted out of sharing amounts and targets.” |
 
 ### 2.3 Missed → recovered commitment — G1.1-09
 

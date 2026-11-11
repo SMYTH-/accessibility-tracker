@@ -7,38 +7,36 @@ cursor:
 
 ## Outcome
 
-Visual identity exploration complete. Awaiting PO direction in `docs/design/exploration/decision-summary.md`.
+**A+B approved.** Correction pack complete; stop for PO re-review / Gate 2.2 close. No wireframes.
 
-**Recommendation:** Advance with **A+B hybrid** (Deep Sea + Honey Amber; Manrope + Syne lean). Keep C as labelling/waypoint reference. Identity tokens unlocked.
+## PO decisions recorded
 
-## Store deliverables (authoritative)
+- Primary: Clear Companions × Crew Momentum (A+B)
+- C retained as alternative + personal vs sharing-member reference
+- Deep Sea + Honey Amber = working accents only
+- Logo / final palette / type remain open
 
-- `/cursor/stores/self/docs/design/exploration/` — 8 markdown files
-- `/cursor/stores/self/media/gate-2-2/` — 9 JPG studies
+## Corrections applied
 
-## Review ZIP (ready)
+1. One monetary privacy **opt-out** (amounts **and** targets) — default visible to **approved challenge members** (G1.1-06); never “private by default”  
+2. Personal vs **sharing members only** aggregates; sample math £3,080 of £5,500  
+3. Invented pause duration / resume removed; Paused = status only (G1.1-11)  
+4. Visible-member panel rule ID **G1.1-06** (not G1.1-08); other IDs aligned  
+5. **Your streak** (not Challenge streak); Alex Halfway vs Riley £860 consistency; £1,240/£2,000 = **62%**; Honey Amber **`#C9842A`**  
+6. Honey Amber contrast qualified as **planned** WCAG 2.2 AA (not claimed)  
+7. Checkout embeds `../../media/gate-2-2/`; ZIP archived md uses `../../../media/gate-2-2/`  
 
-- `/cursor/stores/self/media/gate-2-2/gate-2-2-visual-identity.zip` (2.3MB)
-- `/cursor/stores/self/artifacts/gate-2-2-visual-identity.zip`
-- `/opt/cursor/artifacts/gate-2-2-visual-identity.zip`
-- Pack: 8 exploration md + README + handoff + 9 jpg
+## Paths
 
-## Git mirror attempt (cloud VM)
+- Exploration: `/cursor/stores/self/docs/design/exploration/` (8 md)
+- Media: `/cursor/stores/self/media/gate-2-2/` (9 jpg + zip)
+- ZIP: `/cursor/stores/self/media/gate-2-2/gate-2-2-visual-identity.zip`
+- Decision: `docs/design/exploration/decision-summary.md`
 
-- Local clone: `/agent/accessibility-tracker`
-- Branch: `cursor/gate-2-2-visual-exploration-f843` (from docs baseline)
-- Commit: `3ea3024` (17 files) — **push failed** (no GitHub credentials on this cloud worker)
+## Local re-sync
 
-## Local watched-folder sync — COMPLETE (AT-11)
-
-- Target: `/Users/dom.smyth/Local Sites/accessibility-tracker`
-- Worker: `043f34d2-99af-521f-8750-d1e1410148a0`
-- Local sync agent: `bc-e133c69f-ac12-5fec-88fc-11dc8161cdd3` (AT-11)
-- Proof (coordinator): `docs/design/exploration/decision-summary.md` (5547 bytes); 8 exploration md; `media/gate-2-2/` 9 JPGs + zip; relative img links
-- Git: branch `cursor/gate-2-2-visual-exploration-f843`, HEAD `8c10849`, pushed to `git@github-personal:SMYTH-/accessibility-tracker.git`
-- `gh pr create` still blocked (collaborator) — manual PR URL pattern if needed
-- PO formal review can proceed against watched folder + Context ZIP
+Coordinator to dispatch watched-folder re-sync after Context lands. **Do not** spawn cloud→Mac Task from this worker.
 
 ## Restrictions held
 
-No edits to `docs/product/**`; no app code; no wireframes/mid-fi; no invented MVP requirements; optional Encourage labelled non-MVP.
+No `docs/product/**` edits; no app code; no wireframes/mid-fi; no invented MVP requirements.

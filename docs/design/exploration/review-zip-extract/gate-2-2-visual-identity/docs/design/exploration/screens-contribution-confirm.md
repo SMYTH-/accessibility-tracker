@@ -17,7 +17,7 @@ Confirm an eligible self-reported contribution with fintech clarity and social w
 
 ## 2. Visual study — A+B
 
-<img src="../../media/gate-2-2/screen-contribution-confirm-ab.jpg" alt="Contribution confirm: Saved £50, personal £1,240/£2,000, streak 3, Done CTA" />
+<img src="../../../media/gate-2-2/screen-contribution-confirm-ab.jpg" alt="Contribution confirm: Saved £50, personal £1,240/£2,000, streak 3, Done CTA" />
 
 ### Hierarchy (reconciled beat)
 

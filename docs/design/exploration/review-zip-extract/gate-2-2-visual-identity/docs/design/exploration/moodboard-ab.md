@@ -29,22 +29,23 @@ Informed by fintech clarity + social accountability research without cloning com
 | Personal progress | **£1,240 of £2,000** · 62% · **Self-reported** |
 | Weekly commitment | **£50** · Completed this week |
 | Streak (baseline) | **3 weeks** |
-| Sharing-member total | **£3,080 of £5,500** · **Sharing members only** |
+| Sharing-member total | **£3,080 of £5,500** · **Sharing members only** (whose figures are included) |
+| Audience default | Monetary info visible to **approved challenge members** by default; **opt-out** hides amounts **and** target (G1.1-06) |
 | Sharing roster | Alex £1,240/£2,000 · Sam £980/£1,500 · Riley £860/£2,000 |
-| Private | Jordan — **one** privacy setting hides amounts **and** target (G1.1-06) |
-| Milestone in view | 50% — “Halfway to target” (G1.1-08) |
+| Opted out | Jordan — **one** privacy control hides amounts **and** target |
+| Milestone in view | Alex “Halfway to target” (50%) — consistent with £1,240/£2,000 = **62%** (G1.1-08) |
 
-Personal figures and sharing-member aggregates are always labelled separately.
+Personal figures and sharing-member aggregates are always labelled separately. Do **not** describe amounts/targets as “private by default.”
 
 ---
 
 ## 3. Visual artifacts
 
-<img src="../../media/gate-2-2/moodboard-ab-overview.jpg" alt="A+B hybrid moodboard: type, colour, progress, status chips, crew activity rhythm" />
+<img src="../../../media/gate-2-2/moodboard-ab-overview.jpg" alt="A+B hybrid moodboard: £1,240 of £2,000 as 62%, Honey Amber #C9842A, sharing members only total" />
 
-*Overview — amount hierarchy, status chips, progress, crew presence.*
+*Overview — personal £1,240 of £2,000 (**62%**), Honey Amber **`#C9842A`**, sharing-members-only total, Your streak. Privacy (in copy, not as “private by default”): visible to **approved challenge members** by default; opt-out hides amounts and target; visible totals include **sharing members only**.*
 
-<img src="../../media/gate-2-2/moodboard-ab-type-colour.jpg" alt="A+B type hierarchy and colour role study with planned contrast notes" />
+<img src="../../../media/gate-2-2/moodboard-ab-type-colour.jpg" alt="A+B type hierarchy and colour role study with planned contrast notes" />
 
 *Type + colour roles study.*
 
@@ -136,12 +137,16 @@ Always **icon + text** (never colour alone — planned WCAG 2.2 AA / PRS §10.1)
 
 ## 5. Privacy control (G1.1-06)
 
-**One** financial privacy control: share / hide **monetary information**.
+**Default:** monetary information (amounts and target) is visible to **approved challenge members**.
 
-- Hides **both** reported amounts **and** individual target from others  
-- Excludes the member from others’ sharing-member aggregates  
+**One** opt-out control: hide monetary information.
+
+- When opted out: hides **both** reported amounts **and** individual target from other approved members  
+- Opted-out members are excluded from **sharing members only** aggregates  
 - Self always sees own authorised financials  
-- Do **not** show separate amount vs target toggles in studies  
+- Do **not** say “private by default”  
+- Do **not** show separate amount vs target toggles  
+- Wording: **approved challenge members** = audience; **sharing members only** = whose figures enter the visible total  
 
 ---
 

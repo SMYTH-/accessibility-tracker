@@ -11,7 +11,7 @@
 
 ## 1. Visual sketch
 
-<img src="media/gate-2-2/flows-navigation-sketch.jpg" alt="Bottom nav and four flows including single monetary privacy toggle" />
+<img src="../../media/gate-2-2/flows-navigation-sketch.jpg" alt="Bottom nav and four flows including single monetary privacy toggle" />
 
 ---
 
@@ -74,14 +74,17 @@ Backdating / week allocation — **OPEN — requires product-owner approval** (d
 
 ```
 Profile → Privacy
-  → Single toggle: Share monetary information
-  → Explainer: when off, hides amounts AND individual target from others;
-    excludes you from others’ sharing-member aggregates
-  → Preview: how roster / totals appear to friends
+  → Default copy: visible to approved challenge members
+  → Single opt-out toggle: Hide monetary information
+  → Explainer: when on (opted out), hides amounts AND individual target from
+    other approved members; excludes you from sharing-members-only aggregates
+  → Preview: how roster / totals appear to approved members
   → Save → applied across feed, exports, notifications
 ```
 
+- Do **not** say “private by default” or imply opt-in-to-share as the default  
 - Do **not** offer separate toggles for amounts vs targets  
+- **Approved challenge members** = audience; **sharing members only** = aggregate inclusion  
 - Self always sees own authorised financial information  
 
 ### 3.5 Pause (status only — no invented behaviour)

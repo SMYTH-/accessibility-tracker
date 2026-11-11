@@ -24,16 +24,16 @@ Preserve **Shared Horizon** as metaphor-led alternative and labelling reference:
 | Personal progress | **£1,240 of £2,000** · 62% · **Self-reported** |
 | Weekly commitment | **£50** · Completed · streak **3 weeks** |
 | Sharing-member total | **£3,080 of £5,500** · **Sharing members only** |
-| Members | Alex, Sam, Riley sharing · Jordan **Private** (amounts **and** target) |
-| Milestone | 50% — “Halfway to target” (G1.1-08) |
+| Privacy | Visible to **approved challenge members** by default; Jordan **opted out** (amounts **and** target) |
+| Milestone | Alex Halfway (50%) — consistent with personal 62% (G1.1-08) |
 
 ---
 
 ## 3. Visual artifacts
 
-<img src="../../media/gate-2-2/moodboard-c-overview.jpg" alt="Shared Horizon moodboard: mist atmosphere, dual path/horizon progress, waypoint milestones" />
+<img src="../../../media/gate-2-2/moodboard-c-overview.jpg" alt="Shared Horizon moodboard: mist atmosphere, dual path/horizon progress, waypoint milestones" />
 
-Comparable dashboard: see `screens-dashboard.md` and `../../media/gate-2-2/screen-dashboard-c.jpg`.
+Comparable dashboard: see `screens-dashboard.md` and `../../../media/gate-2-2/screen-dashboard-c.jpg`.
 
 ---
 
