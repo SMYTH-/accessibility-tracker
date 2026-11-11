@@ -39,11 +39,11 @@ Use this content on every comparable study in Gate 2.2:
 
 ## 3. Visual artifacts
 
-<img src="media/moodboard-ab-overview.jpg" alt="A+B hybrid moodboard: type, colour, progress, status chips, crew activity rhythm" />
+<img src="media/gate-2-2/moodboard-ab-overview.jpg" alt="A+B hybrid moodboard: type, colour, progress, status chips, crew activity rhythm" />
 
 *Overview board — amount hierarchy, status chips, progress, crew presence.*
 
-<img src="media/moodboard-ab-type-colour.jpg" alt="A+B type hierarchy and colour role study with contrast annotations" />
+<img src="media/gate-2-2/moodboard-ab-type-colour.jpg" alt="A+B type hierarchy and colour role study with contrast annotations" />
 
 *Type + colour roles study.*
 

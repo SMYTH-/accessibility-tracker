@@ -22,7 +22,7 @@ Maps to competitor research recommendation: personal status before social scroll
 
 ## 2. Primary study — A+B hybrid
 
-<img src="media/screen-dashboard-ab.jpg" alt="A+B mobile dashboard study: Portugal 2027 personal progress, weekly commitment, visible-member total, activity" />
+<img src="media/gate-2-2/screen-dashboard-ab.jpg" alt="A+B mobile dashboard study: Portugal 2027 personal progress, weekly commitment, visible-member total, activity" />
 
 **Clear Companions (A) contributions**
 
@@ -45,7 +45,7 @@ Maps to competitor research recommendation: personal status before social scroll
 
 ## 3. Comparable study — Shared Horizon (C)
 
-<img src="media/screen-dashboard-c.jpg" alt="C Shared Horizon dashboard: My path and Our horizon dual progress with waypoints" />
+<img src="media/gate-2-2/screen-dashboard-c.jpg" alt="C Shared Horizon dashboard: My path and Our horizon dual progress with waypoints" />
 
 Same sample content. Dual composition: **My path** vs **Our horizon (visible members)** with waypoint marks at 25/50/75/100%. Atmosphere is secondary to amounts.
 

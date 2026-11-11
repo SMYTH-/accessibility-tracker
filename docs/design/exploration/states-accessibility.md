@@ -11,7 +11,7 @@
 
 ## 1. State panel artifact
 
-<img src="media/states-accessibility-panels.jpg" alt="Four panels: private member, visible-member total, missed then recovered, paused commitment" />
+<img src="media/gate-2-2/states-accessibility-panels.jpg" alt="Four panels: private member, visible-member total, missed then recovered, paused commitment" />
 
 ---
 

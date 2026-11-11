@@ -37,11 +37,11 @@ Role per `docs/design/research/opportunities.md` §5: available if A+B under-del
 
 ## 3. Visual artifacts
 
-<img src="media/moodboard-c-overview.jpg" alt="Shared Horizon moodboard: mist atmosphere, dual path/horizon progress, waypoint milestones" />
+<img src="media/gate-2-2/moodboard-c-overview.jpg" alt="Shared Horizon moodboard: mist atmosphere, dual path/horizon progress, waypoint milestones" />
 
 *Lighter C moodboard — dual composition, waypoints, recovery-as-rejoin.*
 
-Comparable dashboard study: `media/screen-dashboard-c.jpg` (see `docs/design/exploration/screens-dashboard.md`).
+Comparable dashboard study: `media/gate-2-2/screen-dashboard-c.jpg` (see `docs/design/exploration/screens-dashboard.md`).
 
 ---
 

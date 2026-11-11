@@ -19,7 +19,7 @@ Atomic action → personal progress + weekly commitment + (privacy-respecting) a
 
 ## 2. Visual study — A+B
 
-<img src="media/screen-contribution-confirm-ab.jpg" alt="Contribution confirmation: Saved £50 self-reported, progress update, commitment completed, Done CTA" />
+<img src="media/gate-2-2/screen-contribution-confirm-ab.jpg" alt="Contribution confirmation: Saved £50 self-reported, progress update, commitment completed, Done CTA" />
 
 ### Hierarchy
 

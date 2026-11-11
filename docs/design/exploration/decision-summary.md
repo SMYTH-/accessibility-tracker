@@ -18,7 +18,7 @@
 | **Flows** | `flows-navigation.md` — create, invite/join, record contribution, privacy |
 | **States / a11y** | `states-accessibility.md` — private, visible-member total, miss→recover, pause |
 
-Media: `docs/design/exploration/media/`
+Media: `media/gate-2-2/`
 
 Sample content held constant (Portugal 2027 · £1,240/£2,000 · £50 week · visible-member £4,180/£8,500 · Jordan private).
 
@@ -114,4 +114,4 @@ Design must not invent MVP requirements to close these.
 | `docs/design/exploration/flows-navigation.md` |
 | `docs/design/exploration/states-accessibility.md` |
 | `docs/design/exploration/decision-summary.md` |
-| `docs/design/exploration/media/*.jpg` (9 images) |
+| `media/gate-2-2/*.jpg` (9 images) |

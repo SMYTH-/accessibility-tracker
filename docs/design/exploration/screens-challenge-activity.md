@@ -17,7 +17,7 @@ Show the challenge as a **crew board**: shared purpose + independent personal ta
 
 ## 2. Visual study — A+B
 
-<img src="media/screen-challenge-activity-ab.jpg" alt="Challenge roster and activity feed study with private member and milestone event" />
+<img src="media/gate-2-2/screen-challenge-activity-ab.jpg" alt="Challenge roster and activity feed study with private member and milestone event" />
 
 ### Layout reading order
 

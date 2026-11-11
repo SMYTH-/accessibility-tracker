@@ -11,7 +11,7 @@
 
 ## 1. Visual sketch
 
-<img src="media/flows-navigation-sketch.jpg" alt="Bottom nav sketch and four flow step cards: create, invite/join, record contribution, privacy" />
+<img src="media/gate-2-2/flows-navigation-sketch.jpg" alt="Bottom nav sketch and four flow step cards: create, invite/join, record contribution, privacy" />
 
 ---
 
