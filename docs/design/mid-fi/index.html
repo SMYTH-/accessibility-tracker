@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accountability Tracker — Mid-fi mobile prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="stage-header">
+    <div>
+      <h1>Accountability Tracker — mid-fi prototype</h1>
+      <p>
+        A+B working direction (Clear Companions × Crew Momentum). Deep Sea / Honey Amber are
+        <strong>working accents only</strong>. Logo, final palette, and type remain open.
+        Sample: Portugal 2027 · self-reported · synthetic.
+      </p>
+    </div>
+    <div class="badge-row">
+      <span class="badge">Gate mid-fi · PO review</span>
+      <span class="badge">No Leaderboard</span>
+      <span class="badge open">OPEN items flagged</span>
+      <span class="badge">Screen: <span id="current-screen-label">Home</span></span>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <div class="phone" id="phone" aria-label="Mobile prototype frame">
+      <div class="status-bar" aria-hidden="true">
+        <span>9:41</span>
+        <span class="icons">▮▮▮ · ▮</span>
+      </div>
+
+      <!-- 1. DASHBOARD / HOME -->
+      <section class="screen active" id="screen-home" data-label="Home / Dashboard">
+        <div class="screen-scroll">
+          <div class="top-row">
+            <div>
+              <p class="eyebrow">Active challenge</p>
+              <h2 class="challenge-title">Portugal 2027</h2>
+              <p class="subtitle">Save together for the trip</p>
+            </div>
+            <button class="icon-btn" type="button" aria-label="Notifications" tabindex="-1">🔔</button>
+          </div>
+
+          <article class="card" aria-labelledby="personal-label">
+            <p class="section-label" id="personal-label">Personal progress</p>
+            <p class="amount">£1,240 of £2,000</p>
+            <p class="meta">Self-reported · Current 62%</p>
+            <div class="progress" aria-hidden="true"><span data-width="62%"></span></div>
+            <div class="milestone" role="status">
+              <span class="dot" aria-hidden="true"></span>
+              <span>50% Halfway milestone · reached</span>
+            </div>
+          </article>
+
+          <div class="strip" aria-label="Weekly commitment and streak">
+            <span class="chip success">✓ This week · £50 · Completed</span>
+            <span class="chip streak">Your streak · 3 weeks</span>
+          </div>
+
+          <article class="card" aria-labelledby="share-label">
+            <p class="section-label" id="share-label">Sharing members only</p>
+            <p class="amount sm">£3,080 of £5,500</p>
+            <p class="meta">Excludes members who opted out · not a full-group total</p>
+            <div class="progress secondary" aria-hidden="true"><span data-width="56%"></span></div>
+          </article>
+
+          <article class="card quiet" aria-labelledby="preview-label">
+            <p class="section-label" id="preview-label">Activity preview</p>
+            <ul class="feed">
+              <li>
+                <div class="feed-icon amber" aria-hidden="true">★</div>
+                <div>
+                  <p class="feed-title">Alex reached Halfway to target (50%)</p>
+                  <p class="feed-meta">Milestone · personal target</p>
+                </div>
+              </li>
+              <li>
+                <div class="feed-icon" aria-hidden="true">✓</div>
+                <div>
+                  <p class="feed-title">Riley completed weekly commitment</p>
+                  <p class="feed-meta">Not a progress milestone</p>
+                </div>
+              </li>
+              <li>
+                <div class="feed-icon lock" aria-hidden="true">🔒</div>
+                <div>
+                  <p class="feed-title">Jordan · Private</p>
+                  <p class="feed-meta">Amounts and target hidden</p>
+                </div>
+              </li>
+            </ul>
+          </article>
+        </div>
+        <div class="cta-stack">
+          <button class="btn primary" type="button" data-go="record">Record savings</button>
+        </div>
+      </section>
+
+      <!-- 2. CHALLENGE ACTIVITY / ROSTER -->
+      <section class="screen" id="screen-challenge" data-label="Challenge">
+        <div class="screen-scroll">
+          <div class="top-row">
+            <div>
+              <p class="eyebrow">Challenge</p>
+              <h2 class="challenge-title">Portugal 2027</h2>
+              <p class="subtitle">Save together for the trip</p>
+            </div>
+          </div>
+
+          <div class="strip">
+            <span class="chip streak">Your streak · 3 weeks</span>
+            <span class="chip success">✓ This week · £50 · Completed</span>
+          </div>
+
+          <article class="card" aria-labelledby="roster-label">
+            <p class="section-label" id="roster-label">Roster</p>
+            <ul class="roster">
+              <li>
+                <div class="avatar">A</div>
+                <div>
+                  <p class="person-name">Alex (you)</p>
+                  <p class="person-meta">£1,240 of £2,000 · Self-reported · Current 62%</p>
+                  <div class="mini-bar" aria-hidden="true"><span style="width:62%"></span></div>
+                  <div class="milestone" style="margin-top:8px;padding:6px 10px;font-size:0.78rem">
+                    <span class="dot"></span>
+                    <span>50% Halfway · reached</span>
+                  </div>
+                </div>
+                <div class="person-pct">62%</div>
+              </li>
+              <li>
+                <div class="avatar">S</div>
+                <div>
+                  <p class="person-name">Sam</p>
+                  <p class="person-meta">£980 of £1,500 · Current 65%</p>
+                  <div class="mini-bar" aria-hidden="true"><span style="width:65%"></span></div>
+                </div>
+                <div class="person-pct">65%</div>
+              </li>
+              <li>
+                <div class="avatar">R</div>
+                <div>
+                  <p class="person-name">Riley</p>
+                  <p class="person-meta">£860 of £2,000 · Current 43%</p>
+                  <div class="mini-bar" aria-hidden="true"><span style="width:43%"></span></div>
+                </div>
+                <div class="person-pct">43%</div>
+              </li>
+              <li>
+                <div class="avatar private">J</div>
+                <div>
+                  <p class="person-name">Jordan</p>
+                  <p class="person-meta">Private · no amount · no target</p>
+                </div>
+                <span class="chip private">🔒 Private</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card" aria-labelledby="share-total-label">
+            <p class="section-label" id="share-total-label">Sharing-member total</p>
+            <p class="amount sm">£3,080 of £5,500</p>
+            <p class="meta">
+              <strong>Sharing members only</strong> — Alex, Sam, Riley.
+              Excludes opted-out Jordan. Not a full-group total (G1.1-06).
+            </p>
+            <div class="progress secondary" aria-hidden="true"><span data-width="56%"></span></div>
+          </article>
+
+          <article class="card quiet" aria-labelledby="chal-feed-label">
+            <p class="section-label" id="chal-feed-label">Activity</p>
+            <ul class="feed">
+              <li>
+                <div class="feed-icon amber" aria-hidden="true">★</div>
+                <div>
+                  <p class="feed-title">Alex reached Halfway to target (50%)</p>
+                  <p class="feed-meta">Distinct from current 62%</p>
+                </div>
+              </li>
+              <li>
+                <div class="feed-icon" aria-hidden="true">✓</div>
+                <div>
+                  <p class="feed-title">Riley completed weekly commitment</p>
+                  <p class="feed-meta">Commitment event</p>
+                </div>
+              </li>
+              <li>
+                <div class="feed-icon" aria-hidden="true">£</div>
+                <div>
+                  <p class="feed-title">Sam recorded savings</p>
+                  <p class="feed-meta">Amount visible · sharing member</p>
+                </div>
+              </li>
+            </ul>
+          </article>
+        </div>
+        <div class="cta-stack">
+          <button class="btn primary" type="button" data-go="record">Record savings</button>
+        </div>
+      </section>
+
+      <!-- ACTIVITY TAB -->
+      <section class="screen" id="screen-activity" data-label="Activity">
+        <div class="screen-scroll">
+          <div class="top-row">
+            <div>
+              <p class="eyebrow">Portugal 2027</p>
+              <h2 class="challenge-title">Activity</h2>
+              <p class="subtitle">Event-generated · privacy-filtered</p>
+            </div>
+          </div>
+          <div class="strip">
+            <span class="chip streak">Your streak · 3 weeks</span>
+          </div>
+          <article class="card">
+            <ul class="feed">
+              <li>
+                <div class="feed-icon amber" aria-hidden="true">★</div>
+                <div>
+                  <p class="feed-title">Alex reached Halfway to target (50%)</p>
+                  <p class="feed-meta">Milestone recognition · G1.1-08</p>
+                </div>
+              </li>
+              <li>
+                <div class="feed-icon" aria-hidden="true">£</div>
+                <div>
+                  <p class="feed-title">Sam recorded savings</p>
+                  <p class="feed-meta">Sharing member · amount shown</p>
+                </div>
+              </li>
+              <li>
+                <div class="feed-icon" aria-hidden="true">✓</div>
+                <div>
+                  <p class="feed-title">Riley completed weekly commitment</p>
+                  <p class="feed-meta">Not a progress milestone</p>
+                </div>
+              </li>
+              <li>
+                <div class="feed-icon lock" aria-hidden="true">🔒</div>
+                <div>
+                  <p class="feed-title">Jordan · Private</p>
+                  <p class="feed-meta">No amounts or target in feed</p>
+                </div>
+              </li>
+            </ul>
+          </article>
+          <p class="note-open">
+            <strong>OPEN — requires product-owner approval:</strong> feed concatenation for noisy join events; exact IA tab labels / count.
+          </p>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="screen" id="screen-profile" data-label="Profile">
+        <div class="screen-scroll">
+          <div class="top-row">
+            <div>
+              <p class="eyebrow">You</p>
+              <h2 class="challenge-title">Alex</h2>
+              <p class="subtitle">Account · settings · privacy</p>
+            </div>
+          </div>
+          <article class="card">
+            <p class="section-label">Challenge settings</p>
+            <button class="btn secondary" type="button" data-go="privacy" style="margin-bottom:10px">
+              Financial privacy
+            </button>
+            <button class="btn secondary" type="button" data-go="join">
+              Demo: join disclosure
+            </button>
+            <p class="meta" style="margin-top:12px">
+              One monetary privacy control (G1.1-06). Pause appears as status only elsewhere —
+              duration / resume not invented here.
+            </p>
+          </article>
+          <p class="note-open">
+            <strong>OPEN — requires product-owner approval:</strong> pause duration and resume behaviour (G1.1-11).
+          </p>
+        </div>
+      </section>
+
+      <!-- 3a. RECORD SAVINGS — AMOUNT -->
+      <section class="screen" id="screen-record" data-label="Record savings">
+        <div class="screen-scroll">
+          <div class="sheet-header">
+            <button class="back" type="button" data-go="back" aria-label="Back">←</button>
+            <h2>Record savings</h2>
+          </div>
+          <p class="meta" style="margin-top:0">Portugal 2027 · Self-reported · not a bank deposit</p>
+
+          <label class="field-label" for="amount">Amount</label>
+          <input class="amount-input" id="amount" type="text" value="£50" inputmode="decimal" aria-describedby="amount-help" />
+          <p class="meta" id="amount-help">Updates personal progress and weekly commitment.</p>
+
+          <div class="date-row">
+            <span>Date</span>
+            <strong>Today</strong>
+          </div>
+          <p class="note-open">
+            <strong>OPEN — requires product-owner approval:</strong> contribution backdating / week allocation (G1.1-05).
+          </p>
+
+          <div class="callout">
+            <strong>Sharing members only.</strong>
+            Your contribution is included in the sharing-member total if you share monetary information.
+            Sample total includes Alex, Sam, Riley — excludes opted-out Jordan. Not a full-group total.
+          </div>
+
+          <div class="btn-row" style="margin-top:18px">
+            <button class="btn secondary" type="button" data-go="back">Cancel</button>
+            <button class="btn primary" type="button" data-go="confirm">Continue</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3b. CONTRIBUTION CONFIRM -->
+      <section class="screen" id="screen-confirm" data-label="Contribution confirm">
+        <div class="screen-scroll">
+          <div class="confirm-hero">
+            <p class="saved">Saved £50</p>
+            <p class="meta">Self-reported · Portugal 2027</p>
+          </div>
+
+          <article class="card">
+            <p class="section-label">Personal progress</p>
+            <p class="amount sm">£1,240 of £2,000</p>
+            <p class="meta">Current 62% · was £1,190</p>
+            <div class="progress" aria-hidden="true"><span data-width="62%"></span></div>
+            <div class="milestone" role="status">
+              <span class="dot"></span>
+              <span>50% Halfway milestone · already reached</span>
+            </div>
+          </article>
+
+          <div class="strip">
+            <span class="chip success">✓ Completed this week</span>
+            <span class="chip streak">Your streak · 3 weeks</span>
+          </div>
+
+          <div class="callout">
+            <strong>Sharing members only.</strong>
+            Your contribution is included in the sharing-member total if you share monetary information.
+            Includes Alex, Sam, Riley only — excludes opted-out Jordan. Distinct from your personal figures.
+          </div>
+
+          <p class="meta" style="margin:14px 0;text-align:center">
+            Nice consistency — keep going at your own pace.
+          </p>
+
+          <button class="btn primary" type="button" data-go="home">Done</button>
+          <p class="note-open">
+            <strong>OPEN — requires product-owner approval:</strong> exact post-confirm navigation.
+          </p>
+        </div>
+      </section>
+
+      <!-- 4a. PRIVACY SETTINGS -->
+      <section class="screen" id="screen-privacy" data-label="Privacy settings">
+        <div class="screen-scroll">
+          <div class="sheet-header">
+            <button class="back" type="button" data-go="profile" aria-label="Back">←</button>
+            <h2>Financial privacy</h2>
+          </div>
+
+          <article class="card">
+            <p class="meta" style="margin:0 0 14px">
+              Monetary information is visible to <strong>approved challenge members</strong> by default.
+              Not private-by-default.
+            </p>
+            <div class="toggle-row">
+              <div class="toggle-copy">
+                <h3>Hide monetary information (opt-out)</h3>
+                <p>Hides amounts <em>and</em> individual target. Excludes you from Sharing members only totals.</p>
+              </div>
+              <label class="switch" aria-label="Hide monetary information">
+                <input type="checkbox" id="opt-out-toggle" />
+                <span></span>
+              </label>
+            </div>
+            <div class="callout warn" style="margin-top:14px">
+              <strong>Warning:</strong> Opting out cannot undo what others already saw.
+            </div>
+          </article>
+
+          <article class="card">
+            <p class="section-label">What others see</p>
+            <div class="preview-box" id="privacy-preview-default">
+              <div class="label">Default (sharing)</div>
+              <p class="person-name">Alex · £1,240 of £2,000 · Self-reported</p>
+              <p class="person-meta">Included in Sharing members only totals</p>
+            </div>
+            <div class="preview-box" id="privacy-preview-opted" hidden>
+              <div class="label">Opted out</div>
+              <p class="person-name">Alex · Private</p>
+              <p class="person-meta">No amount · no target · excluded from sharing-member total</p>
+            </div>
+            <p class="meta" style="margin-top:12px">
+              You always see your own authorised financial information.
+              Totals labelled <strong>Sharing members only</strong> — not full group.
+            </p>
+          </article>
+
+          <button class="btn primary" type="button" data-go="profile">Save</button>
+          <p class="note-open">
+            <strong>OPEN — requires product-owner approval:</strong> small-group aggregate privacy edge cases (G1.1-06).
+          </p>
+        </div>
+      </section>
+
+      <!-- 4b. JOIN DISCLOSURE -->
+      <section class="screen" id="screen-join" data-label="Join privacy disclosure">
+        <div class="screen-scroll">
+          <div class="sheet-header">
+            <button class="back" type="button" data-go="back" aria-label="Back">←</button>
+            <h2>Before you join</h2>
+          </div>
+          <p class="subtitle" style="margin-top:0">Portugal 2027</p>
+          <p class="meta">
+            Invite preview showed name, description, dates, and participant count only —
+            no amounts (G1.1-07). Financial privacy disclosure comes <strong>before joining</strong>.
+          </p>
+
+          <article class="card">
+            <p class="section-label">How monetary visibility works</p>
+            <ul class="disclosure-list">
+              <li>By default, amounts and your target are visible to <strong>approved challenge members</strong> after you join.</li>
+              <li>You can opt out with <strong>Hide monetary information</strong> — this hides amounts <em>and</em> target, and excludes you from <strong>Sharing members only</strong> totals.</li>
+              <li>You always see your own figures.</li>
+            </ul>
+            <div class="callout warn">
+              <strong>Warning:</strong> Opting out cannot undo what others already saw.
+            </div>
+          </article>
+
+          <label class="check-row">
+            <input type="checkbox" id="join-ack" />
+            <span>I understand how monetary visibility works in this challenge.</span>
+          </label>
+
+          <button class="btn primary" type="button" id="join-continue" data-go="profile" disabled aria-disabled="true">
+            Continue to request join
+          </button>
+          <button class="btn secondary" type="button" data-go="back" style="margin-top:10px">
+            Cancel
+          </button>
+          <p class="note-open">
+            <strong>OPEN — requires product-owner approval:</strong> exact join / setup step count; challenge activation conditions (G1.1-02).
+          </p>
+        </div>
+      </section>
+
+      <!-- BOTTOM NAV — no Leaderboard -->
+      <nav class="nav" id="bottom-nav" aria-label="Primary">
+        <button type="button" data-nav="home" class="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z"/></svg>
+          Home
+        </button>
+        <button type="button" data-nav="challenge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3c2.5 3 4 5.5 4 8a4 4 0 1 1-8 0c0-2.5 1.5-5 4-8Z"/><path d="M8 20h8"/></svg>
+          Challenge
+        </button>
+        <button type="button" data-nav="activity">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+          Activity
+        </button>
+        <button type="button" data-nav="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="9" r="3.5"/><path d="M5 19.5c1.8-3 4.2-4.5 7-4.5s5.2 1.5 7 4.5"/></svg>
+          Profile
+        </button>
+      </nav>
+    </div>
+
+    <aside class="panel">
+      <h2>Click-through map</h2>
+      <p>Four connected flows from signed-off wireframes at <code>fe206ee</code>. Working IA tabs (labels/count open).</p>
+      <ul class="flow-list">
+        <li>
+          <button type="button" data-go="home">
+            <span><strong>1. Dashboard</strong><span>Personal 62% · separate 50% Halfway · Your streak</span></span>
+            <span class="go">Open →</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-go="challenge">
+            <span><strong>2. Challenge activity</strong><span>Roster · Sam 65% · Sharing members only total</span></span>
+            <span class="go">Open →</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-go="record">
+            <span><strong>3. Record savings</strong><span>Amount → confirm with sharing-member copy</span></span>
+            <span class="go">Open →</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-go="privacy">
+            <span><strong>4a. Privacy settings</strong><span>One opt-out · cannot-undo warning</span></span>
+            <span class="go">Open →</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-go="join">
+            <span><strong>4b. Join disclosure</strong><span>Before joining · ack prerequisite</span></span>
+            <span class="go">Open →</span>
+          </button>
+        </li>
+      </ul>
+      <p class="legend">
+        Deep links: <code>#home</code> <code>#challenge</code> <code>#record</code> <code>#confirm</code>
+        <code>#privacy</code> <code>#join</code> · No Leaderboard tab · Encourage omitted (not MVP).
+      </p>
+    </aside>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
