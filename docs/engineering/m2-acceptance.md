@@ -6,6 +6,7 @@
 | Plan lock | `eceed9a` |
 | M1 base tip | `318d490` (`cursor/m1-shell-auth-962b`) |
 | Implementation branch | `cursor/m2-challenge-lifecycle-25cb` |
+| Tip SHA | `7960c230` |
 | Date | 12 November 2026 |
 | Preview | `http://localhost:3000` |
 | Evidence | `npm run smoke:m2` · Playwright `scripts/m2-screenshots.mjs` · `media/m2/` |
