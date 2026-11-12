@@ -15,8 +15,8 @@
 
 | Step | Result | Notes |
 | --- | --- | --- |
-| Fresh register | **Awaiting Dominic** | Suggested To: `smyth.developer+m1final1794505384@gmail.com` · browser: one Chrome window · URL `http://localhost:3000` (not `127.0.0.1`) |
-| Verification email delivery | **Awaiting** | |
+| Fresh register | **Rate-limited — retry after cooldown** | `smyth.developer+m1final@gmail.com` hit `email rate limit exceeded`. User **not** created (safe to retry same address). Built-in mailer hard-capped at **2 emails/hour**; API cannot raise without custom SMTP. Wait **~60 minutes**, then retry in one Chrome window at `http://localhost:3000` (not `127.0.0.1`). A different +tag does **not** bypass the project-wide send cap. |
+| Verification email delivery | **Awaiting** (after register succeeds) | |
 | **Verify callback outcome** | **Awaiting** | Record landing after click: expect `/home` or `/auth/callback` → `/home` · **not** `/sign-in?error=auth_callback` |
 | Sign-in (if needed) / protected routes / profile / sign-out | **Awaiting** | |
 | Recovery request (signed out) | **Awaiting** | Same browser as will open the reset email |
