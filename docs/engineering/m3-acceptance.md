@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M3 |
 | M2 base tip | `27404a6b` (PR #3) |
 | Implementation branch | `cursor/m3-invitations-membership-7ab9` |
-| Tip SHA | _(fill at handoff)_ |
+| Tip SHA | `627eb02415c7c71034ab75a2c70fab5fc05574c1` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod) |
 | Date | 12 November 2026 |
 | Preview | `http://localhost:3000` |
@@ -69,7 +69,7 @@
 | --- | --- |
 | `m3-service-smoke.ts` | **ALL PASS** (mock file store) |
 | `m3-postgres-evidence.mjs` | **42/42 Pass** |
-| `m3-supabase-ui-evidence.mjs` | _(fill after UI run)_ |
+| `m3-supabase-ui-evidence.mjs` | **Pass** (6 screenshots) |
 | `npm run build` | **Pass** |
 
 Artifacts (gitignored under `.data/`): `m3-postgres-evidence.json`, `m3-supabase-ui-evidence.json`.
