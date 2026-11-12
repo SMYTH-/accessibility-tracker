@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Document | MVP build plan (planning only) |
-| Status | **PO decisions recorded** — §3.1 contribution timing **approved**; §3.2 superseded by G1.1-06-R1; stop before M1 |
+| Status | **PO decisions recorded** — §3.1 contribution timing **approved**; §3.2 superseded by G1.1-06-R1; **M2 activation approved for planning**; M2 implementation **not** authorised; M1 email gate pending |
 | Mid-fi sign-off reference | A+B mid-fi at `6a1461e` |
 | Spec baseline | Gate 1 frozen — `docs/product/specification-v1.md` |
 | Rules amendment | Gate 1.1 approved — `docs/product/amendments/gate-1-1-product-rules.md` |
@@ -110,18 +110,23 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 
 **Build**
 
-- Create private challenge: name, start/end, currency, time zone, optional description.
-- Creator becomes **owner + approved member**; may defer personal target / weekly commitment.
-- Lifecycle states: Draft · Scheduled · Active · Completed · Cancelled (transitions per approved activation rules — see §3).
+- Create private challenge: name, start/end, **currency**, time zone, optional description (CHAL-01 — currency required).
+- Creator becomes **owner + approved member**; may defer personal target / weekly commitment; invites optional at creation.
+- Lifecycle states: Draft · Scheduled · Active · Completed · Cancelled — transitions per **approved activation lock** (`m2-challenge-plan.md` §2 / §3.3 row below).
+- Valid future start → create **Scheduled**; start = today → create **Active**; **reject past starts**.
+- Scheduled → **Active at local midnight on start date** (challenge TZ); Active → **Completed at local midnight after end date** (challenge TZ).
+- Savings recording requires Active challenge **and** individually activated member (target + weekly commitment) — member setup in M4.
+- **Cancel action out of M2** (cancellation rules remain OPEN).
 
 **Acceptance checks**
 
-- [ ] Required fields validated; end after start; creator is owner — CHAL-01, G1.1-01.
+- [ ] Required fields validated (incl. currency); end after start; past start rejected; creator is owner — CHAL-01, G1.1-01.
 - [ ] Challenge is private; success lands on challenge overview — CHAL-01.
 - [ ] Owner can configure/invite without activating savings — G1.1-01.
 - [ ] Owner without activated savings is **not** assessed missed/completed weeks — G1.1-01.
+- [ ] Future start → Scheduled; today → Active; midnight transitions per activation lock — G1.1-02.
 - [ ] One valid lifecycle status; invalid transitions rejected — G1.1-02.
-- [ ] Completed/cancelled reject ordinary new contributions — G1.1-02, G1.1-12 (read-only behaviour completed in M9).
+- [ ] Completed rejects ordinary new contributions — G1.1-02, G1.1-12 (read-only behaviour completed in M9); no cancel UX in M2.
 
 ---
 
@@ -158,7 +163,7 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 **Build**
 
 - Approved members configure positive individual target + positive weekly commitment before recording savings.
-- Activation of savings participation is explicit (ties to §3 activation decision).
+- Activation of savings participation is explicit (requires Active challenge + member target/commitment per M2 activation lock).
 - Prospective target-change effective dating (full rewrite rules may complete with M8) — G1.1-10 baseline recorded.
 
 **Acceptance checks**
@@ -328,7 +333,7 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 
 ## 3. PO decisions required before development
 
-Items below block named milestones. §3.1 and §3.2 are **locked** (see statuses). §3.3 remains recommendations only until PO approves.
+Items below block named milestones. §3.1 and §3.2 are **locked** (see statuses). **M2 challenge activation within §3.3 is locked for planning**; other §3.3 rows remain recommendations only until PO approves.
 
 ### 3.1 Contribution timing (backdating, week allocation) — **approved**
 
@@ -377,21 +382,24 @@ Full acceptance checklist: `m0-architecture.md` §4.5 (M6 prerequisite table).
 
 ---
 
-### 3.3 Other decisions (recommended defaults)
+### 3.3 Other decisions
 
-| Decision | Blocks | Recommended MVP option |
+**Challenge activation (G1.1-02) — approved for planning** (canonical detail: `m2-challenge-plan.md` §2). Remaining rows in this table are still recommendations only until PO approves.
+
+| Decision | Blocks | Status / MVP option |
 | --- | --- | --- |
-| Exact IA tab labels / count | M1 shell | Keep **Home · Challenge · Activity · Profile** (4 tabs); no Leaderboard |
-| Post-confirm navigation | M5 | **Done → Home (dashboard)** with updated figures (mid-fi Path A behaviour) |
-| Challenge activation conditions (G1.1-02) | M2 | **Scheduled** when required config valid + start in future; auto **Active** at start in challenge TZ; owner may remain savings-inactive |
-| Pause duration / resume (G1.1-11) | M8 | MVP: pause **indefinite until manual resume**, resume effective **next week start**; max duration deferred |
-| Streak milestone thresholds (G1.1-08) | M8 | Recognise streaks at **3, 6, 12** completed weeks (progress % milestones already 25/50/75/100) |
-| Join / setup step count | M3–M4 | **Invite preview → disclosure+ack → request → (wait) approve → target+commitment setup → home** — no decorative step chrome required |
-| Ownership fallback on owner account deletion | M9–M10 | If no eligible transferee: **auto-cancel** challenge after grace notification window (details in amendment); block silent orphan |
-| Post-completion reopening | M9 | **None in MVP** — read-only; corrections only via future approved process |
-| Excess / correction vs milestones | M5/M8 | Recalculate current progress; **do not remove** historically announced milestones if progress later dips; do not re-announce duplicates |
-| WCAG methodology | M11 | Manual WCAG 2.2 AA checklist + axe on core journeys; Honey Amber pairs verified before lock |
+| Challenge activation conditions (G1.1-02) | M2 | **Approved for planning:** CHAL-01 fields incl. currency; future start → create **Scheduled**; today → create **Active**; reject past starts; Scheduled → Active at **local midnight on start date** (challenge TZ); Completed at **local midnight after end date**; invites + owner savings optional at create; savings need Active challenge **and** activated member (target + weekly commitment); **cancel out of M2** (rules OPEN) |
+| Exact IA tab labels / count | M1 shell | **OPEN** — Keep **Home · Challenge · Activity · Profile** (4 tabs); no Leaderboard |
+| Post-confirm navigation | M5 | **OPEN** — **Done → Home (dashboard)** with updated figures (mid-fi Path A behaviour) |
+| Pause duration / resume (G1.1-11) | M8 | **OPEN** — MVP: pause **indefinite until manual resume**, resume effective **next week start**; max duration deferred |
+| Streak milestone thresholds (G1.1-08) | M8 | **OPEN** — Recognise streaks at **3, 6, 12** completed weeks (progress % milestones already 25/50/75/100) |
+| Join / setup step count | M3–M4 | **OPEN** — **Invite preview → disclosure+ack → request → (wait) approve → target+commitment setup → home** — no decorative step chrome required |
+| Ownership fallback on owner account deletion | M9–M10 | **OPEN** — If no eligible transferee: **auto-cancel** challenge after grace notification window (details in amendment); block silent orphan |
+| Post-completion reopening | M9 | **OPEN** — **None in MVP** — read-only; corrections only via future approved process |
+| Excess / correction vs milestones | M5/M8 | **OPEN** — Recalculate current progress; **do not remove** historically announced milestones if progress later dips; do not re-announce duplicates |
+| WCAG methodology | M11 | **OPEN** — Manual WCAG 2.2 AA checklist + axe on core journeys; Honey Amber pairs verified before lock |
 | Logo / final palette / type | Visual polish | **Remain open**; ship working Deep Sea `#1A6B7C` + Honey Amber `#C9842A` accents only |
+| Challenge cancellation rules | M2+ | **OPEN** — Cancelled state exists (G1.1-02); **cancel action out of M2** |
 
 ---
 
@@ -444,11 +452,13 @@ Do not schedule: Open Banking, custody/transfers, public challenges, leaderboard
 1. **Contribution timing — approved:** Today-only creates; corrections = amend/reverse only (**no create-in-closed-week**); streak recompute + audit; historical milestones ≠ current progress; Mon activation → current week, Tue–Sun → following Monday (**16 Nov 2026** in the W46 example); pre-assessment savings → personal target/milestones only. Canonical text: `m0-architecture.md` §3.
 2. **G1.1-06-R1 — approved** (`m0-architecture.md` §4). Prior §3.2 proposal list superseded.
 3. **M0 architecture:** Approved **for planning** at `1f543e6` — not an implementation go.
+4. **M2 challenge activation — approved for planning:** CHAL-01 incl. currency; future → Scheduled; today → Active; reject past; midnight start/end transitions in challenge TZ; invites + owner savings optional at create; savings need Active challenge + activated member; cancel out of M2. Canonical text: `m2-challenge-plan.md` §2.
 
 ### Allowed next
 
 - Resolve remaining **§3.3 OPEN** defaults as needed (separate review).
-- **Separate** explicit authorisation to implement M1+ — **stop before M1** until then.
+- Finish **M1** email-link gate (still pending).
+- **Separate** explicit authorisation to implement M2 — this activation lock is **not** an M2 coding go.
 
 ### Do not do on the back of this doc alone
 
