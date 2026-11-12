@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Document | Gate 3 / M0 technical architecture (planning only) |
-| Status | **Partial PO decisions recorded** — contribution timing revised for re-review before M1 |
+| Status | **PO decisions recorded** — contribution timing **approved**; stop before M1 |
 | Architecture baseline | **Approved for planning** at `1f543e6` (implementation still not authorised) |
 | Spec baseline | Gate 1 frozen — `docs/product/specification-v1.md` |
 | Rules amendment | Gate 1.1 approved — `docs/product/amendments/gate-1-1-product-rules.md` |
@@ -32,7 +32,7 @@
 1. **Frozen Gate 1 / 1.1 specs stay intact.** This plan does not edit them.
 2. **No product-app implementation** (scaffolding, schema migrations in product DB, auth wiring, deploys) without a **separate** PO go for M1+.
 3. **Architecture direction (ADRs / stack sketch) is approved for planning** at `1f543e6` — not authority to implement.
-4. **G1.1-06-R1 is approved** (§4) with the viewer-authorised restatement clarification. **Contribution timing (§3) is a revised proposal awaiting PO approval** before M1. Other §3.3 defaults remain **OPEN**.
+4. **G1.1-06-R1 is approved** (§4). **Contribution timing (§3) is approved** with MVP correction limits and Mon vs Tue–Sun assessment start. Other §3.3 defaults remain **OPEN**.
 5. **Logo / final palette / type remain open.** Working accents only.
 
 ### Prerequisite gates before coding
@@ -40,7 +40,7 @@
 | Gate | Must complete before |
 | --- | --- |
 | This Gate 3 architecture review (planning approval recorded) | Any scaffolding or persistence work |
-| PO approval of revised contribution timing (§3) | M5 (SAVE), M8 streaks |
+| Contribution timing (§3) — **approved** | M5 (SAVE), M8 streaks (implement only after M1 go) |
 | G1.1-06-R1 acceptance suite (§4) | M6 aggregates / M7 privacy (checks before shared totals ship) |
 | Separate implementation authorisation | Milestone M1 onward |
 
@@ -136,7 +136,7 @@ AuditEvent (append-only): actor, entity, action, before/after, at
 
 **Tenancy:** Challenge is the tenancy boundary. All financial rows are scoped by `challenge_id` + `membership_id`. No cross-challenge leakage.
 
-**Eligibility (G1.1-05):** Progress and commitment math use only valid, authorised, non-reversed, in-period contributions for active savings participants. Ordinary create = **today-only** (challenge TZ); closed-week changes via **authorised corrections** — revised proposal awaiting approval (§3).
+**Eligibility (G1.1-05):** Progress and commitment math use only valid, authorised, non-reversed, in-period contributions for active savings participants. Ordinary create = **today-only** (challenge TZ); closed-week changes via **authorised corrections that amend/reverse existing entries only** (§3 approved).
 
 ### 1.4 API / service boundaries
 
@@ -302,7 +302,7 @@ Each item below is **approved for planning** at baseline `1f543e6`. Product rule
 | --- | --- |
 | **Context** | GOAL-02 / G1.1-03: assessments use challenge TZ; DST-safe calendar needed. |
 | **Options** | (1) Store IANA TZ on challenge; compute weeks in that zone · (2) Store everything UTC-only weeks · (3) User-local TZ per member (rejected for shared challenge fairness) |
-| **Recommendation** | **(1)**. Exact Monday–Sunday grid remains part of the **revised contribution proposal** (§3) — architecture commits to zone-aware engine. |
+| **Recommendation** | **(1)**. Monday–Sunday grid locked with approved contribution timing (§3); architecture commits to zone-aware engine. |
 | **Blocks if deferred** | M5/M8 scheduling correctness. |
 
 ### ADR-H — Environments and secrets
@@ -316,157 +316,192 @@ Each item below is **approved for planning** at baseline `1f543e6`. Product rule
 
 ---
 
-## 3. Contribution timing — revised proposal (awaiting PO approval)
+## 3. Contribution timing — **approved**
 
-**Status: RECOMMENDED / AWAITING APPROVAL** — replaces the prior §3 / MVP §3.1 proposal that assumed free 14-day backdated creates. Frozen G1.1-05 still requires documented timing rules before implementation. **Do not implement until PO approves this revision.** Other product defaults (§3.3 in the MVP plan) remain **OPEN**.
+**Status: APPROVED** (PO clarifications this turn). Replaces prior free 14-day backdated-create ideas and the interim “create into a closed week via correction” example. Other MVP plan §3.3 defaults remain **OPEN**. **Implementation still requires a separate go — stop before M1.**
 
-### 3.0 Revised rules (proposal)
+### 3.0 Approved rules
 
-1. **Week boundary (still proposed):** Weeks run **Monday 00:00:00 → Sunday 23:59:59.999** in the **challenge time zone**.
-2. **Ordinary create = today-only:** New ordinary contributions use **today’s date** in the challenge TZ. No free-form backdated create in the ordinary flow.
-3. **Closed-week changes = authorised corrections:** Changing amounts that affect a **closed** week (prior Monday–Sunday that has already ended) goes through the **authorised correction** path (SAVE-02 audit), not by dating a new ordinary entry into that week.
-4. **Attempt to date into a closed week:** Ordinary create UI/API rejects past closed-week dates and **redirects** the user to the correction flow (or explains that closed weeks need a correction of an existing entry / authorised correction process).
-5. **Week allocation:** Entire contribution amount applies to the **single week that contains the contribution date** — no split. For ordinary creates that week is always the current open week (today’s week).
-6. **Excess over weekly commitment:** Counts fully toward **personal target / milestones**; does **not** carry into future weeks’ commitment progress. (**Still OPEN** as a §3.3-style default unless PO locks it with this package.)
-7. **Streak recompute:** After any authorised correction that changes eligible sums, **recompute week statuses and streak** from the corrected sequence of weeks (G1.1-09 deterministic).
-8. **Milestones:** Distinguish **historical milestone announcements** (retained as history) from **current progress** % / saved total. Do not strip historical announcements solely because current progress dips; do not re-announce the same threshold on recovery. (**Milestone retention detail still OPEN** in MVP §3.3 — called out here for the correction examples.)
-9. **Late joins:** First **assessed** commitment week starts the **following Monday** after savings activation (challenge TZ). Amounts recorded **before** that first assessed week still count toward **personal target / milestones**, but those pre-assessment calendar days do **not** produce Completed/Missed commitment assessments.
+1. **Week boundary:** Weeks run **Monday 00:00:00 → Sunday 23:59:59.999** in the **challenge time zone** (Nov 2026 calendar used in examples below).
+2. **Ordinary create = today-only:** New ordinary contributions use **today’s date** in the challenge TZ. No free-form backdated create.
+3. **Authorised corrections (MVP):** may **amend or reverse** an **existing** entry (SAVE-02 audit). They may **not create a missing entry** in a closed week. No MVP path invents a contribution where none existed.
+4. **Attempt to date into a closed week:** Ordinary create rejects non-today dates. If the closed week has **no** existing entry, there is **nothing to amend** — the week stays as assessed (typically **Missed**); UX explains that MVP cannot add a new closed-week entry.
+5. **Week allocation:** Entire amount → the **single week containing the contribution date**; ordinary creates always land in the current open week.
+6. **Streak recompute:** After amend/reverse changes eligible sums, **recompute** affected week statuses and streak from the corrected sequence; **preserve audit history**.
+7. **Milestones:** Keep **historical milestone announcements** distinct from **current progress**. (Broader §3.3 milestone defaults remain OPEN except this distinction.)
+8. **Late join / activation assessment start (challenge TZ):**
+   - **Monday** activations → commitment assessment starts in the **current** week.
+   - **Tuesday–Sunday** activations → first assessed commitment week = **following Monday**.
+9. **Pre-assessment savings:** Amounts recorded before the first assessed week count toward **personal target and progress milestones only** — not commitment Completed/Missed for unassessed weeks, and they do not pre-satisfy a later week’s commitment.
+10. **Excess / no-carry and other §3.3 defaults:** Remain **OPEN** for separate review.
 
 Challenge TZ for all examples: `Europe/London`. Weekly commitment: **£50**. Target: **£2,000**.
 
+**Correct Nov 2026 week grid (used below)**
+
+| Week | Dates (Europe/London) |
+| --- | --- |
+| W44 | Mon **26 Oct** – Sun **1 Nov** |
+| W45 | Mon **2 Nov** – Sun **8 Nov** |
+| W46 | Mon **9 Nov** – Sun **15 Nov** |
+| W47 | Mon **16 Nov** – Sun **22 Nov** |
+
 ---
 
-### Example A — Today-only ordinary entry (closed-week date → correction path)
+### Example A — Today-only ordinary entry; closed week with no entry stays Missed
 
 **Setup**
 
 | Item | Value |
 | --- | --- |
-| Today | Wednesday **12 Nov 2026** |
-| Week W45 | Mon 3 Nov – Sun 9 Nov (**closed**) |
-| Week W46 | Mon 10 Nov – Sun 16 Nov (**open** / current) |
-| Prior state | W45 **Missed** (£0) · W46 eligible sum £0 so far |
+| Today | Thursday **12 Nov 2026** |
+| Week W45 | Mon 2 Nov – Sun 8 Nov (**closed**) — **Missed**, **no contribution rows** |
+| Week W46 | Mon 9 Nov – Sun 15 Nov (**open** / current) |
 | Personal saved | £1,190 |
 
-**Action 1 (allowed):** Alex records an ordinary **£50** contribution. Date is fixed to **today = 12 Nov 2026** (W46).
+**Action 1 (allowed):** Alex records an ordinary **£50**. Date fixed to **today = 12 Nov 2026** (W46).
 
 | Field | Before | After |
 | --- | --- | --- |
 | Contribution date | — | **12 Nov 2026** (today only) |
 | W46 eligible sum | £0 | £50 |
-| W45 | Missed | **Unchanged** (ordinary create cannot touch closed week) |
+| W45 | Missed (no rows) | **Unchanged** |
 | Personal saved | £1,190 | £1,240 |
 
-**Action 2 (rejected → redirect):** Alex tries to set the ordinary create date to **Friday 7 Nov 2026** (W45, closed).
+**Action 2 (rejected):** Alex tries to date an ordinary create to **Friday 6 Nov 2026** (W45, closed).
 
 | Outcome | Rule |
 | --- | --- |
-| Ordinary create | **Rejected** — date is not today in challenge TZ |
-| UX / API | Direct Alex to the **authorised correction** path (cannot invent a free backdated ordinary entry into a closed week) |
-| W45 | Remains Missed until a correction (Example B pattern) changes eligible sum |
+| Ordinary create | **Rejected** — not today |
+| Create-in-closed-week | **Not allowed** in MVP (including via “correction”) |
+| W45 | **Stays Missed** — no existing entry to amend or reverse |
 
-**Proposal outcome:** Ordinary Path A stays simple (today → current week). Recovering a missed closed week is a correction concern, not a create-date picker.
+**Locked outcome:** Ordinary Path A = today → current week. An empty missed closed week **cannot** be filled in MVP.
 
 ---
 
-### Example B — Correction fills a missed week immediately after a two-week streak
+### Example B — Amend existing under-recorded entry (raise); empty missed week cannot be created
 
-**Setup**
+**Setup (shared calendar)**
 
 | Item | Value |
 | --- | --- |
-| Today | Wednesday **12 Nov 2026** |
-| W43 | Mon 20 Oct – Sun 26 Oct → **Completed** (£50) |
-| W44 | Mon 27 Oct – Sun 2 Nov → **Completed** (£50) |
-| W45 | Mon 3 Nov – Sun 9 Nov → **Missed** (£0) — closed |
-| W46 | Mon 10 Nov – Sun 16 Nov → in progress |
-| Streak before correction | **0** (broken by W45 miss); completed sequence ending W44 was streak **2** |
-| Personal saved | £1,190 (includes W43+W44; nothing for W45) |
+| Today | Thursday **12 Nov 2026** |
+| W44 | **Completed** (£50) |
+| W45 | Closed |
+| W46 | In progress |
+| Prior streak ending W44 | **2** (…→W43→W44); broken if W45 is Missed |
 
-**Action:** Via **authorised correction**, Alex adds / corrects so W45 eligible sum becomes **£50** (e.g. correct an existing under-recorded row, or authorised correction that attributes £50 into W45 with full audit — **not** an ordinary create dated 7 Nov).
+#### B1 — Empty Missed week (no entry) — **no MVP fix**
 
-**Before → after**
+| Item | Value |
+| --- | --- |
+| W45 | **Missed**, eligible £0, **zero contribution rows** |
+
+| Attempt | Result |
+| --- | --- |
+| Ordinary create dated into W45 | Rejected |
+| Authorised “correction” that would **create** a new W45 row | **Not allowed** (MVP corrections amend/reverse only) |
+| W45 after | Still **Missed**; streak remains **0** |
+
+#### B2 — Amend existing entry **up** (£40 → £50) after a two-week streak
+
+| Item | Value |
+| --- | --- |
+| W45 | Had an ordinary entry of **£40** while open → week closed as **Missed** (under £50) |
+| Personal saved | £1,230 (includes that £40) |
+| Current streak | **0** |
+
+**Action:** Authorised correction **amends** the existing W45 row **£40 → £50** (audit before/after; not a new create).
 
 | Week | Before status | Before eligible | After status | After eligible |
 | --- | --- | --- | --- | --- |
-| W43 | Completed | £50 | Completed | £50 |
 | W44 | Completed | £50 | Completed | £50 |
-| W45 | **Missed** | £0 | **Completed** | £50 |
-| W46 | In progress | (unchanged) | In progress | (unchanged) |
+| W45 | **Missed** | £40 | **Completed** | £50 |
+| W46 | In progress | — | In progress | — |
 
 | Field | Before | After |
 | --- | --- | --- |
-| Current streak | **0** | **3** (recomputed: W43–W45 consecutive Completed) |
-| Personal saved | £1,190 | £1,240 |
-| Audit | — | Correction recorded (before/after amounts, actor, timestamp) |
+| Current streak | **0** | **3** (recomputed through W45 Completed) |
+| Personal saved | £1,230 | £1,240 |
+| Audit | — | Amend preserved (£40→£50) |
 
-**Proposal outcome:** Filling the missed week that sat immediately after a two-week streak **restores a three-week streak** from the corrected sequence. Show this recomputed streak in “Your streak” / current progress — not as a silent background change.
+**Locked outcome:** Raising an **existing** under-commitment entry can flip Missed→Completed and restore streak. Creating a brand-new closed-week entry cannot.
 
 ---
 
-### Example C — Correction breaks streak; historical milestone vs current progress
+### Example C — Amend down / reverse; historical milestone vs current progress
 
 **Setup**
 
 | Item | Value |
 | --- | --- |
-| Today | Wednesday **12 Nov 2026** |
-| Commitment | £50 / week |
-| W43–W45 | All **Completed** at £50 → streak **3** |
-| Personal saved | £1,000 exactly → **50% Halfway** historically announced |
+| Today | Thursday **12 Nov 2026** |
+| W44–W45 | **Completed** at £50 each → with prior week, streak **3** |
+| W45 entry | Existing **£50** row |
+| Personal saved | £1,000 → **50% Halfway** historically announced |
 | W46 | No contribution yet |
 
-**Action:** Authorised correction on the W45 contribution **£50 → £40** (active row revised; not deleted).
-
-**After**
+**Action C1 — Amend down:** Authorised correction **£50 → £40** on the existing W45 row.
 
 | Field | Before | After |
 | --- | --- | --- |
-| W45 eligible sum | £50 | £40 |
+| W45 eligible | £50 | £40 |
 | W45 status | Completed | **Missed** |
-| Current streak | 3 | **0** (recompute; miss preserved in sequence) |
-| Personal saved (current progress) | £1,000 | £990 |
-| Current progress % | 50% | 49.5% (display rounding still OPEN) |
-| **Historical** 50% Halfway announcement | Present | **Retained as history** — do not strip because current % dipped |
-| Current progress UI | Shows 50% / £1,000 | Shows **current** £990 / ~49.5% **separately** from historical announcement |
+| Current streak | 3 | **0** |
+| Personal saved (current) | £1,000 | £990 |
+| Current progress % | 50% | ~49.5% (rounding OPEN in §3.3) |
+| Historical 50% Halfway | Announced | **Retained as history** |
+| Current progress UI | £1,000 / 50% | Shows **current** £990 separately from historical announcement |
 
-**Proposal outcome:** Corrections recompute week status + streak + current saved/%. **Historical milestone announcements** stay visible as past events; **current progress** reflects the corrected totals. No re-announce if they later climb back through 50%.
+**Action C2 — Reverse:** Instead, authorised **reverse** of the W45 £50 entry (status reversed; audit kept).
+
+| Field | After reverse |
+| --- | --- |
+| W45 eligible | £0 |
+| W45 status | **Missed** |
+| Current streak | **0** |
+| Personal saved | Reduced by £50 from pre-reverse total |
+| Audit | Reverse preserved; no silent delete |
+
+**Locked outcome:** Amend/reverse recompute weeks + streak + current progress; audit retained; historical announcements stay distinct from current figures.
 
 ---
 
-### Example D — Late join: first assessed Monday; pre-assessment savings
+### Example D — Late join: Monday vs Tuesday–Sunday activation; Mon **16 Nov 2026**
 
-**Setup**
+**Calendar:** W46 = Mon **9 Nov** – Sun **15 Nov**; W47 = Mon **16 Nov** – Sun **22 Nov**.
+
+#### D1 — Tuesday–Sunday activation → first assessed week = following Monday **16 Nov 2026**
 
 | Item | Value |
 | --- | --- |
-| Challenge TZ | Europe/London · Monday–Sunday weeks |
-| Week W46 | Mon 10 Nov – Sun 16 Nov |
-| Week W47 | Mon 17 Nov – Sun 23 Nov ← **first assessed week** under this proposal |
-| Join | Riley approved **Thursday 13 Nov 2026** 18:00 London |
-| Activation | Target £1,500 + weekly £50 activated **Friday 14 Nov 2026** |
-| Pre-assessment activity | Records **£30** on Saturday **15 Nov** (ordinary today-only create while still in W46) |
-
-**Assessment start**
+| Join | Riley approved **Thursday 12 Nov 2026** |
+| Activation | Target £1,500 + weekly £50 activated **Friday 13 Nov 2026** (Tue–Sun) |
+| Pre-assessment save | Ordinary **£30** on Saturday **14 Nov** (today-only; still in W46) |
 
 | Rule | Outcome |
 | --- | --- |
-| First assessed commitment week | **Monday 17 Nov 2026** (W47) — the Monday **following** activation |
-| W46 (join/activation week) | **Not assessed** as Completed/Missed for commitment (no miss for joining mid-week) |
+| First assessed commitment week | **Monday 16 November 2026** (W47) |
+| W46 | **Not assessed** Completed/Missed for Riley’s commitment |
 
-**How the £30 before first assessed week counts**
-
-| Bucket | Counts? |
+| Bucket for the £30 | Counts? |
 | --- | --- |
-| Personal saved / target progress / milestones | **Yes** — £30 toward £1,500 |
-| W46 commitment week assessment | **No** — W46 is outside the assessed commitment window for this late join |
-| W47 commitment progress | **No carry** of the £30 into W47’s £50 commitment (excess/pre-week amounts do not pre-satisfy next week) |
+| Personal target / progress milestones | **Yes** — £30 toward £1,500 |
+| W46 commitment assessment | **No** |
+| W47 £50 commitment | **No** — does not pre-satisfy next week |
 
-**If Riley records £0 in W47:** W47 → **Missed**; streak 0. The earlier £30 still sits in personal saved.
+If Riley records £0 in W47 → W47 **Missed**; streak 0; £30 remains in personal saved.
 
-**Proposal outcome:** Late joiners are not punished with a partial-week Missed. Personal progress can start immediately; commitment streak assessment waits until the next Monday.
+#### D2 — Monday activation → assessment starts **current** week
 
-**Still for PO to approve with this package:** Monday week start; today-only ordinary create; closed-week → correction only; late-join following-Monday assessment; excess/no-carry and milestone-retention defaults if locking alongside.
+| Item | Value |
+| --- | --- |
+| Activation | **Monday 16 Nov 2026** (challenge TZ) |
+| First assessed week | **W47 (current)** — Mon 16 Nov – Sun 22 Nov |
+| Any savings dated before Mon 16 Nov | Personal target / milestones only; no commitment assessment for those earlier days |
+
+**Locked outcome:** Tue–Sun activations wait until **Mon 16 Nov 2026** in this W46 example; Monday activations assess the week that contains that Monday.
 
 ---
 
@@ -556,31 +591,31 @@ Portugal challenge — approved member **Sam** watching aggregates. Jordan alrea
 | A+B visual direction / mid-fi structure | **Approved** | Implementation still needs separate go |
 | Logo / final palette / type | **OPEN** | Working Deep Sea / Honey Amber only |
 | M0 architecture direction / ADR-A…H / stack sketch | **Approved for planning** at `1f543e6` | Implementation **not** authorised |
-| Contribution timing (§3 revised / MVP §3.1) | **RECOMMENDED / AWAITING APPROVAL** | Today-only + corrections; needed before M5/M8; revise before M1 |
-| G1.1-06-R1 aggregate inference rule (§4) | **Approved** | Same-viewer-authorised restatement only; M6 prerequisite suite expanded |
-| MVP plan §3.3 defaults (IA labels, pause indefinite, streak 3/6/12, activation, etc.) | **OPEN** | Recommendations only — **not approved** |
-| Excess carry / milestone retention / week-boundary lock | **OPEN** until PO acts on revised §3 (week Mon–Sun still proposed with it) | G1.1-05 deferred items |
+| Contribution timing (§3 / MVP §3.1) | **Approved** | Today-only; corrections = amend/reverse only (no create-in-closed-week); Mon vs Tue–Sun assessment; Mon–Sun weeks |
+| G1.1-06-R1 aggregate inference rule (§4) | **Approved** | Same-viewer-authorised restatement; M6 prerequisite suite |
+| MVP plan §3.3 defaults (IA labels, pause indefinite, streak 3/6/12, activation detail, etc.) | **OPEN** | Separate review — **not approved** |
+| Excess carry / other §3.3 money defaults | **OPEN** | Not locked with contribution timing |
 | Pause max / resume; streak milestone thresholds | **OPEN** | G1.1-08/11 + plan §3.3 |
 | Challenge activation detail; ownership deletion fallback; post-completion reopen | **OPEN** | |
 | Small-group k-anonymity suppression | **OPEN** (recommend reject for MVP) | |
-| Implementation M1+ | **NOT AUTHORISED** | Needs separate PO go after contribution timing + other blockers |
+| Implementation M1+ | **NOT AUTHORISED** | Explicit separate PO go required — **stop before M1** |
 
 ---
 
 ## 6. Stop conditions
 
-**Partial PO decisions recorded.** Frozen Gate 1 / Gate 1.1 specs were not modified. No application implementation started.
+**PO decisions recorded; stop before M1.** Frozen Gate 1 / Gate 1.1 specs were not modified. No application implementation started.
 
-**Recorded this turn**
+**Locked**
 
-1. M0 architecture direction **approved for planning** at `1f543e6` — not an implementation go.
-2. **G1.1-06-R1 approved** with viewer-authorised restatement clarification + expanded M6 checks (§4).
+1. M0 architecture direction **approved for planning** at `1f543e6`.
+2. **G1.1-06-R1 approved** (§4).
+3. **Contribution timing approved** (§3) — including no create-in-closed-week; Mon vs Tue–Sun assessment start; Examples A–D corrected for Nov 2026 / Mon **16 Nov**.
 
-**Still needs PO before M1 / M5 / M8**
+**Still OPEN / not a go**
 
-3. **Revised contribution timing (§3)** — today-only ordinary creates; closed weeks via authorised corrections; streak recompute; late-join following Monday; Examples A–D.
-
-**Implementation and coding milestones (M1+) need separate approval.** This document alone is not a go to scaffold, migrate, or deploy product code.
+4. Other §3.3 defaults — separate review.
+5. **M1+ implementation** — needs explicit approval. This document is not authority to scaffold, migrate, or deploy.
 
 ---
 
@@ -590,7 +625,8 @@ Portugal challenge — approved member **Sam** watching aggregates. Jordan alrea
 | --- | --- |
 | Authoring mode | Gate 3 / M0 planning only |
 | Architecture planning approval | **Yes** at `1f543e6` |
-| Implementation authorised | **No** |
+| Contribution timing approval | **Yes** (§3) |
+| Implementation authorised | **No** — stop before M1 |
 | Spec files modified | **None** |
 | Companion plan | `docs/engineering/mvp-build-plan.md` |
-| Next stop | PO review of **revised contribution timing (§3)** before M1 |
+| Next stop | Separate §3.3 review as needed; **explicit M1 go** before any implementation |

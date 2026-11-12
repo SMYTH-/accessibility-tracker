@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Document | MVP build plan (planning only) |
-| Status | **Partial PO decisions recorded** — §3.1 revised proposal awaiting approval; §3.2 superseded by G1.1-06-R1 |
+| Status | **PO decisions recorded** — §3.1 contribution timing **approved**; §3.2 superseded by G1.1-06-R1; stop before M1 |
 | Mid-fi sign-off reference | A+B mid-fi at `6a1461e` |
 | Spec baseline | Gate 1 frozen — `docs/product/specification-v1.md` |
 | Rules amendment | Gate 1.1 approved — `docs/product/amendments/gate-1-1-product-rules.md` |
@@ -31,7 +31,7 @@
 1. **Frozen specs stay intact.** Agents must not edit Gate 1 / 1.1 product docs while executing this plan.
 2. **This plan does not authorise implementation.** Scaffolding, databases, auth, deploys, and product-app code require a **separate PO approval** after architecture (Gate 3) and any blocking product decisions below.
 3. **Logo / final palette / type remain open.** Use working Deep Sea + Honey Amber accents and provisional type lean only; do not treat them as locked brand tokens.
-4. **Do not invent** unresolved product rules (contribution timing until §3.1 is approved, pause duration, small-group privacy edges, etc.) during build — resolve via the PO decision section first, or park behind an approved amendment. G1.1-06-R1 is approved in `m0-architecture.md` §4; do not reopen the superseded §3.2 proposal list.
+4. **Do not invent** unresolved product rules (pause duration, excess carry, small-group privacy edges, other §3.3 defaults, etc.) during build — resolve via the PO decision section first, or park behind an approved amendment. Contribution timing (§3.1) and G1.1-06-R1 (`m0-architecture.md` §4) are **approved**; do not reopen superseded backdate / create-in-closed-week ideas.
 
 ### Prerequisite gates before coding
 
@@ -175,7 +175,7 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 
 **Journeys:** Mid-fi Path A · Journey C · contribution wireframes  
 **IDs:** SAVE-01, SAVE-02, G1.1-05  
-**Depends on:** §3.1 Contribution timing PO decision
+**Depends on:** Approved §3.1 contribution timing (`m0-architecture.md` §3); separate M1+ implementation go
 
 **Build**
 
@@ -328,31 +328,32 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 
 ## 3. PO decisions required before development
 
-Items below block named milestones. Each includes a **recommended option** for PO approval (recommendation ≠ authority).
+Items below block named milestones. §3.1 and §3.2 are **locked** (see statuses). §3.3 remains recommendations only until PO approves.
 
-### 3.1 Contribution timing (backdating, week allocation) — **revised proposal; awaiting PO**
+### 3.1 Contribution timing (backdating, week allocation) — **approved**
 
 | | |
 | --- | --- |
-| **Status** | **RECOMMENDED / AWAITING APPROVAL** — prior 14-day free backdate proposal **withdrawn** |
-| **Canonical text** | Worked Examples A–D in `docs/engineering/m0-architecture.md` §3 |
-| **Why still open** | G1.1-05 defers timing rules; PO asked to revise before M1 |
-| **Blocks** | M5 (SAVE-01/02), M8 (GAME-01 streaks), any commitment assessment tests |
+| **Status** | **Approved** — see canonical Examples A–D in `docs/engineering/m0-architecture.md` §3 |
+| **Blocks** | Still gates M5 / M8 implementation detail; **M1+ coding still needs separate go** |
 
-**Revised recommended option (for PO approval) — replaces the prior §3.1 list**
+**Approved rules (aligned to `m0-architecture.md` §3)**
 
-1. **Week boundary:** Weeks run **Monday 00:00:00 → Sunday 23:59:59.999** in the **challenge time zone**.
+1. **Week boundary:** Monday 00:00:00 → Sunday 23:59:59.999 in challenge TZ.
 2. **Ordinary create = today-only** in challenge TZ (no free-form backdated create).
-3. **Closed-week changes** go through **authorised corrections** (SAVE-02), not ordinary creates dated into past weeks.
-4. Attempting to date an ordinary entry into a closed week is **rejected** and redirected to the correction path.
+3. **Authorised corrections (MVP):** **amend or reverse** an existing entry only — **may not create** a missing entry in a closed week.
+4. Ordinary attempts to date into a closed week are rejected; empty Missed weeks **stay Missed** if no row exists to amend/reverse.
 5. **Week allocation:** Entire amount → single week containing the contribution date (ordinary creates → current open week).
-6. **Streak:** Recompute from the corrected sequence of week statuses after corrections.
-7. **Milestones:** Distinguish historical milestone announcements from current progress (retention detail still OPEN in §3.3).
-8. **Late joins:** First **assessed** commitment week starts the **following Monday** after savings activation. Amounts recorded before that week count toward **personal target / milestones**, not toward pre-assessment commitment Completed/Missed.
-9. **Excess over weekly commitment / no carry-forward:** Still an OPEN §3.3-style default unless PO locks with this package — do not invent beyond PO text.
+6. **Streak:** Recompute affected weeks/streaks from the corrected sequence; preserve audit history.
+7. **Milestones:** Historical milestone announcements stay distinct from current progress (other §3.3 milestone defaults remain OPEN).
+8. **Late join / activation assessment start (challenge TZ):**
+   - **Monday** activation → assess **current** week.
+   - **Tuesday–Sunday** activation → first assessed week = **following Monday** (W46 Tue–Sun example → **Monday 16 November 2026**).
+9. Savings before the first assessed week → **personal target / progress milestones only**.
 10. **Post-completion:** No ordinary creates (G1.1-12); out-of-period rejected (G1.1-05).
+11. **Excess / no-carry and other §3.3 defaults:** Remain **OPEN**.
 
-**Withdrawn:** Free-form create with ≤14-day backdate window; assessing late-join partial weeks as normal Missed/Completed in the join week.
+**Withdrawn / not MVP:** Free-form ≤14-day backdated create; creating a new contribution in a closed week (including via “correction”); treating all late joins as “always next Monday” without the Monday-activation exception.
 
 ---
 
@@ -438,23 +439,22 @@ Do not schedule: Open Banking, custody/transfers, public challenges, leaderboard
 
 **MVP build plan drafted for review. No application code written. Frozen product specs not modified.**
 
-### Recommended decisions (short)
+### Locked decisions (short)
 
-1. **Contribution timing (revised — awaiting PO):** Today-only ordinary creates in challenge TZ; closed weeks via authorised corrections; streak recompute; late-join first assessed week = following Monday; pre-assessment savings count to personal target/milestones only. Canonical Examples A–D in `m0-architecture.md` §3.
-2. **Private-amount inference:** **G1.1-06-R1 approved** in `m0-architecture.md` §4 (same-viewer-authorised restatement; post-privacy invariance; M6 suite). Prior §3.2 proposal list superseded.
+1. **Contribution timing — approved:** Today-only creates; corrections = amend/reverse only (**no create-in-closed-week**); streak recompute + audit; historical milestones ≠ current progress; Mon activation → current week, Tue–Sun → following Monday (**16 Nov 2026** in the W46 example); pre-assessment savings → personal target/milestones only. Canonical text: `m0-architecture.md` §3.
+2. **G1.1-06-R1 — approved** (`m0-architecture.md` §4). Prior §3.2 proposal list superseded.
 3. **M0 architecture:** Approved **for planning** at `1f543e6` — not an implementation go.
 
-### Allowed next (after PO approval)
+### Allowed next
 
-- Approve or further revise §3.1 contribution timing (before M1).
-- Resolve remaining §3.3 OPEN defaults as needed.
-- **Separate** authorisation to implement M1+.
+- Resolve remaining **§3.3 OPEN** defaults as needed (separate review).
+- **Separate** explicit authorisation to implement M1+ — **stop before M1** until then.
 
 ### Do not do on the back of this doc alone
 
 - App scaffolding / npm product app / schema implementation.
 - Edits to Gate 1 / 1.1 frozen specs.
-- Inventing pause max, backdating, or privacy edge behaviour in code.
+- Inventing pause max, create-in-closed-week, or privacy edge behaviour in code.
 
 ---
 
