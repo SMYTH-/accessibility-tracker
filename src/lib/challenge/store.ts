@@ -1,11 +1,16 @@
 import { promises as fs } from "fs";
 import path from "path";
+import type { ChallengeInvitation, NotificationRecord } from "@/lib/membership/types";
 import type { Challenge, LifecycleAuditEvent, Membership } from "./types";
+
+export type StoredInvitation = ChallengeInvitation & { tokenHash: string };
 
 export type ChallengeDb = {
   challenges: Challenge[];
   memberships: Membership[];
   audit: LifecycleAuditEvent[];
+  invitations: StoredInvitation[];
+  notifications: NotificationRecord[];
 };
 
 const DATA_DIR = path.join(process.cwd(), ".data");
@@ -20,9 +25,17 @@ async function ensureDb(): Promise<ChallengeDb> {
       challenges: parsed.challenges ?? [],
       memberships: parsed.memberships ?? [],
       audit: parsed.audit ?? [],
+      invitations: parsed.invitations ?? [],
+      notifications: parsed.notifications ?? [],
     };
   } catch {
-    const empty: ChallengeDb = { challenges: [], memberships: [], audit: [] };
+    const empty: ChallengeDb = {
+      challenges: [],
+      memberships: [],
+      audit: [],
+      invitations: [],
+      notifications: [],
+    };
     await fs.mkdir(DATA_DIR, { recursive: true });
     await fs.writeFile(DB_PATH, JSON.stringify(empty, null, 2));
     return empty;
