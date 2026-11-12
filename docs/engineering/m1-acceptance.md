@@ -4,55 +4,54 @@
 | --- | --- |
 | Against | `docs/engineering/mvp-build-plan.md` § M1 |
 | Baseline | `96f723d` |
-| Branch | `cursor/m1-shell-auth-962b` |
+| Branch | `cursor/m1-shell-auth-962b` @ **`9df6665`** |
 | Date | 12 November 2026 |
 | Preview | `http://localhost:3000` |
-| Auth under test | **supabase** — project `gdrkejobqlvtwnlaedpu` (`.env.local` present; not committed) |
-| Live suite | **Complete** (register → verify → sign-in → protected → profile → sign-out → recovery → new/old password) |
+| Auth under test | **supabase** — project `gdrkejobqlvtwnlaedpu` (`.env.local` local-only; not committed) |
 
-## Live Supabase run
+## Final same-browser acceptance @ `9df6665` (authoritative)
+
+**Rules:** fresh account · real inbox links only · **same browser that started each flow** · recovery starts **signed out** · never paste links into chat · no admin-generated substitute links.
 
 | Step | Result | Notes |
 | --- | --- | --- |
-| Register | **Pass** | Plus-address test account |
-| Verification email delivery | **Pass** | Dominic received + clicked (NOTIF-01) |
-| `/auth/callback` after first verify | **Failed then fixed** | Session exchange failed (`?error=auth_callback`) while provider still confirmed email. Fixed: browser PKCE, callback response cookies, decode `next`, avoid double-encoding, use `localhost` not `127.0.0.1` |
-| Provider email confirmed | **Pass** | |
-| Sign-in | **Pass** | |
-| Protected routes | **Pass** | |
-| Profile update | **Pass** | |
-| Sign-out | **Pass** | |
-| Password recovery email | **Pass** | Delivery observed; inbox link had double-encoded `next` (`%252F`) — fixed in app |
-| Recovery → update password | **Pass** | Callback → `/update-password` with recovery session |
-| New password works | **Pass** | |
-| Old password fails | **Pass** | |
+| Fresh register | **Awaiting Dominic** | Suggested To: `smyth.developer+m1final1794505384@gmail.com` · browser: one Chrome window · URL `http://localhost:3000` (not `127.0.0.1`) |
+| Verification email delivery | **Awaiting** | |
+| **Verify callback outcome** | **Awaiting** | Record landing after click: expect `/home` or `/auth/callback` → `/home` · **not** `/sign-in?error=auth_callback` |
+| Sign-in (if needed) / protected routes / profile / sign-out | **Awaiting** | |
+| Recovery request (signed out) | **Awaiting** | Same browser as will open the reset email |
+| Recovery email delivery | **Awaiting** | |
+| **Recovery callback outcome** | **Awaiting** | Expect `/update-password` password form · **not** `/sign-in?error=auth_callback` |
+| New password works | **Awaiting** | |
+| Old password fails | **Awaiting** | |
 
-## Checklist
+### Callback outcomes (fill when observed)
 
-| Check | Result | Notes |
+| Callback | Expected | Observed |
 | --- | --- | --- |
-| Unauthenticated users cannot open protected challenge routes — AUTH-01 | **Pass** (live) | |
-| Invalid credentials denied; recovery is time-limited — AUTH-01 | **Pass** (live) | Old password denied after reset; provider recovery tokens time-limited |
-| Profile exposes no unnecessary financial data — PROF-01 | **Pass** | |
-| Verify + recovery emails deliver in non-prod — NOTIF-01 | **Pass** (live) | |
-| Responsive shell usable on small screens — §10.2 | **Pass** | |
-| Working accents only; no claim of final brand identity — §0 | **Pass** | |
-| Register, verify, sign-in, sign-out | **Pass** (live) | |
-| Display name + basic profile | **Pass** (live) | |
-| Provisional nav Home · Challenge · Activity · Profile | **Pass** | |
-| Recovery redirect (signed-out browser) | **Pass** (live) | `/auth/callback?next=/update-password` |
-| New password works; old password fails | **Pass** (live) | |
-| Stop before M2 | **Pass** | No challenge creation |
+| Email verification (`/auth/callback`) | Session established; continue to app (e.g. `/home`) | _pending same-browser click_ |
+| Password recovery (`/auth/callback?next=/update-password`) | Session established; **password form** on `/update-password` | _pending same-browser click_ |
 
-## Summary
+## Prior live run (context only — not this final gate)
 
-| | |
+Earlier automation/admin-assisted recovery proved flows after callback fixes, but **this final gate requires Dominic same-browser inbox clicks** with a fresh account. Prior verify click had landed on `/sign-in?error=auth_callback` before PKCE/cookie/`next` fixes at `ae38e0e` / `9df6665`.
+
+## Checklist (status after final gate)
+
+| Check | Result |
 | --- | --- |
-| Pass | All M1 live auth acceptance checks above |
-| Fail | None remaining for this live run |
-| Gaps / caveats | First verify click did not establish a session (provider confirm succeeded; user signed in with password). Callback/PKCE/`next` encoding fixed before recovery proof. Keep using `http://localhost:3000` only. Do not paste live reset links into chat. `.env.local` never committed. |
-| Sign-off | **Ready for Dominic M1 sign-off** — still **stop before M2** |
+| Unauthenticated protected routes — AUTH-01 | Pending final gate |
+| Invalid credentials / time-limited recovery — AUTH-01 | Pending final gate |
+| Profile no financial data — PROF-01 | Pass (unchanged surface) |
+| Verify + recovery emails deliver — NOTIF-01 | Pending final gate |
+| Responsive shell — §10.2 | Pass |
+| Working accents only — §0 | Pass |
+| Register / verify / sign-in / sign-out | Pending final gate |
+| Display name profile | Pending final gate |
+| Provisional nav | Pass |
+| Recovery → password form; new works / old fails | Pending final gate |
+| Stop before M2 | **Pass** — M2 untouched |
 
 ## Explicit stop
 
-**M1 live auth suite complete — awaiting PO sign-off. Stopped before M2.**
+**M1 open for final same-browser sign-off evidence.** **Stopped before M2.**
