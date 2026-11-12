@@ -8,7 +8,7 @@
 | Branch | `cursor/m2-challenge-lifecycle-25cb` @ `0b9376af` |
 | Local preview | `http://localhost:3000` |
 | Auth | **Supabase** against non-prod `gdrkejobqlvtwnlaedpu` (`.env.local` local-only) |
-| Persistence | **Supabase Postgres** (atomic RPC + RLS) |
+| Persistence | **Supabase Postgres** (atomic RPC + RLS; live path uses DB `now()` only) |
 | Working accents | Deep Sea `#1A6B7C` · Honey Amber `#C9842A` (working only) |
 | Screenshots | `media/m2/` (repo + Project store) |
 
@@ -25,6 +25,7 @@
 | Persist across app restart | **Proven** |
 | TZ midnight Scheduled/Active/Completed | **Real** (`reconcile_challenge_lifecycles`) |
 | Owner create before savings | **Real** |
+| Live create/reconcile clock | **Database `now()` only** (frozen clock = service_role tests) |
 | Cancel / invites / savings setup | **Not built** (out of M2) |
 
 ---

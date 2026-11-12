@@ -70,7 +70,6 @@ export async function pgCreateChallenge(
     p_end_date: validated.value.endDate,
     p_currency: validated.value.currency,
     p_time_zone: validated.value.timeZone,
-    p_now: now.toISOString(),
   });
 
   if (error) return { ok: false, error: rpcErrorMessage(error) };
@@ -84,11 +83,11 @@ export async function pgCreateChallenge(
 
 export async function pgReconcile(
   supabase: SupabaseClient,
-  now: Date = new Date(),
+  _now: Date = new Date(),
 ): Promise<{ transitioned: number }> {
-  const { data, error } = await supabase.rpc("reconcile_challenge_lifecycles", {
-    p_now: now.toISOString(),
-  });
+  // Live path uses database now() only — no caller clock.
+  void _now;
+  const { data, error } = await supabase.rpc("reconcile_challenge_lifecycles");
   if (error) throw new Error(error.message);
   return { transitioned: Number((data as { transitioned?: number })?.transitioned ?? 0) };
 }
