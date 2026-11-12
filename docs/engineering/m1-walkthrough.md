@@ -123,4 +123,4 @@ First verification click hit `/sign-in?error=auth_callback` even though Supabase
 
 ## Explicit stop
 
-**M1 live auth complete — awaiting sign-off.** No M2 / challenge creation.
+**M1 shell + auth signed off** (verify final gate Pass → `/home`; same-browser recovery re-check skipped for email rate limit; prior recovery suite Pass retained). No M2 implementation.

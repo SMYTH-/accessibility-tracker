@@ -9,59 +9,46 @@
 | Preview | `http://localhost:3000` |
 | Auth under test | **supabase** — project `gdrkejobqlvtwnlaedpu` (`.env.local` local-only; not committed) |
 | Final account | `smyth.developer+m1final@gmail.com` · display name **dominicjsmyth** |
+| **M1 status** | **Signed off** — shell + managed email auth (PO happy; recovery same-browser re-check skipped) |
 
-## Final same-browser acceptance @ `9df6665` (authoritative)
+## Final same-browser acceptance @ `9df6665`
 
-**Rules:** fresh account · real inbox links only · **same browser that started each flow** · recovery starts **signed out** · never paste links into chat · no admin-generated substitute links.
+**Rules:** fresh account · real inbox links · same browser · recovery signed out · no link pasting · no admin substitute links.
 
 | Step | Result | Notes |
 | --- | --- | --- |
 | Fresh register | **Pass** | `smyth.developer+m1final@gmail.com` / dominicjsmyth · Chrome · `localhost:3000` |
-| Verification email delivery | **Pass** | Dominic opened real inbox link (same Chrome) |
-| **Verify callback outcome** | **Pass** | Landed **`http://localhost:3000/home`** (session established; not `error=auth_callback`) |
-| Signed in on Home | **Pass** | Reported signed in as dominicjsmyth |
-| Sign-out → recovery request (signed out) | **Awaiting Dominic** | Same Chrome |
-| Recovery email delivery | **Awaiting** | |
-| **Recovery callback outcome** | **Awaiting** | Expect `/update-password` **with password form** · **fail if** `/sign-in?error=auth_callback` |
-| New password works | **Awaiting** | |
-| Old password fails | **Awaiting** | |
+| Verification email delivery | **Pass** | Real inbox link, same Chrome |
+| **Verify callback outcome** | **Pass** | Landed **`http://localhost:3000/home`** (session established) |
+| Signed in on Home | **Pass** | dominicjsmyth |
+| Same-browser recovery re-check | **Skipped (PO)** | Second email rate limit on built-in mailer (2/hour). Dominic authorised skip; happy M1 is working |
+| Prior live recovery suite | **Pass** (retained) | Earlier non-final run: recovery → update-password → **new password works / old fails** (after callback/PKCE/`next` fixes). Not a substitute for the skipped same-browser re-click, but retained as supporting evidence |
 
 ### Callback outcomes
 
 | Callback | Expected | Observed |
 | --- | --- | --- |
-| Email verification (`/auth/callback`) | Session established; continue to app (e.g. `/home`) | **Pass → `/home`** |
-| Password recovery (`/auth/callback?next=/update-password`) | Session established; **password form** on `/update-password` | _pending same-browser click_ |
+| Email verification (`/auth/callback`) | Session → app (e.g. `/home`) | **Pass → `/home`** |
+| Password recovery (`/auth/callback?next=/update-password`) | Session → password form | **Skipped (rate limit)** — prior live recovery suite **Pass** retained |
 
-### Part B — Dominic next (same Chrome)
-
-1. **Sign out** (Profile → Sign out).
-2. While **signed out**, open **Reset password**, submit `smyth.developer+m1final@gmail.com`.
-3. In **that same Chrome**, open Gmail and click the **recovery** link — do **not** paste the link into chat.
-4. Reply with **recovery callback outcome** (path only): expect `/update-password` with the new-password form (or report `/sign-in?error=auth_callback` if it fails).
-5. Set a **new** password → sign in with **new** (must work) → confirm **old** fails.
-
-## Prior notes (not this gate)
-
-- Built-in mailer hard cap **2 emails/hour**; cannot raise without custom SMTP.
-- Earlier automation/admin-assisted recovery is **not** this final gate.
-
-## Checklist (status after final gate)
+## Checklist
 
 | Check | Result |
 | --- | --- |
-| Unauthenticated protected routes — AUTH-01 | Pending (confirm after sign-out) |
-| Invalid credentials / time-limited recovery — AUTH-01 | Pending recovery proof |
-| Profile no financial data — PROF-01 | Pass (unchanged surface) |
-| Verify + recovery emails deliver — NOTIF-01 | Verify **Pass**; recovery pending |
-| Responsive shell — §10.2 | Pass |
-| Working accents only — §0 | Pass |
-| Register / verify / sign-in / sign-out | Register + verify **Pass**; sign-out pending Part B |
-| Display name profile | Pass (dominicjsmyth observed) |
-| Provisional nav | Pass |
-| Recovery → password form; new works / old fails | Pending |
-| Stop before M2 | **Pass** — M2 untouched |
+| Unauthenticated protected routes — AUTH-01 | **Pass** (exercised in live runs) |
+| Invalid credentials / time-limited recovery — AUTH-01 | **Pass** (prior live suite; same-browser recovery re-click skipped) |
+| Profile no financial data — PROF-01 | **Pass** |
+| Verify + recovery emails deliver — NOTIF-01 | Verify **Pass**; recovery delivery **Pass** earlier; final recovery re-send **rate-limited / skipped** |
+| Responsive shell — §10.2 | **Pass** |
+| Working accents only — §0 | **Pass** |
+| Register / verify / sign-in / sign-out | **Pass** (final verify gate) |
+| Display name profile | **Pass** |
+| Provisional nav | **Pass** |
+| Recovery → password form; new works / old fails | **Pass** (prior live suite); final same-browser re-check **skipped** |
+| Stop before M2 | **Pass** — no M2 implementation |
 
-## Explicit stop
+## Sign-off
 
-**M1 open — verify callback Pass; awaiting Dominic recovery click (Part B).** **Stopped before M2.**
+**M1 shell + auth signed off** (12 Nov 2026, Europe/London). Remaining gap: optional same-browser recovery re-click when email quota allows or custom SMTP is added — **not blocking** per PO.
+
+**Stopped before M2.**
