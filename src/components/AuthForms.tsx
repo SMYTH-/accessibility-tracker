@@ -11,6 +11,12 @@ import {
   updateProfileAction,
   verifyEmailAction,
 } from "@/lib/auth/actions";
+import {
+  browserRequestPasswordReset,
+  browserSignIn,
+  browserSignUp,
+  isBrowserSupabaseConfigured,
+} from "@/lib/auth/browser";
 
 function Field({
   label,
@@ -73,7 +79,12 @@ export function SignUpForm() {
         setMessage(null);
         setVerifyHref(null);
         start(async () => {
-          const result = await signUpAction(fd);
+          const email = String(fd.get("email") ?? "");
+          const password = String(fd.get("password") ?? "");
+          const displayName = String(fd.get("displayName") ?? "").trim();
+          const result = isBrowserSupabaseConfigured()
+            ? await browserSignUp({ email, password, displayName })
+            : await signUpAction(fd);
           if (!result.ok) {
             setError(result.error);
             return;
@@ -138,7 +149,11 @@ export function SignInForm({ nextPath = "/home" }: { nextPath?: string }) {
         const fd = new FormData(e.currentTarget);
         setError(null);
         start(async () => {
-          const result = await signInAction(fd);
+          const email = String(fd.get("email") ?? "");
+          const password = String(fd.get("password") ?? "");
+          const result = isBrowserSupabaseConfigured()
+            ? await browserSignIn({ email, password })
+            : await signInAction(fd);
           if (!result.ok) {
             setError(result.error);
             return;
@@ -193,7 +208,10 @@ export function ResetPasswordForm() {
         setMessage(null);
         setResetHref(null);
         start(async () => {
-          const result = await requestPasswordResetAction(fd);
+          const email = String(fd.get("email") ?? "");
+          const result = isBrowserSupabaseConfigured()
+            ? await browserRequestPasswordReset(email)
+            : await requestPasswordResetAction(fd);
           if (!result.ok) {
             setError(result.error);
             return;

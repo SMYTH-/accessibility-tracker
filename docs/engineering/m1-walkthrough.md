@@ -112,6 +112,14 @@ See `docs/engineering/m1-acceptance.md` (Project Context mirror).
 
 ---
 
+## Callback failure (live) + fix
+
+First verification click hit `/sign-in?error=auth_callback` even though Supabase marked the email confirmed. Root causes addressed:
+
+1. **PKCE:** signup/reset now start on the **browser** client so `code_verifier` cookies exist for `/auth/callback`.
+2. **Callback cookies:** session cookies are written onto the **redirect response**.
+3. **Host:** always use `http://localhost:3000` (Site URL), not `127.0.0.1`, so cookies match.
+
 ## Explicit stop
 
 **M1 remains open for Supabase verification.** No M2 / challenge creation.
