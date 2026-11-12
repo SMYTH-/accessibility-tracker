@@ -21,7 +21,7 @@
 | Pending / declined: no financial challenge access (RLS + wait preview) | **Real** |
 | Approval leaves savings inactive | **Real** |
 | No duplicate memberships; safe retries | **Real** (`unique(challenge_id,user_id)` + idempotent pending) |
-| NOTIF-01 approve / reject emails | **Recorded** in `notification_outbox` (subject/body/recipient) |
+| NOTIF-01 approve / reject emails | **Delivered** — outbox → Ethereal test inbox (Resend when `RESEND_API_KEY` set); see `media/m3/07`–`08` |
 | Leave + owner remove; immediate access revoke | **Real** |
 | Owner leave blocked on Scheduled/Active until ownership transfer | **Blocked** (transfer / deletion fallback remain **OPEN**) |
 | Invalid / expired / revoked links rejected | **Real** |

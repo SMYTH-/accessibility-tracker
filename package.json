@@ -12,18 +12,21 @@
     "evidence:m2:pg": "node --env-file=.env.local scripts/m2-postgres-evidence.mjs",
     "evidence:m2:ui": "node scripts/m2-supabase-ui-evidence.mjs",
     "evidence:m3:pg": "node --env-file=.env.local scripts/m3-postgres-evidence.mjs",
-    "evidence:m3:ui": "node --env-file=.env.local scripts/m3-supabase-ui-evidence.mjs"
+    "evidence:m3:ui": "node --env-file=.env.local scripts/m3-supabase-ui-evidence.mjs",
+    "evidence:m3:email": "node --env-file=.env.local scripts/m3-email-delivery-evidence.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.119.0",
     "next": "^15.5.7",
+    "nodemailer": "^10.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

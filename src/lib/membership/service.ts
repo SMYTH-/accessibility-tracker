@@ -105,12 +105,24 @@ export async function decideMembershipRequest(
   decision: "approve" | "decline",
   recipientEmail: string,
 ): Promise<DecideResult> {
-  if (isPostgresMode()) {
-    void ownerUserId;
-    void recipientEmail;
-    return pgDecideMembership(await userClient(), membershipId, decision);
+  const result = isPostgresMode()
+    ? await (async () => {
+        void ownerUserId;
+        void recipientEmail;
+        return pgDecideMembership(await userClient(), membershipId, decision);
+      })()
+    : await mockDecideMembership(membershipId, ownerUserId, decision, recipientEmail);
+
+  // NOTIF-01: flush outbox to configured test email provider after a new decision.
+  if (result.ok && result.notificationId && !result.alreadyDecided) {
+    try {
+      const { deliverOutboxById } = await import("@/lib/notifications/deliver");
+      await deliverOutboxById(result.notificationId);
+    } catch {
+      // Decision already committed; delivery failure is recorded on the outbox row.
+    }
   }
-  return mockDecideMembership(membershipId, ownerUserId, decision, recipientEmail);
+  return result;
 }
 
 export async function leaveChallenge(
