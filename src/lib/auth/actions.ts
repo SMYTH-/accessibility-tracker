@@ -150,8 +150,10 @@ export async function requestPasswordResetAction(formData: FormData): Promise<Au
 
   const supabase = await createClient();
   const origin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  // PKCE recovery must land on /auth/callback so the code is exchanged for a
+  // session while the browser is still signed out, then continue to the form.
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/update-password`,
+    redirectTo: `${origin}/auth/callback?next=${encodeURIComponent("/update-password")}`,
   });
   if (error) return { ok: false, error: error.message };
   return {
@@ -198,9 +200,20 @@ export async function updatePasswordWithTokenAction(formData: FormData): Promise
   }
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return {
+      ok: false,
+      error: "Recovery session missing. Open the email link again (signed-out browser).",
+    };
+  }
   const { error } = await supabase.auth.updateUser({ password });
   if (error) return { ok: false, error: error.message };
-  return { ok: true, message: "Password updated." };
+  // End recovery session so the next sign-in proves the new password.
+  await supabase.auth.signOut();
+  return { ok: true, message: "Password updated. Sign in with your new password." };
 }
 
 export async function updateProfileAction(formData: FormData): Promise<AuthResult> {
