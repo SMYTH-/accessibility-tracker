@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M3 |
 | M2 base tip | `27404a6b` (PR #3) |
 | Implementation branch | `cursor/m3-invitations-membership-7ab9` |
-| Tip SHA | `4947e60af74a217efe9098cd0bd841d3d146c425` |
+| Tip SHA | `3020a898696d0dfc253e093df4bcd3c2f388020e` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod) |
 | Date | 12 November 2026 |
 | Preview | `http://localhost:3000` |
