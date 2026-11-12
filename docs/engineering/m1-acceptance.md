@@ -8,48 +8,51 @@
 | Date | 12 November 2026 |
 | Preview | `http://localhost:3000` |
 | Auth under test | **supabase** — project `gdrkejobqlvtwnlaedpu` (`.env.local` present; not committed) |
+| Live suite | **Complete** (register → verify → sign-in → protected → profile → sign-out → recovery → new/old password) |
 
-## Live Supabase run (in progress)
+## Live Supabase run
 
 | Step | Result | Notes |
 | --- | --- | --- |
-| Register | **Pass** | `smyth.developer+m1live1794504378519@gmail.com` |
-| Verification email delivery | **Pass** | Dominic received + clicked link (NOTIF-01) |
-| `/auth/callback` after verify | **Failed then fixed** | Landed on `?error=auth_callback`. Cause: server-side signup PKCE + host mismatch risk (`127.0.0.1` vs `localhost`). Fix: browser PKCE for signup/reset; callback attaches session cookies to redirect response; OTP `token_hash` fallback |
-| Provider email confirmed | **Pass** | `email_confirmed_at` set on user after click |
-| Sign-in | **Pass** | After confirmation |
-| Protected routes | **Pass** | `/challenge` → `/sign-in` when signed out |
-| Profile update | **Pass** | Display name saved |
-| Sign-out | **Pass** | Then protected again |
-| Password recovery request | **Pass** | Email sent; **awaiting Dominic inbox click** |
-| Recovery callback + new/old password | **Blocked on inbox** | Open recovery email for same address; must use `localhost:3000` (not `127.0.0.1`) |
+| Register | **Pass** | Plus-address test account |
+| Verification email delivery | **Pass** | Dominic received + clicked (NOTIF-01) |
+| `/auth/callback` after first verify | **Failed then fixed** | Session exchange failed (`?error=auth_callback`) while provider still confirmed email. Fixed: browser PKCE, callback response cookies, decode `next`, avoid double-encoding, use `localhost` not `127.0.0.1` |
+| Provider email confirmed | **Pass** | |
+| Sign-in | **Pass** | |
+| Protected routes | **Pass** | |
+| Profile update | **Pass** | |
+| Sign-out | **Pass** | |
+| Password recovery email | **Pass** | Delivery observed; inbox link had double-encoded `next` (`%252F`) — fixed in app |
+| Recovery → update password | **Pass** | Callback → `/update-password` with recovery session |
+| New password works | **Pass** | |
+| Old password fails | **Pass** | |
 
 ## Checklist
 
 | Check | Result | Notes |
 | --- | --- | --- |
 | Unauthenticated users cannot open protected challenge routes — AUTH-01 | **Pass** (live) | |
-| Invalid credentials denied; recovery is time-limited — AUTH-01 | **Partial** | Sign-in works; recovery email in flight; new/old password not yet proven live |
+| Invalid credentials denied; recovery is time-limited — AUTH-01 | **Pass** (live) | Old password denied after reset; provider recovery tokens time-limited |
 | Profile exposes no unnecessary financial data — PROF-01 | **Pass** | |
-| Verify + recovery emails deliver in non-prod — NOTIF-01 | **Pass** (verify) / **In progress** (recovery) | |
+| Verify + recovery emails deliver in non-prod — NOTIF-01 | **Pass** (live) | |
 | Responsive shell usable on small screens — §10.2 | **Pass** | |
 | Working accents only; no claim of final brand identity — §0 | **Pass** | |
-| Register, verify, sign-in, sign-out | **Pass** (live; verify via provider confirm + subsequent sign-in) | Callback exchange bug fixed; recovery will re-prove exchange |
+| Register, verify, sign-in, sign-out | **Pass** (live) | |
 | Display name + basic profile | **Pass** (live) | |
 | Provisional nav Home · Challenge · Activity · Profile | **Pass** | |
-| Recovery redirect (signed-out browser) | **Fixed** / live proof **pending inbox** | `/auth/callback?next=/update-password` |
-| New password works; old password fails | **Unverified** (live) | Waiting on recovery email |
+| Recovery redirect (signed-out browser) | **Pass** (live) | `/auth/callback?next=/update-password` |
+| New password works; old password fails | **Pass** (live) | |
 | Stop before M2 | **Pass** | No challenge creation |
 
 ## Summary
 
 | | |
 | --- | --- |
-| Pass | Register, verify delivery, provider confirm, sign-in, protected routes, profile, sign-out, recovery request, shell/accents/nav |
-| Fixed in code | Auth callback PKCE cookie handling + browser-started PKCE |
-| Blocked | Dominic must open **password recovery** email for `smyth.developer+m1live1794504378519@gmail.com` on **localhost** |
-| Remaining after inbox | Complete update-password; prove new password works / old fails; close M1 for sign-off |
+| Pass | All M1 live auth acceptance checks above |
+| Fail | None remaining for this live run |
+| Gaps / caveats | First verify click did not establish a session (provider confirm succeeded; user signed in with password). Callback/PKCE/`next` encoding fixed before recovery proof. Keep using `http://localhost:3000` only. Do not paste live reset links into chat. `.env.local` never committed. |
+| Sign-off | **Ready for Dominic M1 sign-off** — still **stop before M2** |
 
 ## Explicit stop
 
-**M1 still open** pending recovery completion. **Stopped before M2.**
+**M1 live auth suite complete — awaiting PO sign-off. Stopped before M2.**

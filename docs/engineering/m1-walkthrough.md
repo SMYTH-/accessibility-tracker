@@ -6,7 +6,8 @@
 | Baseline | Approved M0 + MVP plan lock at `96f723d` |
 | Branch | `cursor/m1-shell-auth-962b` |
 | Local preview | `http://localhost:3000` |
-| Auth mode (this checkout) | **mock** until Dominic supplies non-prod Supabase config (no `.env.local` yet) |
+| Auth mode (this checkout) | **supabase** against non-prod `gdrkejobqlvtwnlaedpu` (`.env.local` local-only) |
+| Live suite | **Complete** 12 Nov 2026 — see `m1-acceptance.md` |
 | Working accents | Deep Sea `#1A6B7C` · Honey Amber `#C9842A` (working only) |
 | Nav | Provisional: Home · Challenge · Activity · Profile |
 
@@ -122,4 +123,4 @@ First verification click hit `/sign-in?error=auth_callback` even though Supabase
 
 ## Explicit stop
 
-**M1 remains open for Supabase verification.** No M2 / challenge creation.
+**M1 live auth complete — awaiting sign-off.** No M2 / challenge creation.

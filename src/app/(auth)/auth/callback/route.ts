@@ -7,8 +7,17 @@ import { getAuthMode } from "@/lib/auth/config";
 
 /** Only allow same-origin relative paths (open-redirect guard). */
 function safeNextPath(raw: string | null): string {
-  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) return "/home";
-  return raw;
+  if (!raw) return "/home";
+  let value = raw;
+  try {
+    // Tolerate once- or twice-encoded values from email redirect_to wrapping.
+    value = decodeURIComponent(value);
+    if (value.includes("%")) value = decodeURIComponent(value);
+  } catch {
+    /* keep raw */
+  }
+  if (!value.startsWith("/") || value.startsWith("//")) return "/home";
+  return value;
 }
 
 function logCallbackError(message: string) {

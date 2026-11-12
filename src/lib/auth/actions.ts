@@ -153,7 +153,8 @@ export async function requestPasswordResetAction(formData: FormData): Promise<Au
   // PKCE recovery must land on /auth/callback so the code is exchanged for a
   // session while the browser is still signed out, then continue to the form.
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?next=${encodeURIComponent("/update-password")}`,
+    // Do not encode `next` here — Supabase wraps redirect_to and would double-encode (%252F).
+    redirectTo: `${origin}/auth/callback?next=/update-password`,
   });
   if (error) return { ok: false, error: error.message };
   return {

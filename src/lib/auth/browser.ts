@@ -52,7 +52,8 @@ export async function browserSignIn(input: {
 export async function browserRequestPasswordReset(email: string): Promise<AuthResult> {
   const supabase = createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${siteOrigin()}/auth/callback?next=${encodeURIComponent("/update-password")}`,
+    // Do not encode `next` here — Supabase wraps redirect_to and would double-encode (%252F).
+    redirectTo: `${siteOrigin()}/auth/callback?next=/update-password`,
   });
   if (error) return { ok: false, error: error.message };
   return {
