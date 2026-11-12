@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Document | MVP build plan (planning only) |
-| Status | **Draft for PO / coordinator review** — stop here |
+| Status | **Partial PO decisions recorded** — §3.1 revised proposal awaiting approval; §3.2 superseded by G1.1-06-R1 |
 | Mid-fi sign-off reference | A+B mid-fi at `6a1461e` |
 | Spec baseline | Gate 1 frozen — `docs/product/specification-v1.md` |
 | Rules amendment | Gate 1.1 approved — `docs/product/amendments/gate-1-1-product-rules.md` |
@@ -31,7 +31,7 @@
 1. **Frozen specs stay intact.** Agents must not edit Gate 1 / 1.1 product docs while executing this plan.
 2. **This plan does not authorise implementation.** Scaffolding, databases, auth, deploys, and product-app code require a **separate PO approval** after architecture (Gate 3) and any blocking product decisions below.
 3. **Logo / final palette / type remain open.** Use working Deep Sea + Honey Amber accents and provisional type lean only; do not treat them as locked brand tokens.
-4. **Do not invent** unresolved product rules (backdating, pause duration, small-group privacy edges, etc.) during build — resolve via the PO decision section first, or park behind an approved amendment.
+4. **Do not invent** unresolved product rules (contribution timing until §3.1 is approved, pause duration, small-group privacy edges, etc.) during build — resolve via the PO decision section first, or park behind an approved amendment. G1.1-06-R1 is approved in `m0-architecture.md` §4; do not reopen the superseded §3.2 proposal list.
 
 ### Prerequisite gates before coding
 
@@ -199,7 +199,7 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 
 **Journeys:** Mid-fi Home · Journey D · dashboard wireframe  
 **IDs:** DASH-01, G1.1-06, G1.1-08 (display)  
-**Depends on:** §3.2 Aggregate privacy PO decision
+**Depends on:** Approved G1.1-06-R1 acceptance suite (`m0-architecture.md` §4) before exposing sharing totals
 
 **Build**
 
@@ -330,48 +330,49 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 
 Items below block named milestones. Each includes a **recommended option** for PO approval (recommendation ≠ authority).
 
-### 3.1 Contribution timing (backdating, week allocation) — **priority**
+### 3.1 Contribution timing (backdating, week allocation) — **revised proposal; awaiting PO**
 
 | | |
 | --- | --- |
-| **Why open** | G1.1-05 explicitly defers backdating, allocation across weeks, excess carry-forward, and week boundaries |
+| **Status** | **RECOMMENDED / AWAITING APPROVAL** — prior 14-day free backdate proposal **withdrawn** |
+| **Canonical text** | Worked Examples A–D in `docs/engineering/m0-architecture.md` §3 |
+| **Why still open** | G1.1-05 defers timing rules; PO asked to revise before M1 |
 | **Blocks** | M5 (SAVE-01/02), M8 (GAME-01 streaks), any commitment assessment tests |
-| **Also touches** | Partial first/final weeks; correction effects on week assessment |
 
-**Recommended option (for PO approval)**
+**Revised recommended option (for PO approval) — replaces the prior §3.1 list**
 
-1. **Week boundary:** Weeks run **Monday 00:00:00 → Sunday 23:59:59.999** in the **challenge time zone** (DST: use zone-aware calendar dates, not fixed UTC offsets).
-2. **Contribution date:** User-selectable calendar date; **no future dates**; must fall within `[challenge.start, min(today, challenge.end)]` in challenge TZ.
-3. **Backdating limit:** Date may be at most **14 days** before “today” in challenge TZ, and never before challenge start. (Corrections of existing rows follow audit rules, not this create window.)
-4. **Week allocation:** Entire contribution amount applies to the **single week that contains the contribution date** — no split across weeks.
-5. **Excess over weekly commitment:** Counts fully toward **personal target / milestones**; does **not** carry forward to future weeks’ commitment progress.
-6. **Partial first/final weeks:** Assessed as normal weeks on the same Monday–Sunday grid; commitment amount is **not** pro-rated in MVP (meet full weekly commitment if the participant is active that week).
-7. **Post-completion:** No ordinary creates (G1.1-12); out-of-period rejected as ineligible (G1.1-05).
+1. **Week boundary:** Weeks run **Monday 00:00:00 → Sunday 23:59:59.999** in the **challenge time zone**.
+2. **Ordinary create = today-only** in challenge TZ (no free-form backdated create).
+3. **Closed-week changes** go through **authorised corrections** (SAVE-02), not ordinary creates dated into past weeks.
+4. Attempting to date an ordinary entry into a closed week is **rejected** and redirected to the correction path.
+5. **Week allocation:** Entire amount → single week containing the contribution date (ordinary creates → current open week).
+6. **Streak:** Recompute from the corrected sequence of week statuses after corrections.
+7. **Milestones:** Distinguish historical milestone announcements from current progress (retention detail still OPEN in §3.3).
+8. **Late joins:** First **assessed** commitment week starts the **following Monday** after savings activation. Amounts recorded before that week count toward **personal target / milestones**, not toward pre-assessment commitment Completed/Missed.
+9. **Excess over weekly commitment / no carry-forward:** Still an OPEN §3.3-style default unless PO locks with this package — do not invent beyond PO text.
+10. **Post-completion:** No ordinary creates (G1.1-12); out-of-period rejected (G1.1-05).
 
-**Alternatives considered:** (a) Sunday-start weeks; (b) no backdating (today-only); (c) pro-rate partial weeks. Rejected for MVP simplicity / UK-familiar Monday weeks / Path A assumes dated contributions within a week.
+**Withdrawn:** Free-form create with ≤14-day backdate window; assessing late-join partial weeks as normal Missed/Completed in the join week.
 
 ---
 
-### 3.2 Sharing-member totals vs inferring private amounts — **priority**
+### 3.2 Sharing-member totals vs inferring private amounts — **superseded by approved G1.1-06-R1**
 
 | | |
 | --- | --- |
-| **Why open** | G1.1-06 requires hidden values cannot be reconstructed via aggregates or other exposed data; “small-group aggregate privacy edge cases” still listed open |
-| **Blocks** | M6 dashboard aggregates, M7 privacy, M9 feed/roster, security review |
-| **Risk** | Opt-out deltas, roster+% leakage, API field combinations, historical aggregate snapshots |
+| **Status** | **Superseded** — see approved **G1.1-06-R1** in `docs/engineering/m0-architecture.md` §4 |
+| **Blocks** | M6 dashboard aggregates, M7 privacy, M9 feed/roster, security review (acceptance suite must pass before M6 exposes shared totals) |
 
-**Recommended option (for PO approval) — “Exclude + no leakage channels”**
+**Approved direction (do not re-litigate the old §3.2 proposal list):**
 
-1. **Composition rule (already approved):** Visible totals include **only** members who currently share monetary info; label **Sharing members only** — never imply full-group total (G1.1-06).
-2. **Roster for Private members:** Show display name + **Private** affordance only — **no** amount, target, progress %, or money-sized bar.
-3. **Hide all monetary fields** for opted-out members from others: reported total, target, weekly commitment amount, contribution amounts in feed. Allowed non-monetary: membership presence, non-amount events (e.g. “joined”), and streak **count** only if it does not reveal commitment size (recommend: show “Streak · N weeks” / Completed|Missed|Paused **without** £ amounts).
-4. **No full-group or “including private as zero” totals** anywhere (UI, CSV, notifications, APIs).
-5. **API contract:** Other-member payloads omit monetary fields when opted out (fields absent, not zeroed). Aggregates computed server-side from sharers only; do not return per-private addends.
-6. **Opt-out cannot-undo:** Keep warning. Do **not** expose a queryable time series of past sharing-member totals that makes systematic reconstruction easy. Prior client-side memory is accepted residual risk (disclosed).
-7. **Small-group MVP stance:** Do **not** suppress the sharing-member total when sharer count is low. Sharers already consented to member visibility; private members are absent from the sum, so the total does not encode their hidden amounts. (k-anonymity suppression would mainly hide **sharers’** combined figure, which conflicts with default visibility / mid-fi.)
-8. **Acceptance probe:** With Alex opted out, other-member view matches Path C (£1,840 of £3,500 from Sam+Riley only); subtracting known sharer roster figures must **not** yield Alex’s private numbers because Alex is excluded (and Alex’s fields are absent).
+1. Visible totals = **current sharers only**; label **Sharing members only**.
+2. Opt-out delta may restate **only** figures the **same viewer** was already authorised to see.
+3. Post-privacy invariance: subject create / correct / reverse / target change must leave other members’ totals, roster monetary fields, and feed unchanged.
+4. No historical sharing-total APIs; harden against **stale responses** and viewers who never saw the private member’s figures.
+5. Private roster omits amount/target/%; omit monetary API fields (not zero).
+6. Small-group k-anonymity suppression remains **OPEN** (still recommend reject for MVP).
 
-**Alternative (stricter):** Hide sharing-member aggregate when fewer than 3 sharing members. **Not recommended for MVP** — contradicts signed-off mid-fi labelling and default sharer visibility; revisit only if user research shows inference anxiety among sharers.
+Full acceptance checklist: `m0-architecture.md` §4.5 (M6 prerequisite table).
 
 ---
 
@@ -439,13 +440,14 @@ Do not schedule: Open Banking, custody/transfers, public challenges, leaderboard
 
 ### Recommended decisions (short)
 
-1. **Contribution timing:** Monday–Sunday weeks in challenge TZ; date within challenge and ≤14-day backdate; whole amount to that week; no excess carry-forward; no partial-week pro-rate.
-2. **Private-amount inference:** Sharing-members-only totals; Private roster with no money/%; omit monetary API fields; no aggregate history that enables opt-out reconstruction; **no** k-anonymity hide of totals for MVP.
+1. **Contribution timing (revised — awaiting PO):** Today-only ordinary creates in challenge TZ; closed weeks via authorised corrections; streak recompute; late-join first assessed week = following Monday; pre-assessment savings count to personal target/milestones only. Canonical Examples A–D in `m0-architecture.md` §3.
+2. **Private-amount inference:** **G1.1-06-R1 approved** in `m0-architecture.md` §4 (same-viewer-authorised restatement; post-privacy invariance; M6 suite). Prior §3.2 proposal list superseded.
+3. **M0 architecture:** Approved **for planning** at `1f543e6` — not an implementation go.
 
 ### Allowed next (after PO approval)
 
-- Resolve §3 decisions (amendment or decision record).
-- Gate 3 architecture approval.
+- Approve or further revise §3.1 contribution timing (before M1).
+- Resolve remaining §3.3 OPEN defaults as needed.
 - **Separate** authorisation to implement M1+.
 
 ### Do not do on the back of this doc alone
