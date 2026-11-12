@@ -9,6 +9,18 @@
 | Preview | `http://localhost:3000` |
 | Auth under test | **mock** (real Supabase suite **blocked** — no `.env.local` / secrets on machine) |
 
+
+## Live Supabase run (in progress)
+
+| Field | Value |
+| --- | --- |
+| Project | `gdrkejobqlvtwnlaedpu` (non-prod) |
+| Preview | `http://localhost:3000` |
+| Auth mode | **supabase** (`.env.local` present; not committed) |
+| Register | **Pass** — verification email requested |
+| Verify email click | **Blocked on Dominic inbox** — `smyth.developer+m1live1794504378519@gmail.com` |
+| Remaining | sign-in, protected routes, profile, sign-out, recovery, new/old password |
+
 ## Checklist
 
 | Check | Result | Notes |
