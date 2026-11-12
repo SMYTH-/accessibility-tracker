@@ -5,7 +5,9 @@
 export type AuthMode = "supabase" | "mock";
 
 export function getAuthMode(): AuthMode {
-  if (process.env.AUTH_MODE === "mock") return "mock";
+  if (process.env.AUTH_MODE === "mock" || process.env.NEXT_PUBLIC_AUTH_MODE === "mock") {
+    return "mock";
+  }
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
   if (url && key) return "supabase";
