@@ -6,7 +6,7 @@
 | Plan lock | `eceed9a` |
 | M1 base tip | `318d490` (`cursor/m1-shell-auth-962b`) |
 | Implementation branch | `cursor/m2-challenge-lifecycle-25cb` |
-| Tip SHA | `35ac8044` |
+| Tip SHA | `8638bee5` |
 | Persistence | **Supabase Postgres** project `gdrkejobqlvtwnlaedpu` (non-prod) |
 | Date | 12 November 2026 |
 | Preview | `http://localhost:3000` |
