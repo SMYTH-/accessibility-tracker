@@ -1,6 +1,17 @@
 import { randomBytes } from "crypto";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { getAuthMode } from "@/lib/auth/config";
+import { createClient } from "@/lib/auth/supabase/server";
 import { expectedLifecycleStatus, initialLifecycleOnCreate } from "./time";
 import { withChallengeDb, readChallengeDb } from "./store";
+import {
+  pgAttemptTransition,
+  pgCreateChallenge,
+  pgGetForUser,
+  pgListAudit,
+  pgListForUser,
+  pgReconcile,
+} from "./postgres";
 import {
   isAllowedAutoTransition,
   rejectTransitionMessage,
@@ -21,6 +32,14 @@ function id(bytes = 12): string {
 
 function nowIso(d = new Date()): string {
   return d.toISOString();
+}
+
+function isPostgresMode(): boolean {
+  return getAuthMode() === "supabase";
+}
+
+async function userClient(): Promise<SupabaseClient> {
+  return createClient();
 }
 
 function pushAudit(
@@ -94,6 +113,9 @@ function reconcileChallenge(
 export async function reconcileAllChallenges(now: Date = new Date()): Promise<{
   transitioned: number;
 }> {
+  if (isPostgresMode()) {
+    return pgReconcile(await userClient(), now);
+  }
   return withChallengeDb((db) => {
     let transitioned = 0;
     for (const challenge of db.challenges) {
@@ -111,12 +133,18 @@ export type CreateChallengeResult =
 
 /**
  * Atomic create: private challenge + approved owner membership (savings inactive).
+ * Postgres path uses create_private_challenge RPC (single transaction).
  */
 export async function createChallenge(
   ownerUserId: string,
   input: CreateChallengeInput,
   now: Date = new Date(),
 ): Promise<CreateChallengeResult> {
+  if (isPostgresMode()) {
+    void ownerUserId; // RPC binds auth.uid() from the session
+    return pgCreateChallenge(await userClient(), input, now);
+  }
+
   const validated = validateCreateChallengeInput(input, now);
   if (!validated.ok) return { ok: false, error: validated.error };
 
@@ -178,6 +206,9 @@ export async function listChallengesForUser(
   userId: string,
   now: Date = new Date(),
 ): Promise<ChallengeWithMembership[]> {
+  if (isPostgresMode()) {
+    return pgListForUser(await userClient(), userId, now);
+  }
   await reconcileAllChallenges(now);
   const db = await readChallengeDb();
   const mine = db.memberships.filter(
@@ -198,6 +229,9 @@ export async function getChallengeForUser(
   userId: string,
   now: Date = new Date(),
 ): Promise<ChallengeWithMembership | null> {
+  if (isPostgresMode()) {
+    return pgGetForUser(await userClient(), challengeId, userId, now);
+  }
   await reconcileAllChallenges(now);
   const db = await readChallengeDb();
   const challenge = db.challenges.find((c) => c.id === challengeId);
@@ -229,7 +263,6 @@ export function canRecordSavings(
   return { allowed: true, reason: "Eligible." };
 }
 
-/** Owner week assessment is skipped while savings participation is inactive (G1.1-01). */
 export function isAssessedForWeeklyCommitments(membership: Membership): boolean {
   return membership.savingsParticipationActive;
 }
@@ -237,21 +270,25 @@ export function isAssessedForWeeklyCommitments(membership: Membership): boolean 
 export async function listAuditForChallenge(
   challengeId: string,
 ): Promise<LifecycleAuditEvent[]> {
+  if (isPostgresMode()) {
+    return pgListAudit(await userClient(), challengeId);
+  }
   const db = await readChallengeDb();
   return db.audit
     .filter((e) => e.challengeId === challengeId)
     .sort((a, b) => a.at.localeCompare(b.at));
 }
 
-/**
- * Attempt a manual transition (tests / guard). Cancel is not a product action in M2.
- */
 export async function attemptLifecycleTransition(
   challengeId: string,
   to: LifecycleStatus,
   actorUserId: string | null,
   now: Date = new Date(),
 ): Promise<{ ok: true; challenge: Challenge } | { ok: false; error: string }> {
+  if (isPostgresMode()) {
+    void actorUserId;
+    return pgAttemptTransition(await userClient(), challengeId, to, now);
+  }
   return withChallengeDb((db) => {
     const challenge = db.challenges.find((c) => c.id === challengeId);
     if (!challenge) return { ok: false, error: "Challenge not found." };
