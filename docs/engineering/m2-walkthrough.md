@@ -5,7 +5,7 @@
 | Milestone | M2 only (stop before M3) |
 | Plan baseline | `eceed9a` — `docs/engineering/m2-challenge-plan.md` |
 | M1 base | `cursor/m1-shell-auth-962b` / PR #2 tip `318d490` |
-| Branch | `cursor/m2-challenge-lifecycle-25cb` @ `7960c230` |
+| Branch | `cursor/m2-challenge-lifecycle-25cb` @ `7960c230`+ |
 | Local preview | `http://localhost:3000` |
 | Auth for UI shots | **mock** (`AUTH_MODE=mock` + `NEXT_PUBLIC_AUTH_MODE=mock`) |
 | Persistence | Local file store `.data/challenges.json` (gitignored) |
