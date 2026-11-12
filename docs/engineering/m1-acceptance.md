@@ -4,6 +4,7 @@
 | --- | --- |
 | Against | `docs/engineering/mvp-build-plan.md` § M1 |
 | Baseline | `96f723d` |
+| Implementation | `83b2ce9` (`cursor/m1-shell-auth-962b`) |
 | Date | 12 November 2026 |
 | Preview | `http://localhost:3000` |
 | Auth under test | **mock** (Supabase secrets not present) |

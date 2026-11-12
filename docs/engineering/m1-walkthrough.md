@@ -4,6 +4,7 @@
 | --- | --- |
 | Milestone | M1 only (stop before M2) |
 | Baseline | Approved M0 + MVP plan lock at `96f723d` |
+| Implementation commit | `83b2ce9` on `cursor/m1-shell-auth-962b` |
 | Local preview | `http://localhost:3000` |
 | Auth mode (this checkout) | **mock** — no `NEXT_PUBLIC_SUPABASE_URL` / `ANON_KEY` in env |
 | Working accents | Deep Sea `#1A6B7C` · Honey Amber `#C9842A` (working only) |
