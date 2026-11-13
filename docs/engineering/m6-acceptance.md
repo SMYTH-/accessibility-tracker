@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M6 · G1.1-06-R1 (`m0-architecture.md` §4) |
 | M5 base tip | `e22f76f` (PR #6) |
 | Implementation branch | `cursor/m6-dashboard-totals-18d2` |
-| Tip SHA | _(filled at PR)_ |
+| Tip SHA | `49016956` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod) |
 | Date | 13 November 2026 |
 | Machine | Dom’s Mac — `/Users/dom.smyth/Local Sites/accessibility-tracker` |
