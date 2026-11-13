@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M11 · Gates 6–7 · §10.1 · §10.5 · Journeys A–E · WCAG 2.2 AA |
 | M10 base tip | `6e9cca6d` (PR #11) |
 | Implementation branch | `cursor/m11-beta-readiness-cb14` |
-| Tip SHA | `1d3fde568348fea20b302be4fd4dadd0eaaf1e7c` |
+| Tip SHA | `afb8873ec2a9d864e05ec86858ee5e1f49026d04` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod linked) |
 | Date | 13 November 2026 |
 | Machine | Dom Mac · `~/Local Sites/accessibility-tracker` |
