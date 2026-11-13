@@ -252,8 +252,33 @@ const feedT0 = await sessions.sam.rpc("challenge_activity_preview", {
 });
 const jordanFeedT0 = (feedT0.data?.events || []).find((e) => e.user_id === ids.jordan);
 assert(
-  "jordan feed private no amount",
-  jordanFeedT0?.kind === "private_contribution" && !hasKey(jordanFeedT0, "amount_minor"),
+  "jordan private contribution excluded from sam preview",
+  !jordanFeedT0,
+  jordanFeedT0 ? JSON.stringify(jordanFeedT0) : "absent",
+);
+
+// Signed-in callers must not execute the internal eligible-saved helper.
+const directEligible = await sessions.sam.rpc("member_eligible_saved_minor", {
+  p_challenge_id: challengeId,
+  p_user_id: ids.alex,
+  p_start_date: todayLondon,
+  p_end_date: endDate,
+});
+assert(
+  "signed-in denied member_eligible_saved_minor",
+  Boolean(directEligible.error),
+  directEligible.error?.message || "unexpected success",
+);
+const alexDirectOwn = await sessions.alex.rpc("member_eligible_saved_minor", {
+  p_challenge_id: challengeId,
+  p_user_id: ids.alex,
+  p_start_date: todayLondon,
+  p_end_date: endDate,
+});
+assert(
+  "signed-in denied member_eligible_saved_minor even for self",
+  Boolean(alexDirectOwn.error),
+  alexDirectOwn.error?.message || "unexpected success",
 );
 
 // --- Opt-out Alex (fixture) ---
@@ -335,12 +360,13 @@ assert(
 const feedAfterCreate = await sessions.sam.rpc("challenge_activity_preview", {
   p_challenge_id: challengeId,
 });
-const alexFeedPriv = (feedAfterCreate.data?.events || []).find(
-  (e) => e.user_id === ids.alex && e.kind === "private_contribution",
+const alexInSamFeed = (feedAfterCreate.data?.events || []).find(
+  (e) => e.user_id === ids.alex,
 );
 assert(
-  "post-opt-out feed has no alex amount",
-  alexFeedPriv && !hasKey(alexFeedPriv, "amount_minor"),
+  "post-opt-out create excluded from other member preview",
+  !alexInSamFeed,
+  alexInSamFeed ? JSON.stringify(alexInSamFeed) : "absent",
 );
 
 // Post-opt-out correct (amend original 1240 → 900)
@@ -512,6 +538,91 @@ assert(
   "personal progress reflects reverse + later create",
   Number(personalAfter.data?.eligible_total_minor) === 10000,
   String(personalAfter.data?.eligible_total_minor),
+);
+
+// Full feed: private record/amend/reverse must not change another member's preview.
+// Seed extra same-day sharing rows (challenge start = today) so the 8-slot window fills.
+for (let i = 0; i < 8; i += 1) {
+  const at = new Date(`${todayLondon}T12:00:00Z`);
+  at.setUTCMinutes(at.getUTCMinutes() + i);
+  const seeded = await admin.rpc("record_contribution_at", {
+    p_challenge_id: challengeId,
+    p_user_id: i % 2 === 0 ? ids.sam : ids.riley,
+    p_amount_minor: 1000 + i,
+    p_idempotency_key: `full-feed-${stamp}-${i}`,
+    p_now: at.toISOString(),
+  });
+  assert(`full-feed seed ${i}`, !seeded.error, seeded.error?.message);
+}
+const feedBaseline = await sessions.sam.rpc("challenge_activity_preview", {
+  p_challenge_id: challengeId,
+});
+const feedBaselineIds = (feedBaseline.data?.events || []).map((e) => e.id);
+assert("full feed has 8 events", feedBaselineIds.length === 8, String(feedBaselineIds.length));
+assert(
+  "full feed excludes private authors",
+  (feedBaseline.data?.events || []).every(
+    (e) => e.user_id === ids.sam || e.user_id === ids.riley,
+  ),
+);
+
+const privFull = await record(sessions.alex, 7777, `alex-priv-full-${stamp}`);
+assert("alex private create on full feed", !privFull.error, privFull.error?.message);
+const privFullId = privFull.data?.contribution?.id;
+const feedAfterPrivCreate = await sessions.sam.rpc("challenge_activity_preview", {
+  p_challenge_id: challengeId,
+});
+assert(
+  "private create leaves full preview unchanged",
+  JSON.stringify((feedAfterPrivCreate.data?.events || []).map((e) => e.id)) ===
+    JSON.stringify(feedBaselineIds),
+);
+
+const privFullAmend = await sessions.alex.rpc("amend_contribution", {
+  p_contribution_id: privFullId,
+  p_amount_minor: 8888,
+});
+assert("alex private amend on full feed", !privFullAmend.error, privFullAmend.error?.message);
+const feedAfterPrivAmend = await sessions.sam.rpc("challenge_activity_preview", {
+  p_challenge_id: challengeId,
+});
+assert(
+  "private amend leaves full preview unchanged",
+  JSON.stringify((feedAfterPrivAmend.data?.events || []).map((e) => e.id)) ===
+    JSON.stringify(feedBaselineIds),
+);
+
+const privFullRev = await sessions.alex.rpc("reverse_contribution", {
+  p_contribution_id: privFullId,
+});
+assert("alex private reverse on full feed", !privFullRev.error, privFullRev.error?.message);
+const feedAfterPrivRev = await sessions.sam.rpc("challenge_activity_preview", {
+  p_challenge_id: challengeId,
+});
+assert(
+  "private reverse leaves full preview unchanged",
+  JSON.stringify((feedAfterPrivRev.data?.events || []).map((e) => e.id)) ===
+    JSON.stringify(feedBaselineIds),
+);
+
+const alexSelfFeed = await sessions.alex.rpc("challenge_activity_preview", {
+  p_challenge_id: challengeId,
+});
+const alexOwnInFeed = (alexSelfFeed.data?.events || []).find((e) => e.user_id === ids.alex);
+assert(
+  "opted-out member still sees own contribution in preview",
+  alexOwnInFeed?.kind === "contribution" &&
+    hasKey(alexOwnInFeed, "amount_minor") &&
+    Number(alexOwnInFeed.amount_minor) > 0,
+  alexOwnInFeed ? JSON.stringify(alexOwnInFeed) : "missing",
+);
+const alexPersonalFinal = await sessions.alex.rpc("challenge_dashboard", {
+  p_challenge_id: challengeId,
+});
+assert(
+  "opted-out member personal figures still visible",
+  Number(alexPersonalFinal.data?.personal?.eligible_total_minor) === 10000 &&
+    Number(alexPersonalFinal.data?.personal?.target_minor) === 999000,
 );
 
 const outDir = join(process.cwd(), ".data");

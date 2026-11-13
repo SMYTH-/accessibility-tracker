@@ -156,7 +156,7 @@ export default async function ChallengeOverviewPage({
         </section>
 
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Membership</h2>
+          <h2 className="text-lg font-semibold">Membership</h2>
           <ul className="mt-3 space-y-2 text-sm">
             <li>
               Status: <strong className="font-semibold">{membership.status}</strong> · Role:{" "}
@@ -200,7 +200,7 @@ export default async function ChallengeOverviewPage({
         />
 
         {setup ? (
-          <p className="text-xs text-[var(--mute)]">
+          <p className="text-xs tabular-nums text-[var(--mute)]">
             Your target {formatMinorAsMajor(setup.targetMinor, challenge.currency)} · weekly{" "}
             {formatMinorAsMajor(setup.weeklyCommitmentMinor, challenge.currency)}
           </p>
@@ -220,7 +220,7 @@ export default async function ChallengeOverviewPage({
 
         {savingsAudit.length > 0 ? (
           <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-            <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+            <h2 className="text-lg font-semibold">
               Savings setup audit
             </h2>
             <ul className="mt-3 space-y-2 text-sm">
@@ -240,10 +240,10 @@ export default async function ChallengeOverviewPage({
 
         {sharingTotals ? (
           <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-            <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+            <h2 className="text-lg font-semibold">
               {sharingTotals.label}
             </h2>
-            <p className="mt-2 text-lg font-semibold text-[var(--ink)]">
+            <p className="mt-2 text-lg font-semibold tabular-nums text-[var(--ink)]">
               {formatMinorAsMajor(sharingTotals.savedMinor, sharingTotals.currency)} of{" "}
               {formatMinorAsMajor(sharingTotals.targetMinor, sharingTotals.currency)}
             </p>
@@ -258,7 +258,7 @@ export default async function ChallengeOverviewPage({
         ) : null}
 
         <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Not in M6</h2>
+          <h2 className="text-lg font-semibold">Not in M6</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
             Privacy opt-out settings UI (M7), weekly assessment / streak calculation (M8), and cancel
             remain out of scope. Post-activation target editing stays parked (M4).
@@ -266,7 +266,7 @@ export default async function ChallengeOverviewPage({
         </section>
 
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+          <h2 className="text-lg font-semibold">
             Lifecycle audit
           </h2>
           <ul className="mt-3 space-y-2 text-sm">

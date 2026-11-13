@@ -4,7 +4,7 @@
  */
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
-import { mkdirSync } from "fs";
+import { copyFileSync, mkdirSync } from "fs";
 import { join } from "path";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -80,20 +80,31 @@ const challengeId = created.data.challenge.id;
 
 const act = await owner.rpc("activate_savings_setup", {
   p_challenge_id: challengeId,
-  p_target_minor: 200000,
-  p_weekly_commitment_minor: 5000,
+  p_target_minor: 2000000,
+  p_weekly_commitment_minor: 50000,
 });
 if (act.error) throw act.error;
 
 const rec = await owner.rpc("record_contribution", {
   p_challenge_id: challengeId,
-  p_amount_minor: 124000,
+  p_amount_minor: 1245050,
   p_idempotency_key: `ui-${stamp}`,
 });
 if (rec.error) throw rec.error;
 
 const mediaDir = join(process.cwd(), "media", "m6");
+const storeMedia = join(
+  process.env.HOME,
+  "Library/Application Support/Cursor/AgentStores/cursor_agent_stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/files/media/m6",
+);
 mkdirSync(mediaDir, { recursive: true });
+mkdirSync(storeMedia, { recursive: true });
+
+function saveShot(name) {
+  const repoPath = join(mediaDir, name);
+  copyFileSync(repoPath, join(storeMedia, name));
+  return repoPath;
+}
 
 const browser = await chromium.launch({ headless: true });
 const context = await browser.newContext({
@@ -112,6 +123,12 @@ await page.screenshot({
   path: join(mediaDir, "01-home-personal-progress.png"),
   fullPage: true,
 });
+await page.screenshot({
+  path: join(mediaDir, "07-after-dashboard-manrope.png"),
+  fullPage: true,
+});
+saveShot("01-home-personal-progress.png");
+saveShot("07-after-dashboard-manrope.png");
 
 await page.goto(`${SITE}/challenge/${challengeId}`, { waitUntil: "networkidle" });
 await page.waitForTimeout(600);
@@ -119,6 +136,12 @@ await page.screenshot({
   path: join(mediaDir, "02-challenge-sharing-totals.png"),
   fullPage: true,
 });
+await page.screenshot({
+  path: join(mediaDir, "08-after-form-manrope.png"),
+  fullPage: true,
+});
+saveShot("02-challenge-sharing-totals.png");
+saveShot("08-after-form-manrope.png");
 
 // Second sharer for multi-member total
 const otherEmail = `m6.ui.other.${stamp}@example.com`;
@@ -150,11 +173,12 @@ await page.screenshot({
   path: join(mediaDir, "03-home-sharing-members-only.png"),
   fullPage: true,
 });
+saveShot("03-home-sharing-members-only.png");
 
 // Amend then reload — personal progress updates
 await owner.rpc("amend_contribution", {
   p_contribution_id: rec.data.contribution.id,
-  p_amount_minor: 130000,
+  p_amount_minor: 1300000,
 });
 await page.goto(`${SITE}/home`, { waitUntil: "networkidle" });
 await page.waitForTimeout(800);
@@ -162,6 +186,7 @@ await page.screenshot({
   path: join(mediaDir, "04-home-after-amend.png"),
   fullPage: true,
 });
+saveShot("04-home-after-amend.png");
 
 await browser.close();
 console.log(
@@ -175,6 +200,8 @@ console.log(
         "media/m6/02-challenge-sharing-totals.png",
         "media/m6/03-home-sharing-members-only.png",
         "media/m6/04-home-after-amend.png",
+        "media/m6/07-after-dashboard-manrope.png",
+        "media/m6/08-after-form-manrope.png",
       ],
     },
     null,

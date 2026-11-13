@@ -41,7 +41,7 @@ export default async function ChallengeIndexPage() {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="font-[family-name:var(--font-display)] text-lg font-semibold text-[var(--ink)]">
+                      <p className="text-lg font-semibold text-[var(--ink)]">
                         {challenge.name}
                       </p>
                       <p className="mt-1 text-sm text-[var(--mute)]">

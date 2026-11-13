@@ -46,7 +46,7 @@ export function ChallengeDashboardView({
           Active challenge
         </p>
         <div className="mt-2 flex flex-wrap items-center gap-2">
-          <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--ink)]">
+          <h2 className="text-xl font-semibold text-[var(--ink)]">
             {data.challengeName}
           </h2>
           <ChallengeStatusBadge status={data.lifecycleStatus as LifecycleStatus} />
@@ -58,7 +58,7 @@ export function ChallengeDashboardView({
 
       {!hasSetup ? (
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <p className="font-[family-name:var(--font-display)] text-lg font-semibold">
+          <p className="text-lg font-semibold">
             Personal progress
           </p>
           <p className="mt-2 text-sm text-[var(--mute)]">
@@ -82,11 +82,11 @@ export function ChallengeDashboardView({
           >
             Personal progress
           </p>
-          <p className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--ink)]">
+          <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--ink)] tabular-nums">
             {formatMinorAsMajor(personal.eligibleTotalMinor, personal.currency)} of{" "}
             {formatMinorAsMajor(personal.targetMinor!, personal.currency)}
           </p>
-          <p className="mt-1 text-sm text-[var(--mute)]">
+          <p className="mt-1 text-sm tabular-nums text-[var(--mute)]">
             Self-reported
             {personal.currentProgressPercent != null
               ? ` · Current ${personal.currentProgressPercent}%`
@@ -126,7 +126,7 @@ export function ChallengeDashboardView({
           className="flex flex-wrap gap-2"
           aria-label="Weekly commitment and streak"
         >
-          <span className="rounded-xl border border-[var(--line)] bg-[var(--elevated)] px-3 py-2 text-sm text-[var(--ink)] shadow-[var(--shadow)]">
+          <span className="rounded-xl border border-[var(--line)] bg-[var(--elevated)] px-3 py-2 text-sm tabular-nums text-[var(--ink)] shadow-[var(--shadow)]">
             This week ·{" "}
             {formatMinorAsMajor(personal.weeklyCommitmentMinor ?? 0, personal.currency)} ·
             assessment in M8
@@ -147,13 +147,13 @@ export function ChallengeDashboardView({
         >
           {sharing.label}
         </p>
-        <p className="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--ink)]">
+        <p className="mt-2 text-xl font-semibold tabular-nums text-[var(--ink)]">
           {formatMinorAsMajor(sharing.savedMinor, sharing.currency)} of{" "}
           {formatMinorAsMajor(sharing.targetMinor, sharing.currency)}
         </p>
         <p className="mt-1 text-sm text-[var(--mute)]">{sharing.scopeExplanation}</p>
         {sharing.progressPercent != null ? (
-          <p className="mt-1 text-xs text-[var(--mute)]">
+          <p className="mt-1 text-xs tabular-nums text-[var(--mute)]">
             {sharing.progressPercent}% · {sharing.sharerCount} sharing member
             {sharing.sharerCount === 1 ? "" : "s"} · {sharing.sourceLabel}
           </p>
@@ -207,7 +207,7 @@ export function ChallengeDashboardView({
                   <p className="font-medium text-[var(--ink)]">{ev.title}</p>
                   <p className="text-[var(--mute)]">{ev.meta}</p>
                   {ev.amountMinor != null && ev.currency ? (
-                    <p className="mt-0.5 text-xs text-[var(--mute)]">
+                    <p className="mt-0.5 text-xs tabular-nums text-[var(--mute)]">
                       {formatMinorAsMajor(ev.amountMinor, ev.currency)} · self-reported
                     </p>
                   ) : null}
@@ -239,7 +239,7 @@ export function DashboardEmptyState({
 }) {
   return (
     <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-      <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+      <h2 className="text-lg font-semibold">
         No challenge yet
       </h2>
       <p className="mt-2 text-sm text-[var(--mute)]">

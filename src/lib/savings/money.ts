@@ -28,6 +28,15 @@ export function parsePositiveMajorToMinor(
 }
 
 export function formatMinorAsMajor(minor: number, currency: string): string {
-  const major = (minor / MINOR_PER_MAJOR).toFixed(2);
-  return `${currency} ${major}`;
+  try {
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(minor / MINOR_PER_MAJOR);
+  } catch {
+    const major = (minor / MINOR_PER_MAJOR).toFixed(2);
+    return `${currency} ${major}`;
+  }
 }

@@ -13,13 +13,17 @@
 
 | Surface | Behaviour | Evidence |
 | --- | --- | --- |
-| Home hierarchy (A+B) | Personal progress → separate milestone chip → weekly + **Your streak** → **Sharing members only** → activity preview → Record savings | UI `01`–`04` |
+| Home hierarchy (A+B) | Personal progress → separate milestone chip → weekly + **Your streak** → **Sharing members only** → activity preview → Record savings | UI `01`–`04`, `07` |
 | Personal progress | Eligible PG contributions vs personal target; labelled self-reported; current % distinct from Halfway | PG + UI |
 | Sharing members only | Server sum of eligible saved + targets for approved members with `share_monetary_info = true` at read time | PG Path C |
 | Opt-out (fixture) | Excluded from others’ totals; self still sees own | PG |
-| G1.1-06-R1 suite | Real sessions; pending/removed/stranger denied; post-opt-out create/amend/reverse/target invariant; no history endpoint; late joiner | `evidence:m6:pg` 72/72 |
+| Activity preview privacy | Other members’ private contributions filtered **before** order/limit; full-feed create/amend/reverse leaves others unchanged | PG 92/92 |
+| Helper lock | `member_eligible_saved_minor` revoked from authenticated; internal to authorised readers | PG permission denied |
+| Typography (working) | Syne removed; Manrope throughout; tabular numerals; `£12,450.50` fits mobile | before `05`/`06` → after `07`/`08` |
+| G1.1-06-R1 suite | Real sessions; pending/removed/stranger denied; post-opt-out create/amend/reverse/target invariant; no history endpoint; late joiner | `evidence:m6:pg` 92/92 |
 | Target edit | Remains parked (M4) | Unchanged |
 | Weekly / streak calc | Label **Your streak** only; calculation deferred | UI copy |
+| Final brand typography | OPEN | Working Manrope pass only |
 
 ## Click path (local)
 

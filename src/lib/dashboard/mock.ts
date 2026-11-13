@@ -156,44 +156,34 @@ export async function mockActivityPreview(
   if (!approvedMembership(db.memberships, challengeId, userId)) return null;
 
   const events: ActivityPreviewEvent[] = [];
+  // Privacy filter BEFORE order/limit: self always; others only when sharing.
   const rows = [...db.contributions]
-    .filter((c) => c.challengeId === challengeId && c.status === "active")
+    .filter((c) => {
+      if (c.challengeId !== challengeId || c.status !== "active") return false;
+      const mem = db.memberships.find(
+        (m) =>
+          m.challengeId === challengeId &&
+          m.userId === c.userId &&
+          m.status === "approved",
+      );
+      if (!mem) return false;
+      return c.userId === userId || mem.shareMonetaryInfo;
+    })
     .sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))
     .slice(0, 8);
 
   for (const c of rows) {
-    const mem = db.memberships.find(
-      (m) =>
-        m.challengeId === challengeId &&
-        m.userId === c.userId &&
-        m.status === "approved",
-    );
-    if (!mem) continue;
-    const isSelf = c.userId === userId;
-    const showMoney = isSelf || mem.shareMonetaryInfo;
-    if (showMoney) {
-      events.push({
-        id: c.id,
-        kind: "contribution",
-        userId: c.userId,
-        displayName: c.userId,
-        title: `${c.userId} recorded a self-reported contribution`,
-        meta: `Self-reported · ${c.contributionDate}`,
-        amountMinor: c.amountMinor,
-        currency: challenge.currency,
-        at: c.updatedAt,
-      });
-    } else {
-      events.push({
-        id: c.id,
-        kind: "private_contribution",
-        userId: c.userId,
-        displayName: c.userId,
-        title: `${c.userId} · Private`,
-        meta: "Amounts and target hidden",
-        at: c.updatedAt,
-      });
-    }
+    events.push({
+      id: c.id,
+      kind: "contribution",
+      userId: c.userId,
+      displayName: c.userId,
+      title: `${c.userId} recorded a self-reported contribution`,
+      meta: `Self-reported · ${c.contributionDate}`,
+      amountMinor: c.amountMinor,
+      currency: challenge.currency,
+      at: c.updatedAt,
+    });
   }
   return events;
 }
