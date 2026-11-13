@@ -1,14 +1,14 @@
 {
   "project": "gdrkejobqlvtwnlaedpu",
-  "stamp": 1794607702507,
+  "stamp": 1794608507007,
   "emails": {
-    "alex": "m10.alex.1794607702507@example.com",
-    "sam": "m10.sam.1794607702507@example.com",
-    "solo": "m10.solo.1794607702507@example.com"
+    "alex": "m10.alex.1794608507007@example.com",
+    "sam": "m10.sam.1794608507007@example.com",
+    "solo": "m10.solo.1794608507007@example.com"
   },
-  "challengeId": "ed38a71f-639f-4822-8bc1-bc08069d668d",
-  "graceChallengeId": "e3f748e0-73d7-4932-a9c9-d7c31abdf037",
-  "cancelChallengeId": "b49de370-0f77-4f87-8dc4-f7e67f91394e",
+  "challengeId": "46b67c96-81b6-44c9-9422-55b395a47724",
+  "graceChallengeId": "03e8ba37-4497-49ee-80b8-0922c6bdd629",
+  "cancelChallengeId": "eda538f8-b5ae-4ddd-b148-8f9a0b060732",
   "results": [
     {
       "name": "users ready",
@@ -43,7 +43,7 @@
     {
       "name": "challenge id",
       "ok": true,
-      "detail": "ed38a71f-639f-4822-8bc1-bc08069d668d"
+      "detail": "46b67c96-81b6-44c9-9422-55b395a47724"
     },
     {
       "name": "approve sam",
@@ -218,7 +218,7 @@
     {
       "name": "grace challenge owned by sam",
       "ok": true,
-      "detail": "d64d631d-38fb-4e6a-a2b1-a3e31eb3ef87"
+      "detail": "796cd09c-a933-4942-9ae1-b4de5bd6789f"
     },
     {
       "name": "solo email login fails after grace-transfer deletion",

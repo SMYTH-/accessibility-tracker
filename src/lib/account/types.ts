@@ -41,6 +41,7 @@ export type DeletionStatus =
   | "pending_transfer"
   | "grace_pending"
   | "ready"
+  | "revoking"
   | "completed"
   | "cancelled";
 
@@ -54,6 +55,8 @@ export type DeletionRequestResult =
       message?: string;
       cancelledChallenges?: number;
       idempotent?: boolean;
+      revocationError?: string | null;
+      sessionsRevokedAt?: string | null;
     }
   | {
       ok: false;

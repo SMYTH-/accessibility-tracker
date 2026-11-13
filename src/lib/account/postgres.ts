@@ -50,6 +50,10 @@ function mapDeletionPayload(data: unknown): DeletionRequestResult {
         ? undefined
         : Number(row.cancelled_challenges),
     idempotent: Boolean(row.idempotent),
+    revocationError:
+      row.revocation_error == null ? null : String(row.revocation_error),
+    sessionsRevokedAt:
+      row.sessions_revoked_at == null ? null : String(row.sessions_revoked_at),
   };
 }
 
@@ -87,7 +91,23 @@ export async function pgFinalizeAccountDeletion(
       code: mapAccountErrorCode(error.message),
     };
   }
-  return mapDeletionPayload(data);
+  const mapped = mapDeletionPayload(data);
+
+  // Belt-and-suspenders: global logout using the caller's access token.
+  // SQL already deletes auth.sessions / refresh_tokens when revocation succeeds.
+  try {
+    const { data: sessionData } = await supabase.auth.getSession();
+    const jwt = sessionData.session?.access_token;
+    if (jwt) {
+      const { createAdminClient } = await import("@/lib/auth/supabase/admin");
+      const admin = createAdminClient();
+      await admin.auth.admin.signOut(jwt, "global");
+    }
+  } catch {
+    // Revocation completeness is owned by SQL status; ignore secondary logout errors.
+  }
+
+  return mapped;
 }
 
 export async function pgGetOwnDeletionStatus(

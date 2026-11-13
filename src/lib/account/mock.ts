@@ -31,9 +31,36 @@ type MockDeletionRequest = {
   graceEndsAt: string | null;
   completedAt: string | null;
   holds: MockDeletionHold[];
+  revocationError?: string | null;
+  sessionsRevokedAt?: string | null;
+  /** Test hook: force next revoke attempt to fail once. */
+  failNextRevocation?: boolean;
 };
 
 const deletionByUser = new Map<string, MockDeletionRequest>();
+
+export function accountAccessDeniedMock(userId: string): boolean {
+  const req = deletionByUser.get(userId);
+  return Boolean(req && (req.status === "revoking" || req.status === "completed"));
+}
+
+/** Test helper: next finalize revoke step fails once (stays revoking). */
+export function mockForceNextRevocationFailure(userId: string): void {
+  let req = deletionByUser.get(userId);
+  if (!req) {
+    req = {
+      id: randomUUID(),
+      userId,
+      status: "ready",
+      requestedAt: new Date().toISOString(),
+      graceEndsAt: null,
+      completedAt: null,
+      holds: [],
+    };
+    deletionByUser.set(userId, req);
+  }
+  req.failNextRevocation = true;
+}
 
 function eligibleReplacements(
   challengeId: string,
@@ -173,6 +200,13 @@ async function buildMockExport(userId: string): Promise<PersonalDataExport> {
 
 export async function mockExportOwnPersonalData(userId: string): Promise<ExportResult> {
   try {
+    if (accountAccessDeniedMock(userId)) {
+      return {
+        ok: false,
+        error:
+          "This account has been deleted or is pending session revocation. Sign in is no longer available.",
+      };
+    }
     const mapped = await buildMockExport(userId);
     return { ok: true, export: mapped, raw: mapped };
   } catch (e) {
@@ -337,97 +371,120 @@ async function mockFinalize(userId: string): Promise<DeletionRequestResult> {
       status: "completed",
       idempotent: true,
       requestId: req.id,
+      sessionsRevokedAt: req.sessionsRevokedAt,
     };
   }
 
   const now = Date.now();
   let cancelled = 0;
+  const alreadyRevoking = req.status === "revoking";
 
-  await withChallengeDb((db) => {
-    for (const hold of req.holds) {
-      if (hold.resolvedAt) continue;
-      const chal = db.challenges.find((c) => c.id === hold.challengeId);
-      if (!chal) {
-        hold.resolvedAt = new Date().toISOString();
-        hold.resolution = "lifecycle_non_blocking";
-        continue;
-      }
-      if (chal.ownerUserId !== userId) {
-        hold.resolvedAt = new Date().toISOString();
-        hold.resolution = "transferred";
-        continue;
-      }
-      if (chal.lifecycleStatus !== "Active" && chal.lifecycleStatus !== "Scheduled") {
-        hold.resolvedAt = new Date().toISOString();
-        hold.resolution = "lifecycle_non_blocking";
-        continue;
-      }
-      const eligible = eligibleReplacements(chal.id, userId, db.memberships);
-      if (eligible.length > 0) {
+  if (!alreadyRevoking) {
+    await withChallengeDb((db) => {
+      for (const hold of req.holds) {
+        if (hold.resolvedAt) continue;
+        const chal = db.challenges.find((c) => c.id === hold.challengeId);
+        if (!chal) {
+          hold.resolvedAt = new Date().toISOString();
+          hold.resolution = "lifecycle_non_blocking";
+          continue;
+        }
+        if (chal.ownerUserId !== userId) {
+          hold.resolvedAt = new Date().toISOString();
+          hold.resolution = "transferred";
+          continue;
+        }
+        if (chal.lifecycleStatus !== "Active" && chal.lifecycleStatus !== "Scheduled") {
+          hold.resolvedAt = new Date().toISOString();
+          hold.resolution = "lifecycle_non_blocking";
+          continue;
+        }
+        const eligible = eligibleReplacements(chal.id, userId, db.memberships);
+        if (eligible.length > 0) {
+          throw new Error("DELETION_TRANSFER_REQUIRED");
+        }
+        if (hold.holdKind === "grace_no_replacement") {
+          if (!hold.graceEndsAt || Date.parse(hold.graceEndsAt) > now) {
+            throw new Error("DELETION_GRACE_ACTIVE");
+          }
+          const from = chal.lifecycleStatus;
+          chal.lifecycleStatus = "Cancelled";
+          chal.ownerUserId = "";
+          chal.updatedAt = new Date().toISOString();
+          db.audit.push({
+            id: randomUUID(),
+            challengeId: chal.id,
+            actorUserId: userId,
+            action: "lifecycle_transition",
+            fromStatus: from,
+            toStatus: "Cancelled",
+            reason:
+              "Auto-cancelled after owner deletion grace with no eligible replacement",
+            at: chal.updatedAt,
+          });
+          hold.resolvedAt = chal.updatedAt;
+          hold.resolution = "cancelled_challenge";
+          cancelled += 1;
+          continue;
+        }
         throw new Error("DELETION_TRANSFER_REQUIRED");
       }
-      if (hold.holdKind === "grace_no_replacement") {
-        if (!hold.graceEndsAt || Date.parse(hold.graceEndsAt) > now) {
-          throw new Error("DELETION_GRACE_ACTIVE");
+
+      if (
+        db.challenges.some(
+          (c) =>
+            c.ownerUserId === userId &&
+            (c.lifecycleStatus === "Active" || c.lifecycleStatus === "Scheduled"),
+        )
+      ) {
+        throw new Error("DELETION_TRANSFER_REQUIRED");
+      }
+
+      for (const m of db.memberships) {
+        if (m.userId !== userId) continue;
+        if (m.status === "approved" || m.status === "pending") {
+          m.status = "left";
+          m.savingsParticipationActive = false;
+          if (m.role === "owner") m.role = "member";
+          m.updatedAt = new Date().toISOString();
         }
-        const from = chal.lifecycleStatus;
-        chal.lifecycleStatus = "Cancelled";
-        chal.ownerUserId = "";
-        chal.updatedAt = new Date().toISOString();
-        db.audit.push({
-          id: randomUUID(),
-          challengeId: chal.id,
-          actorUserId: userId,
-          action: "lifecycle_transition",
-          fromStatus: from,
-          toStatus: "Cancelled",
-          reason:
-            "Auto-cancelled after owner deletion grace with no eligible replacement",
-          at: chal.updatedAt,
-        });
-        hold.resolvedAt = chal.updatedAt;
-        hold.resolution = "cancelled_challenge";
-        cancelled += 1;
-        continue;
       }
-      throw new Error("DELETION_TRANSFER_REQUIRED");
-    }
-
-    if (
-      db.challenges.some(
-        (c) =>
-          c.ownerUserId === userId &&
-          (c.lifecycleStatus === "Active" || c.lifecycleStatus === "Scheduled"),
-      )
-    ) {
-      throw new Error("DELETION_TRANSFER_REQUIRED");
-    }
-
-    for (const m of db.memberships) {
-      if (m.userId !== userId) continue;
-      if (m.status === "approved" || m.status === "pending") {
-        m.status = "left";
-        m.savingsParticipationActive = false;
-        if (m.role === "owner") m.role = "member";
-        m.updatedAt = new Date().toISOString();
+      for (const c of db.challenges) {
+        if (c.ownerUserId === userId) c.ownerUserId = "";
       }
-    }
-    for (const c of db.challenges) {
-      if (c.ownerUserId === userId) c.ownerUserId = "";
-    }
-  });
+    });
 
-  await updateDisplayName(userId, "Deleted user");
+    await updateDisplayName(userId, "Deleted user");
+    req.status = "revoking";
+    req.revocationError = null;
+  }
+
+  if (req.failNextRevocation) {
+    req.failNextRevocation = false;
+    req.status = "revoking";
+    req.revocationError = "MOCK_SESSION_REVOCATION_FAILED";
+    return {
+      ok: true,
+      status: "revoking",
+      requestId: req.id,
+      revocationError: req.revocationError,
+      message:
+        "Access revoked pending successful session revocation. Retry finalise; deletion is not complete until sessions are revoked.",
+    };
+  }
+
   await clearMockSession();
-
   req.status = "completed";
   req.completedAt = new Date().toISOString();
+  req.sessionsRevokedAt = req.completedAt;
+  req.revocationError = null;
 
   return {
     ok: true,
     status: "completed",
     requestId: req.id,
     cancelledChallenges: cancelled,
+    sessionsRevokedAt: req.sessionsRevokedAt,
   };
 }
 

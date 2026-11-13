@@ -14,6 +14,9 @@ export function mapAccountRpcError(error: { message?: string } | null | undefine
   if (raw.includes("DELETION_GRACE_ACTIVE")) {
     return "Deletion grace period is still active. A valid ownership transfer during grace prevents cancellation.";
   }
+  if (raw.includes("ACCOUNT_ACCESS_REVOKED")) {
+    return "This account has been deleted or is pending session revocation. Sign in is no longer available.";
+  }
   if (raw.includes("DELETION_REQUEST_REQUIRED")) {
     return "Request account deletion first.";
   }
@@ -44,6 +47,7 @@ export function mapAccountErrorCode(message: string | undefined): string | undef
     "RATE_LIMITED",
     "DELETION_TRANSFER_REQUIRED",
     "DELETION_GRACE_ACTIVE",
+    "ACCOUNT_ACCESS_REVOKED",
     "DELETION_REQUEST_REQUIRED",
     "DELETION_REQUEST_CANCELLED",
     "TRANSFEREE_NOT_ELIGIBLE",

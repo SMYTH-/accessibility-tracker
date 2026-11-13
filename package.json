@@ -34,6 +34,7 @@
     "evidence:m9:pg": "node --env-file=.env.local scripts/m9-postgres-evidence.mjs",
     "evidence:m9:ui": "node --env-file=.env.local scripts/m9-supabase-ui-evidence.mjs",
     "evidence:m10:pg": "node --env-file=.env.local scripts/m10-postgres-evidence.mjs",
+    "evidence:m10:dual": "node --env-file=.env.local scripts/m10-dual-session-evidence.mjs",
     "evidence:m10:ui": "node --env-file=.env.local scripts/m10-supabase-ui-evidence.mjs"
   },
   "dependencies": {

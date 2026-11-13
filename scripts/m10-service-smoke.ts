@@ -41,7 +41,9 @@ async function main() {
     transferChallengeOwnership,
   } = await import("../src/lib/account/service");
   const {
+    accountAccessDeniedMock,
     mockExpireDeletionGrace,
+    mockForceNextRevocationFailure,
     resetMockDeletionState,
   } = await import("../src/lib/account/mock");
   const { resetMemoryRateLimits } = await import("../src/lib/security/rate-limit");
@@ -237,6 +239,9 @@ async function main() {
 
   const fin1 = await finalizeAccountDeletion(alex.id);
   assert("finalise after transfer", fin1.ok && fin1.status === "completed");
+  assert("alex access denied after complete", accountAccessDeniedMock(alex.id));
+  const alexExportDenied = await exportOwnPersonalData(alex.id);
+  assert("alex export denied after deletion", !alexExportDenied.ok);
 
   // Retry idempotent
   const finRetry = await finalizeAccountDeletion(alex.id);
@@ -314,6 +319,30 @@ async function main() {
   const dbAfter = await (await import("../src/lib/challenge/store")).readChallengeDb();
   const solo = dbAfter.challenges.find((c) => c.id === soloId);
   assert("solo cancelled", solo?.lifecycleStatus === "Cancelled");
+
+  // Revocation failure → revoking (access denied) → retry completes
+  resetMockDeletionState();
+  const owner3 = await createUser({
+    email: `m10.owner3.${stamp}@example.com`,
+    password: "password123",
+    displayName: "Owner3",
+  });
+  mockForceNextRevocationFailure(owner3.id);
+  const revoking = await finalizeAccountDeletion(owner3.id);
+  assert(
+    "revocation failure stays revoking",
+    revoking.ok && revoking.status === "revoking",
+    revoking.ok ? revoking.status : revoking.error,
+  );
+  assert("access denied while revoking", accountAccessDeniedMock(owner3.id));
+  const exportWhileRevoking = await exportOwnPersonalData(owner3.id);
+  assert("export denied while revoking", !exportWhileRevoking.ok);
+  const retryRevoke = await finalizeAccountDeletion(owner3.id);
+  assert(
+    "retry completes after revoke succeeds",
+    retryRevoke.ok && retryRevoke.status === "completed",
+    retryRevoke.ok ? retryRevoke.status : retryRevoke.error,
+  );
 
   rmSync(dir, { recursive: true, force: true });
   console.log(`\n${failed === 0 ? "OK" : "FAILED"}  m10-service-smoke (${failed} failures)`);

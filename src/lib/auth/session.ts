@@ -3,9 +3,31 @@ import { getMockSessionUser } from "./mock/session";
 import { createClient } from "./supabase/server";
 import type { AuthUser } from "./types";
 
+async function isAccessDenied(supabase: Awaited<ReturnType<typeof createClient>>) {
+  const { data, error } = await supabase.rpc("account_access_denied_for_me");
+  if (error) {
+    // Fail closed when the denial probe itself is rejected as revoked.
+    if (error.message?.includes("ACCOUNT_ACCESS_REVOKED")) return true;
+    return false;
+  }
+  return Boolean(data);
+}
+
 export async function getCurrentUser(): Promise<AuthUser | null> {
   if (getAuthMode() === "mock") {
-    return getMockSessionUser();
+    const user = await getMockSessionUser();
+    if (!user) return null;
+    try {
+      const { accountAccessDeniedMock } = await import("@/lib/account/mock");
+      if (accountAccessDeniedMock(user.id)) {
+        const { clearMockSession } = await import("./mock/session");
+        await clearMockSession();
+        return null;
+      }
+    } catch {
+      // mock helper unavailable
+    }
+    return user;
   }
 
   const supabase = await createClient();
@@ -13,6 +35,11 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return null;
+
+  if (await isAccessDenied(supabase)) {
+    await supabase.auth.signOut();
+    return null;
+  }
 
   const displayName =
     (user.user_metadata?.display_name as string | undefined) ||

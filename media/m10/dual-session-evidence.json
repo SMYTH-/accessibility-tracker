@@ -1,0 +1,101 @@
+{
+  "project": "gdrkejobqlvtwnlaedpu",
+  "stamp": 1794608505108,
+  "email": "m10.dual.1794608505108@example.com",
+  "userId": "d871e91e-925a-4c61-9097-8184f70a45b1",
+  "challengeId": "1c2ecc0f-ed99-4230-9ac8-14b9b19c417e",
+  "results": [
+    {
+      "name": "user ready",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "session A sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "session B sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "session B has access token",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "create challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B export before deletion",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B dashboard before deletion",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B access-denied probe false before",
+      "ok": true,
+      "detail": "false"
+    },
+    {
+      "name": "A deletion request",
+      "ok": true,
+      "detail": "completed"
+    },
+    {
+      "name": "deletion completed",
+      "ok": true,
+      "detail": "completed"
+    },
+    {
+      "name": "B access-denied probe true after",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "B export denied after deletion",
+      "ok": true,
+      "detail": "ACCOUNT_ACCESS_REVOKED"
+    },
+    {
+      "name": "B challenge API denied after deletion",
+      "ok": true,
+      "detail": "ACCOUNT_ACCESS_REVOKED"
+    },
+    {
+      "name": "B create challenge denied after deletion",
+      "ok": true,
+      "detail": "ACCOUNT_ACCESS_REVOKED"
+    },
+    {
+      "name": "B getUser fails or banned after deletion",
+      "ok": true,
+      "detail": "Unexpected failure, please check server logs for more information"
+    },
+    {
+      "name": "B refresh fails after deletion",
+      "ok": true,
+      "detail": "Invalid Refresh Token: Refresh Token Not Found"
+    },
+    {
+      "name": "old email login fails",
+      "ok": true,
+      "detail": "Invalid login credentials"
+    },
+    {
+      "name": "A finalize idempotent after complete",
+      "ok": true,
+      "detail": "{\"status\":\"completed\",\"idempotent\":true,\"completed_at\":\"2026-11-13T22:21:46.264155+00:00\",\"sessions_revoked_at\":\"2026-11-13T22:21:46.264155+00:00\"}"
+    }
+  ],
+  "passed": 18,
+  "failed": 0
+}

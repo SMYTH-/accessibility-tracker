@@ -112,6 +112,15 @@ export async function finalizeDeletionAction(
   if (result.status === "completed") {
     redirect("/sign-in");
   }
+  if (result.status === "revoking") {
+    return {
+      status: "revoking",
+      message:
+        result.message ||
+        "Access is denied while session revocation is pending. Retry finalise; deletion completes only after sessions are revoked.",
+      error: result.revocationError || undefined,
+    };
+  }
   return { status: result.status, message: result.message };
 }
 
