@@ -1,6 +1,7 @@
 /**
  * M8 Postgres evidence against non-prod Supabase gdrkejobqlvtwnlaedpu.
- * Weekly assessment, streaks, recovery, amend recompute, privacy of commitment view.
+ * Weekly assessment, streaks, recovery, amend recompute, privacy of commitment view,
+ * concurrent first-time recompute + dashboard/correction overlap.
  */
 import { createClient } from "@supabase/supabase-js";
 import { writeFileSync, mkdirSync } from "fs";
@@ -437,6 +438,262 @@ assert(
 assert(
   "paused status supported in check constraint path",
   true, // enum includes paused; scheduling OPEN — no invent
+);
+
+// ---------------------------------------------------------------------------
+// Concurrent recompute: two first-time inserts for same member+challenge
+// ---------------------------------------------------------------------------
+const concA = await createActiveChallenge(sessions.alex, `M8 ConcFirst ${stamp}`);
+assert("concurrent-first challenge", !concA.error && Boolean(concA.id), concA.error?.message);
+const concAid = concA.id;
+await admin.from("challenges").update({ start_date: "2026-10-01" }).eq("id", concAid);
+const concAAct = await admin.rpc("activate_savings_setup_at", {
+  p_challenge_id: concAid,
+  p_user_id: ids.alex,
+  p_target_minor: 200000,
+  p_weekly_commitment_minor: 5000,
+  p_now: "2026-10-19T12:00:00.000Z",
+});
+assert("concurrent-first activate", !concAAct.error, concAAct.error?.message);
+
+async function seedConc(challengeId, amount, whenIso, key) {
+  const res = await admin.rpc("record_contribution_at", {
+    p_challenge_id: challengeId,
+    p_user_id: ids.alex,
+    p_amount_minor: amount,
+    p_idempotency_key: key,
+    p_now: whenIso,
+  });
+  assert(`concurrent seed ${key}`, !res.error, res.error?.message);
+  return res.data?.contribution;
+}
+
+await seedConc(concAid, 5000, "2026-10-21T12:00:00.000Z", `m8-cf-w43-${stamp}`);
+await seedConc(concAid, 5000, "2026-10-28T12:00:00.000Z", `m8-cf-w44-${stamp}`);
+await seedConc(concAid, 5000, "2026-11-04T12:00:00.000Z", `m8-cf-w45-${stamp}`);
+
+const { data: concAMem } = await admin
+  .from("challenge_memberships")
+  .select("id")
+  .eq("challenge_id", concAid)
+  .eq("user_id", ids.alex)
+  .single();
+assert("concurrent-first membership", Boolean(concAMem?.id));
+
+// Clear assessments + audit so the next two calls are true first-time inserts.
+await admin
+  .from("weekly_assessment_audit")
+  .delete()
+  .eq("membership_id", concAMem.id);
+await admin
+  .from("weekly_commitment_assessments")
+  .delete()
+  .eq("membership_id", concAMem.id);
+
+const concNow = "2026-11-12T12:00:00.000Z"; // Thu → W46 open
+const [cfA, cfB] = await Promise.all([
+  admin.rpc("recompute_member_weekly_assessments_at", {
+    p_challenge_id: concAid,
+    p_user_id: ids.alex,
+    p_now: concNow,
+  }),
+  admin.rpc("recompute_member_weekly_assessments_at", {
+    p_challenge_id: concAid,
+    p_user_id: ids.alex,
+    p_now: concNow,
+  }),
+]);
+assert(
+  "concurrent first-time both complete",
+  !cfA.error && !cfB.error,
+  [cfA.error?.message, cfB.error?.message].filter(Boolean).join(" | "),
+);
+
+const { data: cfRows, error: cfRowsErr } = await admin
+  .from("weekly_commitment_assessments")
+  .select("week_start, status, eligible_sum_minor")
+  .eq("membership_id", concAMem.id)
+  .order("week_start", { ascending: true });
+assert("concurrent first-time rows query", !cfRowsErr, cfRowsErr?.message);
+const cfWeekStarts = (cfRows || []).map((r) => r.week_start);
+assert(
+  "concurrent first-time one row per assessed week",
+  cfWeekStarts.length === new Set(cfWeekStarts).size &&
+    cfWeekStarts.includes("2026-10-19") &&
+    cfWeekStarts.includes("2026-10-26") &&
+    cfWeekStarts.includes("2026-11-02") &&
+    cfWeekStarts.includes("2026-11-09"),
+  JSON.stringify(cfWeekStarts),
+);
+const cfClosedEligibleOk = ["2026-10-19", "2026-10-26", "2026-11-02"].every(
+  (w) =>
+    Number((cfRows || []).find((r) => r.week_start === w)?.eligible_sum_minor) ===
+    5000,
+);
+const cfOpen = (cfRows || []).find((r) => r.week_start === "2026-11-09");
+assert(
+  "concurrent first-time final totals+streak",
+  Number(cfA.data?.streak_weeks) === 3 &&
+    Number(cfB.data?.streak_weeks) === 3 &&
+    historyStatus(cfA.data, "2026-11-02") === "completed" &&
+    historyStatus(cfB.data, "2026-11-02") === "completed" &&
+    cfClosedEligibleOk &&
+    cfOpen?.status === "in_progress" &&
+    Number(cfOpen?.eligible_sum_minor) === 0,
+  `streakA=${cfA.data?.streak_weeks} streakB=${cfB.data?.streak_weeks} rows=${JSON.stringify(cfRows)}`,
+);
+
+const { data: cfAudit, error: cfAuditErr } = await admin
+  .from("weekly_assessment_audit")
+  .select("week_start, from_status, to_status, detail")
+  .eq("membership_id", concAMem.id)
+  .order("week_start", { ascending: true });
+assert("concurrent first-time audit query", !cfAuditErr, cfAuditErr?.message);
+const cfInitial = (cfAudit || []).filter((r) =>
+  String(r.detail || "").includes("Initial week assessment"),
+);
+const cfInitialWeeks = cfInitial.map((r) => r.week_start);
+assert(
+  "concurrent first-time no duplicate initial audits",
+  cfInitialWeeks.length === new Set(cfInitialWeeks).size &&
+    cfInitialWeeks.length === cfWeekStarts.length,
+  JSON.stringify(cfInitial),
+);
+assert(
+  "concurrent first-time no stale transitions",
+  (cfAudit || []).every(
+    (r) =>
+      r.from_status == null ||
+      (r.from_status !== r.to_status &&
+        !(r.from_status === "completed" && r.to_status === "missed")),
+  ),
+  JSON.stringify(cfAudit),
+);
+
+// ---------------------------------------------------------------------------
+// Concurrent: dashboard recompute overlapping a contribution correction
+// ---------------------------------------------------------------------------
+const concB = await createActiveChallenge(sessions.alex, `M8 ConcDash ${stamp}`);
+assert("concurrent-dash challenge", !concB.error && Boolean(concB.id), concB.error?.message);
+const concBid = concB.id;
+await admin.from("challenges").update({ start_date: "2026-10-01" }).eq("id", concBid);
+const concBAct = await admin.rpc("activate_savings_setup_at", {
+  p_challenge_id: concBid,
+  p_user_id: ids.alex,
+  p_target_minor: 200000,
+  p_weekly_commitment_minor: 5000,
+  p_now: "2026-10-19T12:00:00.000Z",
+});
+assert("concurrent-dash activate", !concBAct.error, concBAct.error?.message);
+
+await seedConc(concBid, 5000, "2026-10-21T12:00:00.000Z", `m8-cd-w43-${stamp}`);
+await seedConc(concBid, 5000, "2026-10-28T12:00:00.000Z", `m8-cd-w44-${stamp}`);
+const cdW45 = await seedConc(
+  concBid,
+  4000,
+  "2026-11-04T12:00:00.000Z",
+  `m8-cd-w45-${stamp}`,
+);
+
+const cdPre = await admin.rpc("recompute_member_weekly_assessments_at", {
+  p_challenge_id: concBid,
+  p_user_id: ids.alex,
+  p_now: concNow,
+});
+assert("concurrent-dash pre-assess", !cdPre.error, cdPre.error?.message);
+assert(
+  "concurrent-dash W45 missed before amend",
+  historyStatus(cdPre.data, "2026-11-02") === "missed",
+);
+
+const { data: concBMem } = await admin
+  .from("challenge_memberships")
+  .select("id")
+  .eq("challenge_id", concBid)
+  .eq("user_id", ids.alex)
+  .single();
+
+const { data: cdAuditBefore } = await admin
+  .from("weekly_assessment_audit")
+  .select("id")
+  .eq("membership_id", concBMem.id)
+  .eq("week_start", "2026-11-02");
+const cdAuditBeforeIds = new Set((cdAuditBefore || []).map((r) => r.id));
+
+const [cdDash, cdAmend] = await Promise.all([
+  sessions.alex.rpc("challenge_dashboard", { p_challenge_id: concBid }),
+  sessions.alex.rpc("amend_contribution", {
+    p_contribution_id: cdW45.id,
+    p_amount_minor: 5000,
+  }),
+]);
+assert(
+  "concurrent dash+amend both complete",
+  !cdDash.error && !cdAmend.error,
+  [cdDash.error?.message, cdAmend.error?.message].filter(Boolean).join(" | "),
+);
+
+const cdFinal = await admin.rpc("recompute_member_weekly_assessments_at", {
+  p_challenge_id: concBid,
+  p_user_id: ids.alex,
+  p_now: concNow,
+});
+assert("concurrent-dash final recompute", !cdFinal.error, cdFinal.error?.message);
+
+const { data: cdRows, error: cdRowsErr } = await admin
+  .from("weekly_commitment_assessments")
+  .select("week_start, status, eligible_sum_minor")
+  .eq("membership_id", concBMem.id)
+  .order("week_start", { ascending: true });
+assert("concurrent-dash rows query", !cdRowsErr, cdRowsErr?.message);
+const cdWeekStarts = (cdRows || []).map((r) => r.week_start);
+assert(
+  "concurrent-dash one row per assessed week",
+  cdWeekStarts.length === new Set(cdWeekStarts).size,
+  JSON.stringify(cdWeekStarts),
+);
+const cdW45Row = (cdRows || []).find((r) => r.week_start === "2026-11-02");
+assert(
+  "concurrent-dash final totals+streak correct",
+  cdW45Row?.status === "completed" &&
+    Number(cdW45Row?.eligible_sum_minor) === 5000 &&
+    Number(cdFinal.data?.streak_weeks) === 3 &&
+    Number(cdAmend.data?.assessment?.streak_weeks) === 3,
+  JSON.stringify({
+    w45: cdW45Row,
+    streak: cdFinal.data?.streak_weeks,
+    amendStreak: cdAmend.data?.assessment?.streak_weeks,
+  }),
+);
+
+const { data: cdAuditAll, error: cdAuditErr } = await admin
+  .from("weekly_assessment_audit")
+  .select("id, week_start, from_status, to_status, to_eligible_sum_minor, detail, at")
+  .eq("membership_id", concBMem.id)
+  .eq("week_start", "2026-11-02")
+  .order("at", { ascending: true });
+assert("concurrent-dash audit query", !cdAuditErr, cdAuditErr?.message);
+const cdNewTransitions = (cdAuditAll || []).filter(
+  (r) =>
+    !cdAuditBeforeIds.has(r.id) &&
+    r.from_status === "missed" &&
+    r.to_status === "completed",
+);
+assert(
+  "concurrent-dash audit single missed→completed",
+  cdNewTransitions.length === 1 &&
+    Number(cdNewTransitions[0].to_eligible_sum_minor) === 5000,
+  JSON.stringify(cdNewTransitions),
+);
+assert(
+  "concurrent-dash audit no duplicate/stale transitions",
+  (cdAuditAll || []).filter(
+    (r) => r.from_status === "completed" && r.to_status === "missed",
+  ).length === 0 &&
+    (cdAuditAll || []).filter(
+      (r) => r.from_status === "missed" && r.to_status === "completed",
+    ).length === 1,
+  JSON.stringify(cdAuditAll),
 );
 
 const passed = results.filter((r) => r.ok).length;

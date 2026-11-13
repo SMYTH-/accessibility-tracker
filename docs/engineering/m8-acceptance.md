@@ -5,13 +5,13 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M8 · GAME-01 · G1.1-03/05/09/11 · approved timing |
 | M7 base tip | `8424ebea` (PR #8) |
 | Implementation branch | `cursor/m8-weekly-streaks-64a8` |
-| Tip SHA | `0e590ab5` |
+| Tip SHA | _(set after push)_ |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod linked) |
 | Date | 13 November 2026 |
 | Machine | Dom’s Mac — `/Users/dom.smyth/Local Sites/accessibility-tracker` |
 | Preview | `http://localhost:3000` |
 | Evidence | `npm run smoke:m8` · `npm run evidence:m8:pg` · `npm run evidence:m8:ui` · `media/m8/` |
-| Migration | `20261113190000_m8_weekly_assessment.sql` (applied live) |
+| Migrations | `20261113190000_m8_weekly_assessment.sql` · `20261113200000_m8_concurrent_assessment_recompute.sql` (applied live) |
 
 ## Checklist
 
@@ -28,6 +28,18 @@
 | Open week: progress + completion; miss only when closed | **Pass** | Below → `in_progress`; met → `completed`; closed under → `missed` |
 | Paused distinct (scheduling OPEN) | **Pass** | Enum + engine; no pause schedule invented |
 | Server-side; safe to rerun | **Pass** | Repeated recompute identical |
+
+### Concurrent recompute (dashboard ∩ contribution)
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Two concurrent first-time recomputes complete cleanly | **Pass** | `Promise.all` dual `recompute_member_weekly_assessments_at`; both succeed |
+| First-time: one row per assessed week | **Pass** | W43–W46 unique rows |
+| First-time: final totals + streak correct | **Pass** | Closed weeks £50; streak **3**; open `in_progress` |
+| First-time: audit no duplicate/stale transitions | **Pass** | One Initial audit per week; no completed→missed |
+| Dashboard recompute overlapping contribution correction | **Pass** | `challenge_dashboard` ∥ `amend_contribution` both succeed |
+| Overlap: final totals + streak correct | **Pass** | W45 missed→completed £50; streak **3** |
+| Overlap: audit no duplicate/stale transitions | **Pass** | Single missed→completed; no completed→missed |
 
 ### Streaks (G1.1-09)
 
@@ -67,7 +79,7 @@ npm run evidence:m8:ui
 
 ## RPCs / tables
 
-- `recompute_member_weekly_assessments_at(challenge_id, user_id, now)` — service_role; deterministic upsert
+- `recompute_member_weekly_assessments_at(challenge_id, user_id, now)` — service_role; membership `FOR UPDATE` serialize; upsert-safe first insert; audit only on real change
 - `recompute_own_weekly_assessments(challenge_id)` / `own_weekly_assessment_summary(challenge_id)` — authenticated self
 - `challenge_dashboard` — recomputes then returns streak + week status + own history
 - Tables: `weekly_commitment_assessments`, `weekly_assessment_audit` (RLS own-row)
@@ -75,8 +87,8 @@ npm run evidence:m8:ui
 
 ## Live suite result
 
-`npm run smoke:m8` → **pass** · `npm run evidence:m8:pg` → **55/55 passed** (13 Nov 2026).
+`npm run smoke:m8` → **pass** · `npm run evidence:m8:pg` → **83/83 passed** (13 Nov 2026; was 55; +concurrent first-time + dashboard/correction overlap).
 
 ## Verdict
 
-M8 weekly commitment assessment, Your streak, and recovery verified on live Supabase with amend→streak-of-three, recovery after miss, rerun consistency, and private own-view commitment/assessment details. **Stop before M9.**
+M8 weekly commitment assessment, Your streak, recovery, and concurrent recompute safety verified on live Supabase. Final stored assessment reflects latest eligible contributions under dashboard/contribution overlap. **Stop before M9.** Pause scheduling, streak awards, and shared activity remain out of scope.
