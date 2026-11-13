@@ -51,8 +51,15 @@ Screenshots: `media/m4/` (also mirrored under Project store `media/m4/`).
 
 ## Migration
 
-Apply `supabase/migrations/20261113120000_m4_savings_setup.sql` to project `gdrkejobqlvtwnlaedpu` before live PG evidence.
+Applied `supabase/migrations/20261113120000_m4_savings_setup.sql` to project `gdrkejobqlvtwnlaedpu` via `supabase db push --linked` (13 Nov 2026, Dom’s Mac).
+
+## Live evidence (13 Nov 2026)
+
+| Suite | Result |
+| --- | --- |
+| `evidence:m4:pg` | **27/27 Pass** |
+| `evidence:m4:ui` | **Pass** — live shots `media/m4/01`–`05` |
 
 ## Stop
 
-M4 complete for PO review once Postgres acceptance is green. **Do not start M5.**
+M4 Postgres + live UI acceptance closed on `gdrkejobqlvtwnlaedpu`. **Do not start M5.**

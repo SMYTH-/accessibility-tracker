@@ -20,8 +20,23 @@ if (!url?.includes(REF) || !anon || !service) {
 
 const mediaDir = join(process.cwd(), "media", "m4");
 mkdirSync(mediaDir, { recursive: true });
-const storeMedia = "/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/m4";
-mkdirSync(storeMedia, { recursive: true });
+const storeMediaCandidates = [
+  "/cursor/stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/media/m4",
+  join(
+    process.env.HOME || "",
+    "Library/Application Support/Cursor/AgentStores/cursor_agent_stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/files/media/m4",
+  ),
+];
+let storeMedia = storeMediaCandidates[0];
+for (const candidate of storeMediaCandidates) {
+  try {
+    mkdirSync(candidate, { recursive: true });
+    storeMedia = candidate;
+    break;
+  } catch {
+    /* try next */
+  }
+}
 
 const admin = createClient(url, service, {
   auth: { persistSession: false, autoRefreshToken: false },
