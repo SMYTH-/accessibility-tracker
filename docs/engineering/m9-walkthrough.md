@@ -5,8 +5,11 @@ Connected path: **active challenge (Path B)** → **completed summary**.
 ## Setup
 
 1. Branch `cursor/m9-activity-completion-6e9b` from M8 tip `3f19ad71`.
-2. Apply `supabase/migrations/20261113210000_m9_activity_completion.sql` to `gdrkejobqlvtwnlaedpu`.
-3. `.env.local` with project URL, anon key, service role.
+2. Apply migrations to `gdrkejobqlvtwnlaedpu`:
+   - `supabase/migrations/20261113210000_m9_activity_completion.sql`
+   - `supabase/migrations/20261113211000_m9_activity_feed_fix.sql`
+   - `supabase/migrations/20261113212000_m9_feed_progress_cast.sql`
+3. `.env.local` with project URL, anon key, service role, `NEXT_PUBLIC_SITE_URL=http://localhost:3000`.
 4. `npm run dev` → `http://localhost:3000`.
 
 ## Path — Active → Completed
@@ -15,22 +18,22 @@ Connected path: **active challenge (Path B)** → **completed summary**.
 2. **Home** — Path B order: personal progress → **Your streak** / this-week commitment → **Members** roster → Sharing members only → Activity preview. Record CTA enabled.
 3. **Challenge** — Same Path B strip; own assessment history only in personal strip (not dumped on roster peers).
 4. **Activity** — Full privacy-filtered feed: joins, contributions (sharing + self), commitment completions (no shared commitment figures), progress milestones 25/50/75/100%, no streak awards.
-5. **Sign in as Sam** — Feed shows Alex/Sam monetary events; Jordan Private monetary events absent; Sam’s sharing total unchanged when Jordan records privately.
-6. **Pending / removed / unrelated** — `challenge_activity_feed` / dashboard RPCs return `MEMBERSHIP_REQUIRED` (no feed leak).
+5. **Sign in as Sam** — Feed shows Alex/Sam monetary events; private others absent; sharing total unchanged when a private member records.
+6. **Pending / removed / unrelated** — `challenge_activity_feed` / dashboard RPCs return `MEMBERSHIP_REQUIRED` (no feed leak). Verified live via `evidence:m9:pg`.
 7. **Complete** — End date passed + lifecycle tick → **Completed**.
-8. **Home / Challenge** — Completion summary: personal eligible savings + milestones, participation counts, sharing-member totals, roster with Private chip, permitted activity including `challenge_completed`. **Read-only** badge; Record savings disabled.
+8. **Home / Challenge** — Completion summary: personal eligible savings + milestones, participation counts, sharing-member totals, roster with privacy preserved, permitted activity including `challenge_completed`. **Read-only** badge; Record savings disabled.
 9. **Rejected writes** — create / amend / reverse contribution → `CHALLENGE_READONLY`.
 10. **Owner leave** — still blocked while Scheduled/Active (`OWNER_LEAVE_REQUIRES_TRANSFER`); transfer UX remains OPEN.
 
-## Screenshots (after live UI evidence)
+## Screenshots (live UI evidence, Dom Mac 13 Nov 2026)
 
 | File | What |
 | --- | --- |
 | `media/m9/01-alex-home-path-b-active.png` | Active Path B home |
 | `media/m9/02-alex-challenge-streak-roster-activity.png` | Streak → roster → activity |
 | `media/m9/03-alex-activity-feed.png` | Full feed |
-| `media/m9/04-sam-activity-no-private-leak.png` | Peer privacy |
-| `media/m9/05-alex-completed-summary.png` | Completed summary |
+| `media/m9/04-sam-activity-no-private-leak.png` | Peer privacy-filtered feed |
+| `media/m9/05-alex-completed-summary.png` | Completed summary (£500 / £900 sharing) |
 | `media/m9/06-alex-completed-readonly.png` | Read-only boundary |
 
 ## Stop

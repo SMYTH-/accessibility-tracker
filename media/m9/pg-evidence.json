@@ -1,0 +1,213 @@
+{
+  "passed": 41,
+  "failed": 0,
+  "results": [
+    {
+      "name": "users ready",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "jordan sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pending sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "stranger sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "challenge create",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "activate 956ae56b",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "activate a9565a53",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "activate 2eefdf7e",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex record",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam record",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "jordan private record",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex feed ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex sees member_joined",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex sees contribution",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex sees milestone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex does not see jordan contribution",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex does not see jordan milestone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "hidden amounts absent for jordan",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "jordan second private record",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam sharing total unchanged after private contrib",
+      "ok": true,
+      "detail": "90000 → 90000"
+    },
+    {
+      "name": "sam still no jordan monetary events",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam feed not bloated by private events displacing window",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pending denied feed",
+      "ok": true,
+      "detail": "MEMBERSHIP_REQUIRED"
+    },
+    {
+      "name": "stranger denied feed",
+      "ok": true,
+      "detail": "MEMBERSHIP_REQUIRED"
+    },
+    {
+      "name": "pending denied dashboard",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "removed denied feed",
+      "ok": true,
+      "detail": "MEMBERSHIP_REQUIRED"
+    },
+    {
+      "name": "active owner leave blocked",
+      "ok": true,
+      "detail": "OWNER_LEAVE_REQUIRES_TRANSFER"
+    },
+    {
+      "name": "reconcile to Completed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lifecycle Completed",
+      "ok": true,
+      "detail": "Completed"
+    },
+    {
+      "name": "completion summary ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "summary read_only",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "summary has challenge_completed event",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "privacy on completed roster",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "write rejected after completion",
+      "ok": true,
+      "detail": "CHALLENGE_READONLY"
+    },
+    {
+      "name": "amend rejected after completion",
+      "ok": true,
+      "detail": "CHALLENGE_READONLY"
+    },
+    {
+      "name": "reverse rejected after completion",
+      "ok": true,
+      "detail": "CHALLENGE_READONLY"
+    },
+    {
+      "name": "feed shows challenge_completed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "feed read_only flag",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "missing challenge denied or not found",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "stamp": 1794598559252,
+  "challengeId": "1a315fe6-6702-4237-a68c-b95e1462ef84"
+}

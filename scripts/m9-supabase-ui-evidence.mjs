@@ -109,30 +109,45 @@ await admin.rpc("activate_savings_setup_at", {
   p_now: "2026-10-06T12:00:00.000Z",
 });
 
+// Record inside the eventual completed window (start 2026-10-01 … end 2026-11-01).
 await admin.rpc("record_contribution_at", {
   p_challenge_id: challengeId,
   p_user_id: alexId,
   p_amount_minor: 50000,
   p_idempotency_key: `m9-ui-a-${stamp}`,
-  p_now: "2026-11-13T12:00:00.000Z",
+  p_now: "2026-10-20T12:00:00.000Z",
 });
 await admin.rpc("record_contribution_at", {
   p_challenge_id: challengeId,
   p_user_id: samId,
   p_amount_minor: 40000,
   p_idempotency_key: `m9-ui-s-${stamp}`,
-  p_now: "2026-11-13T12:00:00.000Z",
+  p_now: "2026-10-20T12:00:00.000Z",
 });
 await admin.rpc("recompute_member_weekly_assessments_at", {
   p_challenge_id: challengeId,
   p_user_id: alexId,
-  p_now: "2026-11-13T12:00:00.000Z",
+  p_now: "2026-10-27T12:00:00.000Z",
+});
+await admin.rpc("recompute_member_weekly_assessments_at", {
+  p_challenge_id: challengeId,
+  p_user_id: samId,
+  p_now: "2026-10-27T12:00:00.000Z",
 });
 
 const outDir = join(process.cwd(), "media", "m9");
 mkdirSync(outDir, { recursive: true });
-const artifacts = "/opt/cursor/artifacts";
-mkdirSync(artifacts, { recursive: true });
+const artifactsCandidates = ["/opt/cursor/artifacts", join(process.cwd(), "media", "m9", ".artifacts")];
+let artifacts = artifactsCandidates[0];
+for (const candidate of artifactsCandidates) {
+  try {
+    mkdirSync(candidate, { recursive: true });
+    artifacts = candidate;
+    break;
+  } catch {
+    // try next writable path (cloud vs Dom Mac)
+  }
+}
 
 const browser = await chromium.launch({ headless: true });
 const context = await browser.newContext({
@@ -162,8 +177,11 @@ await page.goto(`${SITE}/activity`, { waitUntil: "networkidle" });
 await page.waitForSelector('[data-testid="activity-feed"]', { timeout: 20000 });
 await shot("03-alex-activity-feed.png");
 
-await page.context().clearCookies();
-const samPage = await context.newPage();
+const samContext = await browser.newContext({
+  viewport: { width: 390, height: 844 },
+  deviceScaleFactor: 2,
+});
+const samPage = await samContext.newPage();
 await signInPage(samPage, samEmail, password);
 await samPage.goto(`${SITE}/activity`, { waitUntil: "networkidle" });
 await samPage.waitForSelector('[data-testid="activity-feed"]', { timeout: 20000 });
@@ -176,6 +194,7 @@ copyFileSync(
   join(artifacts, "04-sam-activity-no-private-leak.png"),
 );
 console.log("SHOT 04-sam-activity-no-private-leak.png");
+await samContext.close();
 
 await admin.from("challenges").update({ end_date: "2026-11-01" }).eq("id", challengeId);
 await admin.rpc("reconcile_challenge_lifecycles_at", {

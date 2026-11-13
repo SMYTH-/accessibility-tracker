@@ -96,7 +96,7 @@ begin
       null::bigint as amount_minor,
       null::text as currency,
       null::int as milestone_percent,
-      a.updated_at as at
+      a.computed_at as at
     from public.weekly_commitment_assessments a
     join public.challenge_memberships m
       on m.challenge_id = a.challenge_id and m.user_id = a.user_id and m.status = 'approved'
@@ -116,19 +116,19 @@ begin
       m.share_monetary_info,
       s.target_minor,
       coalesce(u.raw_user_meta_data->>'display_name', split_part(u.email, '@', 1), 'Member') as display_name,
-      sum(c.amount_minor) over (
+      (sum(c.amount_minor) over (
         partition by c.user_id
         order by c.contribution_date, c.updated_at, c.id
         rows between unbounded preceding and current row
-      ) as running_saved,
-      coalesce(
+      ))::bigint as running_saved,
+      (coalesce(
         sum(c.amount_minor) over (
           partition by c.user_id
           order by c.contribution_date, c.updated_at, c.id
           rows between unbounded preceding and 1 preceding
         ),
         0
-      ) as prev_saved
+      ))::bigint as prev_saved
     from public.contributions c
     join public.challenge_memberships m
       on m.challenge_id = c.challenge_id and m.user_id = c.user_id and m.status = 'approved'
@@ -240,19 +240,7 @@ $$;
 revoke all on function public.challenge_activity_feed(uuid, int, timestamptz) from public;
 grant execute on function public.challenge_activity_feed(uuid, int, timestamptz) to authenticated;
 
--- Convenience overload: default limit, no cursor.
-create or replace function public.challenge_activity_feed(p_challenge_id uuid)
-returns jsonb
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select public.challenge_activity_feed(p_challenge_id, 50, null);
-$$;
-
-revoke all on function public.challenge_activity_feed(uuid) from public;
-grant execute on function public.challenge_activity_feed(uuid) to authenticated;
+-- Prefer the 3-arg signature with defaults only (PostgREST overload-safe).
 
 -- Preview uses the same privacy-before-limit feed (limit 8).
 create or replace function public.challenge_activity_preview(p_challenge_id uuid)
