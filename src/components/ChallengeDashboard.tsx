@@ -174,6 +174,62 @@ export function ChallengeDashboardView({
 
       <section
         className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
+        aria-labelledby="roster-label"
+        data-testid="challenge-roster"
+      >
+        <p
+          className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]"
+          id="roster-label"
+        >
+          Members
+        </p>
+        <ul className="mt-3 space-y-3">
+          {data.roster.map((m) => (
+            <li
+              key={m.membershipId}
+              className="rounded-xl bg-[var(--paper)] px-3 py-2.5 text-sm"
+              data-user-id={m.userId}
+              data-privacy-chip={m.privacyChip ?? ""}
+              data-share-monetary={m.shareMonetaryInfo ? "true" : "false"}
+            >
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-medium text-[var(--ink)]">
+                  {m.displayName}
+                  {m.isSelf ? " (you)" : ""}
+                </span>
+                {m.privacyChip ? (
+                  <span className="rounded-md border border-[var(--line)] bg-white px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--mute)]">
+                    {m.privacyChip}
+                  </span>
+                ) : null}
+              </div>
+              {m.eligibleTotalMinor != null && m.targetMinor != null && m.currency ? (
+                <p className="mt-1 tabular-nums text-[var(--mute)]">
+                  {formatMinorAsMajor(m.eligibleTotalMinor, m.currency)} of{" "}
+                  {formatMinorAsMajor(m.targetMinor, m.currency)}
+                  {m.progressPercent != null ? ` · ${m.progressPercent}%` : ""}
+                  {" · "}
+                  self-reported
+                </p>
+              ) : m.privacyChip ? (
+                <p className="mt-1 text-[var(--mute)]">
+                  Monetary amounts and target hidden
+                </p>
+              ) : (
+                <p className="mt-1 text-[var(--mute)]">Savings setup not active</p>
+              )}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3 text-xs text-[var(--mute)]">
+          <Link href="/profile#privacy" className="font-semibold text-[var(--deep-sea)] underline">
+            Financial privacy settings
+          </Link>
+        </p>
+      </section>
+
+      <section
+        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
         aria-labelledby="preview-label"
       >
         <p

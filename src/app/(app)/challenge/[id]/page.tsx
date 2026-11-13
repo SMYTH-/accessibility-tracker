@@ -257,11 +257,33 @@ export default async function ChallengeOverviewPage({
           </section>
         ) : null}
 
-        <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
-          <h2 className="text-lg font-semibold">Not in M6</h2>
+        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+          <h2 className="text-lg font-semibold">Financial privacy</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
-            Privacy opt-out settings UI (M7), weekly assessment / streak calculation (M8), and cancel
-            remain out of scope. Post-activation target editing stays parked (M4).
+            Monetary information is visible to approved members by default. Opt out per challenge
+            from Profile — Hide monetary information hides amounts and target, and cannot undo what
+            others already saw.
+          </p>
+          <p className="mt-1 text-sm tabular-nums text-[var(--ink)]">
+            Your setting:{" "}
+            <strong className="font-semibold">
+              {membership.shareMonetaryInfo ? "Sharing" : "Private (opted out)"}
+            </strong>
+          </p>
+          <Link
+            href="/profile#privacy"
+            className="mt-3 inline-flex text-sm font-semibold text-[var(--deep-sea)] underline"
+          >
+            Open privacy settings
+          </Link>
+        </section>
+
+        <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
+          <h2 className="text-lg font-semibold">Not in M7</h2>
+          <p className="mt-2 text-sm text-[var(--mute)]">
+            Weekly assessment / streak calculation (M8), full activity feed (M9), and cancel remain
+            out of scope. Post-activation target editing stays parked (M4). Re-opt-in and
+            small-group suppression stay OPEN.
           </p>
         </section>
 
