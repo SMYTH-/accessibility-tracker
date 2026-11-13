@@ -23,6 +23,7 @@ async function main() {
         savingsAudit: [],
         contributions: [],
         contributionRevisions: [],
+        progressMilestoneAnnouncements: [],
       },
       null,
       2,
@@ -34,6 +35,7 @@ async function main() {
     "../src/lib/savings/service"
   );
   const {
+    amendContribution,
     recordContribution,
     resetMockContributionState,
   } = await import("../src/lib/contributions/service");
@@ -154,6 +156,80 @@ async function main() {
     "alex sees milestone when crossed",
     (alexFeed?.events ?? []).some((e) => e.kind === "milestone_reached"),
   );
+
+  // Retention: cross 50% → amend below → re-cross → same announcement identity.
+  const mileBefore = (alexFeed?.events ?? []).find(
+    (e) =>
+      e.kind === "milestone_reached" &&
+      e.userId === alex &&
+      e.milestonePercent === 25,
+  );
+  // Alex £500 / £2000 = 25%. Amend down then up to re-cross 25%.
+  const alexContribId = r1.ok ? r1.contribution.id : "";
+  const drop = await amendContribution(alex, alexContribId, "400.00", now);
+  assert("alex amend below 25%", drop.ok);
+  const alexFeedDropped = await getActivityFeed(alex, challengeId, 50, null);
+  const mileAfterDrop = (alexFeedDropped?.events ?? []).find(
+    (e) =>
+      e.kind === "milestone_reached" &&
+      e.userId === alex &&
+      e.milestonePercent === 25,
+  );
+  assert(
+    "milestone retained after drop below threshold",
+    Boolean(mileBefore && mileAfterDrop && mileBefore.id === mileAfterDrop.id),
+    `${mileBefore?.id} → ${mileAfterDrop?.id}`,
+  );
+  assert(
+    "milestone timestamp unchanged after drop",
+    Boolean(mileBefore && mileAfterDrop && mileBefore.at === mileAfterDrop.at),
+  );
+  const dashDropped = await getChallengeDashboard(alex, challengeId);
+  assert(
+    "current progress uses corrected eligible after drop",
+    dashDropped?.personal.eligibleTotalMinor === 40_000,
+    String(dashDropped?.personal.eligibleTotalMinor),
+  );
+  const recross = await amendContribution(alex, alexContribId, "500.00", now);
+  assert("alex amend re-cross 25%", recross.ok);
+  const alexFeedRecross = await getActivityFeed(alex, challengeId, 50, null);
+  const miles25 = (alexFeedRecross?.events ?? []).filter(
+    (e) =>
+      e.kind === "milestone_reached" &&
+      e.userId === alex &&
+      e.milestonePercent === 25,
+  );
+  assert("no duplicate milestone on re-cross", miles25.length === 1, String(miles25.length));
+  assert(
+    "re-cross keeps original id + timestamp",
+    Boolean(
+      mileBefore &&
+        miles25[0] &&
+        miles25[0].id === mileBefore.id &&
+        miles25[0].at === mileBefore.at,
+    ),
+  );
+
+  // Privacy: opt-out hides announcement from peer; saver retains own history.
+  await mockSetShareMonetaryInfo(challengeId, alex, false);
+  const samSeesAlexMile = await getActivityFeed(sam, challengeId, 50, null);
+  assert(
+    "peer cannot see milestone after saver opt-out",
+    !(samSeesAlexMile?.events ?? []).some(
+      (e) => e.kind === "milestone_reached" && e.userId === alex,
+    ),
+  );
+  const alexOwnAfterOptOut = await getActivityFeed(alex, challengeId, 50, null);
+  assert(
+    "saver still sees own milestone after opt-out",
+    (alexOwnAfterOptOut?.events ?? []).some(
+      (e) =>
+        e.kind === "milestone_reached" &&
+        e.userId === alex &&
+        e.id === mileBefore?.id,
+    ),
+  );
+  await mockSetShareMonetaryInfo(challengeId, alex, true);
 
   const samFeed = await getActivityFeed(sam, challengeId, 50, null);
   assert(

@@ -261,6 +261,148 @@ assert(
   (samFeedAfter.data?.events ?? []).some((e) => e.kind === "contribution" && e.user_id === ids.sam),
 );
 
+// ---------------------------------------------------------------------------
+// Milestone history retention: cross 50% → drop below → re-cross (same id+at)
+// Privacy: opt-out hides from peer; saver retains own history (G1.1-06-R1)
+// ---------------------------------------------------------------------------
+const alexContribs = await admin
+  .from("contributions")
+  .select("id, amount_minor")
+  .eq("challenge_id", cid)
+  .eq("user_id", ids.alex)
+  .eq("status", "active")
+  .limit(1);
+const alexContribId = alexContribs.data?.[0]?.id;
+assert("alex contribution id for retention", Boolean(alexContribId));
+
+const cross50 = await sessions.alex.rpc("amend_contribution", {
+  p_contribution_id: alexContribId,
+  p_amount_minor: 100000, // £1000 / £2000 = 50%
+});
+assert("alex cross 50% via amend", !cross50.error, cross50.error?.message);
+
+const feedAt50 = await sessions.alex.rpc("challenge_activity_feed", {
+  p_challenge_id: cid,
+  p_limit: 50,
+  p_before: null,
+});
+const mile50 = (feedAt50.data?.events ?? []).find(
+  (e) =>
+    e.kind === "milestone_reached" &&
+    e.user_id === ids.alex &&
+    Number(e.milestone_percent) === 50,
+);
+assert("50% announcement present after cross", Boolean(mile50), mile50?.id);
+const mile50Id = mile50?.id;
+const mile50At = mile50?.at;
+
+const dropBelow = await sessions.alex.rpc("amend_contribution", {
+  p_contribution_id: alexContribId,
+  p_amount_minor: 90000, // £900 / £2000 = 45%
+});
+assert("alex drop below 50% via correction", !dropBelow.error, dropBelow.error?.message);
+
+const feedDropped = await sessions.alex.rpc("challenge_activity_feed", {
+  p_challenge_id: cid,
+  p_limit: 50,
+  p_before: null,
+});
+const mileAfterDrop = (feedDropped.data?.events ?? []).find(
+  (e) =>
+    e.kind === "milestone_reached" &&
+    e.user_id === ids.alex &&
+    Number(e.milestone_percent) === 50,
+);
+assert(
+  "50% announcement retained after drop (same id)",
+  Boolean(mileAfterDrop) && mileAfterDrop.id === mile50Id,
+  `${mile50Id} → ${mileAfterDrop?.id}`,
+);
+assert(
+  "50% announcement timestamp unchanged after drop",
+  Boolean(mileAfterDrop) && mileAfterDrop.at === mile50At,
+  `${mile50At} → ${mileAfterDrop?.at}`,
+);
+
+const dashDropped = await sessions.alex.rpc("challenge_dashboard", {
+  p_challenge_id: cid,
+});
+assert(
+  "current progress reflects corrected eligible after drop",
+  Number(dashDropped.data?.personal?.eligible_total_minor) === 90000,
+  String(dashDropped.data?.personal?.eligible_total_minor),
+);
+assert(
+  "current progress percent below 50 after drop",
+  Number(dashDropped.data?.personal?.current_progress_percent) < 50,
+  String(dashDropped.data?.personal?.current_progress_percent),
+);
+
+const recross50 = await sessions.alex.rpc("amend_contribution", {
+  p_contribution_id: alexContribId,
+  p_amount_minor: 100000,
+});
+assert("alex re-cross 50%", !recross50.error, recross50.error?.message);
+
+const feedRecross = await sessions.alex.rpc("challenge_activity_feed", {
+  p_challenge_id: cid,
+  p_limit: 50,
+  p_before: null,
+});
+const miles50 = (feedRecross.data?.events ?? []).filter(
+  (e) =>
+    e.kind === "milestone_reached" &&
+    e.user_id === ids.alex &&
+    Number(e.milestone_percent) === 50,
+);
+assert("feed has no duplicate 50% announcement", miles50.length === 1, String(miles50.length));
+assert(
+  "re-cross keeps original announcement id + timestamp",
+  miles50[0]?.id === mile50Id && miles50[0]?.at === mile50At,
+  `${miles50[0]?.id}@${miles50[0]?.at}`,
+);
+
+const optOut = await sessions.alex.rpc("set_own_share_monetary_info", {
+  p_challenge_id: cid,
+  p_share: false,
+});
+assert("alex opt-out sharing", !optOut.error, optOut.error?.message);
+
+const samFeedOptOut = await sessions.sam.rpc("challenge_activity_feed", {
+  p_challenge_id: cid,
+  p_limit: 50,
+  p_before: null,
+});
+assert(
+  "peer cannot see milestone after saver opt-out",
+  !(samFeedOptOut.data?.events ?? []).some(
+    (e) =>
+      e.kind === "milestone_reached" &&
+      e.user_id === ids.alex &&
+      Number(e.milestone_percent) === 50,
+  ),
+);
+
+const alexFeedOptOut = await sessions.alex.rpc("challenge_activity_feed", {
+  p_challenge_id: cid,
+  p_limit: 50,
+  p_before: null,
+});
+assert(
+  "saver retains milestone in own history after opt-out",
+  (alexFeedOptOut.data?.events ?? []).some(
+    (e) => e.kind === "milestone_reached" && e.id === mile50Id,
+  ),
+);
+
+// Re-opt-in remains OPEN — restore via test fixture only so later suite stays sharing.
+const restoreShare = await admin.rpc("set_share_monetary_info_for_tests", {
+  p_challenge_id: cid,
+  p_user_id: ids.alex,
+  p_share: true,
+});
+assert("fixture restore alex sharing", !restoreShare.error, restoreShare.error?.message);
+
 // Access denial
 const pendingFeed = await sessions.pending.rpc("challenge_activity_feed", {
   p_challenge_id: cid,

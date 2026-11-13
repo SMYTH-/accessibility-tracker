@@ -3,6 +3,7 @@ import { compareYmd } from "@/lib/challenge/time";
 import { getChallengeForUser } from "@/lib/challenge/service";
 import { readChallengeDb, withChallengeDb, type ChallengeDb } from "@/lib/challenge/store";
 import type { Membership } from "@/lib/challenge/types";
+import { milestonesReached } from "@/lib/dashboard/progress";
 import type { SavingsSetup } from "@/lib/savings/types";
 import { challengeLocalToday, weekStartMonday } from "./time";
 import { validateContributionAmount, validateIdempotencyKey } from "./validate";
@@ -86,6 +87,52 @@ function computeTotals(
   };
 }
 
+/** Insert newly earned thresholds only; never delete dipped history. */
+function syncProgressMilestoneAnnouncements(
+  db: ChallengeDb,
+  challengeId: string,
+  userId: string,
+  startDate: string,
+  endDate: string,
+  at: string,
+  sourceContributionId: string | null,
+): void {
+  const mem = findMembership(db, challengeId, userId);
+  const setup = findSetup(db, challengeId, userId);
+  if (!mem || mem.status !== "approved" || !setup || setup.targetMinor <= 0) {
+    return;
+  }
+  const saved = db.contributions
+    .filter(
+      (c) =>
+        c.challengeId === challengeId &&
+        c.userId === userId &&
+        c.status === "active" &&
+        compareYmd(c.contributionDate, startDate) >= 0 &&
+        compareYmd(c.contributionDate, endDate) <= 0,
+    )
+    .reduce((sum, c) => sum + c.amountMinor, 0);
+  const miles = milestonesReached(saved, setup.targetMinor);
+  for (const pct of miles) {
+    const exists = db.progressMilestoneAnnouncements.some(
+      (a) =>
+        a.challengeId === challengeId &&
+        a.userId === userId &&
+        a.milestonePercent === pct,
+    );
+    if (exists) continue;
+    db.progressMilestoneAnnouncements.push({
+      id: id(12),
+      challengeId,
+      membershipId: mem.id,
+      userId,
+      milestonePercent: pct,
+      announcedAt: at,
+      sourceContributionId,
+    });
+  }
+}
+
 export async function mockRecordContribution(
   userId: string,
   challengeId: string,
@@ -140,6 +187,15 @@ export async function mockRecordContribution(
         c.idempotencyKey === key.key,
     );
     if (existing) {
+      syncProgressMilestoneAnnouncements(
+        db,
+        challengeId,
+        userId,
+        challenge.startDate,
+        challenge.endDate,
+        existing.updatedAt,
+        existing.id,
+      );
       return {
         ok: true as const,
         contribution: existing,
@@ -190,6 +246,15 @@ export async function mockRecordContribution(
       detail: "Self-reported contribution recorded",
       at,
     });
+    syncProgressMilestoneAnnouncements(
+      db,
+      challengeId,
+      userId,
+      challenge.startDate,
+      challenge.endDate,
+      at,
+      contribution.id,
+    );
 
     return {
       ok: true as const,
@@ -245,6 +310,15 @@ export async function mockAmendContribution(
     }
 
     if (contribution.amountMinor === amount.minor) {
+      syncProgressMilestoneAnnouncements(
+        db,
+        challenge.id,
+        userId,
+        challenge.startDate,
+        challenge.endDate,
+        contribution.updatedAt,
+        contribution.id,
+      );
       return {
         ok: true as const,
         contribution,
@@ -280,6 +354,15 @@ export async function mockAmendContribution(
       detail: "Self-reported contribution amended; original date and week preserved",
       at,
     });
+    syncProgressMilestoneAnnouncements(
+      db,
+      challenge.id,
+      userId,
+      challenge.startDate,
+      challenge.endDate,
+      at,
+      contribution.id,
+    );
 
     return {
       ok: true as const,
@@ -351,6 +434,16 @@ export async function mockReverseContribution(
       detail: "Self-reported contribution reversed; original date and week preserved",
       at,
     });
+    // Reverse may drop current progress; retained announcements stay.
+    syncProgressMilestoneAnnouncements(
+      db,
+      challenge.id,
+      userId,
+      challenge.startDate,
+      challenge.endDate,
+      at,
+      contribution.id,
+    );
 
     return {
       ok: true as const,
@@ -409,5 +502,6 @@ export async function resetMockContributionState(): Promise<void> {
   await withChallengeDb((db) => {
     db.contributions = [];
     db.contributionRevisions = [];
+    db.progressMilestoneAnnouncements = [];
   });
 }

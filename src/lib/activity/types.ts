@@ -4,6 +4,17 @@ import type {
   SharingMemberTotals,
 } from "@/lib/dashboard/types";
 
+export type ProgressMilestoneAnnouncement = {
+  id: string;
+  challengeId: string;
+  membershipId: string;
+  userId: string;
+  milestonePercent: MilestonePercent;
+  /** Original announcement time — never rewritten on re-cross. */
+  announcedAt: string;
+  sourceContributionId: string | null;
+};
+
 export type ActivityEventKind =
   | "member_joined"
   | "contribution"

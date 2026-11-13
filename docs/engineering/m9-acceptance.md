@@ -2,16 +2,16 @@
 
 | Field | Value |
 | --- | --- |
-| Against | `docs/engineering/mvp-build-plan.md` § M9 · SOC-01 · G1.1-06-R1 · G1.1-12/13 · Path B |
+| Against | `docs/engineering/mvp-build-plan.md` § M9 · SOC-01 · G1.1-06-R1 · G1.1-08 · G1.1-12/13 · Path B · Example C |
 | M8 base tip | `3f19ad71` (PR #9) |
 | Implementation branch | `cursor/m9-activity-completion-6e9b` |
-| Tip SHA | `d8b8b80c` |
+| Tip SHA | `(pending commit)` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod linked) |
 | Date | 13 November 2026 |
 | Machine | Dom Mac P&P-033 · `~/Local Sites/accessibility-tracker` |
 | Preview | `http://localhost:3000` |
 | Evidence | `npm run smoke:m9` · `npm run evidence:m9:pg` · `npm run evidence:m9:ui` · `media/m9/` |
-| Migrations | `20261113210000_m9_activity_completion.sql` + `20261113211000_m9_activity_feed_fix.sql` + `20261113212000_m9_feed_progress_cast.sql` (**applied** to linked project) |
+| Migrations | `20261113210000` + `20261113211000` + `20261113212000` + `20261113213000_m9_milestone_history_retention.sql` (**applied** to linked project) |
 
 ## Checklist
 
@@ -28,13 +28,23 @@
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Joins, contributions, commitments, milestones, completion | **Pass** (live PG + UI) | `evidence:m9:pg` 41/41; `media/m9/03-alex-activity-feed.png` |
+| Joins, contributions, commitments, milestones, completion | **Pass** (live PG + UI) | `evidence:m9:pg` 56/56; `media/m9/03-alex-activity-feed.png` |
 | Membership enforced before sort/paginate | **Pass** (live PG) | pending/removed/stranger → `MEMBERSHIP_REQUIRED` |
 | Privacy filter before order/limit | **Pass** (live PG) | Private Jordan contrib never appears in Alex/Sam feed |
 | Hidden amounts never in feed | **Pass** (live PG) | No Jordan `amount_minor` for others |
 | Private contrib leaves other member totals unchanged | **Pass** (live PG) | Sam sharing 90000 unchanged after Jordan +£100 |
 | Milestone activity privacy (G1.1-08) | **Pass** (live PG) | Others’ milestones only when sharing |
 | Streak awards | **OPEN** | Not invented / not emitted |
+
+### Progress milestone history retention (G1.1-08 / Example C)
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Cross 50% earns announcement | **Pass** (live PG + smoke) | `progress_milestone_announcements`; feed `milestone_reached` |
+| Correction drop below 50% retains original id + timestamp | **Pass** (live PG) | Same `mile:<uuid>` + `announced_at` after amend to £900 |
+| Current progress uses corrected eligible savings | **Pass** (live PG) | Dashboard eligible 90000 / progress 45% after drop |
+| Re-cross 50% leaves one announcement (no duplicate) | **Pass** (live PG) | Feed count = 1; original id + timestamp |
+| Opt-out hides announcement from peer; saver retains own history | **Pass** (live PG) | G1.1-06-R1 via `set_own_share_monetary_info` |
 
 ### Completion (G1.1-12)
 
@@ -61,6 +71,7 @@
 | Streak awards (3/6/12) | Still **OPEN** |
 | Challenge reopen / cancellation | Still **OPEN** |
 | Ownership transfer / account-deletion fallback | Still **OPEN** |
+| Re-opt-in after monetary opt-out | Still **OPEN** (test fixture restore only) |
 | M10+ | **Stopped** |
 
 ## Commands
@@ -75,20 +86,22 @@ npm run evidence:m9:ui
 
 | Suite | Result |
 | --- | --- |
-| `smoke:m9` | **pass** (26 asserts) |
-| `evidence:m9:pg` | **41/41 passed** |
-| `evidence:m9:ui` | **6/6 screenshots** |
+| `smoke:m9` | **pass** (35 asserts; includes retention + privacy) |
+| `evidence:m9:pg` | **56/56 passed** (includes 50% cross/drop/re-cross + opt-out) |
+| `evidence:m9:ui` | **6/6 screenshots** (unchanged; feed shape stable) |
 
-Live fixes applied after initial tip `c741a489`: assessment `computed_at`, drop ambiguous 1-arg feed overload, `progress_percent` bigint cast, create-after-complete → `CHALLENGE_READONLY`.
+Harden after tip `842d6766`: persist `progress_milestone_announcements`; feed reads retained history; sync on create/amend/reverse; never delete on dip; never duplicate on re-cross.
 
 ## RPCs / tables
 
-- `challenge_activity_feed(challenge_id, limit, before)` — membership + privacy **before** union/sort/page
+- `progress_milestone_announcements` — append-only per `(challenge_id, user_id, milestone_percent)`; original `announced_at`
+- `sync_progress_milestone_announcements(challenge_id, user_id, at, source_contribution_id)` — insert newly earned 25/50/75/100% only
+- `challenge_activity_feed(challenge_id, limit, before)` — membership + privacy **before** union/sort/page; milestones from retained table
 - `challenge_activity_preview` — same feed, limit 8
-- `challenge_completion_summary(challenge_id)` — Completed only; `read_only`; privacy preserved
-- Existing write RPCs retain `CHALLENGE_READONLY` at challenge-local boundary
+- `challenge_completion_summary(challenge_id)` — Completed only; `read_only`; privacy preserved; current progress from corrected eligible
+- Existing write RPCs retain `CHALLENGE_READONLY` at challenge-local boundary; create/amend/reverse call sync
 - `leave_challenge` owner guard unchanged for Scheduled/Active
 
 ## Verdict
 
-M9 activity feed + Path B order + completion summary + owner leave guard **live-verified** against linked Supabase `gdrkejobqlvtwnlaedpu`. **Stop before M10.** Pause scheduling, streak awards, reopen/cancel, ownership transfer remain OPEN.
+M9 activity feed + Path B order + completion summary + owner leave guard + **progress milestone history retention** **live-verified** against linked Supabase `gdrkejobqlvtwnlaedpu`. **Stop before M10.** Pause scheduling, streak awards, reopen/cancel, ownership transfer, re-opt-in remain OPEN.

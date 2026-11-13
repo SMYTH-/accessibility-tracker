@@ -7,6 +7,7 @@ import {
   milestonesReached,
   progressPercent,
 } from "@/lib/dashboard/progress";
+import type { MilestonePercent } from "@/lib/dashboard/types";
 import {
   mockRosterProjection,
   mockSharingMemberTotals,
@@ -136,62 +137,32 @@ export async function mockActivityFeed(
     }
   }
 
-  // Milestone crossings from eligible contribution running totals (G1.1-08).
-  const byUser = new Map<string, typeof db.contributions>();
-  for (const c of db.contributions) {
-    if (c.challengeId !== challengeId || c.status !== "active") continue;
-    const mem = approvedMembership(db.memberships, challengeId, c.userId);
+  // Retained progress milestone announcements (G1.1-08). Privacy before emit.
+  // History survives correction dips; re-cross keeps original id + announcedAt.
+  for (const a of db.progressMilestoneAnnouncements) {
+    if (a.challengeId !== challengeId) continue;
+    const mem = approvedMembership(db.memberships, challengeId, a.userId);
     if (!mem) continue;
-    if (c.userId !== userId && !mem.shareMonetaryInfo) continue;
-    if (
-      compareYmd(c.contributionDate, challenge.startDate) < 0 ||
-      compareYmd(c.contributionDate, challenge.endDate) > 0
-    ) {
-      continue;
-    }
-    const list = byUser.get(c.userId) ?? [];
-    list.push(c);
-    byUser.set(c.userId, list);
-  }
-  for (const [uid, list] of byUser) {
-    const setup = db.savingsSetups.find(
-      (s) => s.challengeId === challengeId && s.userId === uid,
-    );
-    if (!setup || setup.targetMinor <= 0) continue;
-    const ordered = [...list].sort((a, b) => {
-      const d = a.contributionDate.localeCompare(b.contributionDate);
-      if (d !== 0) return d;
-      return a.updatedAt.localeCompare(b.updatedAt);
+    if (a.userId !== userId && !mem.shareMonetaryInfo) continue;
+    const thr = a.milestonePercent as MilestonePercent;
+    const label =
+      thr === 25
+        ? "25% Quarter milestone"
+        : thr === 50
+          ? "50% Halfway milestone"
+          : thr === 75
+            ? "75% Three-quarters milestone"
+            : "100% Target milestone";
+    events.push({
+      id: `mile:${a.id}`,
+      kind: "milestone_reached",
+      userId: a.userId,
+      displayName: displayName(a.userId),
+      title: `${displayName(a.userId)} reached ${label}`,
+      meta: "Personal progress milestone · G1.1-08",
+      milestonePercent: thr,
+      at: a.announcedAt,
     });
-    let running = 0;
-    for (const c of ordered) {
-      const prev = running;
-      running += c.amountMinor;
-      for (const thr of [25, 50, 75, 100] as const) {
-        const prevPct = progressPercent(prev, setup.targetMinor) ?? 0;
-        const nextPct = progressPercent(running, setup.targetMinor) ?? 0;
-        if (prevPct < thr && nextPct >= thr) {
-          const label =
-            thr === 25
-              ? "25% Quarter milestone"
-              : thr === 50
-                ? "50% Halfway milestone"
-                : thr === 75
-                  ? "75% Three-quarters milestone"
-                  : "100% Target milestone";
-          events.push({
-            id: `mile:${c.id}:${thr}`,
-            kind: "milestone_reached",
-            userId: uid,
-            displayName: displayName(uid),
-            title: `${displayName(uid)} reached ${label}`,
-            meta: "Personal progress milestone · G1.1-08",
-            milestonePercent: thr,
-            at: c.updatedAt,
-          });
-        }
-      }
-    }
   }
 
   for (const a of db.audit) {

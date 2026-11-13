@@ -9,6 +9,7 @@ Connected path: **active challenge (Path B)** → **completed summary**.
    - `supabase/migrations/20261113210000_m9_activity_completion.sql`
    - `supabase/migrations/20261113211000_m9_activity_feed_fix.sql`
    - `supabase/migrations/20261113212000_m9_feed_progress_cast.sql`
+   - `supabase/migrations/20261113213000_m9_milestone_history_retention.sql`
 3. `.env.local` with project URL, anon key, service role, `NEXT_PUBLIC_SITE_URL=http://localhost:3000`.
 4. `npm run dev` → `http://localhost:3000`.
 
@@ -17,7 +18,7 @@ Connected path: **active challenge (Path B)** → **completed summary**.
 1. **Sign in as Alex** (approved owner, savings active, sharing).
 2. **Home** — Path B order: personal progress → **Your streak** / this-week commitment → **Members** roster → Sharing members only → Activity preview. Record CTA enabled.
 3. **Challenge** — Same Path B strip; own assessment history only in personal strip (not dumped on roster peers).
-4. **Activity** — Full privacy-filtered feed: joins, contributions (sharing + self), commitment completions (no shared commitment figures), progress milestones 25/50/75/100%, no streak awards.
+4. **Activity** — Full privacy-filtered feed: joins, contributions (sharing + self), commitment completions (no shared commitment figures), progress milestones 25/50/75/100% (retained after correction dips; no duplicate on re-cross), no streak awards. Opt-out hides others’ milestone announcements while the saver keeps own history.
 5. **Sign in as Sam** — Feed shows Alex/Sam monetary events; private others absent; sharing total unchanged when a private member records.
 6. **Pending / removed / unrelated** — `challenge_activity_feed` / dashboard RPCs return `MEMBERSHIP_REQUIRED` (no feed leak). Verified live via `evidence:m9:pg`.
 7. **Complete** — End date passed + lifecycle tick → **Completed**.

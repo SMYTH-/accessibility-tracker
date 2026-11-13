@@ -1,5 +1,5 @@
 {
-  "passed": 41,
+  "passed": 56,
   "failed": 0,
   "results": [
     {
@@ -38,17 +38,17 @@
       "detail": ""
     },
     {
-      "name": "activate 956ae56b",
+      "name": "activate d6bb3463",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "activate a9565a53",
+      "name": "activate e5684d20",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "activate 2eefdf7e",
+      "name": "activate 45a853f0",
       "ok": true,
       "detail": ""
     },
@@ -119,6 +119,81 @@
     },
     {
       "name": "sam feed not bloated by private events displacing window",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex contribution id for retention",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex cross 50% via amend",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "50% announcement present after cross",
+      "ok": true,
+      "detail": "mile:92e43ad3-8b4c-44a9-a53f-24433b2343f6"
+    },
+    {
+      "name": "alex drop below 50% via correction",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "50% announcement retained after drop (same id)",
+      "ok": true,
+      "detail": "mile:92e43ad3-8b4c-44a9-a53f-24433b2343f6 → mile:92e43ad3-8b4c-44a9-a53f-24433b2343f6"
+    },
+    {
+      "name": "50% announcement timestamp unchanged after drop",
+      "ok": true,
+      "detail": "2026-11-13T19:48:47.661442+00:00 → 2026-11-13T19:48:47.661442+00:00"
+    },
+    {
+      "name": "current progress reflects corrected eligible after drop",
+      "ok": true,
+      "detail": "90000"
+    },
+    {
+      "name": "current progress percent below 50 after drop",
+      "ok": true,
+      "detail": "45"
+    },
+    {
+      "name": "alex re-cross 50%",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "feed has no duplicate 50% announcement",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "re-cross keeps original announcement id + timestamp",
+      "ok": true,
+      "detail": "mile:92e43ad3-8b4c-44a9-a53f-24433b2343f6@2026-11-13T19:48:47.661442+00:00"
+    },
+    {
+      "name": "alex opt-out sharing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "peer cannot see milestone after saver opt-out",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "saver retains milestone in own history after opt-out",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fixture restore alex sharing",
       "ok": true,
       "detail": ""
     },
@@ -208,6 +283,6 @@
       "detail": ""
     }
   ],
-  "stamp": 1794598559252,
-  "challengeId": "1a315fe6-6702-4237-a68c-b95e1462ef84"
+  "stamp": 1794599323615,
+  "challengeId": "0dd5874c-f52d-4346-89f7-57f832b25045"
 }
