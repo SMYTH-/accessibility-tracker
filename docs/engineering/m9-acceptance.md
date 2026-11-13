@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M9 · SOC-01 · G1.1-06-R1 · G1.1-12/13 · Path B |
 | M8 base tip | `3f19ad71` (PR #9) |
 | Implementation branch | `cursor/m9-activity-completion-6e9b` |
-| Tip SHA | `5ef02033` |
+| Tip SHA | `e3c8a03ca87a573dde8c36be7e0dba95c65b47b4` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod linked) |
 | Date | 13 November 2026 |
 | Machine | Cloud agent (offline smoke). Live PG/UI **blocked** here — no `.env.local` (URL/anon/service). Dom’s Mac `~/Local Sites/accessibility-tracker` for live apply + evidence. |
