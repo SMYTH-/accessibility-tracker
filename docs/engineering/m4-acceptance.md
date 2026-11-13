@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M4 |
 | M3 base tip | `dda5e603` (PR #4) |
 | Implementation branch | `cursor/m4-savings-setup-4636` |
-| Tip SHA | _(set after park commit)_ |
+| Tip SHA | `988c0e26b54e812df3d0fc2abc336fa85fc4fdc2` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod) |
 | Date | 13 November 2026 |
 | Machine | Dom’s Mac (P&P - 033) — `/Users/dom.smyth/Local Sites/accessibility-tracker` |
