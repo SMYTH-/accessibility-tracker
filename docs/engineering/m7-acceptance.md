@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M7 · PRIV-01 · G1.1-06 · G1.1-06-R1 |
 | M6 base tip | `55198423` (PR #7) |
 | Implementation branch | `cursor/m7-privacy-settings-2765` |
-| Tip SHA | _(set after push)_ |
+| Tip SHA | `0bef6a1e` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod) |
 | Date | 13 November 2026 |
 | Machine | Dom’s Mac — `/Users/dom.smyth/Local Sites/accessibility-tracker` |
