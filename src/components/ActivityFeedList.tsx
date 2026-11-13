@@ -70,9 +70,9 @@ export function ActivityFeedList({
           >
             {glyph(ev.kind)}
           </span>
-          <div>
-            <p className="font-medium text-[var(--ink)]">{ev.title}</p>
-            <p className="text-[var(--mute)]">{ev.meta}</p>
+          <div className="min-w-0 flex-1">
+            <p className="break-words font-medium text-[var(--ink)]">{ev.title}</p>
+            <p className="break-words text-[var(--mute)]">{ev.meta}</p>
             {ev.amountMinor != null && ev.currency ? (
               <p className="mt-0.5 text-xs tabular-nums text-[var(--mute)]">
                 {formatMinorAsMajor(ev.amountMinor, ev.currency)} · self-reported

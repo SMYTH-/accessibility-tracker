@@ -73,7 +73,7 @@ export function ChallengeDashboardView({
           {isCompleted ? "Completed challenge" : "Challenge"}
         </p>
         <div className="mt-2 flex flex-wrap items-center gap-2">
-          <h2 className="text-xl font-semibold text-[var(--ink)]">
+          <h2 className="min-w-0 break-words text-xl font-semibold text-[var(--ink)]">
             {data.challengeName}
           </h2>
           <ChallengeStatusBadge status={data.lifecycleStatus as LifecycleStatus} />
