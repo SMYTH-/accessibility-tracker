@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M10 · ACC-01 · §7.5–7.6 · §8.2 · §10.4–10.5 · G1.1-06 · G1.1-13 |
 | M9 base tip | `e5c38070` (PR #10) |
 | Implementation branch | `cursor/m10-account-controls-5ce0` |
-| Tip SHA | _(synced after push)_ |
+| Tip SHA | `d9015fbc96ef6c5c30991bed1f48b7495ca4cecd` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod linked) |
 | Date | 13 November 2026 |
 | Machine | Dom Mac · `~/Local Sites/accessibility-tracker` |
