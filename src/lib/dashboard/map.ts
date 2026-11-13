@@ -145,6 +145,7 @@ export type ActivityRow = {
   meta: string;
   amount_minor?: number | string;
   currency?: string;
+  milestone_percent?: number | string | null;
   at: string;
 };
 
@@ -237,19 +238,49 @@ export function mapRosterMember(row: RosterRow): RosterMemberProjection {
   return base;
 }
 
+function asActivityKind(
+  kind: string,
+): ActivityPreviewEvent["kind"] {
+  switch (kind) {
+    case "private_contribution":
+    case "member_joined":
+    case "commitment_completed":
+    case "milestone_reached":
+    case "challenge_completed":
+    case "contribution":
+      return kind;
+    default:
+      return "contribution";
+  }
+}
+
 export function mapActivity(row: ActivityRow): ActivityPreviewEvent {
   const event: ActivityPreviewEvent = {
     id: row.id,
-    kind: row.kind === "private_contribution" ? "private_contribution" : "contribution",
+    kind: asActivityKind(row.kind),
     userId: row.user_id,
     displayName: row.display_name,
     title: row.title,
     meta: row.meta,
     at: row.at,
   };
-  if (Object.prototype.hasOwnProperty.call(row, "amount_minor")) {
+  if (
+    Object.prototype.hasOwnProperty.call(row, "amount_minor") &&
+    row.amount_minor != null
+  ) {
     event.amountMinor = n(row.amount_minor);
     event.currency = row.currency;
+  }
+  const mile = row.milestone_percent;
+  if (mile === 25 || mile === 50 || mile === 75 || mile === 100) {
+    event.milestonePercent = mile;
+  } else if (
+    mile === "25" ||
+    mile === "50" ||
+    mile === "75" ||
+    mile === "100"
+  ) {
+    event.milestonePercent = Number(mile) as MilestonePercent;
   }
   return event;
 }

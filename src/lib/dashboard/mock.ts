@@ -151,42 +151,21 @@ export async function mockActivityPreview(
   userId: string,
   challengeId: string,
 ): Promise<ActivityPreviewEvent[] | null> {
-  const db = await readChallengeDb();
-  const challenge = findChallenge(db.challenges, challengeId);
-  if (!challenge) return null;
-  if (!approvedMembership(db.memberships, challengeId, userId)) return null;
-
-  const events: ActivityPreviewEvent[] = [];
-  // Privacy filter BEFORE order/limit: self always; others only when sharing.
-  const rows = [...db.contributions]
-    .filter((c) => {
-      if (c.challengeId !== challengeId || c.status !== "active") return false;
-      const mem = db.memberships.find(
-        (m) =>
-          m.challengeId === challengeId &&
-          m.userId === c.userId &&
-          m.status === "approved",
-      );
-      if (!mem) return false;
-      return c.userId === userId || mem.shareMonetaryInfo;
-    })
-    .sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))
-    .slice(0, 8);
-
-  for (const c of rows) {
-    events.push({
-      id: c.id,
-      kind: "contribution",
-      userId: c.userId,
-      displayName: c.userId,
-      title: `${c.userId} recorded a self-reported contribution`,
-      meta: `Self-reported · ${c.contributionDate}`,
-      amountMinor: c.amountMinor,
-      currency: challenge.currency,
-      at: c.updatedAt,
-    });
-  }
-  return events;
+  const { mockActivityFeed } = await import("@/lib/activity/mock");
+  const feed = await mockActivityFeed(userId, challengeId, 8, null);
+  if (!feed) return null;
+  return feed.events.map((ev) => ({
+    id: ev.id,
+    kind: ev.kind,
+    userId: ev.userId,
+    displayName: ev.displayName,
+    title: ev.title,
+    meta: ev.meta,
+    amountMinor: ev.amountMinor,
+    currency: ev.currency,
+    milestonePercent: ev.milestonePercent,
+    at: ev.at,
+  }));
 }
 
 export async function mockChallengeDashboard(

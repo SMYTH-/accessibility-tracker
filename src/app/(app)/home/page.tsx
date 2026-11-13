@@ -4,6 +4,8 @@ import {
   ChallengeDashboardView,
   DashboardEmptyState,
 } from "@/components/ChallengeDashboard";
+import { CompletionSummaryView } from "@/components/CompletionSummaryView";
+import { getCompletionSummary } from "@/lib/activity/service";
 import { getCurrentUser } from "@/lib/auth/session";
 import { listChallengesForUser } from "@/lib/challenge/service";
 import { getChallengeDashboard } from "@/lib/dashboard/service";
@@ -17,13 +19,20 @@ export default async function HomePage() {
 
   const rows = await listChallengesForUser(user.id);
   const primary = rows[0];
-  const dashboard = primary
-    ? await getChallengeDashboard(user.id, primary.challenge.id)
-    : null;
+
+  const completed =
+    primary?.challenge.lifecycleStatus === "Completed"
+      ? await getCompletionSummary(user.id, primary.challenge.id)
+      : null;
+
+  const dashboard =
+    primary && !completed
+      ? await getChallengeDashboard(user.id, primary.challenge.id)
+      : null;
 
   return (
     <AppShell title="Home" subtitle={`Signed in as ${user.displayName}`}>
-      {!primary || !dashboard ? (
+      {!primary ? (
         <div className="space-y-4">
           <DashboardEmptyState />
           <p className="text-center text-xs text-[var(--mute)]">
@@ -31,7 +40,19 @@ export default async function HomePage() {
             contributions once you join an approved challenge.
           </p>
         </div>
-      ) : (
+      ) : completed ? (
+        <div className="space-y-4">
+          <CompletionSummaryView data={completed} />
+          {rows.length > 1 ? (
+            <p className="text-center text-xs text-[var(--mute)]">
+              Showing your latest challenge.{" "}
+              <Link href="/challenge" className="font-semibold text-[var(--deep-sea)] underline">
+                All challenges
+              </Link>
+            </p>
+          ) : null}
+        </div>
+      ) : dashboard ? (
         <div className="space-y-4">
           <ChallengeDashboardView
             data={dashboard}
@@ -46,6 +67,8 @@ export default async function HomePage() {
             </p>
           ) : null}
         </div>
+      ) : (
+        <DashboardEmptyState />
       )}
     </AppShell>
   );
