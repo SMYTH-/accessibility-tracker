@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M5 |
 | M4 base tip | `072dd66` (PR #5) |
 | Implementation branch | `cursor/m5-contribution-recording-66ef` |
-| Tip SHA | _(filled at handoff)_ |
+| Tip SHA | `a9ec4434ec96bd59665e516629dfdf272228d6ae` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod) |
 | Date | 13 November 2026 |
 | Machine | Dom’s Mac — `/Users/dom.smyth/Local Sites/accessibility-tracker` |

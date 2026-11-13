@@ -5,6 +5,7 @@
 | Milestone | M5 only (stop before M6) |
 | Base tip | `072dd66` (signed-off M4 / PR #5) |
 | Branch | `cursor/m5-contribution-recording-66ef` |
+| Tip SHA | `a9ec4434ec96bd59665e516629dfdf272228d6ae` |
 | Persistence | Supabase Auth + Postgres `gdrkejobqlvtwnlaedpu` (when `.env.local` present) |
 | Preview | `http://localhost:3000` |
 | Specs | SAVE-01, SAVE-02, G1.1-05; approved timing §3.1 (`m0-architecture.md` §3) |
