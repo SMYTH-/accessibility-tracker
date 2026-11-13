@@ -2,7 +2,7 @@
  * M5 Postgres evidence against non-prod Supabase gdrkejobqlvtwnlaedpu.
  * Checks: record, idempotent duplicate, amend, reverse, cross-user denial,
  * challenge-local date, inactive/ineligible rejection, eligible totals,
- * pre-assessment split.
+ * pre-assessment split, concurrent amend/amend, amend/reverse, reverse/reverse.
  */
 import { createClient } from "@supabase/supabase-js";
 import { writeFileSync, mkdirSync } from "fs";
@@ -422,6 +422,181 @@ assert(
 assert(
   "eligible total still includes pre-assessment",
   Number(preRec.data?.totals?.eligible_total_minor) === 3000,
+);
+
+// ---------------------------------------------------------------------------
+// Concurrent corrections on the same contribution (row lock / sequential)
+// ---------------------------------------------------------------------------
+function chainAmends(initialMinor, amendRevs) {
+  const remaining = amendRevs.map((r) => ({
+    from: Number(r.from_amount_minor),
+    to: Number(r.to_amount_minor),
+    at: r.at,
+  }));
+  const ordered = [];
+  let current = initialMinor;
+  while (remaining.length) {
+    const idx = remaining.findIndex((r) => r.from === current);
+    if (idx < 0) return null;
+    const next = remaining.splice(idx, 1)[0];
+    ordered.push(next);
+    current = next.to;
+  }
+  return { ordered, final: current };
+}
+
+async function revisionsFor(contributionId) {
+  const { data, error } = await admin
+    .from("contribution_revisions")
+    .select("*")
+    .eq("contribution_id", contributionId)
+    .order("at", { ascending: true });
+  if (error) throw error;
+  return data ?? [];
+}
+
+const concChallenge = await owner.rpc("create_private_challenge", {
+  p_name: `M5 Concurrent ${stamp}`,
+  p_description: "Concurrent correction hardening",
+  p_start_date: todayLondon,
+  p_end_date: endDate,
+  p_currency: "GBP",
+  p_time_zone: "Europe/London",
+});
+assert("concurrent challenge create", !concChallenge.error, concChallenge.error?.message);
+const concChallengeId = concChallenge.data?.challenge?.id;
+assert("concurrent challenge id", Boolean(concChallengeId));
+const concAct = await owner.rpc("activate_savings_setup", {
+  p_challenge_id: concChallengeId,
+  p_target_minor: 200000,
+  p_weekly_commitment_minor: 5000,
+});
+assert("concurrent activate", !concAct.error, concAct.error?.message);
+
+// --- amend / amend ---
+const aaRec = await owner.rpc("record_contribution", {
+  p_challenge_id: concChallengeId,
+  p_amount_minor: 1000,
+  p_idempotency_key: `conc-aa-${stamp}`,
+});
+assert("amend/amend seed", !aaRec.error, aaRec.error?.message);
+const aaId = aaRec.data?.contribution?.id;
+const [aaA, aaB] = await Promise.all([
+  owner.rpc("amend_contribution", { p_contribution_id: aaId, p_amount_minor: 2000 }),
+  owner.rpc("amend_contribution", { p_contribution_id: aaId, p_amount_minor: 3000 }),
+]);
+const aaOk = [aaA, aaB].filter((r) => !r.error && r.data?.unchanged !== true);
+assert(
+  "concurrent amend/amend both succeed",
+  aaOk.length === 2,
+  [aaA.error?.message, aaB.error?.message].filter(Boolean).join(" | "),
+);
+const aaRow = await admin.from("contributions").select("*").eq("id", aaId).single();
+assert("amend/amend final is 2000 or 3000", [2000, 3000].includes(Number(aaRow.data?.amount_minor)));
+const aaRevs = await revisionsFor(aaId);
+const aaAmends = aaRevs.filter((r) => r.action === "amend");
+assert("amend/amend two amend audits", aaAmends.length === 2);
+const aaChain = chainAmends(1000, aaAmends);
+assert(
+  "amend/amend audit chain matches order",
+  Boolean(aaChain) && aaChain.final === Number(aaRow.data?.amount_minor),
+  JSON.stringify(aaAmends.map((r) => [r.from_amount_minor, r.to_amount_minor])),
+);
+
+// --- amend / reverse ---
+const arRec = await owner.rpc("record_contribution", {
+  p_challenge_id: concChallengeId,
+  p_amount_minor: 4000,
+  p_idempotency_key: `conc-ar-${stamp}`,
+});
+assert("amend/reverse seed", !arRec.error, arRec.error?.message);
+const arId = arRec.data?.contribution?.id;
+const [arAmend, arRev] = await Promise.all([
+  owner.rpc("amend_contribution", { p_contribution_id: arId, p_amount_minor: 4500 }),
+  owner.rpc("reverse_contribution", { p_contribution_id: arId }),
+]);
+const arAmendOk = !arAmend.error;
+const arRevOk = !arRev.error;
+assert("concurrent amend/reverse reverse succeeds", arRevOk, arRev.error?.message);
+assert(
+  "concurrent amend/reverse amend ok or not-active",
+  arAmendOk || /CONTRIBUTION_NOT_ACTIVE/i.test(arAmend.error?.message || ""),
+  arAmend.error?.message,
+);
+const arRow = await admin.from("contributions").select("*").eq("id", arId).single();
+assert("amend/reverse final status reversed", arRow.data?.status === "reversed");
+const arRevs = await revisionsFor(arId);
+const arAmendRevs = arRevs.filter((r) => r.action === "amend");
+const arReverseRevs = arRevs.filter((r) => r.action === "reverse");
+assert("amend/reverse exactly one reverse audit", arReverseRevs.length === 1);
+if (arAmendOk) {
+  assert("amend/reverse one amend audit when amend won first", arAmendRevs.length === 1);
+  assert(
+    "amend/reverse reverse prior amount is post-amend",
+    Number(arReverseRevs[0].from_amount_minor) === 4500,
+  );
+  assert(
+    "amend/reverse amend prior amount is seed",
+    Number(arAmendRevs[0].from_amount_minor) === 4000,
+  );
+} else {
+  assert("amend/reverse no amend audit when reverse won first", arAmendRevs.length === 0);
+  assert(
+    "amend/reverse reverse prior amount is seed",
+    Number(arReverseRevs[0].from_amount_minor) === 4000,
+  );
+}
+const arTotals = await owner.rpc("own_eligible_totals", { p_challenge_id: concChallengeId });
+const arEligible = Number(arTotals.data?.eligible_total_minor);
+assert(
+  "reversed entry excluded from eligible totals",
+  arEligible === Number(aaRow.data?.amount_minor),
+  `eligible=${arEligible} aaFinal=${aaRow.data?.amount_minor}`,
+);
+const arAfterAmend = await owner.rpc("amend_contribution", {
+  p_contribution_id: arId,
+  p_amount_minor: 9999,
+});
+assert(
+  "amendment cannot succeed after reversal",
+  Boolean(arAfterAmend.error) &&
+    /CONTRIBUTION_NOT_ACTIVE/i.test(arAfterAmend.error?.message || ""),
+  arAfterAmend.error?.message,
+);
+
+// --- reverse / reverse ---
+const rrRec = await owner.rpc("record_contribution", {
+  p_challenge_id: concChallengeId,
+  p_amount_minor: 7000,
+  p_idempotency_key: `conc-rr-${stamp}`,
+});
+assert("reverse/reverse seed", !rrRec.error, rrRec.error?.message);
+const rrId = rrRec.data?.contribution?.id;
+const [rrA, rrB] = await Promise.all([
+  owner.rpc("reverse_contribution", { p_contribution_id: rrId }),
+  owner.rpc("reverse_contribution", { p_contribution_id: rrId }),
+]);
+const rrWins = [rrA, rrB].filter((r) => !r.error);
+const rrFails = [rrA, rrB].filter((r) => r.error);
+assert("concurrent reverse/reverse one succeeds", rrWins.length === 1);
+assert(
+  "concurrent reverse/reverse one not-active",
+  rrFails.length === 1 &&
+    /CONTRIBUTION_NOT_ACTIVE/i.test(rrFails[0].error?.message || ""),
+  rrFails.map((r) => r.error?.message).join(" | "),
+);
+const rrRow = await admin.from("contributions").select("*").eq("id", rrId).single();
+assert("reverse/reverse status reversed", rrRow.data?.status === "reversed");
+const rrRevs = await revisionsFor(rrId);
+assert(
+  "reverse/reverse single reverse audit",
+  rrRevs.filter((r) => r.action === "reverse").length === 1,
+);
+const rrTotals = await owner.rpc("own_eligible_totals", { p_challenge_id: concChallengeId });
+assert(
+  "reverse/reverse still excluded from eligible",
+  Number(rrTotals.data?.eligible_total_minor) === Number(aaRow.data?.amount_minor),
+  JSON.stringify(rrTotals.data),
 );
 
 const failed = results.filter((r) => !r.ok).length;
