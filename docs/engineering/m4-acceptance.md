@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M4 |
 | M3 base tip | `dda5e603` (PR #4) |
 | Implementation branch | `cursor/m4-savings-setup-4636` |
-| Tip SHA | `646d97eb9a4ffb980851cb3061cb43c6d4fd22df` |
+| Tip SHA | `f38f44a6395bcbe27123fb4a2d26335ecfc02c37` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod) when `.env.local` present |
 | Date | 13 November 2026 |
 | Preview | `http://localhost:3000` |
