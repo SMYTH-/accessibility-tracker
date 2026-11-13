@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M9 · SOC-01 · G1.1-06-R1 · G1.1-08 · G1.1-12/13 · Path B · Example C |
 | M8 base tip | `3f19ad71` (PR #9) |
 | Implementation branch | `cursor/m9-activity-completion-6e9b` |
-| Tip SHA | `(pending commit)` |
+| Tip SHA | `8e1fae00` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod linked) |
 | Date | 13 November 2026 |
 | Machine | Dom Mac P&P-033 · `~/Local Sites/accessibility-tracker` |
