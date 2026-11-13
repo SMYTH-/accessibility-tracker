@@ -13,6 +13,7 @@
     "smoke:m5": "node scripts/m5-week-helpers-smoke.mjs && npx --yes tsx scripts/m5-service-smoke.ts",
     "smoke:m6": "node scripts/m6-progress-smoke.mjs && npx --yes tsx scripts/m6-service-smoke.ts",
     "smoke:m7": "npx --yes tsx scripts/m7-service-smoke.ts",
+    "smoke:m8": "node scripts/m8-assessment-smoke.mjs && npx --yes tsx scripts/m8-service-smoke.ts",
     "evidence:m2:pg": "node --env-file=.env.local scripts/m2-postgres-evidence.mjs",
     "evidence:m2:ui": "node scripts/m2-supabase-ui-evidence.mjs",
     "evidence:m3:pg": "node --env-file=.env.local scripts/m3-postgres-evidence.mjs",
@@ -25,7 +26,9 @@
     "evidence:m6:pg": "node --env-file=.env.local scripts/m6-postgres-evidence.mjs",
     "evidence:m6:ui": "node --env-file=.env.local scripts/m6-supabase-ui-evidence.mjs",
     "evidence:m7:pg": "node --env-file=.env.local scripts/m7-postgres-evidence.mjs",
-    "evidence:m7:ui": "node --env-file=.env.local scripts/m7-supabase-ui-evidence.mjs"
+    "evidence:m7:ui": "node --env-file=.env.local scripts/m7-supabase-ui-evidence.mjs",
+    "evidence:m8:pg": "node --env-file=.env.local scripts/m8-postgres-evidence.mjs",
+    "evidence:m8:ui": "node --env-file=.env.local scripts/m8-supabase-ui-evidence.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -48,5 +51,5 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
-  "description": "Accountability Tracker — M7 financial privacy settings"
+  "description": "Accountability Tracker — M8 weekly assessment and streaks"
 }

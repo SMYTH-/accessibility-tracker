@@ -1,8 +1,31 @@
 import Link from "next/link";
 import { ChallengeStatusBadge } from "@/components/ChallengeStatusBadge";
+import {
+  supportiveMissMessage,
+  type DashboardAssessmentStatus,
+} from "@/lib/assessment/engine";
 import type { LifecycleStatus } from "@/lib/challenge/types";
 import { formatMinorAsMajor } from "@/lib/savings/money";
 import type { ChallengeDashboard as DashboardData } from "@/lib/dashboard/types";
+
+function weekStatusLabel(status: DashboardAssessmentStatus): string {
+  switch (status) {
+    case "completed":
+      return "Completed";
+    case "missed":
+      return "Missed";
+    case "in_progress":
+      return "In progress";
+    case "paused":
+      return "Paused";
+    case "pre_assessment":
+      return "Before first assessed week";
+    case "inactive":
+      return "Not assessed";
+    default:
+      return status;
+  }
+}
 
 function ProgressBar({
   percent,
@@ -122,19 +145,96 @@ export function ChallengeDashboardView({
       )}
 
       {hasSetup ? (
-        <div
-          className="flex flex-wrap gap-2"
+        <section
+          className="space-y-3"
           aria-label="Weekly commitment and streak"
         >
-          <span className="rounded-xl border border-[var(--line)] bg-[var(--elevated)] px-3 py-2 text-sm tabular-nums text-[var(--ink)] shadow-[var(--shadow)]">
-            This week ·{" "}
-            {formatMinorAsMajor(personal.weeklyCommitmentMinor ?? 0, personal.currency)} ·
-            assessment in M8
-          </span>
-          <span className="rounded-xl border border-[color-mix(in_srgb,var(--deep-sea)_30%,var(--line))] bg-[var(--deep-sea-soft)] px-3 py-2 text-sm font-medium text-[var(--ink)] shadow-[var(--shadow)]">
-            {personal.streakLabel} · calculated in M8
-          </span>
-        </div>
+          <div className="flex flex-wrap gap-2">
+            <span
+              className="rounded-xl border border-[var(--line)] bg-[var(--elevated)] px-3 py-2 text-sm tabular-nums text-[var(--ink)] shadow-[var(--shadow)]"
+              data-testid="this-week-chip"
+            >
+              This week ·{" "}
+              {formatMinorAsMajor(
+                personal.currentWeekEligibleMinor,
+                personal.currency,
+              )}{" "}
+              of{" "}
+              {formatMinorAsMajor(
+                personal.weeklyCommitmentMinor ?? 0,
+                personal.currency,
+              )}{" "}
+              · {weekStatusLabel(personal.weeklyAssessmentStatus)}
+            </span>
+            <span
+              className="rounded-xl border border-[color-mix(in_srgb,var(--deep-sea)_30%,var(--line))] bg-[var(--deep-sea-soft)] px-3 py-2 text-sm font-medium text-[var(--ink)] shadow-[var(--shadow)]"
+              data-testid="your-streak-chip"
+            >
+              {personal.streakLabel}
+              {personal.streakWeeks > 0
+                ? ` · ${personal.streakWeeks} week${personal.streakWeeks === 1 ? "" : "s"}`
+                : personal.streakStatus === "recovering"
+                  ? " · ready to restart"
+                  : " · 0 weeks"}
+            </span>
+          </div>
+
+          {personal.weeklyAssessmentStatus === "pre_assessment" ? (
+            <p className="text-sm text-[var(--mute)]">
+              Savings before Monday {personal.firstAssessedWeekStart} count toward
+              your personal target and milestones only — not weekly Completed /
+              Missed.
+            </p>
+          ) : null}
+
+          {personal.assessmentHistory.some((w) => w.status === "missed") &&
+          personal.streakStatus === "recovering" ? (
+            <p
+              className="rounded-xl border border-[color-mix(in_srgb,var(--honey)_35%,var(--line))] bg-[var(--honey-soft)] px-3 py-2 text-sm text-[var(--ink)]"
+              role="status"
+              data-testid="miss-recovery-message"
+            >
+              {supportiveMissMessage()}
+            </p>
+          ) : null}
+
+          {personal.assessmentHistory.length > 0 ? (
+            <div
+              className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-4 shadow-[var(--shadow)]"
+              data-testid="assessment-history"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
+                Your weekly assessments
+              </p>
+              <ul className="mt-2 space-y-1.5 text-sm">
+                {[...personal.assessmentHistory]
+                  .sort((a, b) => b.weekStart.localeCompare(a.weekStart))
+                  .slice(0, 8)
+                  .map((w) => (
+                    <li
+                      key={w.weekStart}
+                      className="flex flex-wrap items-baseline justify-between gap-2 tabular-nums"
+                      data-week-start={w.weekStart}
+                      data-week-status={w.status}
+                    >
+                      <span className="text-[var(--ink)]">
+                        Week of {w.weekStart}
+                      </span>
+                      <span className="text-[var(--mute)]">
+                        {formatMinorAsMajor(w.eligibleSumMinor, personal.currency)} /{" "}
+                        {formatMinorAsMajor(w.commitmentMinor, personal.currency)} ·{" "}
+                        {weekStatusLabel(w.status)}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+              <p className="mt-2 text-xs text-[var(--mute)]">
+                Visible only to you. Pause scheduling remains open — Paused is
+                distinct from Completed and Missed when represented.
+              </p>
+            </div>
+          ) : null}
+        </section>
       ) : null}
 
       <section

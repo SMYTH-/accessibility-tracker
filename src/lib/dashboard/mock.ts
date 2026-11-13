@@ -1,4 +1,5 @@
-import { compareYmd } from "@/lib/challenge/time";
+import { recomputeMemberAssessments } from "@/lib/assessment/engine";
+import { compareYmd, zonedYmd } from "@/lib/challenge/time";
 import { readChallengeDb } from "@/lib/challenge/store";
 import type { Challenge, Membership } from "@/lib/challenge/types";
 import {
@@ -217,6 +218,7 @@ export async function mockChallengeDashboard(
 
   let commitmentEligible = 0;
   let preAssessment = 0;
+  const eligibleByWeekStart = new Map<string, number>();
   for (const c of db.contributions) {
     if (
       c.challengeId !== challengeId ||
@@ -240,7 +242,21 @@ export async function mockChallengeDashboard(
     } else {
       commitmentEligible += c.amountMinor;
     }
+    eligibleByWeekStart.set(
+      c.weekStart,
+      (eligibleByWeekStart.get(c.weekStart) ?? 0) + c.amountMinor,
+    );
   }
+
+  const assessment = recomputeMemberAssessments({
+    savingsParticipationActive: membership.savingsParticipationActive,
+    firstAssessedWeekStart: setup?.firstAssessedWeekStart ?? null,
+    weeklyCommitmentMinor: setup?.weeklyCommitmentMinor ?? null,
+    challengeStartDate: challenge.startDate,
+    challengeEndDate: challenge.endDate,
+    currentLocalYmd: zonedYmd(new Date(), challenge.timeZone),
+    eligibleByWeekStart,
+  });
 
   return {
     challengeId: challenge.id,
@@ -265,10 +281,13 @@ export async function mockChallengeDashboard(
       savingsParticipationActive: membership.savingsParticipationActive,
       shareMonetaryInfo: membership.shareMonetaryInfo,
       firstAssessedWeekStart: setup?.firstAssessedWeekStart ?? null,
-      streakWeeks: null,
+      streakWeeks: assessment.streakWeeks,
       streakLabel: "Your streak",
-      streakStatus: "deferred_to_m8",
-      weeklyAssessmentStatus: "deferred_to_m8",
+      streakStatus: assessment.streakStatus,
+      weeklyAssessmentStatus: assessment.weeklyAssessmentStatus,
+      currentWeekStart: assessment.currentWeekStart,
+      currentWeekEligibleMinor: assessment.currentWeekEligibleMinor,
+      assessmentHistory: assessment.history,
     },
     sharing,
     roster,

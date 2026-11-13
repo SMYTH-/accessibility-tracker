@@ -1,4 +1,10 @@
 import type {
+  DashboardAssessmentStatus,
+  StreakStatus,
+  WeekAssessment,
+  WeekAssessmentStatus,
+} from "@/lib/assessment/engine";
+import type {
   ActivityPreviewEvent,
   ChallengeDashboard,
   MilestonePercent,
@@ -14,6 +20,66 @@ function n(v: number | string | null | undefined): number {
 function nNull(v: number | string | null | undefined): number | null {
   if (v == null || v === "") return null;
   return Number(v);
+}
+
+function asWeekStatus(v: string | null | undefined): WeekAssessmentStatus | null {
+  if (
+    v === "completed" ||
+    v === "missed" ||
+    v === "in_progress" ||
+    v === "paused"
+  ) {
+    return v;
+  }
+  return null;
+}
+
+function asDashboardStatus(
+  v: string | null | undefined,
+): DashboardAssessmentStatus {
+  if (
+    v === "completed" ||
+    v === "missed" ||
+    v === "in_progress" ||
+    v === "paused" ||
+    v === "inactive" ||
+    v === "pre_assessment"
+  ) {
+    return v;
+  }
+  return "inactive";
+}
+
+function asStreakStatus(v: string | null | undefined): StreakStatus {
+  if (
+    v === "active" ||
+    v === "recovering" ||
+    v === "none" ||
+    v === "inactive"
+  ) {
+    return v;
+  }
+  return "inactive";
+}
+
+function mapHistory(raw: unknown): WeekAssessment[] {
+  if (!Array.isArray(raw)) return [];
+  const out: WeekAssessment[] = [];
+  for (const row of raw) {
+    if (!row || typeof row !== "object") continue;
+    const r = row as Record<string, unknown>;
+    const status = asWeekStatus(String(r.status ?? r.Status ?? ""));
+    const weekStart = String(r.week_start ?? r.weekStart ?? "");
+    if (!status || !weekStart) continue;
+    out.push({
+      weekStart,
+      status,
+      eligibleSumMinor: n(r.eligible_sum_minor as number | string | undefined),
+      commitmentMinor: n(r.commitment_minor as number | string | undefined),
+      weekClosed: Boolean(r.week_closed ?? r.weekClosed),
+    });
+  }
+  return out;
 }
 
 export type SharingTotalsRow = {
@@ -43,10 +109,13 @@ export type PersonalRow = {
   savings_participation_active: boolean;
   share_monetary_info: boolean;
   first_assessed_week_start: string | null;
-  streak_weeks: number | null;
+  streak_weeks: number | string | null;
   streak_label: string;
   streak_status: string;
   weekly_assessment_status: string;
+  current_week_start?: string | null;
+  current_week_eligible_minor?: number | string | null;
+  assessment_history?: unknown;
 };
 
 export type RosterRow = {
@@ -133,10 +202,13 @@ export function mapPersonal(row: PersonalRow): PersonalDashboard {
     savingsParticipationActive: Boolean(row.savings_participation_active),
     shareMonetaryInfo: Boolean(row.share_monetary_info),
     firstAssessedWeekStart: row.first_assessed_week_start,
-    streakWeeks: null,
+    streakWeeks: n(row.streak_weeks),
     streakLabel: "Your streak",
-    streakStatus: "deferred_to_m8",
-    weeklyAssessmentStatus: "deferred_to_m8",
+    streakStatus: asStreakStatus(row.streak_status),
+    weeklyAssessmentStatus: asDashboardStatus(row.weekly_assessment_status),
+    currentWeekStart: row.current_week_start ?? null,
+    currentWeekEligibleMinor: n(row.current_week_eligible_minor),
+    assessmentHistory: mapHistory(row.assessment_history),
   };
 }
 
