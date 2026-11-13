@@ -148,9 +148,21 @@ const upd = await owner.rpc("update_savings_target", {
   p_challenge_id: challengeId,
   p_target_minor: 250000,
 });
-assert("update target", !upd.error, upd.error?.message);
-assert("new target", Number(upd.data?.setup?.target_minor) === 250000);
-assert("effective_from set", Boolean(upd.data?.setup?.target_effective_from));
+assert(
+  "signed-in post-activation target update rejected",
+  Boolean(upd.error),
+  upd.error?.message,
+);
+assert(
+  "park reason TARGET_CHANGE_DEFERRED",
+  Boolean(upd.error?.message?.includes("TARGET_CHANGE_DEFERRED")),
+  upd.error?.message,
+);
+const afterPark = await owner.rpc("get_own_savings_setup", { p_challenge_id: challengeId });
+assert(
+  "target unchanged after parked signed-in update",
+  Number(afterPark.data?.setup?.target_minor) === 200000,
+);
 
 // Frozen-clock Mon vs Tue–Sun via service_role helper
 const create2 = await owner.rpc("create_private_challenge", {
@@ -215,10 +227,28 @@ const audit = await owner
   .select("action")
   .eq("challenge_id", challengeId);
 assert(
-  "audit rows for activate+target_change",
+  "audit has activate only (no signed-in target_change)",
   (audit.data || []).some((r) => r.action === "activate") &&
-    (audit.data || []).some((r) => r.action === "target_change"),
+    !(audit.data || []).some((r) => r.action === "target_change"),
 );
+
+// Service-role test helper may still apply a prospective change for evidence infra.
+const svcUpd = await admin.rpc("update_savings_target_for_tests", {
+  p_challenge_id: challengeId,
+  p_user_id: ownerId,
+  p_target_minor: 250000,
+  p_now: "2026-11-13T12:00:00.000Z",
+});
+assert("service-role test helper update ok", !svcUpd.error, svcUpd.error?.message);
+assert("service helper new target", Number(svcUpd.data?.setup?.target_minor) === 250000);
+
+const deniedSvc = await owner.rpc("update_savings_target_for_tests", {
+  p_challenge_id: challengeId,
+  p_user_id: ownerId,
+  p_target_minor: 300000,
+  p_now: "2026-11-13T12:00:00.000Z",
+});
+assert("service helper denied to authenticated", Boolean(deniedSvc.error));
 
 const failed = results.filter((r) => !r.ok).length;
 mkdirSync(join(process.cwd(), ".data"), { recursive: true });

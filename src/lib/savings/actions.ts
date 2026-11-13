@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "@/lib/auth/session";
-import { activateSavingsSetup, updateSavingsTarget } from "./service";
+import { activateSavingsSetup } from "./service";
 
 export type SavingsActionState = {
   error?: string;
@@ -35,24 +35,13 @@ export async function activateSavingsAction(
   };
 }
 
+/** Parked until G1.1-10 progress/milestone rules are approved. */
 export async function updateTargetAction(
   _prev: SavingsActionState,
-  formData: FormData,
+  _formData: FormData,
 ): Promise<SavingsActionState> {
-  const user = await getCurrentUser();
-  if (!user) return { error: "You must be signed in." };
-
-  const challengeId = String(formData.get("challengeId") ?? "");
-  const targetMajor = String(formData.get("targetMajor") ?? "");
-
-  const result = await updateSavingsTarget(user.id, challengeId, targetMajor);
-  if (!result.ok) return { error: result.error };
-
-  revalidatePath(`/challenge/${challengeId}`);
-  if (result.unchanged) {
-    return { message: "Target unchanged." };
-  }
   return {
-    message: `Target updated. Effective from ${result.setup.targetEffectiveFrom} (next weekly period — G1.1-10).`,
+    error:
+      "Post-activation target changes are parked until G1.1-10 progress/milestone rules are approved.",
   };
 }

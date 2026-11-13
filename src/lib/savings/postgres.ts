@@ -15,8 +15,6 @@ type ActivatePayload = {
   setup: SavingsSetupRow;
 };
 
-type UpdatePayload = ActivatePayload & { unchanged?: boolean };
-
 type OwnPayload = {
   membership: MembershipRow;
   setup: SavingsSetupRow | null;
@@ -46,6 +44,7 @@ export async function pgActivateSavings(
   };
 }
 
+/** Signed-in path calls parked RPC; always maps TARGET_CHANGE_DEFERRED for members. */
 export async function pgUpdateTarget(
   supabase: SupabaseClient,
   challengeId: string,
@@ -59,12 +58,12 @@ export async function pgUpdateTarget(
     p_target_minor: target.minor,
   });
   if (error) return { ok: false, error: mapSavingsRpcError(error) };
-  const payload = data as UpdatePayload;
+  // Parked RPC should never succeed for signed-in callers; treat unexpected success as deferred.
+  void data;
   return {
-    ok: true,
-    membership: mapMembershipFromRpc(payload.membership),
-    setup: mapSavingsSetup(payload.setup),
-    unchanged: Boolean(payload.unchanged),
+    ok: false,
+    error:
+      "Post-activation target changes are parked until G1.1-10 progress/milestone rules are approved.",
   };
 }
 

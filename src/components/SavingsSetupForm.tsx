@@ -3,7 +3,6 @@
 import { useActionState } from "react";
 import {
   activateSavingsAction,
-  updateTargetAction,
   type SavingsActionState,
 } from "@/lib/savings/actions";
 import { formatMinorAsMajor } from "@/lib/savings/money";
@@ -46,10 +45,6 @@ export function SavingsSetupForm({
     activateSavingsAction,
     initial,
   );
-  const [updateState, updateAction, updatePending] = useActionState(
-    updateTargetAction,
-    initial,
-  );
 
   if (savingsParticipationActive && setup) {
     return (
@@ -81,34 +76,10 @@ export function SavingsSetupForm({
           </div>
         </dl>
 
-        <form action={updateAction} className="mt-5 space-y-3 border-t border-[var(--line)] pt-4">
-          <input type="hidden" name="challengeId" value={challengeId} />
-          <p className="text-sm text-[var(--mute)]">
-            Change target prospectively (G1.1-10). Takes effect at the start of the next weekly
-            period. Weekly commitment amount changes remain open and are not edited here.
-          </p>
-          <label className="block text-sm font-medium text-[var(--ink)]" htmlFor="targetMajorUpdate">
-            New personal target ({currency})
-          </label>
-          <input
-            id="targetMajorUpdate"
-            name="targetMajor"
-            type="text"
-            inputMode="decimal"
-            placeholder="2000.00"
-            required
-            className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 text-sm"
-          />
-          {updateState.error ? <Alert tone="error">{updateState.error}</Alert> : null}
-          {updateState.message ? <Alert tone="ok">{updateState.message}</Alert> : null}
-          <button
-            type="submit"
-            disabled={updatePending}
-            className="w-full rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold text-[var(--ink)] disabled:opacity-60"
-          >
-            {updatePending ? "Saving…" : "Update target"}
-          </button>
-        </form>
+        <p className="mt-5 border-t border-[var(--line)] pt-4 text-sm text-[var(--mute)]">
+          Target editing after activation is parked until G1.1-10 progress/milestone rules are
+          approved. Weekly commitment amount changes remain open and are not edited here.
+        </p>
       </section>
     );
   }

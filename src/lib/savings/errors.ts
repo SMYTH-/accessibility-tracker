@@ -13,9 +13,10 @@ export function mapSavingsRpcError(error: {
     CHALLENGE_READONLY:
       "Completed or cancelled challenges do not accept savings setup changes.",
     MEMBERSHIP_REQUIRED: "Approved membership is required for savings setup.",
-    SAVINGS_ALREADY_ACTIVE:
-      "Savings participation is already active. Use target update for changes.",
+    SAVINGS_ALREADY_ACTIVE: "Savings participation is already active.",
     SAVINGS_NOT_ACTIVE: "Complete savings setup before changing your target.",
+    TARGET_CHANGE_DEFERRED:
+      "Post-activation target changes are parked until G1.1-10 progress/milestone rules are approved.",
   };
   for (const [code, msg] of Object.entries(map)) {
     if (raw.includes(code)) return msg;

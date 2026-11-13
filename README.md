@@ -11,7 +11,8 @@ Milestone **M4** (personal savings target + weekly commitment setup) on tip of s
 - Server-side membership + validation (RPC / service)
 - Incomplete setup → savings inactive; no missed-week assessment; record gated
 - First assessed week: Monday = current week; Tue–Sun = following Monday (challenge TZ)
-- G1.1-10 prospective target-change baseline + audit
+- Post-activation target editing **parked** until G1.1-10 progress/milestone rules are approved (signed-in RPC + UI)
+- Initial activate + first-assessed-week behaviour unchanged; service-role test helper only for evidence
 - **Stop before M5** — no contribution recording
 
 ## Local preview
@@ -23,7 +24,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Configure `.env.local` from `.env.example` (URL + anon key; optional service role for ticks/scripts). Do not commit secrets. Apply `supabase/migrations/20261113120000_m4_savings_setup.sql` for live Postgres.
+Configure `.env.local` from `.env.example` (URL + anon key; optional service role for ticks/scripts). Do not commit secrets. Apply M4 migrations under `supabase/migrations/` (incl. park migrations) for live Postgres.
 
 ```bash
 npm run smoke:m4

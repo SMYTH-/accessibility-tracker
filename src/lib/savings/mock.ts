@@ -2,9 +2,8 @@ import { randomBytes } from "crypto";
 import { getChallengeForUser } from "@/lib/challenge/service";
 import { readChallengeDb, withChallengeDb, type ChallengeDb } from "@/lib/challenge/store";
 import type { Membership } from "@/lib/challenge/types";
-import { firstAssessedWeekStart, nextWeeklyPeriodStart } from "./time";
+import { firstAssessedWeekStart } from "./time";
 import { validateSavingsAmounts } from "./validate";
-import { parsePositiveMajorToMinor } from "./money";
 import type {
   ActivateSavingsResult,
   OwnSavingsView,
@@ -65,7 +64,7 @@ export async function mockActivateSavings(
   if (membership.savingsParticipationActive) {
     return {
       ok: false,
-      error: "Savings participation is already active. Use target update for changes.",
+      error: "Savings participation is already active.",
     };
   }
 
@@ -91,7 +90,7 @@ export async function mockActivateSavings(
     if (mem.savingsParticipationActive || findSetup(db, challengeId, userId)) {
       return {
         ok: false,
-        error: "Savings participation is already active. Use target update for changes.",
+        error: "Savings participation is already active.",
       };
     }
     mem.savingsParticipationActive = true;
@@ -116,74 +115,18 @@ export async function mockActivateSavings(
   });
 }
 
+/** Signed-in / user-facing path: parked until G1.1-10 progress/milestone rules approved. */
 export async function mockUpdateTarget(
-  userId: string,
-  challengeId: string,
-  targetMajor: string,
-  now: Date = new Date(),
+  _userId: string,
+  _challengeId: string,
+  _targetMajor: string,
+  _now: Date = new Date(),
 ): Promise<UpdateTargetResult> {
-  const target = parsePositiveMajorToMinor(targetMajor, "Personal savings target");
-  if (!target.ok) return target;
-
-  const row = await getChallengeForUser(challengeId, userId, now);
-  if (!row) {
-    return { ok: false, error: "Approved membership is required for savings setup." };
-  }
-  if (
-    row.challenge.lifecycleStatus === "Completed" ||
-    row.challenge.lifecycleStatus === "Cancelled"
-  ) {
-    return {
-      ok: false,
-      error: "Completed or cancelled challenges do not accept savings setup changes.",
-    };
-  }
-  if (!row.membership.savingsParticipationActive) {
-    return { ok: false, error: "Complete savings setup before changing your target." };
-  }
-
-  return withChallengeDb((db) => {
-    const existing = findSetup(db, challengeId, userId);
-    if (!existing) {
-      return { ok: false, error: "Complete savings setup before changing your target." };
-    }
-    if (existing.targetMinor === target.minor) {
-      return {
-        ok: true,
-        membership: row.membership,
-        setup: existing,
-        unchanged: true,
-      };
-    }
-
-    const effective = nextWeeklyPeriodStart(now, row.challenge.timeZone);
-    const at = nowIso(now);
-    const from = existing.targetMinor;
-    existing.targetMinor = target.minor;
-    existing.targetEffectiveFrom = effective;
-    existing.updatedAt = at;
-    db.savingsAudit.push({
-      id: id(),
-      challengeId,
-      membershipId: existing.membershipId,
-      actorUserId: userId,
-      action: "target_change",
-      fromTargetMinor: from,
-      toTargetMinor: target.minor,
-      fromWeeklyCommitmentMinor: existing.weeklyCommitmentMinor,
-      toWeeklyCommitmentMinor: existing.weeklyCommitmentMinor,
-      effectiveFrom: effective,
-      firstAssessedWeekStart: existing.firstAssessedWeekStart,
-      detail: "Prospective target change (G1.1-10); effective next weekly period",
-      at,
-    });
-    return {
-      ok: true,
-      membership: row.membership,
-      setup: { ...existing },
-      unchanged: false,
-    };
-  });
+  return {
+    ok: false,
+    error:
+      "Post-activation target changes are parked until G1.1-10 progress/milestone rules are approved.",
+  };
 }
 
 export async function mockGetOwnSavings(

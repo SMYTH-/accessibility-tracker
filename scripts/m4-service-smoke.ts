@@ -123,12 +123,17 @@ async function main() {
   assert("own view has setup", Boolean(view?.setup && view.savingsParticipationActive));
 
   const upd = await updateSavingsTarget(ownerId, challengeId, "2500.00", fri);
-  assert("target update ok", upd.ok, upd.ok ? "" : upd.error);
-  if (upd.ok) {
-    assert("prospective effective Mon 16", upd.setup.targetEffectiveFrom === "2026-11-16");
-    assert("new target minor", upd.setup.targetMinor === 250000);
-    assert("unchanged false", upd.unchanged === false);
-  }
+  assert("post-activation target update parked", !upd.ok);
+  assert(
+    "park reason mentions G1.1-10",
+    !upd.ok && /G1\.1-10/i.test(upd.error),
+    upd.ok ? "" : upd.error,
+  );
+  const afterPark = await getOwnSavingsSetup(ownerId, challengeId, fri);
+  assert(
+    "target unchanged after parked update",
+    afterPark?.setup?.targetMinor === 200000,
+  );
 
   const mon = new Date("2026-11-16T10:00:00.000Z");
   writeFileSync(

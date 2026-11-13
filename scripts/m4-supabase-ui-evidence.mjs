@@ -117,6 +117,11 @@ await shot(page, "02-setup-form-filled.png");
 await page.getByRole("button", { name: /Activate savings/i }).click();
 await page.getByText(/Your savings setup/i).waitFor({ timeout: 15000 });
 await page.getByText(/First assessed week/i).waitFor();
+await page.getByText(/parked until G1\.1-10/i).waitFor();
+const updateBtn = page.getByRole("button", { name: /Update target/i });
+if (await updateBtn.count()) {
+  throw new Error("Update target control must be hidden after activation park");
+}
 await shot(page, "03-setup-active.png");
 
 await page.getByText(/First assessed week/i).waitFor();
