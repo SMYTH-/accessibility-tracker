@@ -9,7 +9,7 @@ Milestone **M5** (self-reported contribution record / amend / reverse) on tip of
 - Working accents only: Deep Sea `#1A6B7C` · Honey Amber `#C9842A`
 - Active challenge + completed savings setup required to record
 - Contribution date = today in challenge TZ; labelled self-reported; integer minor units
-- Idempotent create; amend/reverse with audit; original date and week preserved
+- Idempotent create; amend/reverse with audit; original date and week preserved; concurrent corrections serialized per contribution
 - Eligible totals for later milestones; pre-assessment amounts → personal progress only
 - **Stop before M6** — no sharing-member dashboard totals UI
 
