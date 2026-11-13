@@ -5,7 +5,7 @@
 | Against | `docs/engineering/mvp-build-plan.md` § M8 · GAME-01 · G1.1-03/05/09/11 · approved timing |
 | M7 base tip | `8424ebea` (PR #8) |
 | Implementation branch | `cursor/m8-weekly-streaks-64a8` |
-| Tip SHA | _(filled after push)_ |
+| Tip SHA | `8c33fbf6` |
 | Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod linked) |
 | Date | 13 November 2026 |
 | Machine | Dom’s Mac — `/Users/dom.smyth/Local Sites/accessibility-tracker` |
