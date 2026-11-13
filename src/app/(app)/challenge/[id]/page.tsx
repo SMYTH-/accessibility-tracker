@@ -314,7 +314,7 @@ export default async function ChallengeOverviewPage({
           <h2 className="text-lg font-semibold">Not in M9</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
             Pause scheduling, streak awards, challenge reopen/cancellation, ownership transfer and
-            account-deletion fallback remain OPEN. Post-activation target editing stays parked
+            streak awards / reopen remain OPEN. Post-activation target editing stays parked
             (M4). Re-opt-in and small-group suppression stay OPEN. Stop before M10.
           </p>
         </section>

@@ -311,10 +311,10 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 
 **Acceptance checks**
 
-- [ ] Export limited to authorised personal data — ACC-01.
-- [ ] Deletion revokes access; history handled per retention rules — ACC-01, §8.2.
-- [ ] Privacy/security tests cover cross-user leakage and privilege escalation — §10.5.
-- [ ] Feature complete only per §10.6 quality gates.
+- [x] Export limited to authorised personal data — ACC-01. _(live two-account PG + UI)_
+- [x] Deletion revokes access; history handled per retention rules — ACC-01, §8.2. _(Option A approved; multi-year purge calendar still OPEN)_
+- [x] Privacy/security tests cover cross-user leakage and privilege escalation — §10.5. _(export isolation + deletion access denial; full independent review → M11)_
+- [x] Feature complete only per §10.6 quality gates. _(M10 slice; M11 gates remain)_
 
 ---
 
@@ -394,7 +394,7 @@ Full acceptance checklist: `m0-architecture.md` §4.5 (M6 prerequisite table).
 | Pause duration / resume (G1.1-11) | M8 | **OPEN** — MVP: pause **indefinite until manual resume**, resume effective **next week start**; max duration deferred |
 | Streak milestone thresholds (G1.1-08) | M8 | **OPEN** — Recognise streaks at **3, 6, 12** completed weeks (progress % milestones already 25/50/75/100) |
 | Join / setup step count | M3–M4 | **OPEN** — **Invite preview → disclosure+ack → request → (wait) approve → target+commitment setup → home** — no decorative step chrome required |
-| Ownership fallback on owner account deletion | M9–M10 | **OPEN** — If no eligible transferee: **auto-cancel** challenge after grace notification window (details in amendment); block silent orphan |
+| Ownership fallback on owner account deletion | M9–M10 | **Approved (M10 Option A)** — Transfer when eligible replacement exists; else notify + **7-day grace**; at expiry **cancel** if still no replacement; transfer during grace prevents cancel; recheck at finalisation |
 | Post-completion reopening | M9 | **OPEN** — **None in MVP** — read-only; corrections only via future approved process |
 | Excess / correction vs milestones | M5/M8 | **OPEN** — Recalculate current progress; **do not remove** historically announced milestones if progress later dips; do not re-announce duplicates |
 | WCAG methodology | M11 | **OPEN** — Manual WCAG 2.2 AA checklist + axe on core journeys; Honey Amber pairs verified before lock |

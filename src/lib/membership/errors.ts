@@ -18,7 +18,7 @@ const RPC_MESSAGES: Array<{ re: RegExp; message: string }> = [
   {
     re: /OWNER_LEAVE_REQUIRES_TRANSFER/,
     message:
-      "Owners of Scheduled or Active challenges must transfer ownership before leaving. Ownership transfer is not available yet.",
+      "Owners of Scheduled or Active challenges must transfer ownership before leaving. Use Profile → Account controls to transfer to an eligible approved member.",
   },
   { re: /NOT_A_MEMBER/, message: "You are not an active member of this challenge." },
   { re: /CANNOT_REMOVE_SELF/, message: "Use Leave to exit the challenge yourself." },
