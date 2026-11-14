@@ -2,18 +2,16 @@
 
 Mobile-first web app for private savings challenges (product docs under `docs/`).
 
-## M4 status
+## M5 status
 
-Milestone **M4** (personal savings target + weekly commitment setup) on tip of signed-off M3 (`dda5e603`).
+Milestone **M5** (self-reported contribution record / amend / reverse) on tip of signed-off M4 (`072dd66`).
 
 - Working accents only: Deep Sea `#1A6B7C` · Honey Amber `#C9842A`
-- Approved members (incl. owner) activate with positive target + weekly commitment (challenge currency, minor units)
-- Server-side membership + validation (RPC / service)
-- Incomplete setup → savings inactive; no missed-week assessment; record gated
-- First assessed week: Monday = current week; Tue–Sun = following Monday (challenge TZ)
-- Post-activation target editing **parked** until G1.1-10 progress/milestone rules are approved (signed-in RPC + UI)
-- Initial activate + first-assessed-week behaviour unchanged; service-role test helper only for evidence
-- **Stop before M5** — no contribution recording
+- Active challenge + completed savings setup required to record
+- Contribution date = today in challenge TZ; labelled self-reported; integer minor units
+- Idempotent create; amend/reverse with audit; original date and week preserved; concurrent corrections serialized per contribution
+- Eligible totals for later milestones; pre-assessment amounts → personal progress only
+- **Stop before M6** — no sharing-member dashboard totals UI
 
 ## Local preview
 
@@ -24,19 +22,19 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Configure `.env.local` from `.env.example` (URL + anon key; optional service role for ticks/scripts). Do not commit secrets. Apply M4 migrations under `supabase/migrations/` (incl. park migrations) for live Postgres.
+Configure `.env.local` from `.env.example` (URL + anon key; optional service role for ticks/scripts). Do not commit secrets. Apply M5 migrations under `supabase/migrations/` for live Postgres.
 
 ```bash
-npm run smoke:m4
-npm run evidence:m4:pg
-npm run evidence:m4:ui
+npm run smoke:m5
+npm run evidence:m5:pg
+npm run evidence:m5:ui
 ```
 
 ## Docs
 
 | Doc | Path |
 | --- | --- |
+| M5 walkthrough | `docs/engineering/m5-walkthrough.md` |
+| M5 acceptance | `docs/engineering/m5-acceptance.md` |
 | M4 walkthrough | `docs/engineering/m4-walkthrough.md` |
 | M4 acceptance | `docs/engineering/m4-acceptance.md` |
-| M3 walkthrough | `docs/engineering/m3-walkthrough.md` |
-| M3 acceptance | `docs/engineering/m3-acceptance.md` |

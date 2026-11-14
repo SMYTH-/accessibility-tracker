@@ -1,7 +1,9 @@
+import { randomUUID } from "crypto";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { ChallengeStatusBadge } from "@/components/ChallengeStatusBadge";
+import { ContributionPanel } from "@/components/ContributionPanel";
 import { InviteOwnerPanel } from "@/components/InviteOwnerPanel";
 import { SavingsSetupForm } from "@/components/SavingsSetupForm";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -11,6 +13,10 @@ import {
   isAssessedForWeeklyCommitments,
   listAuditForChallenge,
 } from "@/lib/challenge/service";
+import {
+  getOwnEligibleTotals,
+  listOwnContributions,
+} from "@/lib/contributions/service";
 import {
   getPendingAccessView,
   listInvitations,
@@ -84,6 +90,8 @@ export default async function ChallengeOverviewPage({
   });
   const audit = await listAuditForChallenge(challenge.id);
   const savingsAudit = await listOwnSavingsAudit(user.id, challenge.id);
+  const contributionView = await listOwnContributions(user.id, challenge.id);
+  const eligibleTotals = await getOwnEligibleTotals(user.id, challenge.id);
   const isOwner = membership.role === "owner";
 
   const invites = isOwner ? await listInvitations(challenge.id, user.id) : { ok: true as const, invitations: [] };
@@ -187,25 +195,24 @@ export default async function ChallengeOverviewPage({
           }
         />
 
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
-            Record savings
-          </h2>
-          <p className="mt-2 text-sm text-[var(--mute)]">{recordGate.reason}</p>
-          {setup ? (
-            <p className="mt-1 text-xs text-[var(--mute)]">
-              Your target {formatMinorAsMajor(setup.targetMinor, challenge.currency)} · weekly{" "}
-              {formatMinorAsMajor(setup.weeklyCommitmentMinor, challenge.currency)}
-            </p>
-          ) : null}
-          <button
-            type="button"
-            disabled
-            className="mt-3 w-full rounded-xl border border-[var(--line)] bg-slate-50 px-4 py-3 text-sm font-semibold text-[var(--mute)]"
-          >
-            Record savings (M5) — gated
-          </button>
-        </section>
+        {setup ? (
+          <p className="text-xs text-[var(--mute)]">
+            Your target {formatMinorAsMajor(setup.targetMinor, challenge.currency)} · weekly{" "}
+            {formatMinorAsMajor(setup.weeklyCommitmentMinor, challenge.currency)}
+          </p>
+        ) : null}
+
+        <ContributionPanel
+          challengeId={challenge.id}
+          currency={challenge.currency}
+          timeZone={challenge.timeZone}
+          allowed={recordGate.allowed}
+          gateReason={recordGate.reason}
+          initialIdempotencyKey={randomUUID()}
+          contributions={contributionView?.contributions ?? []}
+          revisions={contributionView?.revisions ?? []}
+          totals={eligibleTotals}
+        />
 
         {savingsAudit.length > 0 ? (
           <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
@@ -228,9 +235,10 @@ export default async function ChallengeOverviewPage({
         ) : null}
 
         <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Not in M4</h2>
+          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Not in M5</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
-            Contribution recording (M5), aggregates, streaks, and cancel are out of scope here.
+            Sharing-member dashboard totals (M6), privacy opt-out (M7), weekly assessment / streak UI
+            (M8), and cancel remain out of scope. Post-activation target editing stays parked (M4).
           </p>
         </section>
 

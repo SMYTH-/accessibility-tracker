@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { ChallengeInvitation, NotificationRecord } from "@/lib/membership/types";
+import type { Contribution, ContributionRevision } from "@/lib/contributions/types";
 import type { SavingsSetup, SavingsSetupAuditEvent } from "@/lib/savings/types";
 import type { Challenge, LifecycleAuditEvent, Membership } from "./types";
 
@@ -15,6 +16,9 @@ export type ChallengeDb = {
   /** M4 mock persistence (file store; Postgres uses membership_savings_setup). */
   savingsSetups: SavingsSetup[];
   savingsAudit: SavingsSetupAuditEvent[];
+  /** M5 mock persistence (file store; Postgres uses contributions). */
+  contributions: Contribution[];
+  contributionRevisions: ContributionRevision[];
 };
 
 const DATA_DIR = path.join(process.cwd(), ".data");
@@ -33,6 +37,8 @@ async function ensureDb(): Promise<ChallengeDb> {
       notifications: parsed.notifications ?? [],
       savingsSetups: parsed.savingsSetups ?? [],
       savingsAudit: parsed.savingsAudit ?? [],
+      contributions: parsed.contributions ?? [],
+      contributionRevisions: parsed.contributionRevisions ?? [],
     };
   } catch {
     const empty: ChallengeDb = {
@@ -43,6 +49,8 @@ async function ensureDb(): Promise<ChallengeDb> {
       notifications: [],
       savingsSetups: [],
       savingsAudit: [],
+      contributions: [],
+      contributionRevisions: [],
     };
     await fs.mkdir(DATA_DIR, { recursive: true });
     await fs.writeFile(DB_PATH, JSON.stringify(empty, null, 2));
