@@ -414,6 +414,19 @@ const alexRec = await sessions.alex.rpc("record_contribution", {
 });
 assert("C: alex record", !alexRec.error, alexRec.error?.message);
 const alexContribId = alexRec.data?.contribution?.id;
+// Duplicate submission — same idempotency key must not double-count
+const alexDup = await sessions.alex.rpc("record_contribution", {
+  p_challenge_id: challengeId,
+  p_amount_minor: 100000,
+  p_idempotency_key: `m11-alex-${stamp}`,
+});
+assert("C: alex duplicate submit ok", !alexDup.error, alexDup.error?.message);
+assert(
+  "C: duplicate same contribution id (no double count)",
+  alexDup.data?.contribution?.id === alexContribId &&
+    alexDup.data?.replayed === true,
+  `first=${alexContribId} dup=${alexDup.data?.contribution?.id} replayed=${alexDup.data?.replayed}`,
+);
 const alexAmend = await sessions.alex.rpc("amend_contribution", {
   p_contribution_id: alexContribId,
   p_amount_minor: 124000,

@@ -12,7 +12,8 @@
   --elevated: #ffffff;
   --surface-soft: #f2f2ef;
   --ink: #0b0f0e;
-  --mute: #6b7280;
+  /* Darkened for AA on --surface-soft / --honey-soft (≥4.5:1) */
+  --mute: #4b5563;
   --line: #e5e7eb;
   --line-strong: #d1d5db;
   --deep-sea: #16332b;

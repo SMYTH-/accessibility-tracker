@@ -1,63 +1,58 @@
 {
-  "stamp": 1794656854963,
+  "stamp": 1794659832064,
   "project": "gdrkejobqlvtwnlaedpu",
-  "challengeId": "bd0d8fd6-8d62-4d19-9921-f1976b87ce7f",
+  "challengeId": "7c242d62-5510-4ed8-94a5-dc5fca66e5bd",
   "methodology": "OPEN per mvp-build-plan §3.3 — Manual WCAG 2.2 AA checklist + axe on core journeys",
   "axeReports": [
     {
       "label": "sign-in",
-      "url": "http://localhost:3000/sign-in",
+      "url": "http://127.0.0.1:3011/sign-in",
       "violations": [],
-      "passes": 24,
-      "incomplete": [
-        "color-contrast",
-        "link-in-text-block"
-      ]
+      "passes": 25,
+      "incomplete": []
     },
     {
       "label": "home",
-      "url": "http://localhost:3000/home",
+      "url": "http://127.0.0.1:3011/home",
       "violations": [],
-      "passes": 23,
+      "passes": 25,
       "incomplete": [
         "color-contrast"
       ]
     },
     {
       "label": "challenge",
-      "url": "http://localhost:3000/challenge/bd0d8fd6-8d62-4d19-9921-f1976b87ce7f",
+      "url": "http://127.0.0.1:3011/challenge/7c242d62-5510-4ed8-94a5-dc5fca66e5bd",
       "violations": [],
-      "passes": 28,
+      "passes": 29,
       "incomplete": [
         "color-contrast"
       ]
     },
     {
       "label": "record-on-challenge",
-      "url": "http://localhost:3000/challenge/bd0d8fd6-8d62-4d19-9921-f1976b87ce7f#contributions",
+      "url": "http://127.0.0.1:3011/challenge/7c242d62-5510-4ed8-94a5-dc5fca66e5bd#contributions",
       "violations": [],
-      "passes": 28,
+      "passes": 29,
       "incomplete": [
         "color-contrast"
       ]
     },
     {
       "label": "activity",
-      "url": "http://localhost:3000/activity",
+      "url": "http://127.0.0.1:3011/activity",
       "violations": [],
-      "passes": 20,
+      "passes": 21,
       "incomplete": [
         "color-contrast"
       ]
     },
     {
       "label": "profile",
-      "url": "http://localhost:3000/profile",
+      "url": "http://127.0.0.1:3011/profile",
       "violations": [],
       "passes": 28,
-      "incomplete": [
-        "color-contrast"
-      ]
+      "incomplete": []
     }
   ],
   "results": [
@@ -99,7 +94,7 @@
     {
       "name": "focus: visible indicator on interactive",
       "ok": true,
-      "detail": "{\"ok\":true,\"outline\":\"rgb(0, 95, 204) auto 1px\",\"boxShadow\":\"none\"}"
+      "detail": "{\"ok\":true,\"outline\":\"color(srgb 0.124706 0.214314 0.669216) solid 3px\",\"boxShadow\":\"none\"}"
     },
     {
       "name": "reflow: 320px default text no page horizontal scroll",
