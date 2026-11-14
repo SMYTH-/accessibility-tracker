@@ -28,7 +28,7 @@ function Alert({
       ? "border-red-200 bg-red-50 text-red-900"
       : "border-[color-mix(in_srgb,var(--deep-sea)_25%,white)] bg-[var(--deep-sea-soft)] text-[var(--ink)]";
   return (
-    <div className={`rounded-xl border px-3 py-2 text-sm ${styles}`} role="status">
+    <div className={`rounded-[var(--radius-md)] border px-3.5 py-3 text-sm ${styles}`} role="status">
       {children}
     </div>
   );
@@ -80,65 +80,68 @@ export function ContributionPanel({
     }
   }, [recordState.nextIdempotencyKey]);
 
-  const pct =
+  const livePct =
     totals && totals.targetMinor != null
       ? progressPercent(totals.eligibleTotalMinor, totals.targetMinor)
       : null;
 
+  const confirm = recordState.confirmation;
+  const confirmPct = confirm
+    ? progressPercent(confirm.eligibleTotalMinor, confirm.targetMinor)
+    : null;
+
   return (
-    <div className="space-y-4">
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-        <h2 className="text-lg font-semibold">
-          Record savings
-        </h2>
+    <div className="space-y-5">
+      <section className="at-surface p-5">
+        <p className="at-eyebrow">Self-reported</p>
+        <h2 className="mt-1 text-xl font-semibold tracking-tight">Record savings</h2>
         <p className="mt-2 text-sm text-[var(--mute)]">{gateReason}</p>
+
         {totals ? (
-          <p className="mt-2 text-sm tabular-nums text-[var(--ink)]">
-            Eligible total (self-reported):{" "}
-            <strong className="font-semibold">
+          <div className="mt-4 rounded-[var(--radius-md)] bg-[var(--deep-sea-soft)] px-4 py-3">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
+              Eligible total now
+            </p>
+            <p className="mt-1 text-2xl font-semibold tabular-nums tracking-tight text-[var(--ink)]">
               {formatMinorAsMajor(totals.eligibleTotalMinor, currency)}
-            </strong>
+            </p>
             {totals.targetMinor != null ? (
-              <>
-                {" "}
+              <p className="mt-0.5 text-sm tabular-nums text-[var(--mute)]">
                 of {formatMinorAsMajor(totals.targetMinor, currency)}
-                {pct != null ? ` · ${pct}%` : ""}
-              </>
+                {livePct != null ? ` · ${livePct}%` : ""}
+              </p>
             ) : null}
-          </p>
+          </div>
         ) : null}
+
         {totals && totals.preAssessmentMinor > 0 ? (
-          <p className="mt-1 text-xs text-[var(--mute)]">
-            Of which {formatMinorAsMajor(totals.preAssessmentMinor, currency)} was before
-            your first assessed week — counts toward personal target and progress milestones
-            only.
+          <p className="mt-2 text-xs text-[var(--mute)]">
+            Of which {formatMinorAsMajor(totals.preAssessmentMinor, currency)} was before your
+            first assessed week — counts toward personal target and progress milestones only.
           </p>
         ) : null}
 
         {allowed ? (
-          <form action={recordAction} className="mt-4 space-y-3">
+          <form action={recordAction} className="mt-5 space-y-4">
             <input type="hidden" name="challengeId" value={challengeId} />
             <input type="hidden" name="idempotencyKey" value={idemKey} />
-            <label className="block text-sm">
-              <span className="text-[var(--mute)]">Amount ({currency})</span>
+            <label className="block text-sm font-medium text-[var(--ink)]">
+              Amount ({currency})
               <input
                 name="amountMajor"
                 type="text"
                 inputMode="decimal"
                 placeholder="50.00"
                 required
-                className="mt-1 w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 tabular-nums text-[var(--ink)]"
+                aria-describedby="record-amount-hint"
+                className="at-input"
               />
             </label>
-            <p className="text-xs text-[var(--mute)]">
+            <p id="record-amount-hint" className="text-xs text-[var(--mute)]">
               Date is fixed to <strong className="font-medium">today in {timeZone}</strong>.
               Labelled self-reported. Safe to retry — the same submit will not count twice.
             </p>
-            <button
-              type="submit"
-              disabled={recordPending}
-              className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white disabled:opacity-60"
-            >
+            <button type="submit" disabled={recordPending} className="at-btn-primary">
               {recordPending ? "Recording…" : "Record contribution"}
             </button>
           </form>
@@ -146,15 +149,69 @@ export function ContributionPanel({
           <button
             type="button"
             disabled
-            className="mt-3 w-full rounded-xl border border-[var(--line)] bg-slate-50 px-4 py-3 text-sm font-semibold text-[var(--mute)]"
+            className="at-btn-primary mt-4 cursor-not-allowed opacity-55"
           >
             Record savings — gated
           </button>
         )}
 
-        {recordState.error ? <div className="mt-3"><Alert tone="error">{recordState.error}</Alert></div> : null}
-        {recordState.message ? (
-          <div className="mt-3 space-y-2">
+        {recordState.error ? (
+          <div className="mt-4">
+            <Alert tone="error">{recordState.error}</Alert>
+          </div>
+        ) : null}
+
+        {confirm ? (
+          <div
+            className="mt-4 space-y-3 rounded-[var(--radius-lg)] border border-[color-mix(in_srgb,var(--deep-sea)_28%,var(--line))] bg-[var(--deep-sea-soft)] p-4"
+            role="status"
+            data-testid="contribution-confirmation"
+          >
+            <p className="text-sm font-semibold text-[var(--ink)]">
+              Contribution recorded
+              {confirm.replayed ? " · same retry, counted once" : ""}
+            </p>
+            <p className="text-3xl font-semibold tabular-nums tracking-tight text-[var(--ink)]">
+              +{formatMinorAsMajor(confirm.recordedMinor, confirm.currency)}
+            </p>
+            <p className="text-sm text-[var(--mute)]">
+              Self-reported · {confirm.contributionDate}
+            </p>
+            <dl className="grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
+                  Before
+                </dt>
+                <dd className="mt-1 font-semibold tabular-nums text-[var(--ink)]">
+                  {confirm.previousEligibleMinor != null
+                    ? formatMinorAsMajor(confirm.previousEligibleMinor, confirm.currency)
+                    : "—"}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
+                  After
+                </dt>
+                <dd className="mt-1 font-semibold tabular-nums text-[var(--ink)]">
+                  {formatMinorAsMajor(confirm.eligibleTotalMinor, confirm.currency)}
+                  {confirmPct != null ? (
+                    <span className="ml-1 font-medium text-[var(--mute)]">· {confirmPct}%</span>
+                  ) : null}
+                </dd>
+              </div>
+            </dl>
+            {confirm.targetMinor != null ? (
+              <p className="text-xs text-[var(--mute)]">
+                Personal target {formatMinorAsMajor(confirm.targetMinor, confirm.currency)}
+              </p>
+            ) : null}
+            <p className="text-xs text-[var(--mute)]">
+              Your contribution is included in the sharing-member total if you share monetary
+              information.
+            </p>
+          </div>
+        ) : recordState.message ? (
+          <div className="mt-4 space-y-2">
             <Alert tone="ok">{recordState.message}</Alert>
             <p className="text-xs text-[var(--mute)]">
               Your contribution is included in the sharing-member total if you share monetary
@@ -162,23 +219,38 @@ export function ContributionPanel({
             </p>
           </div>
         ) : null}
-        {amendState.error ? <div className="mt-3"><Alert tone="error">{amendState.error}</Alert></div> : null}
-        {amendState.message ? <div className="mt-3"><Alert tone="ok">{amendState.message}</Alert></div> : null}
-        {reverseState.error ? <div className="mt-3"><Alert tone="error">{reverseState.error}</Alert></div> : null}
-        {reverseState.message ? <div className="mt-3"><Alert tone="ok">{reverseState.message}</Alert></div> : null}
+
+        {amendState.error ? (
+          <div className="mt-3">
+            <Alert tone="error">{amendState.error}</Alert>
+          </div>
+        ) : null}
+        {amendState.message ? (
+          <div className="mt-3">
+            <Alert tone="ok">{amendState.message}</Alert>
+          </div>
+        ) : null}
+        {reverseState.error ? (
+          <div className="mt-3">
+            <Alert tone="error">{reverseState.error}</Alert>
+          </div>
+        ) : null}
+        {reverseState.message ? (
+          <div className="mt-3">
+            <Alert tone="ok">{reverseState.message}</Alert>
+          </div>
+        ) : null}
       </section>
 
       {contributions.length > 0 ? (
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="text-lg font-semibold">
-            Your contributions
-          </h2>
+        <section className="at-surface p-5">
+          <h2 className="text-lg font-semibold">Your contributions</h2>
           <p className="mt-1 text-sm text-[var(--mute)]">Self-reported · own entries only</p>
-          <ul className="mt-3 space-y-3">
+          <ul className="mt-2">
             {contributions.map((c) => (
               <li
                 key={c.id}
-                className="rounded-xl border border-[var(--line)] bg-[var(--paper)] px-3 py-3 text-sm"
+                className="border-b border-[var(--line)] py-3.5 text-sm last:border-b-0"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <p className="font-semibold tabular-nums text-[var(--ink)]">
@@ -194,24 +266,27 @@ export function ContributionPanel({
                 </p>
                 {c.status === "active" ? (
                   <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end">
-                    <form action={amendAction} className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-end">
+                    <form
+                      action={amendAction}
+                      className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-end"
+                    >
                       <input type="hidden" name="challengeId" value={challengeId} />
                       <input type="hidden" name="contributionId" value={c.id} />
-                      <label className="block flex-1 text-xs">
-                        <span className="text-[var(--mute)]">Amend amount</span>
+                      <label className="block flex-1 text-xs font-medium">
+                        Amend amount
                         <input
                           name="amountMajor"
                           type="text"
                           inputMode="decimal"
                           placeholder={(c.amountMinor / 100).toFixed(2)}
                           required
-                          className="mt-1 w-full rounded-lg border border-[var(--line)] bg-white px-2 py-1.5 text-sm"
+                          className="at-input py-2 text-sm"
                         />
                       </label>
                       <button
                         type="submit"
                         disabled={amendPending}
-                        className="rounded-lg border border-[var(--line)] bg-white px-3 py-1.5 text-xs font-semibold text-[var(--ink)] disabled:opacity-60"
+                        className="at-btn-secondary disabled:opacity-60"
                       >
                         Amend
                       </button>
@@ -222,7 +297,7 @@ export function ContributionPanel({
                       <button
                         type="submit"
                         disabled={reversePending}
-                        className="rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-900 disabled:opacity-60"
+                        className="rounded-full border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-900 disabled:opacity-60"
                       >
                         Reverse
                       </button>
@@ -236,13 +311,11 @@ export function ContributionPanel({
       ) : null}
 
       {revisions.length > 0 ? (
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="text-lg font-semibold">
-            Contribution audit
-          </h2>
-          <ul className="mt-3 space-y-2 text-sm">
+        <section className="at-surface p-5">
+          <h2 className="text-lg font-semibold">Contribution audit</h2>
+          <ul className="mt-2">
             {revisions.map((r) => (
-              <li key={r.id} className="rounded-xl bg-[var(--paper)] px-3 py-2">
+              <li key={r.id} className="at-list-row flex-col gap-1 text-sm">
                 <p className="font-medium text-[var(--ink)]">{r.action}</p>
                 <p className="text-[var(--mute)]">{r.detail}</p>
                 <p className="text-xs text-[var(--mute)]">

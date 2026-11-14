@@ -19,6 +19,16 @@ export type ContributionActionState = {
   message?: string;
   /** Fresh key for the next create attempt after a successful (or replayed) submit. */
   nextIdempotencyKey?: string;
+  /** Structured confirmation for Wise-inspired record UI (amounts in minor units). */
+  confirmation?: {
+    recordedMinor: number;
+    currency: string;
+    contributionDate: string;
+    eligibleTotalMinor: number;
+    targetMinor: number | null;
+    previousEligibleMinor: number | null;
+    replayed: boolean;
+  };
 };
 
 export async function recordContributionAction(
@@ -59,9 +69,21 @@ export async function recordContributionAction(
     result.totals.currency,
   );
   const replayNote = result.replayed ? " (same retry — counted once)." : "";
+  const previousEligibleMinor = result.replayed
+    ? result.totals.eligibleTotalMinor
+    : Math.max(0, result.totals.eligibleTotalMinor - result.contribution.amountMinor);
   return {
     message: `Recorded ${amount} on ${result.contribution.contributionDate} (self-reported). Eligible total ${total}.${replayNote}`,
     nextIdempotencyKey: randomUUID(),
+    confirmation: {
+      recordedMinor: result.contribution.amountMinor,
+      currency: result.contribution.currency,
+      contributionDate: result.contribution.contributionDate,
+      eligibleTotalMinor: result.totals.eligibleTotalMinor,
+      targetMinor: result.totals.targetMinor,
+      previousEligibleMinor,
+      replayed: result.replayed,
+    },
   };
 }
 

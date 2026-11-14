@@ -13,11 +13,11 @@ function glyph(kind: FeedItem["kind"]): string {
     case "milestone_reached":
       return "M";
     case "challenge_completed":
-      return "✓";
+      return "C";
     case "private_contribution":
       return "P";
     default:
-      return "£";
+      return "+";
   }
 }
 
@@ -26,15 +26,15 @@ function tone(kind: FeedItem["kind"]): string {
     case "member_joined":
       return "bg-[var(--deep-sea-soft)] text-[var(--deep-sea)]";
     case "commitment_completed":
-      return "bg-[var(--honey-soft)] text-[var(--honey)]";
+      return "bg-[var(--accent-bright)] text-[var(--accent-bright-ink)]";
     case "milestone_reached":
-      return "bg-[color-mix(in_srgb,var(--honey)_40%,white)] text-[var(--ink)]";
-    case "challenge_completed":
-      return "bg-slate-200 text-slate-700";
-    case "private_contribution":
-      return "bg-slate-200 text-[var(--mute)]";
-    default:
       return "bg-[var(--honey-soft)] text-[var(--honey)]";
+    case "challenge_completed":
+      return "bg-[color-mix(in_srgb,var(--mute)_16%,white)] text-[var(--ink)]";
+    case "private_contribution":
+      return "bg-[color-mix(in_srgb,var(--mute)_14%,white)] text-[var(--mute)]";
+    default:
+      return "bg-[var(--deep-sea)] text-white";
   }
 }
 
@@ -56,27 +56,32 @@ export function ActivityFeedList({
   }
 
   return (
-    <ul className="mt-3 space-y-3" data-testid={testId}>
+    <ul className="mt-1" data-testid={testId}>
       {events.map((ev) => (
         <li
           key={ev.id}
-          className="flex gap-3 rounded-xl bg-[var(--paper)] px-3 py-2.5 text-sm"
+          className="at-list-row"
           data-event-kind={ev.kind}
           data-event-user={ev.userId}
         >
           <span
-            className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${tone(ev.kind)}`}
+            className={`at-avatar text-base ${tone(ev.kind)}`}
             aria-hidden="true"
           >
             {glyph(ev.kind)}
           </span>
           <div className="min-w-0 flex-1">
-            <p className="break-words font-medium text-[var(--ink)]">{ev.title}</p>
-            <p className="break-words text-[var(--mute)]">{ev.meta}</p>
+            <div className="flex items-start justify-between gap-3">
+              <p className="break-words font-medium text-[var(--ink)]">{ev.title}</p>
+              {ev.amountMinor != null && ev.currency ? (
+                <p className="shrink-0 text-sm font-semibold tabular-nums text-[var(--ink)]">
+                  {formatMinorAsMajor(ev.amountMinor, ev.currency)}
+                </p>
+              ) : null}
+            </div>
+            <p className="break-words text-sm text-[var(--mute)]">{ev.meta}</p>
             {ev.amountMinor != null && ev.currency ? (
-              <p className="mt-0.5 text-xs tabular-nums text-[var(--mute)]">
-                {formatMinorAsMajor(ev.amountMinor, ev.currency)} · self-reported
-              </p>
+              <p className="mt-0.5 text-xs text-[var(--mute)]">Self-reported</p>
             ) : null}
             <p className="mt-0.5 text-[10px] text-[var(--mute)]">
               {new Date(ev.at).toLocaleString()}
