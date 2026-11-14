@@ -1,0 +1,18 @@
+- paragraph: Accountability Tracker
+- heading "Sign in" [level=1]
+- paragraph: Access your challenges after email verification.
+- paragraph: "Auth: supabase · Supabase"
+- text: Email
+- textbox "Email"
+- text: Password
+- textbox "Password"
+- button "Sign in"
+- link "Create account":
+  - /url: /sign-up
+- link "Reset password":
+  - /url: /reset-password
+- paragraph:
+  - text: Working accents only · logo / final palette / type remain open ·
+  - link "Sign in":
+    - /url: /sign-in
+- alert

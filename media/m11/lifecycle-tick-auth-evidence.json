@@ -1,0 +1,56 @@
+{
+  "stamp": 1794656497247,
+  "site": "http://localhost:3000",
+  "results": [
+    {
+      "name": "secret present locally",
+      "ok": true,
+      "detail": "len=48"
+    },
+    {
+      "name": "missing secret → 401",
+      "ok": true,
+      "detail": "401"
+    },
+    {
+      "name": "missing secret error code",
+      "ok": true,
+      "detail": "{\"ok\":false,\"error\":\"UNAUTHORIZED_LIFECYCLE_TICK\"}"
+    },
+    {
+      "name": "invalid bearer → 401",
+      "ok": true,
+      "detail": "401"
+    },
+    {
+      "name": "invalid header → 401",
+      "ok": true,
+      "detail": "401"
+    },
+    {
+      "name": "empty bearer → 401",
+      "ok": true,
+      "detail": "401"
+    },
+    {
+      "name": "valid bearer → 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "valid bearer ok:true",
+      "ok": true,
+      "detail": "{\"ok\":true,\"transitioned\":0,\"deletion\":{\"finalised\":0,\"skipped\":0,\"errors\":0}}"
+    },
+    {
+      "name": "valid header POST → 200",
+      "ok": true,
+      "detail": "200"
+    }
+  ],
+  "summary": {
+    "total": 9,
+    "passed": 9,
+    "failed": 0
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "stamp": 1794656523785,
+  "project": "gdrkejobqlvtwnlaedpu",
+  "challengeId": "a852bc32-20ff-436a-abe1-d77a570a0768",
+  "notes": {
+    "method": "Playwright ariaSnapshot + keyboard focus probes on disposable account; documents SR-exposed name/role/value tree for the three required surfaces. Not a substitute for VoiceOver/TalkBack operator session if Dominic wants a live listen-through.",
+    "surfaces": [
+      "sign-in",
+      "record savings",
+      "financial privacy"
+    ],
+    "untested": [
+      "Live VoiceOver rotor / TalkBack explore-by-touch (operator session)",
+      "Dynamic live-region politeness beyond role=status presence"
+    ]
+  },
+  "results": [
+    {
+      "name": "SR sign-in: email + password + submit present",
+      "ok": true,
+      "detail": "- paragraph: Accountability Tracker\n- heading \"Sign in\" [level=1]\n- paragraph: Access your challenges after email verification.\n- paragraph: \"Auth: supabase · Supabase\"\n- text: Email\n- textbox \"Email\""
+    },
+    {
+      "name": "SR sign-in: heading announces Sign in (or Create/Register link)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SR sign-in: keyboard reaches email/password field",
+      "ok": true,
+      "detail": "{\"name\":\"password\",\"tag\":\"INPUT\",\"label\":\"Password\"}"
+    },
+    {
+      "name": "SR record: Record savings heading/region",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SR record: amount field labelled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SR record: Record contribution button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SR record: self-reported / today-in-TZ guidance announced in tree",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SR record: status or updated total after submit",
+      "ok": true,
+      "detail": "- banner:\n  - paragraph: Accountability Tracker\n  - heading \"M11 SR 1794656523785\" [level=1]\n  - paragraph: Challenge overview\n- main:\n  - paragraph: Challenge\n  - heading \"M11 SR 1794656523785\" [level=2]\n  - text: Active\n  - paragraph: 202"
+    },
+    {
+      "name": "SR privacy: heading / labelled region",
+      "ok": true,
+      "detail": "- banner:\n  - paragraph: Accountability Tracker\n  - heading \"Profile\" [level=1]\n  - paragraph: Display name, privacy, and account controls (ACC-01).\n- main:\n  - term: Email\n  - definition: m11.sr.1794656523785@example.com\n  - term: Email ve"
+    },
+    {
+      "name": "SR privacy: opt-out checkbox + cannot-undo ack",
+      "ok": true,
+      "detail": "- banner:\n  - paragraph: Accountability Tracker\n  - heading \"Profile\" [level=1]\n  - paragraph: Display name, privacy, and account controls (ACC-01).\n- main:\n  - term: Email\n  - definition: m11.sr.1794656523785@example.com\n  - term: Email verified\n  - definition: \"Yes\"\n  - term: Auth mode\n  - definition: supabase\n  - heading \"Display name\" [level=2]\n  - text: Display name\n  - textbox \"Display name\""
+    },
+    {
+      "name": "SR privacy: warning text available",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SR privacy: save enabled after ack",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SR privacy: status after save",
+      "ok": true,
+      "detail": "- banner:\n  - paragraph: Accountability Tracker\n  - heading \"Profile\" [level=1]\n  - paragraph: Display name, privacy, and account controls (ACC-01).\n- main:\n  - term: Email\n  - definition: m11.sr.1794656523785@example.com\n  - term: Email ve"
+    }
+  ],
+  "summary": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0
+  }
+}

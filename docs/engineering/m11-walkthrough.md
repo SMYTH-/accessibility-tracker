@@ -26,8 +26,12 @@ LIFECYCLE_TICK_SECRET=…
 npm run evidence:m11:journeys   # A–E + access boundaries + email honesty
 npm run evidence:m11:ui         # two-account screenshots → media/m11/
 npm run evidence:m11:a11y       # axe + keyboard/focus/reflow/zoom
+npm run evidence:m11:sr         # screen-reader aria walkthrough (sign-in / record / privacy)
+npm run evidence:m11:tick       # lifecycle-tick secret auth (401/200)
 npm run smoke:m10               # regression money/deletion/revoke
 ```
+
+Related docs: `m11-lifecycle-tick-secret.md` · `m11-dominic-request-beta-email.md` · `m11-postcss-advisory.md` · `m11-retention-proposal.md` · `m11-invite-decision-handoff.md`
 
 ## Connected walkthrough (what was exercised)
 
