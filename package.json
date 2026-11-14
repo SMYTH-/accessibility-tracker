@@ -40,9 +40,7 @@
     "evidence:m9:ui": "node --env-file=.env.local scripts/m9-supabase-ui-evidence.mjs",
     "evidence:m10:pg": "node --env-file=.env.local scripts/m10-postgres-evidence.mjs",
     "evidence:m10:dual": "node --env-file=.env.local scripts/m10-dual-session-evidence.mjs",
-    "evidence:m10:ui": "node --env-file=.env.local scripts/m10-supabase-ui-evidence.mjs",
-    "evidence:m11:sr": "node --env-file=.env.local scripts/m11-screenreader-evidence.mjs",
-    "evidence:m11:tick": "node --env-file=.env.local scripts/m11-lifecycle-tick-auth.mjs"
+    "evidence:m10:ui": "node --env-file=.env.local scripts/m10-supabase-ui-evidence.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -62,7 +60,7 @@
     "eslint": "^9",
     "eslint-config-next": "^15.5.7",
     "playwright": "^1.65.0",
-    "postcss": "^8",
+    "postcss": "8.5.32",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
@@ -71,6 +69,7 @@
     "sharp": "0.35.5"
   },
   "overrides": {
-    "sharp": "0.35.5"
+    "sharp": "0.35.5",
+    "postcss": "8.5.32"
   }
 }

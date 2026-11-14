@@ -1,7 +1,7 @@
 {
-  "stamp": 1794656535721,
+  "stamp": 1794656854963,
   "project": "gdrkejobqlvtwnlaedpu",
-  "challengeId": "b4957389-c1ae-458a-93ff-cdf4c0985179",
+  "challengeId": "bd0d8fd6-8d62-4d19-9921-f1976b87ce7f",
   "methodology": "OPEN per mvp-build-plan §3.3 — Manual WCAG 2.2 AA checklist + axe on core journeys",
   "axeReports": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "label": "challenge",
-      "url": "http://localhost:3000/challenge/b4957389-c1ae-458a-93ff-cdf4c0985179",
+      "url": "http://localhost:3000/challenge/bd0d8fd6-8d62-4d19-9921-f1976b87ce7f",
       "violations": [],
       "passes": 28,
       "incomplete": [
@@ -34,7 +34,7 @@
     },
     {
       "label": "record-on-challenge",
-      "url": "http://localhost:3000/challenge/b4957389-c1ae-458a-93ff-cdf4c0985179#contributions",
+      "url": "http://localhost:3000/challenge/bd0d8fd6-8d62-4d19-9921-f1976b87ce7f#contributions",
       "violations": [],
       "passes": 28,
       "incomplete": [

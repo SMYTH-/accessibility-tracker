@@ -1,24 +1,24 @@
 {
-  "stamp": 1794609302785,
+  "stamp": 1794656874337,
   "project": "gdrkejobqlvtwnlaedpu",
-  "challengeId": "527de73e-c447-4e37-8e69-988548aad938",
-  "streakId": "3b5d140d-7f76-4641-b2cf-c7955b0fe77f",
-  "completeId": "02321fcc-c427-4de1-82a7-a373f07c6b00",
+  "challengeId": "828ce5cd-9e09-4198-b909-5022bf05fadf",
+  "streakId": "5a16f970-9b67-4035-91b1-f45bbbee70bb",
+  "completeId": "0b6f2b93-cde5-4314-93b8-763872d2f054",
   "email": {
     "intendedBetaPath": "Resend → Dominic inbox (M3 carry-forward)",
     "resendConfigured": false,
     "actualProvider": "ethereal",
     "reject": {
-      "notificationId": "d9fd5e9b-2519-4dfa-8bae-4794bdbd605c",
-      "messageId": "<6120674e-f7ba-a51f-233b-c9396426a98a@resend.dev>",
-      "previewUrl": "https://ethereal.email/message/avYjJUs6EhPCeSa6aveQmryhcdNudB4NAAAABdQEGuclYaMDt89kyvmB-aE",
-      "subject": "Membership declined — M11 Journey 1794609302785"
+      "notificationId": "1dc35e07-6e97-4e5d-8b97-d2e0a8ccd354",
+      "messageId": "<11aba6a5-1f1a-6b32-e5fe-37ae0a86a3eb@resend.dev>",
+      "previewUrl": "https://ethereal.email/message/avYjJUs6EhPCeSa6avhKbc40LAJkY0hRAAAABzXjDudtNMGcwFgas4ivtoY",
+      "subject": "Membership declined — M11 Journey 1794656874337"
     },
     "approve": {
-      "notificationId": "0e33a45c-9dca-4039-8d39-ce015510e62f",
-      "messageId": "<d8afeea8-8675-d52a-01fd-b4405518faba@resend.dev>",
-      "previewUrl": "https://ethereal.email/message/avYjJUs6EhPCeSa6aveQm840LAJkYv1oAAAABobA0RoDR05jVtkDrxgvc-c",
-      "subject": "Membership approved — M11 Journey 1794609302785"
+      "notificationId": "92e2e5e5-1ed6-49d1-b1c4-7482d9b7f38c",
+      "messageId": "<acf417c1-b2f9-e30b-8971-7be6648a3332@resend.dev>",
+      "previewUrl": "https://ethereal.email/message/avYjJUs6EhPCeSa6avhKbryhcdNudGlqAAAACErpHHiOpmrhrl7sFMyfwWw",
+      "subject": "Membership approved — M11 Journey 1794656874337"
     },
     "note": "No RESEND_API_KEY in env — delivery verified via Ethereal (M3 interim). Beta invite path still needs Resend configured before inviting human testers."
   },
@@ -72,12 +72,12 @@
     {
       "name": "A: challenge id",
       "ok": true,
-      "detail": "527de73e-c447-4e37-8e69-988548aad938"
+      "detail": "828ce5cd-9e09-4198-b909-5022bf05fadf"
     },
     {
       "name": "A: owner approved participant",
       "ok": true,
-      "detail": "{\"id\":\"6f57190a-82f6-4476-838d-74e442e88c25\",\"role\":\"owner\",\"status\":\"approved\",\"user_id\":\"9ca36ea9-2061-4363-b9ea-9f22169840d2\",\"created_at\":\"2026-11-13T22:35:05.181858+00:00\",\"decided_at\":null,\"decided_by\":null,\"updated_at\":\"2026-11-13T22:35:05.181858+00:00\",\"challenge_id\":\"527de73e-c447-4e37-8e69-988548aad938\",\"requested_at\":null,\"invitation_id\":null,\"share_monetary_info\":true,\"privacy_disclosure_acked_at\":null,\"savings_participation_active\":false}"
+      "detail": "{\"id\":\"58573853-b4ce-4a62-a5e4-d42bf53e847d\",\"role\":\"owner\",\"status\":\"approved\",\"user_id\":\"1a02707d-2bbb-4309-9313-acb0bf01550d\",\"created_at\":\"2026-11-14T11:47:56.673686+00:00\",\"decided_at\":null,\"decided_by\":null,\"updated_at\":\"2026-11-14T11:47:56.673686+00:00\",\"challenge_id\":\"828ce5cd-9e09-4198-b909-5022bf05fadf\",\"requested_at\":null,\"invitation_id\":null,\"share_monetary_info\":true,\"privacy_disclosure_acked_at\":null,\"savings_participation_active\":false}"
     },
     {
       "name": "A: invite token",
@@ -232,7 +232,7 @@
     {
       "name": "D: sam sees alex amounts while sharing",
       "ok": true,
-      "detail": "{\"role\":\"owner\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"9ca36ea9-2061-4363-b9ea-9f22169840d2\",\"currency\":\"GBP\",\"display_name\":\"Alex\",\"privacy_chip\":null,\"source_label\":\"self-reported\",\"target_minor\":200000,\"membership_id\":\"6f57190a-82f6-4476-838d-74e442e88c25\",\"progress_percent\":62,\"share_monetary_info\":true,\"eligible_total_minor\":124000,\"weekly_commitment_minor\":5000,\"savings_participation_active\":true}"
+      "detail": "{\"role\":\"owner\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"1a02707d-2bbb-4309-9313-acb0bf01550d\",\"currency\":\"GBP\",\"display_name\":\"Alex\",\"privacy_chip\":null,\"source_label\":\"self-reported\",\"target_minor\":200000,\"membership_id\":\"58573853-b4ce-4a62-a5e4-d42bf53e847d\",\"progress_percent\":62,\"share_monetary_info\":true,\"eligible_total_minor\":124000,\"weekly_commitment_minor\":5000,\"savings_participation_active\":true}"
     },
     {
       "name": "stranger: dashboard denied",
@@ -255,17 +255,17 @@
       "detail": ""
     },
     {
-      "name": "E: seed m11-w43-1794609302785",
+      "name": "E: seed m11-w43-1794656874337",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "E: seed m11-w44-1794609302785",
+      "name": "E: seed m11-w44-1794656874337",
       "ok": true,
       "detail": ""
     },
     {
-      "name": "E: seed m11-w45-1794609302785",
+      "name": "E: seed m11-w45-1794656874337",
       "ok": true,
       "detail": ""
     },
@@ -285,7 +285,7 @@
       "detail": ""
     },
     {
-      "name": "E: seed m11-w46-meet-1794609302785",
+      "name": "E: seed m11-w46-meet-1794656874337",
       "ok": true,
       "detail": ""
     },
@@ -327,7 +327,7 @@
     {
       "name": "opt-out: sam loses alex monetary fields",
       "ok": true,
-      "detail": "{\"role\":\"owner\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"9ca36ea9-2061-4363-b9ea-9f22169840d2\",\"display_name\":\"Alex\",\"privacy_chip\":\"Private\",\"membership_id\":\"6f57190a-82f6-4476-838d-74e442e88c25\",\"share_monetary_info\":false,\"savings_participation_active\":true}"
+      "detail": "{\"role\":\"owner\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"1a02707d-2bbb-4309-9313-acb0bf01550d\",\"display_name\":\"Alex\",\"privacy_chip\":\"Private\",\"membership_id\":\"58573853-b4ce-4a62-a5e4-d42bf53e847d\",\"share_monetary_info\":false,\"savings_participation_active\":true}"
     },
     {
       "name": "opt-out: alex still sees own figures",
@@ -347,7 +347,7 @@
     {
       "name": "opt-out: alex loses sam monetary fields",
       "ok": true,
-      "detail": "{\"role\":\"member\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"54ea6ceb-f43c-4630-aaf7-bd264e152ea1\",\"display_name\":\"Sam\",\"privacy_chip\":\"Private\",\"membership_id\":\"fffc1a22-74ab-4a8f-aa32-9a45283c0435\",\"share_monetary_info\":false,\"savings_participation_active\":true}"
+      "detail": "{\"role\":\"member\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"39878cad-57ad-4b27-b5d3-38780349892e\",\"display_name\":\"Sam\",\"privacy_chip\":\"Private\",\"membership_id\":\"71bf92bc-3919-4aaf-834f-d9c445e61a5b\",\"share_monetary_info\":false,\"savings_participation_active\":true}"
     },
     {
       "name": "removed: owner remove rpc",
