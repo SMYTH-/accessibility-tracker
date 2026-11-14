@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Document | Gate 3 / M0 technical architecture (planning only) |
-| Status | **PO decisions recorded** — contribution timing **approved**; stop before M1 |
+| Status | **PO decisions recorded** — contribution timing **approved**; **M2 activation approved for planning**; M2 implementation **not** authorised; M1 email gate pending |
 | Architecture baseline | **Approved for planning** at `1f543e6` (implementation still not authorised) |
 | Spec baseline | Gate 1 frozen — `docs/product/specification-v1.md` |
 | Rules amendment | Gate 1.1 approved — `docs/product/amendments/gate-1-1-product-rules.md` |
@@ -32,7 +32,7 @@
 1. **Frozen Gate 1 / 1.1 specs stay intact.** This plan does not edit them.
 2. **No product-app implementation** (scaffolding, schema migrations in product DB, auth wiring, deploys) without a **separate** PO go for M1+.
 3. **Architecture direction (ADRs / stack sketch) is approved for planning** at `1f543e6` — not authority to implement.
-4. **G1.1-06-R1 is approved** (§4). **Contribution timing (§3) is approved** with MVP correction limits and Mon vs Tue–Sun assessment start. Other §3.3 defaults remain **OPEN**.
+4. **G1.1-06-R1 is approved** (§4). **Contribution timing (§3) is approved** with MVP correction limits and Mon vs Tue–Sun assessment start. **M2 challenge activation is approved for planning** (`m2-challenge-plan.md` §2 / MVP §3.3). Other §3.3 defaults remain **OPEN**.
 5. **Logo / final palette / type remain open.** Working accents only.
 
 ### Prerequisite gates before coding
@@ -593,29 +593,31 @@ Portugal challenge — approved member **Sam** watching aggregates. Jordan alrea
 | M0 architecture direction / ADR-A…H / stack sketch | **Approved for planning** at `1f543e6` | Implementation **not** authorised |
 | Contribution timing (§3 / MVP §3.1) | **Approved** | Today-only; corrections = amend/reverse only (no create-in-closed-week); Mon vs Tue–Sun assessment; Mon–Sun weeks |
 | G1.1-06-R1 aggregate inference rule (§4) | **Approved** | Same-viewer-authorised restatement; M6 prerequisite suite |
-| MVP plan §3.3 defaults (IA labels, pause indefinite, streak 3/6/12, activation detail, etc.) | **OPEN** | Separate review — **not approved** |
+| M2 challenge activation (G1.1-02) | **Approved for planning** | CHAL-01 incl. currency; future → Scheduled; today → Active; reject past; midnight start/end in challenge TZ; cancel out of M2 — `m2-challenge-plan.md` §2 |
+| MVP plan §3.3 defaults (IA labels, pause indefinite, streak 3/6/12, etc.) | **OPEN** | Activation removed from this OPEN bundle — see row above |
 | Excess carry / other §3.3 money defaults | **OPEN** | Not locked with contribution timing |
 | Pause max / resume; streak milestone thresholds | **OPEN** | G1.1-08/11 + plan §3.3 |
-| Challenge activation detail; ownership deletion fallback; post-completion reopen | **OPEN** | |
+| Challenge cancellation rules; ownership deletion fallback; post-completion reopen | **OPEN** | Cancel action out of M2 |
 | Small-group k-anonymity suppression | **OPEN** (recommend reject for MVP) | |
-| Implementation M1+ | **NOT AUTHORISED** | Explicit separate PO go required — **stop before M1** |
+| Implementation M1+ / M2 | **NOT AUTHORISED** | Explicit separate PO go required — activation planning lock ≠ coding go |
 
 ---
 
 ## 6. Stop conditions
 
-**PO decisions recorded; stop before M1.** Frozen Gate 1 / Gate 1.1 specs were not modified. No application implementation started.
+**PO decisions recorded.** Frozen Gate 1 / Gate 1.1 specs were not modified. No M2 (or other) application implementation authorised by this planning lock. M1 email-link gate still pending.
 
 **Locked**
 
 1. M0 architecture direction **approved for planning** at `1f543e6`.
 2. **G1.1-06-R1 approved** (§4).
 3. **Contribution timing approved** (§3) — including no create-in-closed-week; Mon vs Tue–Sun assessment start; Examples A–D corrected for Nov 2026 / Mon **16 Nov**.
+4. **M2 challenge activation approved for planning** — canonical text `m2-challenge-plan.md` §2; cancel remains OPEN / out of M2.
 
 **Still OPEN / not a go**
 
-4. Other §3.3 defaults — separate review.
-5. **M1+ implementation** — needs explicit approval. This document is not authority to scaffold, migrate, or deploy.
+5. Other §3.3 defaults (except activation) — separate review.
+6. **M1+ / M2 implementation** — needs explicit approval. This document is not authority to scaffold, migrate, or deploy. M1 email-link gate still pending.
 
 ---
 
@@ -626,7 +628,8 @@ Portugal challenge — approved member **Sam** watching aggregates. Jordan alrea
 | Authoring mode | Gate 3 / M0 planning only |
 | Architecture planning approval | **Yes** at `1f543e6` |
 | Contribution timing approval | **Yes** (§3) |
-| Implementation authorised | **No** — stop before M1 |
+| Implementation authorised | **No** — M2 activation planning lock ≠ coding go |
+| M2 activation planning approval | **Yes** — `m2-challenge-plan.md` §2 |
 | Spec files modified | **None** |
-| Companion plan | `docs/engineering/mvp-build-plan.md` |
-| Next stop | Separate §3.3 review as needed; **explicit M1 go** before any implementation |
+| Companion plans | `docs/engineering/mvp-build-plan.md`, `docs/engineering/m2-challenge-plan.md` |
+| Next stop | Finish M1 email gate; remaining §3.3 review as needed; **explicit M2 go** before M2 implementation |
