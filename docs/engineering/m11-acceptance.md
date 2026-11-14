@@ -52,13 +52,13 @@ Resend domain **`pactwell.app`** (`eu-west-1`) **verified** (DKIM + `send` MX/TX
 
 | Item | Status | Evidence |
 | --- | --- | --- |
-| Membership **approval** | **Delivered** | Resend From `Pactwell <noreply@pactwell.app>` · subject `Pactwell — Membership approved — M11 Resend 1794668962573` · ~15:09Z |
-| Membership **rejection** | **Delivered** | Same From · `Pactwell — Membership declined — M11 Resend 1794668962573` · ~15:09Z |
-| Sign-up **verification** | **Delivered** · Dom click **Pending** | From `Pactwell <noreply@pactwell.app>` · `Confirm your Pactwell email` · ~15:09Z — Dominic open → Home |
-| Password **recovery** | **Delivered** · Dom click **Pending** | Same From · `Reset your Pactwell password` · ~15:10Z — Dominic open → Choose a new password |
+| Membership **approval** | **Pass** | Resend delivered From `Pactwell <noreply@pactwell.app>` · `Pactwell — Membership approved — M11 Resend 1794668962573` · ~15:09Z · Dom sight |
+| Membership **rejection** | **Pass** | Same From · `Pactwell — Membership declined — M11 Resend 1794668962573` · ~15:09Z · Dom sight |
+| Sign-up **verification** | **Pass** | From `Pactwell <noreply@pactwell.app>` · `Confirm your Pactwell email` · ~15:09Z · Dominic → Home |
+| Password **recovery** | **Pass** | Same From · `Reset your Pactwell password` · ~15:10Z · Dominic → Choose a new password |
 | Evidence script | **23/23 Pass** | `scripts/m11-email-resend-evidence.mjs` → `media/m11/email-resend-evidence.json` |
 
-Private beta remains **NO-GO** until Dom auth-link sight + **Gate 7**. **Stop** before deploy / tester invites.
+Verified-sender four-mail inbox verify **4/4 Pass** (delivery + Dom sight). Private beta remains **NO-GO** until **Gate 7**. **Stop** before deploy / tester invites.
 
 ### Auth callback hash fix (retest)
 
@@ -81,11 +81,11 @@ Journeys 86/86 · a11y 11/11 · SR 13/13 · tick 9/9 · security F-01–F-05 · 
 
 ### Recommendation: **NO-GO for private-beta invites / deploy**
 
-Verified domain `pactwell.app` **cleared**. Four mails **delivered** from `Pactwell <noreply@pactwell.app>`; Dom auth-link click still **Pending**. Closed-lab may continue. **Gate 7** still blocks invites.
+Verified domain `pactwell.app` **cleared**. Verified-sender four-mail **4/4 Pass** from `Pactwell <noreply@pactwell.app>` (Dom sight). Closed-lab may continue. **Gate 7** still blocks invites / deploy.
 
 | Blocker | Status |
 | --- | --- |
-| 1. Four-mail test-inbox proof | **Cleared** (historical) · verified-sender retest **delivered** / auth clicks **Pending** |
+| 1. Four-mail test-inbox proof | **Cleared** (historical + verified-sender **4/4 Pass**) |
 | 2. Verified custom sending domain | **Cleared** — `pactwell.app` verified; From `Pactwell <noreply@pactwell.app>` |
 | 3. Gate 7 PO invite authorisation | **Still required** |
 | 4. Public-host `LIFECYCLE_TICK_SECRET` | Only if/when non-local deploy authorised |
