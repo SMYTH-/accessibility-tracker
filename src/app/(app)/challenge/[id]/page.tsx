@@ -2,10 +2,13 @@ import { randomUUID } from "crypto";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
+import { ChallengeDashboardView } from "@/components/ChallengeDashboard";
 import { ChallengeStatusBadge } from "@/components/ChallengeStatusBadge";
+import { CompletionSummaryView } from "@/components/CompletionSummaryView";
 import { ContributionPanel } from "@/components/ContributionPanel";
 import { InviteOwnerPanel } from "@/components/InviteOwnerPanel";
 import { SavingsSetupForm } from "@/components/SavingsSetupForm";
+import { getCompletionSummary } from "@/lib/activity/service";
 import { getCurrentUser } from "@/lib/auth/session";
 import {
   canRecordSavings,
@@ -17,7 +20,10 @@ import {
   getOwnEligibleTotals,
   listOwnContributions,
 } from "@/lib/contributions/service";
-import { getSharingMemberTotals } from "@/lib/dashboard/service";
+import {
+  getChallengeDashboard,
+  getSharingMemberTotals,
+} from "@/lib/dashboard/service";
 import {
   getPendingAccessView,
   listInvitations,
@@ -116,10 +122,27 @@ export default async function ChallengeOverviewPage({
     isOwner &&
     (challenge.lifecycleStatus === "Scheduled" || challenge.lifecycleStatus === "Active");
   const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const isCompleted = challenge.lifecycleStatus === "Completed";
+  const completion = isCompleted
+    ? await getCompletionSummary(user.id, challenge.id)
+    : null;
+  const pathB = !isCompleted
+    ? await getChallengeDashboard(user.id, challenge.id)
+    : null;
 
   return (
     <AppShell title={challenge.name} subtitle="Challenge overview">
       <div className="space-y-4">
+        {completion ? <CompletionSummaryView data={completion} /> : null}
+
+        {pathB ? (
+          <ChallengeDashboardView
+            data={pathB}
+            recordHref={`/challenge/${challenge.id}#contributions`}
+          />
+        ) : null}
+
+        {!completion ? (
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
           <div className="flex flex-wrap items-center gap-2">
             <ChallengeStatusBadge status={challenge.lifecycleStatus} />
@@ -154,6 +177,7 @@ export default async function ChallengeOverviewPage({
             </div>
           </dl>
         </section>
+        ) : null}
 
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
           <h2 className="text-lg font-semibold">Membership</h2>
@@ -177,13 +201,15 @@ export default async function ChallengeOverviewPage({
           </ul>
         </section>
 
-        <SavingsSetupForm
-          challengeId={challenge.id}
-          currency={challenge.currency}
-          timeZone={challenge.timeZone}
-          setup={setup}
-          savingsParticipationActive={participationActive}
-        />
+        {!isCompleted ? (
+          <SavingsSetupForm
+            challengeId={challenge.id}
+            currency={challenge.currency}
+            timeZone={challenge.timeZone}
+            setup={setup}
+            savingsParticipationActive={participationActive}
+          />
+        ) : null}
 
         <InviteOwnerPanel
           challengeId={challenge.id}
@@ -199,24 +225,30 @@ export default async function ChallengeOverviewPage({
           }
         />
 
-        {setup ? (
+        {setup && !isCompleted ? (
           <p className="text-xs tabular-nums text-[var(--mute)]">
             Your target {formatMinorAsMajor(setup.targetMinor, challenge.currency)} · weekly{" "}
             {formatMinorAsMajor(setup.weeklyCommitmentMinor, challenge.currency)}
           </p>
         ) : null}
 
-        <ContributionPanel
-          challengeId={challenge.id}
-          currency={challenge.currency}
-          timeZone={challenge.timeZone}
-          allowed={recordGate.allowed}
-          gateReason={recordGate.reason}
-          initialIdempotencyKey={randomUUID()}
-          contributions={contributionView?.contributions ?? []}
-          revisions={contributionView?.revisions ?? []}
-          totals={eligibleTotals}
-        />
+        <div id="contributions">
+          <ContributionPanel
+            challengeId={challenge.id}
+            currency={challenge.currency}
+            timeZone={challenge.timeZone}
+            allowed={recordGate.allowed && !isCompleted}
+            gateReason={
+              isCompleted
+                ? "Completed challenges are read-only — ordinary contribution changes are disabled (G1.1-12)."
+                : recordGate.reason
+            }
+            initialIdempotencyKey={randomUUID()}
+            contributions={contributionView?.contributions ?? []}
+            revisions={contributionView?.revisions ?? []}
+            totals={eligibleTotals}
+          />
+        </div>
 
         {savingsAudit.length > 0 ? (
           <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
@@ -279,11 +311,11 @@ export default async function ChallengeOverviewPage({
         </section>
 
         <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
-          <h2 className="text-lg font-semibold">Not in M8</h2>
+          <h2 className="text-lg font-semibold">Not in M9</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
-            Full activity feed (M9), cancel, and ownership transfer remain out of scope. Pause
-            scheduling / duration / resume and streak awards stay OPEN. Post-activation target
-            editing stays parked (M4). Re-opt-in and small-group suppression stay OPEN.
+            Pause scheduling, streak awards, challenge reopen/cancellation, ownership transfer and
+            account-deletion fallback remain OPEN. Post-activation target editing stays parked
+            (M4). Re-opt-in and small-group suppression stay OPEN. Stop before M10.
           </p>
         </section>
 

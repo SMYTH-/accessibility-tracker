@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ActivityFeedList } from "@/components/ActivityFeedList";
 import { ChallengeStatusBadge } from "@/components/ChallengeStatusBadge";
 import {
   supportiveMissMessage,
@@ -61,22 +62,39 @@ export function ChallengeDashboardView({
 }) {
   const { personal, sharing } = data;
   const hasSetup = personal.savingsParticipationActive && personal.targetMinor != null;
+  const isCompleted = data.lifecycleStatus === "Completed";
+  const isCancelled = data.lifecycleStatus === "Cancelled";
+  const readOnly = isCompleted || isCancelled;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-testid="challenge-path-b">
       <header className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
         <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-          Active challenge
+          {isCompleted ? "Completed challenge" : "Challenge"}
         </p>
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <h2 className="text-xl font-semibold text-[var(--ink)]">
             {data.challengeName}
           </h2>
           <ChallengeStatusBadge status={data.lifecycleStatus as LifecycleStatus} />
+          {readOnly ? (
+            <span
+              className="rounded-lg border border-[var(--line)] bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700"
+              data-testid="read-only-badge"
+            >
+              Read-only
+            </span>
+          ) : null}
         </div>
         <p className="mt-1 text-sm text-[var(--mute)]">
           {data.startDate} → {data.endDate} · {data.currency} · {data.timeZone}
         </p>
+        {isCompleted ? (
+          <p className="mt-3 text-sm text-[var(--ink)]">
+            Ordinary contributions, target changes and commitment changes are disabled
+            (G1.1-12).
+          </p>
+        ) : null}
       </header>
 
       {!hasSetup ? (
@@ -237,41 +255,7 @@ export function ChallengeDashboardView({
         </section>
       ) : null}
 
-      <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
-        aria-labelledby="share-label"
-      >
-        <p
-          className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]"
-          id="share-label"
-        >
-          {sharing.label}
-        </p>
-        <p className="mt-2 text-xl font-semibold tabular-nums text-[var(--ink)]">
-          {formatMinorAsMajor(sharing.savedMinor, sharing.currency)} of{" "}
-          {formatMinorAsMajor(sharing.targetMinor, sharing.currency)}
-        </p>
-        <p className="mt-1 text-sm text-[var(--mute)]">{sharing.scopeExplanation}</p>
-        {sharing.progressPercent != null ? (
-          <p className="mt-1 text-xs tabular-nums text-[var(--mute)]">
-            {sharing.progressPercent}% · {sharing.sharerCount} sharing member
-            {sharing.sharerCount === 1 ? "" : "s"} · {sharing.sourceLabel}
-          </p>
-        ) : (
-          <p className="mt-1 text-xs text-[var(--mute)]">
-            {sharing.sharerCount} sharing member{sharing.sharerCount === 1 ? "" : "s"} with an
-            active target
-          </p>
-        )}
-        <ProgressBar percent={sharing.progressPercent} tone="secondary" />
-        {!personal.shareMonetaryInfo ? (
-          <p className="mt-3 text-xs text-[var(--mute)]">
-            You opted out of sharing monetary information. Your own figures stay visible to you
-            above; they are excluded from this total for other members.
-          </p>
-        ) : null}
-      </section>
-
+      {/* Path B order: Your streak / commitment (above) → roster → sharing → activity */}
       <section
         className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
         aria-labelledby="roster-label"
@@ -322,6 +306,7 @@ export function ChallengeDashboardView({
           ))}
         </ul>
         <p className="mt-3 text-xs text-[var(--mute)]">
+          Commitment figures and assessment history stay in each member&apos;s own view.{" "}
           <Link href="/profile#privacy" className="font-semibold text-[var(--deep-sea)] underline">
             Financial privacy settings
           </Link>
@@ -330,59 +315,83 @@ export function ChallengeDashboardView({
 
       <section
         className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
-        aria-labelledby="preview-label"
+        aria-labelledby="share-label"
       >
         <p
           className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]"
-          id="preview-label"
+          id="share-label"
         >
-          Activity preview
+          {sharing.label}
         </p>
-        {data.activityPreview.length === 0 ? (
-          <p className="mt-3 text-sm text-[var(--mute)]">
-            No recent activity yet. Full challenge feed expands in M9.
+        <p className="mt-2 text-xl font-semibold tabular-nums text-[var(--ink)]">
+          {formatMinorAsMajor(sharing.savedMinor, sharing.currency)} of{" "}
+          {formatMinorAsMajor(sharing.targetMinor, sharing.currency)}
+        </p>
+        <p className="mt-1 text-sm text-[var(--mute)]">{sharing.scopeExplanation}</p>
+        {sharing.progressPercent != null ? (
+          <p className="mt-1 text-xs tabular-nums text-[var(--mute)]">
+            {sharing.progressPercent}% · {sharing.sharerCount} sharing member
+            {sharing.sharerCount === 1 ? "" : "s"} · {sharing.sourceLabel}
           </p>
         ) : (
-          <ul className="mt-3 space-y-3">
-            {data.activityPreview.map((ev) => (
-              <li
-                key={ev.id}
-                className="flex gap-3 rounded-xl bg-[var(--paper)] px-3 py-2.5 text-sm"
-              >
-                <span
-                  className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-                    ev.kind === "private_contribution"
-                      ? "bg-slate-200 text-[var(--mute)]"
-                      : "bg-[var(--honey-soft)] text-[var(--honey)]"
-                  }`}
-                  aria-hidden="true"
-                >
-                  {ev.kind === "private_contribution" ? "P" : "£"}
-                </span>
-                <div>
-                  <p className="font-medium text-[var(--ink)]">{ev.title}</p>
-                  <p className="text-[var(--mute)]">{ev.meta}</p>
-                  {ev.amountMinor != null && ev.currency ? (
-                    <p className="mt-0.5 text-xs tabular-nums text-[var(--mute)]">
-                      {formatMinorAsMajor(ev.amountMinor, ev.currency)} · self-reported
-                    </p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-1 text-xs text-[var(--mute)]">
+            {sharing.sharerCount} sharing member{sharing.sharerCount === 1 ? "" : "s"} with an
+            active target
+          </p>
         )}
+        <ProgressBar percent={sharing.progressPercent} tone="secondary" />
+        {!personal.shareMonetaryInfo ? (
+          <p className="mt-3 text-xs text-[var(--mute)]">
+            You opted out of sharing monetary information. Your own figures stay visible to you
+            above; they are excluded from this total for other members.
+          </p>
+        ) : null}
       </section>
 
-      <Link
-        href={recordHref}
-        className="flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow)]"
+      <section
+        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
+        aria-labelledby="preview-label"
       >
-        Record savings
-      </Link>
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <p
+            className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]"
+            id="preview-label"
+          >
+            Activity
+          </p>
+          <Link
+            href="/activity"
+            className="text-xs font-semibold text-[var(--deep-sea)] underline"
+          >
+            Full feed
+          </Link>
+        </div>
+        <ActivityFeedList
+          events={data.activityPreview}
+          emptyLabel="No permitted activity yet."
+          testId="activity-preview"
+        />
+      </section>
+
+      {readOnly ? (
+        <p
+          className="rounded-xl border border-[var(--line)] bg-slate-50 px-4 py-3 text-center text-sm text-[var(--mute)]"
+          data-testid="record-savings-disabled"
+        >
+          Recording savings is disabled while this challenge is{" "}
+          {data.lifecycleStatus.toLowerCase()}.
+        </p>
+      ) : (
+        <Link
+          href={recordHref}
+          className="flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow)]"
+        >
+          Record savings
+        </Link>
+      )}
 
       <p className="text-center text-[10px] text-[var(--mute)]">
-        Live at {new Date(data.generatedAt).toLocaleString()} · no historical sharing-total series
+        Live at {new Date(data.generatedAt).toLocaleString()} · Path B: streak → roster → activity
       </p>
     </div>
   );

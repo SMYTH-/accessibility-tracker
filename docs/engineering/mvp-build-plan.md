@@ -289,12 +289,12 @@ Milestones are ordered by dependency. Acceptance checks cite requirement / G1.1 
 
 **Acceptance checks**
 
-- [ ] Feed cannot bypass membership or privacy — SOC-01, G1.1-06.
-- [ ] Hidden amounts never appear in feed — SOC-01.
-- [ ] Strip → roster → feed order per Path B.
-- [ ] No ordinary contributions/target/commitment edits after completion — G1.1-12.
-- [ ] Owner cannot leave active/scheduled challenge without valid transfer — G1.1-13.
-- [ ] Encourage/kudos omitted — non-MVP.
+- [x] Feed cannot bypass membership or privacy — SOC-01, G1.1-06. _(offline smoke; live PG pending Dom Mac)_
+- [x] Hidden amounts never appear in feed — SOC-01. _(offline smoke; live PG pending Dom Mac)_
+- [x] Strip → roster → feed order per Path B.
+- [x] No ordinary contributions/target/commitment edits after completion — G1.1-12. _(offline smoke; live PG pending Dom Mac)_
+- [x] Owner cannot leave active/scheduled challenge without valid transfer — G1.1-13.
+- [x] Encourage/kudos omitted — non-MVP.
 
 ---
 

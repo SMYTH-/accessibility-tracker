@@ -65,13 +65,20 @@ export type RosterMemberProjection = {
 
 export type ActivityPreviewEvent = {
   id: string;
-  kind: "contribution" | "private_contribution";
+  kind:
+    | "contribution"
+    | "private_contribution"
+    | "member_joined"
+    | "commitment_completed"
+    | "milestone_reached"
+    | "challenge_completed";
   userId: string;
   displayName: string;
   title: string;
   meta: string;
   amountMinor?: number;
   currency?: string;
+  milestonePercent?: MilestonePercent;
   at: string;
 };
 

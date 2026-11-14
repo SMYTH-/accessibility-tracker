@@ -4,6 +4,7 @@ import type { ChallengeInvitation, NotificationRecord } from "@/lib/membership/t
 import type { Contribution, ContributionRevision } from "@/lib/contributions/types";
 import type { SavingsSetup, SavingsSetupAuditEvent } from "@/lib/savings/types";
 import type { Challenge, LifecycleAuditEvent, Membership } from "./types";
+import type { ProgressMilestoneAnnouncement } from "@/lib/activity/types";
 
 export type StoredInvitation = ChallengeInvitation & { tokenHash: string };
 
@@ -19,6 +20,8 @@ export type ChallengeDb = {
   /** M5 mock persistence (file store; Postgres uses contributions). */
   contributions: Contribution[];
   contributionRevisions: ContributionRevision[];
+  /** M9 retained progress milestone announcements (append-only per threshold). */
+  progressMilestoneAnnouncements: ProgressMilestoneAnnouncement[];
 };
 
 const DATA_DIR = path.join(process.cwd(), ".data");
@@ -39,6 +42,7 @@ async function ensureDb(): Promise<ChallengeDb> {
       savingsAudit: parsed.savingsAudit ?? [],
       contributions: parsed.contributions ?? [],
       contributionRevisions: parsed.contributionRevisions ?? [],
+      progressMilestoneAnnouncements: parsed.progressMilestoneAnnouncements ?? [],
     };
   } catch {
     const empty: ChallengeDb = {
@@ -51,6 +55,7 @@ async function ensureDb(): Promise<ChallengeDb> {
       savingsAudit: [],
       contributions: [],
       contributionRevisions: [],
+      progressMilestoneAnnouncements: [],
     };
     await fs.mkdir(DATA_DIR, { recursive: true });
     await fs.writeFile(DB_PATH, JSON.stringify(empty, null, 2));
