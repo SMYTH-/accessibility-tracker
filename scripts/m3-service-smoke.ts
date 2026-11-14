@@ -14,7 +14,15 @@ async function main() {
   writeFileSync(
     process.env.CHALLENGE_DATA_PATH,
     JSON.stringify(
-      { challenges: [], memberships: [], audit: [], invitations: [], notifications: [] },
+      {
+        challenges: [],
+        memberships: [],
+        audit: [],
+        invitations: [],
+        notifications: [],
+        savingsSetups: [],
+        savingsAudit: [],
+      },
       null,
       2,
     ),

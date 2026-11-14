@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { ChallengeStatusBadge } from "@/components/ChallengeStatusBadge";
 import { InviteOwnerPanel } from "@/components/InviteOwnerPanel";
+import { SavingsSetupForm } from "@/components/SavingsSetupForm";
 import { getCurrentUser } from "@/lib/auth/session";
 import {
   canRecordSavings,
@@ -15,6 +16,8 @@ import {
   listInvitations,
   listMembershipAdmin,
 } from "@/lib/membership/service";
+import { getOwnSavingsSetup, listOwnSavingsAudit } from "@/lib/savings/service";
+import { formatMinorAsMajor } from "@/lib/savings/money";
 
 export default async function ChallengeOverviewPage({
   params,
@@ -67,9 +70,20 @@ export default async function ChallengeOverviewPage({
   }
 
   const { challenge, membership } = row;
-  const recordGate = canRecordSavings(challenge, membership);
-  const assessed = isAssessedForWeeklyCommitments(membership);
+  const savingsView = await getOwnSavingsSetup(user.id, challenge.id);
+  const setup = savingsView?.setup ?? null;
+  const participationActive =
+    savingsView?.savingsParticipationActive ?? membership.savingsParticipationActive;
+  const recordGate = canRecordSavings(
+    challenge,
+    { ...membership, savingsParticipationActive: participationActive },
+  );
+  const assessed = isAssessedForWeeklyCommitments({
+    ...membership,
+    savingsParticipationActive: participationActive,
+  });
   const audit = await listAuditForChallenge(challenge.id);
+  const savingsAudit = await listOwnSavingsAudit(user.id, challenge.id);
   const isOwner = membership.role === "owner";
 
   const invites = isOwner ? await listInvitations(challenge.id, user.id) : { ok: true as const, invitations: [] };
@@ -139,15 +153,25 @@ export default async function ChallengeOverviewPage({
             <li>
               Savings participation:{" "}
               <strong className="font-semibold">
-                {membership.savingsParticipationActive ? "Active" : "Inactive (deferred)"}
+                {participationActive ? "Active" : "Inactive (setup required)"}
               </strong>
             </li>
             <li className="text-[var(--mute)]">
               Weekly commitment assessment:{" "}
-              {assessed ? "In scope when weeks run (M8)" : "Not assessed while savings inactive (G1.1-01)"}
+              {assessed
+                ? `In scope from Monday ${setup?.firstAssessedWeekStart ?? "—"} (M8 runs weeks)`
+                : "Not assessed while savings inactive (G1.1-01/03/04)"}
             </li>
           </ul>
         </section>
+
+        <SavingsSetupForm
+          challengeId={challenge.id}
+          currency={challenge.currency}
+          timeZone={challenge.timeZone}
+          setup={setup}
+          savingsParticipationActive={participationActive}
+        />
 
         <InviteOwnerPanel
           challengeId={challenge.id}
@@ -168,6 +192,12 @@ export default async function ChallengeOverviewPage({
             Record savings
           </h2>
           <p className="mt-2 text-sm text-[var(--mute)]">{recordGate.reason}</p>
+          {setup ? (
+            <p className="mt-1 text-xs text-[var(--mute)]">
+              Your target {formatMinorAsMajor(setup.targetMinor, challenge.currency)} · weekly{" "}
+              {formatMinorAsMajor(setup.weeklyCommitmentMinor, challenge.currency)}
+            </p>
+          ) : null}
           <button
             type="button"
             disabled
@@ -177,11 +207,30 @@ export default async function ChallengeOverviewPage({
           </button>
         </section>
 
+        {savingsAudit.length > 0 ? (
+          <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+            <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+              Savings setup audit
+            </h2>
+            <ul className="mt-3 space-y-2 text-sm">
+              {savingsAudit.map((e) => (
+                <li key={e.id} className="rounded-xl bg-[var(--paper)] px-3 py-2">
+                  <p className="font-medium text-[var(--ink)]">{e.action}</p>
+                  <p className="text-[var(--mute)]">{e.detail}</p>
+                  {e.effectiveFrom ? (
+                    <p className="text-xs text-[var(--mute)]">Effective from {e.effectiveFrom}</p>
+                  ) : null}
+                  <p className="text-xs text-[var(--mute)]">{e.at}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
         <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Not in M3</h2>
+          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Not in M4</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
-            Savings setup (M4), contributions, aggregates, and cancel are out of scope here.
-            Ownership transfer / deletion fallback remain open.
+            Contribution recording (M5), aggregates, streaks, and cancel are out of scope here.
           </p>
         </section>
 

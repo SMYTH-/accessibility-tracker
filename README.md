@@ -2,19 +2,18 @@
 
 Mobile-first web app for private savings challenges (product docs under `docs/`).
 
-## M3 status
+## M4 status
 
-Milestone **M3** (invitations, membership, join disclosure) on **Supabase Auth + Postgres** (`gdrkejobqlvtwnlaedpu` non-prod), on tip of signed-off M2 (`27404a6b`).
+Milestone **M4** (personal savings target + weekly commitment setup) on tip of signed-off M3 (`dda5e603`).
 
 - Working accents only: Deep Sea `#1A6B7C` · Honey Amber `#C9842A`
-- Owner invite links: default 7-day expiry, revocable; server-enforced
-- Invite preview: name, description, start, end, participant count only
-- PRIV-01 disclosure + ack before request-join (UI + server)
-- Owner approve/decline; pending/declined have no financial access
-- Approval leaves savings inactive; no duplicate memberships; safe retries
-- NOTIF-01 approve/reject emails recorded in `notification_outbox`
-- Leave / remove revoke access immediately; owner leave blocked on Scheduled/Active (transfer OPEN)
-- **Stop before M4** — no savings setup, contributions, aggregates, or cancel
+- Approved members (incl. owner) activate with positive target + weekly commitment (challenge currency, minor units)
+- Server-side membership + validation (RPC / service)
+- Incomplete setup → savings inactive; no missed-week assessment; record gated
+- First assessed week: Monday = current week; Tue–Sun = following Monday (challenge TZ)
+- Post-activation target editing **parked** until G1.1-10 progress/milestone rules are approved (signed-in RPC + UI)
+- Initial activate + first-assessed-week behaviour unchanged; service-role test helper only for evidence
+- **Stop before M5** — no contribution recording
 
 ## Local preview
 
@@ -25,21 +24,19 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Configure `.env.local` from `.env.example` (URL + anon key; optional service role for ticks/scripts). Do not commit secrets.
+Configure `.env.local` from `.env.example` (URL + anon key; optional service role for ticks/scripts). Do not commit secrets. Apply M4 migrations under `supabase/migrations/` (incl. park migrations) for live Postgres.
 
 ```bash
-npm run smoke:m3
-npm run evidence:m3:pg
-npm run evidence:m3:ui
+npm run smoke:m4
+npm run evidence:m4:pg
+npm run evidence:m4:ui
 ```
 
 ## Docs
 
 | Doc | Path |
 | --- | --- |
+| M4 walkthrough | `docs/engineering/m4-walkthrough.md` |
+| M4 acceptance | `docs/engineering/m4-acceptance.md` |
 | M3 walkthrough | `docs/engineering/m3-walkthrough.md` |
 | M3 acceptance | `docs/engineering/m3-acceptance.md` |
-| M2 walkthrough | `docs/engineering/m2-walkthrough.md` |
-| M2 acceptance | `docs/engineering/m2-acceptance.md` |
-| MVP build plan | `docs/engineering/mvp-build-plan.md` |
-| M0 architecture | `docs/engineering/m0-architecture.md` |

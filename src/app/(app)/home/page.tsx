@@ -18,8 +18,8 @@ export default async function HomePage() {
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
           <p className="text-sm text-[var(--mute)]">{user.email}</p>
           <p className="mt-3 text-sm text-[var(--ink)]">
-            Personal dashboard totals arrive in M6. Create a private challenge now — savings setup
-            can wait.
+            Personal dashboard totals arrive in M6. Create or open a challenge to activate personal
+            savings (target + weekly commitment) when ready.
           </p>
           <Link
             href="/challenge/new"
@@ -51,7 +51,7 @@ export default async function HomePage() {
         ) : null}
 
         <p className="text-center text-xs text-[var(--mute)]">
-          Stop before M3 — no invites, savings activation, or contributions in this milestone.
+          M4 savings setup is available on challenge overview. Contribution recording is M5.
         </p>
       </div>
     </AppShell>
