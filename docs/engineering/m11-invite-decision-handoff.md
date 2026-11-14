@@ -22,7 +22,7 @@ Approve · reject · recovery **Pass**. Sign-up verification: **receipt confirme
 
 ### Open
 
-1. Dominic confirms **Confirm email address** link opened cleanly (receipt already confirmed; no re-send)
+1. Dominic re-opens **same** Confirm email address link after local preview is back (first click failed — server down; worker restarting; **no re-send**)
 2. Verified sending domain (note: `onboarding@resend.dev` spam risk)
 3. Gate 7 invite authorisation
 

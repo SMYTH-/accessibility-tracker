@@ -167,7 +167,7 @@
     "reject": "PASS",
     "recovery": "PASS",
     "verify_receipt": "PASS",
-    "verify_link_open": "PENDING",
+    "verify_link_open": "PENDING \u2014 preview restart; same link; no resend",
     "four_check": "3/4 \u2014 verify link-open pending",
     "invite_go": "NO-GO"
   },
@@ -228,6 +228,8 @@
     "to": "smyth.developer@gmail.com",
     "link_open": "PENDING",
     "no_resend": true,
-    "updated_at": "2026-11-14T13:40:43.632527+00:00"
+    "updated_at": "2026-11-14T13:41:14.080603+00:00",
+    "first_click_failed": "local preview down",
+    "preview_restart_worker": "bc-0fb86284"
   }
 }
