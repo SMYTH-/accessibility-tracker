@@ -1,0 +1,93 @@
+import { createServerClient } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
+
+const PROTECTED_PREFIXES = ["/home", "/challenge", "/activity", "/profile"];
+const AUTH_PAGES = ["/sign-in", "/sign-up", "/reset-password", "/verify-email"];
+
+function getAuthModeFromEnv(): "supabase" | "mock" {
+  if (process.env.AUTH_MODE === "mock") return "mock";
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (url && key) return "supabase";
+  return "mock";
+}
+
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const isProtected = PROTECTED_PREFIXES.some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`),
+  );
+  const isAuthPage = AUTH_PAGES.some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`),
+  );
+
+  if (getAuthModeFromEnv() === "mock") {
+    const session = request.cookies.get("at_mock_session")?.value;
+    if (isProtected && !session) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/sign-in";
+      url.searchParams.set("next", pathname);
+      return NextResponse.redirect(url);
+    }
+    if (isAuthPage && session && pathname !== "/verify-email") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/home";
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
+
+  let response = NextResponse.next({ request });
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options),
+          );
+        },
+      },
+    },
+  );
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (isProtected && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/sign-in";
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  if (isAuthPage && user && pathname !== "/verify-email") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/home";
+    return NextResponse.redirect(url);
+  }
+
+  return response;
+}
+
+export const config = {
+  matcher: [
+    "/home/:path*",
+    "/challenge/:path*",
+    "/activity/:path*",
+    "/profile/:path*",
+    "/sign-in",
+    "/sign-up",
+    "/reset-password",
+    "/verify-email",
+    "/update-password",
+  ],
+};
