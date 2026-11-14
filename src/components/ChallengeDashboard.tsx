@@ -321,7 +321,7 @@ export function ChallengeDashboardView({
           <p className="at-section-label" id="roster-label">
             Members
           </p>
-          <Link href="/activity" className="text-sm font-semibold text-[var(--deep-sea)] underline">
+          <Link href="/activity" className="text-sm font-semibold text-[var(--accent)] underline">
             Activity
           </Link>
         </div>
@@ -376,7 +376,7 @@ export function ChallengeDashboardView({
         </ul>
         <p className="mt-2 text-xs text-[var(--mute)]">
           Commitment figures stay in each member&apos;s own view.{" "}
-          <Link href="/profile#privacy" className="font-semibold text-[var(--deep-sea)] underline">
+          <Link href="/profile#privacy" className="font-semibold text-[var(--accent)] underline">
             Financial privacy settings
           </Link>
         </p>
@@ -387,7 +387,7 @@ export function ChallengeDashboardView({
           <p className="at-section-label" id="preview-label">
             Recent activity
           </p>
-          <Link href="/activity" className="text-sm font-semibold text-[var(--deep-sea)] underline">
+          <Link href="/activity" className="text-sm font-semibold text-[var(--accent)] underline">
             Full feed
           </Link>
         </div>

@@ -23,7 +23,7 @@ function Alert({
   const styles =
     tone === "error"
       ? "border-red-200 bg-red-50 text-red-900"
-      : "border-[color-mix(in_srgb,var(--deep-sea)_25%,white)] bg-[var(--deep-sea-soft)] text-[var(--ink)]";
+      : "border-[var(--line)] bg-[var(--accent-soft)] text-[var(--ink)]";
   return (
     <div className={`rounded-xl border px-3 py-2 text-sm ${styles}`} role="status">
       {children}
@@ -91,7 +91,7 @@ export function InviteOwnerPanel({
       ) : null}
 
       {isOwner ? (
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="at-surface p-5">
           <h2 className="text-lg font-semibold">
             Invite links
           </h2>
@@ -115,7 +115,7 @@ export function InviteOwnerPanel({
             <button
               type="submit"
               disabled={createPending}
-              className="rounded-xl bg-[var(--deep-sea)] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+              className="at-btn-primary w-auto disabled:opacity-60"
             >
               {createPending ? "Creating…" : "Create invite link"}
             </button>
@@ -162,7 +162,7 @@ export function InviteOwnerPanel({
       ) : null}
 
       {isOwner ? (
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="at-surface p-5">
           <h2 className="text-lg font-semibold">
             Pending requests
           </h2>
@@ -187,7 +187,7 @@ export function InviteOwnerPanel({
                       <button
                         type="submit"
                         disabled={decidePending}
-                        className="rounded-lg bg-[var(--deep-sea)] px-3 py-1.5 text-xs font-semibold text-white"
+                        className="rounded-full bg-[var(--accent)] px-3 py-1.5 text-xs font-semibold text-[var(--accent-ink)]"
                       >
                         Approve
                       </button>
@@ -212,7 +212,7 @@ export function InviteOwnerPanel({
         </section>
       ) : null}
 
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+      <section className="at-surface p-5">
         <h2 className="text-lg font-semibold">
           Members
         </h2>
@@ -249,7 +249,7 @@ export function InviteOwnerPanel({
         </ul>
       </section>
 
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+      <section className="at-surface p-5">
         <h2 className="text-lg font-semibold">Leave</h2>
         {canLeave ? (
           <form action={leaveAction} className="mt-3">
@@ -257,7 +257,7 @@ export function InviteOwnerPanel({
             <button
               type="submit"
               disabled={leavePending}
-              className="rounded-xl border border-[var(--line)] bg-white px-4 py-2.5 text-sm font-semibold disabled:opacity-60"
+              className="at-btn-secondary disabled:opacity-60"
             >
               {leavePending ? "Leaving…" : "Leave challenge"}
             </button>

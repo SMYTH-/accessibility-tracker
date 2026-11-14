@@ -46,7 +46,7 @@ export default async function HomePage() {
           {rows.length > 1 ? (
             <p className="text-center text-xs text-[var(--mute)]">
               Showing your latest challenge.{" "}
-              <Link href="/challenge" className="font-semibold text-[var(--deep-sea)] underline">
+              <Link href="/challenge" className="font-semibold text-[var(--accent)] underline">
                 All challenges
               </Link>
             </p>
@@ -61,7 +61,7 @@ export default async function HomePage() {
           {rows.length > 1 ? (
             <p className="text-center text-xs text-[var(--mute)]">
               Showing your latest challenge.{" "}
-              <Link href="/challenge" className="font-semibold text-[var(--deep-sea)] underline">
+              <Link href="/challenge" className="font-semibold text-[var(--accent)] underline">
                 All challenges
               </Link>
             </p>

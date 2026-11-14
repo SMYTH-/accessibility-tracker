@@ -72,7 +72,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
           return (
             <li
               key={label}
-              className={`rounded-lg px-2.5 py-1 ${active ? "bg-[var(--deep-sea)] text-white" : "bg-white/70"}`}
+              className={`rounded-lg px-2.5 py-1 ${active ? "bg-[var(--accent)] text-[var(--accent-ink)]" : "bg-[var(--surface-soft)] text-[var(--mute)]"}`}
             >
               {n}. {label}
             </li>
@@ -81,7 +81,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
       </ol>
 
       {step === 1 ? (
-        <section className="space-y-4 rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="space-y-4 at-surface p-5">
           <div className="space-y-1.5">
             <FieldLabel htmlFor="name">Challenge name</FieldLabel>
             <input
@@ -90,7 +90,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
               onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
               required
               maxLength={80}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--deep-sea)] focus:ring-2"
+              className="at-input"
               placeholder="Portugal 2027"
             />
           </div>
@@ -104,7 +104,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
               onChange={(e) => setDraft((d) => ({ ...d, description: e.target.value }))}
               maxLength={500}
               rows={3}
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--deep-sea)] focus:ring-2"
+              className="at-input"
               placeholder="Trip fund with friends"
             />
           </div>
@@ -116,7 +116,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
             type="button"
             disabled={!canStep1}
             onClick={() => setStep(2)}
-            className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white disabled:opacity-40"
+            className="at-btn-primary disabled:opacity-40"
           >
             Continue
           </button>
@@ -124,7 +124,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
       ) : null}
 
       {step === 2 ? (
-        <section className="space-y-4 rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="space-y-4 at-surface p-5">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <FieldLabel htmlFor="startDate">Start date</FieldLabel>
@@ -134,7 +134,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
                 value={draft.startDate}
                 onChange={(e) => setDraft((d) => ({ ...d, startDate: e.target.value }))}
                 required
-                className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--deep-sea)] focus:ring-2"
+                className="at-input"
               />
             </div>
             <div className="space-y-1.5">
@@ -145,7 +145,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
                 value={draft.endDate}
                 onChange={(e) => setDraft((d) => ({ ...d, endDate: e.target.value }))}
                 required
-                className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--deep-sea)] focus:ring-2"
+                className="at-input"
               />
             </div>
           </div>
@@ -156,7 +156,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
               value={draft.currency}
               onChange={(e) => setDraft((d) => ({ ...d, currency: e.target.value }))}
               required
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--deep-sea)] focus:ring-2"
+              className="at-input"
             >
               {CHALLENGE_CURRENCIES.map((c) => (
                 <option key={c.code} value={c.code}>
@@ -172,7 +172,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
               value={draft.timeZone}
               onChange={(e) => setDraft((d) => ({ ...d, timeZone: e.target.value }))}
               required
-              className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 outline-none ring-[var(--deep-sea)] focus:ring-2"
+              className="at-input"
             >
               {CHALLENGE_TIME_ZONES.map((tz) => (
                 <option key={tz} value={tz}>
@@ -189,7 +189,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="flex-1 rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold"
+              className="at-btn-secondary flex-1"
             >
               Back
             </button>
@@ -197,7 +197,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
               type="button"
               disabled={!canStep2}
               onClick={() => setStep(3)}
-              className="flex-1 rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white disabled:opacity-40"
+              className="at-btn-primary flex-1 disabled:opacity-40"
             >
               Review
             </button>
@@ -206,7 +206,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
       ) : null}
 
       {step === 3 ? (
-        <section className="space-y-4 rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="space-y-4 at-surface p-5">
           <ul className="space-y-3">
             {summary.map((row) => (
               <li key={row.label} className="flex justify-between gap-4 text-sm">
@@ -230,14 +230,14 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="flex-1 rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold"
+              className="at-btn-secondary flex-1"
             >
               Back
             </button>
             <button
               type="submit"
               disabled={pending}
-              className="flex-1 rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+              className="at-btn-primary flex-1 disabled:opacity-50"
             >
               {pending ? "Creating…" : "Create challenge"}
             </button>

@@ -34,7 +34,7 @@ function tone(kind: FeedItem["kind"]): string {
     case "private_contribution":
       return "bg-[var(--surface-soft)] text-[var(--mute)]";
     default:
-      return "bg-[var(--deep-sea)] text-white";
+      return "bg-[var(--accent)] text-[var(--accent-ink)]";
   }
 }
 

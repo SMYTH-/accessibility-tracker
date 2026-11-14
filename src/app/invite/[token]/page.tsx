@@ -17,7 +17,7 @@ export default async function InvitePreviewPage({
       <AuthCard title="Invitation unavailable" subtitle="This link cannot be used.">
         <p className="text-sm text-[var(--mute)]">{previewResult.error}</p>
         <p className="mt-4 text-sm">
-          <Link href="/sign-in" className="font-semibold text-[var(--deep-sea)] underline">
+          <Link href="/sign-in" className="font-semibold text-[var(--accent)] underline">
             Sign in
           </Link>
         </p>
@@ -73,21 +73,21 @@ export default async function InvitePreviewPage({
       {membershipStatus === "approved" ? (
         <Link
           href={`/challenge/${preview.challengeId}`}
-          className="mt-5 flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
+          className="at-btn-primary mt-5"
         >
           Open challenge
         </Link>
       ) : membershipStatus === "pending" ? (
         <Link
           href={`/invite/${token}/status`}
-          className="mt-5 flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
+          className="at-btn-primary mt-5"
         >
           View request status
         </Link>
       ) : user ? (
         <Link
           href={nextJoin}
-          className="mt-5 flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
+          className="at-btn-primary mt-5"
         >
           Continue to join disclosure
         </Link>
@@ -95,13 +95,13 @@ export default async function InvitePreviewPage({
         <div className="mt-5 space-y-2">
           <Link
             href={nextSignIn}
-            className="flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
+            className="at-btn-primary"
           >
             Sign in to continue
           </Link>
           <Link
             href={nextSignUp}
-            className="flex w-full items-center justify-center rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold"
+            className="at-btn-secondary w-full"
           >
             Create account
           </Link>

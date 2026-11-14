@@ -26,7 +26,7 @@ export default async function ActivityPage() {
           </p>
           <Link
             href="/challenge/new"
-            className="mt-4 inline-flex text-sm font-semibold text-[var(--deep-sea)] underline"
+            className="mt-4 inline-flex text-sm font-semibold text-[var(--accent)] underline"
           >
             Create challenge
           </Link>

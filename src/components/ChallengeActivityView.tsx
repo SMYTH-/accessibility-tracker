@@ -57,7 +57,7 @@ export function ChallengeActivityView({
         </p>
         <Link
           href={`/challenge/${challengeId}`}
-          className="mt-3 inline-flex text-sm font-semibold text-[var(--deep-sea)] underline"
+          className="mt-3 inline-flex text-sm font-semibold text-[var(--accent)] underline"
         >
           Open challenge
         </Link>

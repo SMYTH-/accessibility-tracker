@@ -81,7 +81,7 @@ export function AccountControlsPanel({
   const graceEndsAt = deletionState.graceEndsAt ?? deletion.graceEndsAt;
 
   return (
-    <section className="space-y-4 rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+    <section className="space-y-4 at-surface p-5">
       <div>
         <h2 className="text-lg font-semibold text-[var(--ink)]">Account controls</h2>
         <p className="mt-1 text-sm text-[var(--mute)]">
@@ -101,7 +101,7 @@ export function AccountControlsPanel({
           <button
             type="submit"
             disabled={exportPending}
-            className="rounded-xl bg-[var(--deep-sea)] px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-95 disabled:opacity-60"
+            className="at-btn-primary w-auto disabled:opacity-60"
           >
             {exportPending ? "Preparing export…" : "Export my data"}
           </button>
@@ -226,7 +226,7 @@ export function AccountControlsPanel({
               <button
                 type="submit"
                 disabled={finalizePending}
-                className="rounded-xl border border-[var(--line)] bg-white px-4 py-2.5 text-sm font-semibold text-[var(--ink)] disabled:opacity-60"
+                className="at-btn-secondary disabled:opacity-60"
               >
                 {finalizePending ? "Finalising…" : "Finalise deletion now"}
               </button>

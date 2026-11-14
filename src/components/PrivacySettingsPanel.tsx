@@ -22,7 +22,7 @@ function ChallengePrivacyCard({ item }: { item: PrivacySettingItem }) {
 
   return (
     <article
-      className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
+      className="at-surface p-5"
       data-challenge-id={item.challengeId}
       data-share-monetary={item.shareMonetaryInfo ? "true" : "false"}
     >
@@ -106,7 +106,7 @@ function ChallengePrivacyCard({ item }: { item: PrivacySettingItem }) {
           ) : null}
           {showSuccess ? (
             <div
-              className="rounded-xl border border-[color-mix(in_srgb,var(--deep-sea)_25%,var(--line))] bg-[var(--deep-sea-soft)] px-3 py-2 text-sm text-[var(--ink)]"
+              className="rounded-xl border border-[var(--line)] bg-[var(--accent-soft)] px-3 py-2 text-sm text-[var(--ink)]"
               role="status"
             >
               {state.message}
@@ -117,7 +117,7 @@ function ChallengePrivacyCard({ item }: { item: PrivacySettingItem }) {
             type="submit"
             disabled={!hideOn || !acked || pending}
             aria-disabled={!hideOn || !acked || pending}
-            className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
+            className="at-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
             data-testid="save-privacy"
           >
             {pending ? "Saving…" : "Save privacy setting"}
@@ -131,7 +131,7 @@ function ChallengePrivacyCard({ item }: { item: PrivacySettingItem }) {
 export function PrivacySettingsPanel({ items }: { items: PrivacySettingItem[] }) {
   return (
     <section id="privacy" className="space-y-4" aria-labelledby="privacy-heading">
-      <div className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+      <div className="at-surface p-5">
         <h2 id="privacy-heading" className="text-lg font-semibold text-[var(--ink)]">
           Financial privacy
         </h2>
@@ -158,7 +158,7 @@ export function PrivacySettingsPanel({ items }: { items: PrivacySettingItem[] })
       </div>
 
       {items.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5 text-sm text-[var(--mute)]">
+        <p className="rounded-[var(--radius-lg)] border border-dashed border-[var(--line-strong)] bg-[var(--elevated)] p-5 text-sm text-[var(--mute)]">
           Join or create an approved challenge to manage monetary visibility for that challenge.
         </p>
       ) : (

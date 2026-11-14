@@ -50,7 +50,7 @@ export default async function ChallengeOverviewPage({
     if (wait) {
       return (
         <AppShell title={wait.preview.name} subtitle="Membership status">
-          <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+          <section className="at-surface p-5">
             <p className="text-sm capitalize text-[var(--ink)]">
               Status: <strong className="font-semibold">{wait.status}</strong>
             </p>
@@ -74,7 +74,7 @@ export default async function ChallengeOverviewPage({
             <p className="mt-4 text-sm text-[var(--mute)]">
               Pending and declined members cannot access private financial information.
             </p>
-            <Link href="/challenge" className="mt-4 inline-block text-sm font-semibold text-[var(--deep-sea)] underline">
+            <Link href="/challenge" className="mt-4 inline-block text-sm font-semibold text-[var(--accent)] underline">
               All challenges
             </Link>
           </section>
@@ -143,7 +143,7 @@ export default async function ChallengeOverviewPage({
         ) : null}
 
         {!completion ? (
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="at-surface p-5">
           <div className="flex flex-wrap items-center gap-2">
             <ChallengeStatusBadge status={challenge.lifecycleStatus} />
             <span className="rounded-lg border border-[var(--line)] bg-white px-2 py-0.5 text-xs font-semibold text-[var(--mute)]">
@@ -179,7 +179,7 @@ export default async function ChallengeOverviewPage({
         </section>
         ) : null}
 
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="at-surface p-5">
           <h2 className="text-lg font-semibold">Membership</h2>
           <ul className="mt-3 space-y-2 text-sm">
             <li>
@@ -251,7 +251,7 @@ export default async function ChallengeOverviewPage({
         </div>
 
         {savingsAudit.length > 0 ? (
-          <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+          <section className="at-surface p-5">
             <h2 className="text-lg font-semibold">
               Savings setup audit
             </h2>
@@ -271,7 +271,7 @@ export default async function ChallengeOverviewPage({
         ) : null}
 
         {sharingTotals ? (
-          <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+          <section className="at-surface p-5">
             <h2 className="text-lg font-semibold">
               {sharingTotals.label}
             </h2>
@@ -282,14 +282,14 @@ export default async function ChallengeOverviewPage({
             <p className="mt-1 text-sm text-[var(--mute)]">{sharingTotals.scopeExplanation}</p>
             <Link
               href="/home"
-              className="mt-3 inline-flex text-sm font-semibold text-[var(--deep-sea)] underline"
+              className="mt-3 inline-flex text-sm font-semibold text-[var(--accent)] underline"
             >
               Open personal dashboard
             </Link>
           </section>
         ) : null}
 
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="at-surface p-5">
           <h2 className="text-lg font-semibold">Financial privacy</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
             Monetary information is visible to approved members by default. Opt out per challenge
@@ -304,13 +304,13 @@ export default async function ChallengeOverviewPage({
           </p>
           <Link
             href="/profile#privacy"
-            className="mt-3 inline-flex text-sm font-semibold text-[var(--deep-sea)] underline"
+            className="mt-3 inline-flex text-sm font-semibold text-[var(--accent)] underline"
           >
             Open privacy settings
           </Link>
         </section>
 
-        <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
+        <section className="rounded-[var(--radius-lg)] border border-dashed border-[var(--line-strong)] bg-[var(--elevated)] p-5">
           <h2 className="text-lg font-semibold">Not in M9</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
             Pause scheduling, streak awards, challenge reopen/cancellation, ownership transfer and
@@ -319,7 +319,7 @@ export default async function ChallengeOverviewPage({
           </p>
         </section>
 
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="at-surface p-5">
           <h2 className="text-lg font-semibold">
             Lifecycle audit
           </h2>
@@ -341,7 +341,7 @@ export default async function ChallengeOverviewPage({
 
         <Link
           href="/challenge"
-          className="inline-flex text-sm font-semibold text-[var(--deep-sea)] underline"
+          className="inline-flex text-sm font-semibold text-[var(--accent)] underline"
         >
           All challenges
         </Link>
