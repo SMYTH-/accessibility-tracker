@@ -4,6 +4,7 @@ import { appendFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { getAuthMode } from "@/lib/auth/config";
+import { publicOrigin } from "@/lib/http/public-origin";
 
 /** Only allow same-origin relative paths (open-redirect guard). */
 function safeNextPath(raw: string | null): string {
@@ -34,7 +35,9 @@ function logCallbackError(message: string) {
 }
 
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
+  // Prefer NEXT_PUBLIC_SITE_URL — request.url origin is often localhost:$PORT on Railway.
+  const origin = publicOrigin(request);
   const code = searchParams.get("code");
   const tokenHash = searchParams.get("token_hash");
   const otpType = searchParams.get("type") as EmailOtpType | null;

@@ -1,8 +1,16 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { publicOrigin } from "@/lib/http/public-origin";
 
 const PROTECTED_PREFIXES = ["/home", "/challenge", "/activity", "/profile"];
 const AUTH_PAGES = ["/sign-in", "/sign-up", "/reset-password", "/verify-email"];
+
+/** Absolute redirect that stays on the public Railway host (not localhost:$PORT). */
+function redirectToPath(request: NextRequest, pathname: string, nextPath?: string | null) {
+  const url = new URL(pathname, `${publicOrigin(request)}/`);
+  if (nextPath) url.searchParams.set("next", nextPath);
+  return NextResponse.redirect(url);
+}
 
 function getAuthModeFromEnv(): "supabase" | "mock" {
   if (process.env.AUTH_MODE === "mock" || process.env.NEXT_PUBLIC_AUTH_MODE === "mock") {
@@ -33,16 +41,10 @@ export async function middleware(request: NextRequest) {
   if (getAuthModeFromEnv() === "mock") {
     const session = request.cookies.get("at_mock_session")?.value;
     if (isProtected && !session) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/sign-in";
-      url.searchParams.set("next", pathname);
-      return NextResponse.redirect(url);
+      return redirectToPath(request, "/sign-in", pathname);
     }
     if (isAuthPage && session && pathname !== "/verify-email") {
-      const url = request.nextUrl.clone();
-      url.pathname = nextFromQuery || "/home";
-      url.search = "";
-      return NextResponse.redirect(url);
+      return redirectToPath(request, nextFromQuery || "/home");
     }
     return NextResponse.next();
   }
@@ -84,17 +86,11 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isProtected && (!user || accessDenied)) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/sign-in";
-    url.searchParams.set("next", pathname);
-    return NextResponse.redirect(url);
+    return redirectToPath(request, "/sign-in", pathname);
   }
 
   if (isAuthPage && user && !accessDenied && pathname !== "/verify-email") {
-    const url = request.nextUrl.clone();
-    url.pathname = nextFromQuery || "/home";
-    url.search = "";
-    return NextResponse.redirect(url);
+    return redirectToPath(request, nextFromQuery || "/home");
   }
 
   return response;
