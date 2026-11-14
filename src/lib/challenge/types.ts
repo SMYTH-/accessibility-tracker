@@ -44,6 +44,12 @@ export type Membership = {
   /** Savings participation inactive until M4 target + weekly commitment. */
   savingsParticipationActive: boolean;
   shareMonetaryInfo: boolean;
+  /** PRIV-01 — set when invitee acknowledges disclosure before join request. */
+  privacyDisclosureAckedAt?: string | null;
+  invitationId?: string | null;
+  requestedAt?: string | null;
+  decidedAt?: string | null;
+  decidedBy?: string | null;
   createdAt: string;
   updatedAt: string;
 };

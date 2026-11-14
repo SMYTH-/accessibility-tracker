@@ -30,6 +30,11 @@ export type MembershipRow = {
   status: MembershipStatus;
   savings_participation_active: boolean;
   share_monetary_info: boolean;
+  privacy_disclosure_acked_at?: string | null;
+  invitation_id?: string | null;
+  requested_at?: string | null;
+  decided_at?: string | null;
+  decided_by?: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -71,6 +76,11 @@ export function mapMembership(row: MembershipRow): Membership {
     status: row.status,
     savingsParticipationActive: row.savings_participation_active,
     shareMonetaryInfo: row.share_monetary_info,
+    privacyDisclosureAckedAt: row.privacy_disclosure_acked_at ?? null,
+    invitationId: row.invitation_id ?? null,
+    requestedAt: row.requested_at ?? null,
+    decidedAt: row.decided_at ?? null,
+    decidedBy: row.decided_by ?? null,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { ChallengeStatusBadge } from "@/components/ChallengeStatusBadge";
+import { InviteOwnerPanel } from "@/components/InviteOwnerPanel";
 import { getCurrentUser } from "@/lib/auth/session";
 import {
   canRecordSavings,
@@ -9,6 +10,11 @@ import {
   isAssessedForWeeklyCommitments,
   listAuditForChallenge,
 } from "@/lib/challenge/service";
+import {
+  getPendingAccessView,
+  listInvitations,
+  listMembershipAdmin,
+} from "@/lib/membership/service";
 
 export default async function ChallengeOverviewPage({
   params,
@@ -20,12 +26,70 @@ export default async function ChallengeOverviewPage({
 
   const { id } = await params;
   const row = await getChallengeForUser(id, user.id);
-  if (!row) notFound();
+
+  if (!row) {
+    const wait = await getPendingAccessView(id, user.id);
+    if (wait) {
+      return (
+        <AppShell title={wait.preview.name} subtitle="Membership status">
+          <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+            <p className="text-sm capitalize text-[var(--ink)]">
+              Status: <strong className="font-semibold">{wait.status}</strong>
+            </p>
+            <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <dt className="text-[var(--mute)]">Start</dt>
+                <dd className="font-medium">{wait.preview.startDate}</dd>
+              </div>
+              <div>
+                <dt className="text-[var(--mute)]">End</dt>
+                <dd className="font-medium">{wait.preview.endDate}</dd>
+              </div>
+              <div>
+                <dt className="text-[var(--mute)]">Participants</dt>
+                <dd className="font-medium">{wait.preview.participantCount}</dd>
+              </div>
+            </dl>
+            {wait.preview.description ? (
+              <p className="mt-3 text-sm">{wait.preview.description}</p>
+            ) : null}
+            <p className="mt-4 text-sm text-[var(--mute)]">
+              Pending and declined members cannot access private financial information.
+            </p>
+            <Link href="/challenge" className="mt-4 inline-block text-sm font-semibold text-[var(--deep-sea)] underline">
+              All challenges
+            </Link>
+          </section>
+        </AppShell>
+      );
+    }
+    notFound();
+  }
 
   const { challenge, membership } = row;
   const recordGate = canRecordSavings(challenge, membership);
   const assessed = isAssessedForWeeklyCommitments(membership);
   const audit = await listAuditForChallenge(challenge.id);
+  const isOwner = membership.role === "owner";
+
+  const invites = isOwner ? await listInvitations(challenge.id, user.id) : { ok: true as const, invitations: [] };
+  const admin = isOwner
+    ? await listMembershipAdmin(challenge.id, user.id)
+    : {
+        ok: true as const,
+        members: [
+          {
+            ...membership,
+            displayName: user.displayName,
+            email: user.email,
+          },
+        ],
+      };
+
+  const leaveBlocked =
+    isOwner &&
+    (challenge.lifecycleStatus === "Scheduled" || challenge.lifecycleStatus === "Active");
+  const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   return (
     <AppShell title={challenge.name} subtitle="Challenge overview">
@@ -37,7 +101,7 @@ export default async function ChallengeOverviewPage({
               Private
             </span>
             <span className="rounded-lg border border-[var(--line)] bg-white px-2 py-0.5 text-xs font-semibold text-[var(--mute)]">
-              Owner
+              {membership.role === "owner" ? "Owner" : "Member"}
             </span>
           </div>
           {challenge.description ? (
@@ -85,6 +149,20 @@ export default async function ChallengeOverviewPage({
           </ul>
         </section>
 
+        <InviteOwnerPanel
+          challengeId={challenge.id}
+          invitations={invites.ok ? invites.invitations : []}
+          members={admin.ok ? admin.members : []}
+          siteOrigin={siteOrigin}
+          isOwner={isOwner}
+          canLeave={!leaveBlocked}
+          leaveBlockedReason={
+            leaveBlocked
+              ? "Owners of Scheduled or Active challenges must transfer ownership before leaving (G1.1-13). Ownership transfer remains open."
+              : undefined
+          }
+        />
+
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
           <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
             Record savings
@@ -100,10 +178,10 @@ export default async function ChallengeOverviewPage({
         </section>
 
         <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Not in M2</h2>
+          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Not in M3</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
-            Invites (M3), savings setup (M4), cancel action (rules OPEN), and contributions are out of
-            scope here.
+            Savings setup (M4), contributions, aggregates, and cancel are out of scope here.
+            Ownership transfer / deletion fallback remain open.
           </p>
         </section>
 

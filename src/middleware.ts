@@ -14,6 +14,11 @@ function getAuthModeFromEnv(): "supabase" | "mock" {
   return "mock";
 }
 
+function safeNextPath(raw: string | null): string | null {
+  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) return null;
+  return raw;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isProtected = PROTECTED_PREFIXES.some(
@@ -22,6 +27,8 @@ export async function middleware(request: NextRequest) {
   const isAuthPage = AUTH_PAGES.some(
     (p) => pathname === p || pathname.startsWith(`${p}/`),
   );
+  // /invite is public for preview; /invite/.../join and /status enforce auth in-page.
+  const nextFromQuery = safeNextPath(request.nextUrl.searchParams.get("next"));
 
   if (getAuthModeFromEnv() === "mock") {
     const session = request.cookies.get("at_mock_session")?.value;
@@ -33,7 +40,8 @@ export async function middleware(request: NextRequest) {
     }
     if (isAuthPage && session && pathname !== "/verify-email") {
       const url = request.nextUrl.clone();
-      url.pathname = "/home";
+      url.pathname = nextFromQuery || "/home";
+      url.search = "";
       return NextResponse.redirect(url);
     }
     return NextResponse.next();
@@ -73,7 +81,8 @@ export async function middleware(request: NextRequest) {
 
   if (isAuthPage && user && pathname !== "/verify-email") {
     const url = request.nextUrl.clone();
-    url.pathname = "/home";
+    url.pathname = nextFromQuery || "/home";
+    url.search = "";
     return NextResponse.redirect(url);
   }
 

@@ -2,16 +2,19 @@
 
 Mobile-first web app for private savings challenges (product docs under `docs/`).
 
-## M2 status
+## M3 status
 
-Milestone **M2** (create private challenge + lifecycle) on **Supabase Postgres** (`gdrkejobqlvtwnlaedpu` non-prod), on top of signed-off M1.
+Milestone **M3** (invitations, membership, join disclosure) on **Supabase Auth + Postgres** (`gdrkejobqlvtwnlaedpu` non-prod), on tip of signed-off M2 (`27404a6b`).
 
 - Working accents only: Deep Sea `#1A6B7C` · Honey Amber `#C9842A`
-- Create: name, start/end, currency, time zone, optional description
-- Atomic owner + approved membership in one DB transaction; savings participation deferred
-- RLS: private challenges not readable by non-members
-- Lifecycle: future → Scheduled; today → Active; past start rejected; midnight transitions in challenge TZ
-- **Stop before M3** — no cancel, invites, or savings setup UI
+- Owner invite links: default 7-day expiry, revocable; server-enforced
+- Invite preview: name, description, start, end, participant count only
+- PRIV-01 disclosure + ack before request-join (UI + server)
+- Owner approve/decline; pending/declined have no financial access
+- Approval leaves savings inactive; no duplicate memberships; safe retries
+- NOTIF-01 approve/reject emails recorded in `notification_outbox`
+- Leave / remove revoke access immediately; owner leave blocked on Scheduled/Active (transfer OPEN)
+- **Stop before M4** — no savings setup, contributions, aggregates, or cancel
 
 ## Local preview
 
@@ -25,17 +28,18 @@ Open [http://localhost:3000](http://localhost:3000).
 Configure `.env.local` from `.env.example` (URL + anon key; optional service role for ticks/scripts). Do not commit secrets.
 
 ```bash
-npm run smoke:m2
-npm run evidence:m2:pg
-npm run evidence:m2:ui
+npm run smoke:m3
+npm run evidence:m3:pg
+npm run evidence:m3:ui
 ```
 
 ## Docs
 
 | Doc | Path |
 | --- | --- |
-| M2 plan | `docs/engineering/m2-challenge-plan.md` |
+| M3 walkthrough | `docs/engineering/m3-walkthrough.md` |
+| M3 acceptance | `docs/engineering/m3-acceptance.md` |
 | M2 walkthrough | `docs/engineering/m2-walkthrough.md` |
 | M2 acceptance | `docs/engineering/m2-acceptance.md` |
-| M1 walkthrough | `docs/engineering/m1-walkthrough.md` |
+| MVP build plan | `docs/engineering/mvp-build-plan.md` |
 | M0 architecture | `docs/engineering/m0-architecture.md` |

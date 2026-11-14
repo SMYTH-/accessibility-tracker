@@ -63,11 +63,14 @@ function Alert({ tone, children }: { tone: "error" | "ok"; children: React.React
   );
 }
 
-export function SignUpForm() {
+export function SignUpForm({ nextPath }: { nextPath?: string }) {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [verifyHref, setVerifyHref] = useState<string | null>(null);
   const [pending, start] = useTransition();
+  const signInHref = nextPath
+    ? `/sign-in?next=${encodeURIComponent(nextPath)}`
+    : "/sign-in";
 
   return (
     <form
@@ -89,9 +92,16 @@ export function SignUpForm() {
             setError(result.error);
             return;
           }
-          setMessage(result.message ?? "Account created.");
+          setMessage(
+            nextPath
+              ? `${result.message ?? "Account created."} After verify, sign in to continue your invite.`
+              : (result.message ?? "Account created."),
+          );
           if (result.mockVerifyToken) {
-            setVerifyHref(`/verify-email?token=${result.mockVerifyToken}`);
+            const verifyBase = `/verify-email?token=${result.mockVerifyToken}`;
+            setVerifyHref(
+              nextPath ? `${verifyBase}&next=${encodeURIComponent(nextPath)}` : verifyBase,
+            );
           }
         });
       }}
@@ -128,7 +138,7 @@ export function SignUpForm() {
       </button>
       <p className="text-center text-sm text-[var(--mute)]">
         Already have an account?{" "}
-        <Link href="/sign-in" className="font-semibold text-[var(--deep-sea)]">
+        <Link href={signInHref} className="font-semibold text-[var(--deep-sea)]">
           Sign in
         </Link>
       </p>

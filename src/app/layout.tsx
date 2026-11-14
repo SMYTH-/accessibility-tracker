@@ -15,7 +15,7 @@ const syne = Syne({
 export const metadata: Metadata = {
   title: "Accountability Tracker",
   description:
-    "M2 — private challenge create and lifecycle (working accents only; stop before M3).",
+    "M3 — invitations, membership, and join disclosure (working accents only; stop before M4).",
 };
 
 export const viewport: Viewport = {
