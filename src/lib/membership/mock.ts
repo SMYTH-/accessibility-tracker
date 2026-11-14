@@ -338,7 +338,7 @@ export async function mockLeaveChallenge(
       return {
         ok: false,
         error:
-          "Owners of Scheduled or Active challenges must transfer ownership before leaving. Ownership transfer is not available yet.",
+          "Owners of Scheduled or Active challenges must transfer ownership before leaving. Use Profile → Account controls to transfer to an eligible approved member.",
       };
     }
     membership.status = "left";

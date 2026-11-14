@@ -5,6 +5,10 @@ import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "@/lib/auth/session";
 import { formatMinorAsMajor } from "@/lib/savings/money";
 import {
+  RATE_LIMITED_MESSAGE,
+  consumeRateLimit,
+} from "@/lib/security/rate-limit";
+import {
   amendContribution,
   recordContribution,
   reverseContribution,
@@ -23,6 +27,11 @@ export async function recordContributionAction(
 ): Promise<ContributionActionState> {
   const user = await getCurrentUser();
   if (!user) return { error: "You must be signed in." };
+
+  const rate = await consumeRateLimit("contribution.record", user.id);
+  if (!rate.allowed) {
+    return { error: RATE_LIMITED_MESSAGE, nextIdempotencyKey: randomUUID() };
+  }
 
   const challengeId = String(formData.get("challengeId") ?? "");
   const amountMajor = String(formData.get("amountMajor") ?? "");

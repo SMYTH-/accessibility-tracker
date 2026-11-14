@@ -72,14 +72,25 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (isProtected && !user) {
+  let accessDenied = false;
+  if (user) {
+    const denied = await supabase.rpc("account_access_denied_for_me");
+    accessDenied =
+      Boolean(denied.data) ||
+      Boolean(denied.error?.message?.includes("ACCOUNT_ACCESS_REVOKED"));
+    if (accessDenied) {
+      await supabase.auth.signOut();
+    }
+  }
+
+  if (isProtected && (!user || accessDenied)) {
     const url = request.nextUrl.clone();
     url.pathname = "/sign-in";
     url.searchParams.set("next", pathname);
     return NextResponse.redirect(url);
   }
 
-  if (isAuthPage && user && pathname !== "/verify-email") {
+  if (isAuthPage && user && !accessDenied && pathname !== "/verify-email") {
     const url = request.nextUrl.clone();
     url.pathname = nextFromQuery || "/home";
     url.search = "";

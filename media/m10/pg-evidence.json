@@ -1,0 +1,266 @@
+{
+  "project": "gdrkejobqlvtwnlaedpu",
+  "stamp": 1794608507007,
+  "emails": {
+    "alex": "m10.alex.1794608507007@example.com",
+    "sam": "m10.sam.1794608507007@example.com",
+    "solo": "m10.solo.1794608507007@example.com"
+  },
+  "challengeId": "46b67c96-81b6-44c9-9422-55b395a47724",
+  "graceChallengeId": "03e8ba37-4497-49ee-80b8-0922c6bdd629",
+  "cancelChallengeId": "eda538f8-b5ae-4ddd-b148-8f9a0b060732",
+  "results": [
+    {
+      "name": "users ready",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "solo sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "stranger sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "create challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "challenge id",
+      "ok": true,
+      "detail": "46b67c96-81b6-44c9-9422-55b395a47724"
+    },
+    {
+      "name": "approve sam",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam savings",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex savings",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam contribution",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex contribution",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex export",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex export subject",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex export has own amount",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex export excludes sam amount",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex export excludes sam email",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex export privacy note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam export",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam export subject",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam export has own amount",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam export excludes alex amount",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam export excludes alex email",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "stranger export",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "stranger excludes challenge money",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "stranger no membership on challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "unauth export denied",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex deletion pending transfer",
+      "ok": true,
+      "detail": "pending_transfer"
+    },
+    {
+      "name": "transfer to non-member rejected",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transfer to sam",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex finalise after transfer",
+      "ok": true,
+      "detail": "completed"
+    },
+    {
+      "name": "alex finalise retry",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex old email login fails",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam still has access",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "grace challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "solo grace pending",
+      "ok": true,
+      "detail": "grace_pending"
+    },
+    {
+      "name": "grace blocks early finalise",
+      "ok": true,
+      "detail": "DELETION_GRACE_ACTIVE"
+    },
+    {
+      "name": "grace member fixture",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transfer during grace",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "solo finalise after grace transfer",
+      "ok": true,
+      "detail": "completed"
+    },
+    {
+      "name": "grace challenge not cancelled after transfer",
+      "ok": true,
+      "detail": "Active"
+    },
+    {
+      "name": "grace challenge owned by sam",
+      "ok": true,
+      "detail": "796cd09c-a933-4942-9ae1-b4de5bd6789f"
+    },
+    {
+      "name": "solo email login fails after grace-transfer deletion",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cancel owner sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cancel challenge create",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cancel-path grace pending",
+      "ok": true,
+      "detail": "grace_pending"
+    },
+    {
+      "name": "tick grace",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "tick finalised >= 1",
+      "ok": true,
+      "detail": "{\"errors\":0,\"skipped\":0,\"finalised\":1}"
+    },
+    {
+      "name": "challenge cancelled after grace",
+      "ok": true,
+      "detail": "Cancelled"
+    },
+    {
+      "name": "cancel-owner old email login fails after deletion",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "passed": 50,
+  "failed": 0
+}

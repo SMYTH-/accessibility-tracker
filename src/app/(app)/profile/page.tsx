@@ -1,6 +1,11 @@
+import { AccountControlsPanel } from "@/components/AccountControlsPanel";
 import { AppShell } from "@/components/AppShell";
 import { ProfileForm } from "@/components/AuthForms";
 import { PrivacySettingsPanel } from "@/components/PrivacySettingsPanel";
+import {
+  getOwnDeletionStatus,
+  listTransferCandidates,
+} from "@/lib/account/service";
 import { signOutAction } from "@/lib/auth/actions";
 import { getAuthMode } from "@/lib/auth/config";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -14,11 +19,46 @@ export default async function ProfilePage() {
   if (!user) redirect("/sign-in");
 
   const privacy = await listOwnPrivacySettings(user.id);
+  const deletion = await getOwnDeletionStatus(user.id);
+
+  const transferOptions: {
+    challengeId: string;
+    challengeName: string;
+    candidates: Awaited<ReturnType<typeof listTransferCandidates>>;
+  }[] = [];
+
+  const openTransferHolds = deletion.holds.filter(
+    (h) =>
+      !h.resolvedAt &&
+      (h.holdKind === "needs_transfer" || deletion.status === "pending_transfer"),
+  );
+
+  // Also offer transfer for any pending_transfer holds from detail names on privacy list.
+  const challengeIds = new Set(
+    openTransferHolds.map((h) => h.challengeId).filter(Boolean),
+  );
+  if (deletion.status === "pending_transfer" || challengeIds.size > 0) {
+    for (const item of privacy.items) {
+      if (challengeIds.size > 0 && !challengeIds.has(item.challengeId)) continue;
+      if (item.role !== "owner") continue;
+      try {
+        const candidates = await listTransferCandidates(user.id, item.challengeId);
+        if (candidates.length === 0 && !challengeIds.has(item.challengeId)) continue;
+        transferOptions.push({
+          challengeId: item.challengeId,
+          challengeName: item.challengeName,
+          candidates,
+        });
+      } catch {
+        // Not owner or unavailable — skip.
+      }
+    }
+  }
 
   return (
     <AppShell
       title="Profile"
-      subtitle="Display name and per-challenge financial privacy (PRIV-01)."
+      subtitle="Display name, privacy, and account controls (ACC-01)."
     >
       <div className="space-y-4">
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
@@ -29,7 +69,9 @@ export default async function ProfilePage() {
             </div>
             <div>
               <dt className="text-[var(--mute)]">Email verified</dt>
-              <dd className="font-medium text-[var(--ink)]">{user.emailVerified ? "Yes" : "No"}</dd>
+              <dd className="font-medium text-[var(--ink)]">
+                {user.emailVerified ? "Yes" : "No"}
+              </dd>
             </div>
             <div>
               <dt className="text-[var(--mute)]">Auth mode</dt>
@@ -45,6 +87,11 @@ export default async function ProfilePage() {
 
         <PrivacySettingsPanel items={privacy.items} />
 
+        <AccountControlsPanel
+          deletion={deletion}
+          transferOptions={transferOptions}
+        />
+
         <form action={signOutAction}>
           <button
             type="submit"
@@ -53,11 +100,6 @@ export default async function ProfilePage() {
             Sign out
           </button>
         </form>
-
-        <p className="text-xs text-[var(--mute)]">
-          Account export / deletion entry will deepen in M10 (ACC-01). Profile intentionally omits
-          savings amounts and targets; privacy controls only change visibility for other members.
-        </p>
       </div>
     </AppShell>
   );

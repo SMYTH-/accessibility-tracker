@@ -1,6 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import {
+  RATE_LIMITED_MESSAGE,
+  consumeRateLimit,
+} from "@/lib/security/rate-limit";
 import { getAuthMode } from "./config";
 import {
   consumeToken,
@@ -38,6 +42,9 @@ export async function signUpAction(formData: FormData): Promise<AuthResult> {
   const passwordError = validatePassword(password);
   if (passwordError) return { ok: false, error: passwordError };
   if (!displayName) return { ok: false, error: "Display name is required." };
+
+  const rate = await consumeRateLimit("auth.sign_up", email);
+  if (!rate.allowed) return { ok: false, error: RATE_LIMITED_MESSAGE };
 
   if (getAuthMode() === "mock") {
     try {
@@ -85,6 +92,9 @@ export async function signInAction(formData: FormData): Promise<AuthResult> {
   if (emailError) return { ok: false, error: emailError };
   if (!password) return { ok: false, error: "Password is required." };
 
+  const rate = await consumeRateLimit("auth.sign_in", email);
+  if (!rate.allowed) return { ok: false, error: RATE_LIMITED_MESSAGE };
+
   if (getAuthMode() === "mock") {
     const user = await findUserByEmail(email);
     if (!user || !verifyPassword(password, user.passwordHash)) {
@@ -128,6 +138,9 @@ export async function requestPasswordResetAction(formData: FormData): Promise<Au
   const email = String(formData.get("email") ?? "");
   const emailError = validateEmail(email);
   if (emailError) return { ok: false, error: emailError };
+
+  const rate = await consumeRateLimit("auth.recovery", email);
+  if (!rate.allowed) return { ok: false, error: RATE_LIMITED_MESSAGE };
 
   if (getAuthMode() === "mock") {
     const user = await findUserByEmail(email);

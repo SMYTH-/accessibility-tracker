@@ -4,6 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/session";
 import {
+  RATE_LIMITED_MESSAGE,
+  consumeRateLimit,
+} from "@/lib/security/rate-limit";
+import {
   createInvitation,
   decideMembershipRequest,
   leaveChallenge,
@@ -25,6 +29,8 @@ export async function createInviteAction(
 ): Promise<MembershipActionState> {
   const user = await getCurrentUser();
   if (!user) return { error: "You must be signed in." };
+  const rate = await consumeRateLimit("invite.create", user.id);
+  if (!rate.allowed) return { error: RATE_LIMITED_MESSAGE };
   const challengeId = String(formData.get("challengeId") ?? "");
   const daysRaw = Number(formData.get("expiresInDays") ?? 7);
   const expiresInDays = Number.isFinite(daysRaw) ? daysRaw : 7;
@@ -60,6 +66,8 @@ export async function requestJoinAction(
 ): Promise<MembershipActionState> {
   const user = await getCurrentUser();
   if (!user) return { error: "You must be signed in." };
+  const rate = await consumeRateLimit("membership.request", user.id);
+  if (!rate.allowed) return { error: RATE_LIMITED_MESSAGE };
   const token = String(formData.get("token") ?? "");
   const ack = String(formData.get("privacyAck") ?? "") === "on";
   const result = await requestMembership(token, user.id, ack);

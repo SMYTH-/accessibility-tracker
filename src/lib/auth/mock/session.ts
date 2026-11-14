@@ -30,6 +30,10 @@ export async function setMockSession(userId: string): Promise<void> {
 }
 
 export async function clearMockSession(): Promise<void> {
-  const jar = await cookies();
-  jar.delete(MOCK_SESSION_COOKIE);
+  try {
+    const jar = await cookies();
+    jar.delete(MOCK_SESSION_COOKIE);
+  } catch {
+    // Scripts / smokes may finalise deletion outside a Next request scope.
+  }
 }
