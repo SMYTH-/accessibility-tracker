@@ -65,7 +65,7 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
-  "description": "Accountability Tracker \u2014 M11 private-beta readiness",
+  "description": "Pactwell \u2014 M11 private-beta readiness",
   "optionalDependencies": {
     "sharp": "0.35.5"
   },

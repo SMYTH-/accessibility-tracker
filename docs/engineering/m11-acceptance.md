@@ -14,13 +14,17 @@
 
 | Item | Status | Evidence |
 | --- | --- | --- |
-| Membership **approval** | **Pass** | Resend MCP delivered + Dominic sight (`Accountability Tracker` / `onboarding@resend.dev`) |
+| Membership **approval** | **Pass** | Resend MCP delivered + Dominic sight (`Accountability Tracker` / `onboarding@resend.dev`) — historical From display; post-rename uses **Pactwell** |
 | Membership **rejection** | **Pass** | Same |
 | Password **recovery** | **Pass** | Dominic — Reset password from `Supabase Auth <noreply@mail.app.supabase.io>` |
 | Sign-up **verification** | **Pass** | Dominic — fresh Confirm link succeeded; hash had `access_token`, `type=signup`, `email_verified=true`; Auth `email_confirmed_at` set on user `d28f358c-…` (2026-11-14T13:49:14Z) |
 | Caveat | **Test-inbox only** — verified custom sending domain still required before beta testers | — |
 | Spam note | `onboarding@resend.dev` can land in Spam | Dominic |
 | Auth sender note | Recovery / early Auth mail used default Supabase host; membership + rate-limit fallback verify via Resend | — |
+
+### Branding rename — **Pactwell** (naming pass)
+
+User-facing shell / auth / titles / membership From+templates / Auth confirm+recovery templates renamed to **Pactwell**. Prior **4/4 Pass** inbox evidence and callback retest **Pass** above are unchanged historical records (not re-run). Private beta remains **NO-GO** until verified sending domain + Gate 7.
 
 ### Auth callback hash fix (retest)
 

@@ -17,7 +17,7 @@ const resendKey = process.env.RESEND_API_KEY?.trim();
 const inbox = process.env.M3_TEST_INBOX?.trim()?.toLowerCase();
 const from =
   process.env.EMAIL_FROM?.trim()?.replace(/^["']|["']$/g, "") ||
-  "Accountability Tracker <onboarding@resend.dev>";
+  "Pactwell <onboarding@resend.dev>";
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 const REF = "gdrkejobqlvtwnlaedpu";
 

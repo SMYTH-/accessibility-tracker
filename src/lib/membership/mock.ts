@@ -299,12 +299,12 @@ export async function mockDecideMembership(
       recipientEmail,
       subject:
         decision === "approve"
-          ? `Membership approved — ${challenge.name}`
-          : `Membership declined — ${challenge.name}`,
+          ? `Pactwell — Membership approved — ${challenge.name}`
+          : `Pactwell — Membership declined — ${challenge.name}`,
       body:
         decision === "approve"
-          ? `Your request to join "${challenge.name}" was approved. You are an approved member; savings setup is still required before recording contributions.`
-          : `Your request to join "${challenge.name}" was declined. You do not have access to this private challenge.`,
+          ? `Your request to join "${challenge.name}" on Pactwell was approved. You are an approved member; savings setup is still required before recording contributions.`
+          : `Your request to join "${challenge.name}" on Pactwell was declined. You do not have access to this private challenge.`,
     });
 
     return {

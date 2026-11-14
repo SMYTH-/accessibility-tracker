@@ -116,7 +116,7 @@ async function sendEmail({ to, subject, body }) {
   const provider = resolveProvider();
   const from =
     process.env.EMAIL_FROM?.trim() ||
-    "Accountability Tracker <onboarding@resend.dev>";
+    "Pactwell <onboarding@resend.dev>";
 
   if (provider === "resend") {
     const res = await fetch("https://api.resend.com/emails", {

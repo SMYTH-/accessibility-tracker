@@ -16,7 +16,7 @@ export function AuthCard({
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center px-4 py-10">
       <div className="mb-6 text-center">
         <p className="text-xs font-semibold text-[var(--accent)]">
-          Accountability Tracker
+          Pactwell
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-[var(--ink)]">
           {title}
