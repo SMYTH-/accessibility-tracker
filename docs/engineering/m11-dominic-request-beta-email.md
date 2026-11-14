@@ -11,17 +11,19 @@
 Please do **all** of the following, then reply with the green ticks (no secret values in chat — put keys only in local `.env.local` / Supabase dashboard):
 
 1. **Resend**
-   - Create/use a Resend API key for Accountability Tracker lab/beta.
+   - Create/use a Resend API key for Pactwell lab/beta.
    - Add to Dom Mac `~/Local Sites/accessibility-tracker/.env.local`:
      - `RESEND_API_KEY=…`
-     - `EMAIL_FROM=Accountability Tracker <verified-from@…>` (Resend-verified domain or `onboarding@resend.dev` for lab)
+     - `EMAIL_FROM=Pactwell <verified-from@…>` (Resend-verified domain or `onboarding@resend.dev` for lab)
      - `M3_TEST_INBOX=<your inbox that should receive beta mail>`
    - Restart `npm run dev` on `:3000`.
 
 2. **Supabase Auth SMTP (verification + recovery links)**
    - Auth verify/recovery are sent by **Supabase Auth**, not the app Resend outbox.
    - In project `gdrkejobqlvtwnlaedpu` → Authentication → Emails / SMTP: configure custom SMTP to Resend (or confirm built-in Supabase mail delivers reliably to your inbox for this project).
+   - When custom SMTP is enabled, set **Sender name** to `Pactwell` (Management API: `smtp_sender_name`). Built-in Supabase mail still shows `Supabase Auth` until custom SMTP is on.
    - Confirm Site URL / redirect allow-list includes `http://localhost:3000/auth/callback`.
+   - Auth templates (Confirm / Reset) are branded Pactwell in-repo and via Management API; re-check Dashboard → Authentication → Email Templates if SMTP is reconfigured.
 
 3. **Inbox confirmation (your side)**
    After (1)–(2), tell the coordinator “email ready” so we can re-run delivery evidence. We will then prove with disposable accounts:

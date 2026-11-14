@@ -265,7 +265,7 @@ export function InviteOwnerPanel({
         ) : (
           <p className="mt-2 text-sm text-[var(--mute)]">
             {leaveBlockedReason ||
-              "Owners of Scheduled or Active challenges must transfer ownership before leaving (G1.1-13). Transfer remains open."}
+              "Owners of Scheduled or Active challenges must transfer ownership before leaving."}
           </p>
         )}
       </section>

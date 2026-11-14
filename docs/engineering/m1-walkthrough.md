@@ -56,7 +56,7 @@ Do **not** paste secret values into chat. Create local `.env.local` (gitignored)
      - `http://localhost:3000/auth/callback?next=/update-password`
      - or wildcard `http://localhost:3000/**`
 5. Email: built-in Supabase email is enough for a local check (rate-limited), **or** configure custom SMTP for reliable delivery.
-6. Optional: review Auth email templates so links use the Site URL / redirect allow list (default templates with `{{ .ConfirmationURL }}` / `{{ .RedirectTo }}` are fine).
+6. Auth email templates: repo copies under `supabase/templates/` (Confirm / Reset branded **Pactwell**). Hosted Dashboard → Authentication → Email Templates should match; keep `{{ .ConfirmationURL }}` / `{{ .RedirectTo }}`.
 
 ### B. Local env (machine only)
 

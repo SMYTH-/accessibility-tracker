@@ -32,7 +32,7 @@ const ETHEREAL_CACHE = path.join(process.cwd(), ".data", "ethereal-account.json"
 function emailFrom(): string {
   return (
     process.env.EMAIL_FROM?.trim() ||
-    "Accountability Tracker <onboarding@resend.dev>"
+    "Pactwell <onboarding@resend.dev>"
   );
 }
 

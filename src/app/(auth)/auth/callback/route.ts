@@ -4,6 +4,7 @@ import { appendFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { getAuthMode } from "@/lib/auth/config";
+import { publicOrigin } from "@/lib/http/public-origin";
 
 /** Only allow same-origin relative paths (open-redirect guard). */
 function safeNextPath(raw: string | null): string {
@@ -34,7 +35,9 @@ function logCallbackError(message: string) {
 }
 
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
+  // Prefer NEXT_PUBLIC_SITE_URL — request.url origin is often localhost:$PORT on Railway.
+  const origin = publicOrigin(request);
   const code = searchParams.get("code");
   const tokenHash = searchParams.get("token_hash");
   const otpType = searchParams.get("type") as EmailOtpType | null;
@@ -73,7 +76,10 @@ export async function GET(request: NextRequest) {
       return successRedirect;
     }
     logCallbackError(`exchange_failed:${error.message}`);
-  } else if (tokenHash && otpType) {
+    return NextResponse.redirect(`${origin}/sign-in?error=auth_callback`);
+  }
+
+  if (tokenHash && otpType) {
     const { error } = await supabase.auth.verifyOtp({
       type: otpType,
       token_hash: tokenHash,
@@ -82,9 +88,14 @@ export async function GET(request: NextRequest) {
       return successRedirect;
     }
     logCallbackError(`verify_otp_failed:${error.message}`);
-  } else {
-    logCallbackError("missing_code_and_token_hash");
+    return NextResponse.redirect(`${origin}/sign-in?error=auth_callback`);
   }
 
-  return NextResponse.redirect(`${origin}/sign-in?error=auth_callback`);
+  // No query tokens — Supabase may have put the session in the URL hash
+  // (`#access_token=…&type=signup`). The server never sees that fragment;
+  // hand off to a client page (browser preserves the hash across this redirect).
+  logCallbackError("missing_code_and_token_hash_handoff_confirm");
+  const confirm = new URL(`${origin}/auth/confirm`);
+  if (next !== "/home") confirm.searchParams.set("next", next);
+  return NextResponse.redirect(confirm);
 }

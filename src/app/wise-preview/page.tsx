@@ -13,7 +13,7 @@ import {
 export const dynamic = "force-dynamic";
 
 /**
- * Auth-free mobile design preview — MD3 / Dom Wise-ref direction.
+ * Auth-free mobile design preview — MD3 / Dom refs.
  * Portugal 2027 fixture; does not mutate live savings behaviour.
  */
 export default async function WisePreviewPage({
@@ -36,13 +36,12 @@ export default async function WisePreviewPage({
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col overflow-x-clip px-4 pb-28 pt-5">
       <header className="mb-5 min-w-0">
-        <p className="text-xs font-semibold text-[var(--accent)]">Accountability Tracker</p>
+        <p className="text-xs font-semibold text-[var(--accent)]">Pactwell</p>
         <h1 className="mt-1 text-[1.75rem] font-bold tracking-tight text-[var(--ink)]">
-          Wise preview
+          Design preview
         </h1>
         <p className="mt-1 text-sm text-[var(--mute)]">
-          Design review v2 · MD3 / Dom refs · Portugal 2027 ·{" "}
-          <code className="text-xs">design/wise-inspired-preview</code>
+          Sample challenge layout for design review.
         </p>
       </header>
 

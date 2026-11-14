@@ -1,43 +1,38 @@
-# M11 invite-decision handoff (interim — awaiting email ready)
+# M11 invite-decision handoff — final (post four-mail Pass)
 
 | Field | Value |
 | --- | --- |
 | Date | 14 November 2026 |
 | PR | [#12](https://github.com/SMYTH-/accessibility-tracker/pull/12) · `cursor/m11-beta-readiness-cb14` |
-| Tip | `3752b786a73cf9464dbbb3a3cdbebef235711819` |
 | Preview | Local `http://localhost:3000` only |
 | Closed-lab | **Accepted** |
-| Private beta invites / deploy | **NO-GO** — stopped |
+| Four-mail test-inbox proof | **Pass** (approve · reject · recovery · verify) |
+| Private beta invites / deploy | **NO-GO** |
 
-## Go / no-go
+## Go / no-go (one verdict)
 
-**NO-GO for inviting human testers.** Continue closed-lab.
+**NO-GO for inviting human testers or deployment.**
+
+Test-inbox email path is proven (4/4). That does **not** clear Gate 7: a **verified custom sending domain** is still required before any beta-tester addresses; explicit PO invite authorisation is still required. No deploy/invites.
 
 ### Cleared
 
 | Item | Evidence |
 | --- | --- |
-| Retention planning | **Approved** — 24mo / 90d / 180d terminal deletion audit; purge disabled — `m11-retention-proposal.md` |
-| Nested PostCSS high | **Resolved** — `postcss@8.5.32` override; build + smoke + journeys 86/86 + a11y 11/11 + tick 9/9 — `m11-postcss-advisory.md` |
-| Tick secret | Docs + 9/9 auth checks |
-| Screen-reader core surfaces | 13/13 (prior) |
-| Security F-01–F-05 | Fixed (prior) |
+| Journeys / a11y / SR / tick / security / PostCSS / retention planning | Prior Pass |
+| Membership approve + reject | Resend MCP **delivered** + Dominic inbox |
+| Password recovery | Dominic · `noreply@mail.app.supabase.io` |
+| Sign-up verification | Dominic · fresh link; Auth confirmed `d28f358c-…` @ 13:49:14Z; session hash valid (`email_verified=true`) |
+| Auth callback hash routing | **Fixed** — `/auth/confirm` consumes session hash → Home / “Email verified…” / error; see `m11-acceptance.md` retest table |
 
 ### Still blocking invite GO
 
-1. **Beta email** — Dominic completes `m11-dominic-request-beta-email.md`, then says **“email ready”**. Agent will run four inbox checks (verify, recovery, approve, reject) and only ping Dominic for inbox actions.
-2. **Gate 7** explicit invite authorisation.
-3. Public-host `LIFECYCLE_TICK_SECRET` only when a non-local deploy is authorised.
-
-After email proof: one updated go/no-go handoff with dependency + email evidence.
+1. **Verified custom sending domain** (leave `onboarding@resend.dev` / default Supabase mail for lab only; spam risk noted).
+2. **Gate 7** explicit PO yes to invite testers.
+3. Public-host tick secret only when non-local deploy is authorised.
 
 ## Store paths
 
-Under `/Users/dom.smyth/Library/Application Support/Cursor/AgentStores/cursor_agent_stores/bc-01a1cb7f-3748-76b6-a0c6-6560b08a6ca8/files/`:
-
 - `docs/engineering/m11-acceptance.md`
-- `docs/engineering/m11-retention-proposal.md`
-- `docs/engineering/m11-postcss-advisory.md`
-- `docs/engineering/m11-dominic-request-beta-email.md`
 - `docs/engineering/m11-invite-decision-handoff.md`
-- `media/m11/`
+- `media/m11/email-resend-evidence.json`

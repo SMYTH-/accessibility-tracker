@@ -1,0 +1,160 @@
+{
+  "stamp": 1794668962573,
+  "project": "gdrkejobqlvtwnlaedpu",
+  "provider": "resend",
+  "fromMasked": "Pactwell <…>",
+  "inboxMasked": "sm…@gmail.com",
+  "site": "http://localhost:3000",
+  "challengeId": "2f4a3df4-7d71-4131-baf5-d150edc82c0f",
+  "membership": {
+    "reject": {
+      "notificationId": "8f0b0170-a2d2-4093-8cb5-e55c9244e4ba",
+      "messageId": "01a1da9b-2ae3-7116-9e8d-5b8b6dbc7bf7",
+      "subject": "Pactwell — Membership declined — M11 Resend 1794668962573"
+    },
+    "approve": {
+      "notificationId": "f0ea9fbb-2c57-45f2-8797-2d7abb31617b",
+      "messageId": "01a1da9b-2ce9-7b12-aa14-cc3de1c82375",
+      "subject": "Pactwell — Membership approved — M11 Resend 1794668962573"
+    }
+  },
+  "auth": {
+    "signUpUserId": "879a858b-249a-4082-92ed-983f397d438d",
+    "signUpConfirmedAt": null,
+    "verification": {
+      "status": "queued_via_supabase_auth_smtp",
+      "actionRequired": "Dominic: open the fresh verification (Confirm signup) link in the exact M3_TEST_INBOX now."
+    },
+    "recovery": {
+      "status": "queued_via_supabase_auth_smtp",
+      "actionRequired": "Dominic: after verification succeeds, open the fresh password recovery link in the same inbox (or open recovery if it arrived and works pre-confirm)."
+    }
+  },
+  "caveats": [
+    "Verified domain pactwell.app — From Pactwell <noreply@pactwell.app> for membership + Auth SMTP.",
+    "Approve/reject via outbox → Resend API; verify/recovery via Supabase Auth SMTP (same sender).",
+    "Gate 7 PO invite authorisation still required before tester invitations; no deploy from this script."
+  ],
+  "results": [
+    {
+      "name": "provider=resend",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "inbox exact no plus",
+      "ok": true,
+      "detail": "sm…@gmail.com"
+    },
+    {
+      "name": "EMAIL_FROM uses verified Pactwell sender or set",
+      "ok": true,
+      "detail": "Pactwell <…>"
+    },
+    {
+      "name": "owner+invitee users",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "owner sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "invitee sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "create challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "create invite",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "request pending",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "decline + notif",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "reject outbox → inbox",
+      "ok": true,
+      "detail": "sm…@gmail.com"
+    },
+    {
+      "name": "reject Resend accepted",
+      "ok": true,
+      "detail": "01a1da9b-2ae3-7116-9e8d-5b8b6dbc7bf7"
+    },
+    {
+      "name": "reject Resend metadata (optional)",
+      "ok": true,
+      "detail": "send-only key — recipient proven via outbox + send 200"
+    },
+    {
+      "name": "re-request",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "approve + notif",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "approve outbox kind",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "approve Resend accepted",
+      "ok": true,
+      "detail": "01a1da9b-2ce9-7b12-aa14-cc3de1c82375"
+    },
+    {
+      "name": "approve Resend metadata (optional)",
+      "ok": true,
+      "detail": "send-only key — recipient proven via outbox + send 200"
+    },
+    {
+      "name": "cleared inbox user for fresh sign-up",
+      "ok": true,
+      "detail": "deleted"
+    },
+    {
+      "name": "signUp ok (verification mail queued)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "signUp user created unconfirmed or identities present",
+      "ok": true,
+      "detail": "879a858b-249a-4082-92ed-983f397d438d"
+    },
+    {
+      "name": "verification email expected from Supabase Auth SMTP",
+      "ok": true,
+      "detail": "Dominic must open the fresh Confirm signup link in M3_TEST_INBOX"
+    },
+    {
+      "name": "recovery mail queued",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "summary": {
+    "total": 23,
+    "passed": 23,
+    "failed": 0
+  }
+}

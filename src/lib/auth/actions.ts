@@ -180,7 +180,7 @@ export async function verifyEmailAction(token: string): Promise<AuthResult> {
   if (getAuthMode() !== "mock") {
     return {
       ok: false,
-      error: "Use the link from your email provider to verify (Supabase callback).",
+      error: "Use the link from your email to verify.",
     };
   }
   const found = await consumeToken(token, "verify");

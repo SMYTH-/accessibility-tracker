@@ -76,15 +76,26 @@ function Chevron() {
 export function ChallengeDashboardView({
   data,
   recordHref,
+  setupHref,
+  peopleHref,
+  compact = false,
 }: {
   data: DashboardData;
   recordHref: string;
+  /** Deep-link to savings setup (target + weekly commitment). */
+  setupHref?: string;
+  /** Optional link target for the members roster heading. */
+  peopleHref?: string;
+  /** Overview tab: hide roster (lives on People) and keep status/progress/activity. */
+  compact?: boolean;
 }) {
   const { personal, sharing } = data;
   const hasSetup = personal.savingsParticipationActive && personal.targetMinor != null;
   const isCompleted = data.lifecycleStatus === "Completed";
   const isCancelled = data.lifecycleStatus === "Cancelled";
   const readOnly = isCompleted || isCancelled;
+  const savingsSetupHref =
+    setupHref ?? `/challenge/${data.challengeId}?tab=savings#setup`;
   const remaining =
     hasSetup && personal.targetMinor != null
       ? Math.max(0, personal.targetMinor - personal.eligibleTotalMinor)
@@ -112,8 +123,8 @@ export function ChallengeDashboardView({
         </p>
         {isCompleted ? (
           <p className="text-sm text-[var(--ink)]">
-            Ordinary contributions, target changes and commitment changes are disabled
-            (G1.1-12).
+            Ordinary contributions, target changes and commitment changes are disabled for
+            completed challenges.
           </p>
         ) : null}
       </header>
@@ -122,11 +133,15 @@ export function ChallengeDashboardView({
         <section className="at-surface p-5">
           <p className="text-lg font-bold">Personal savings</p>
           <p className="mt-2 text-sm text-[var(--mute)]">
-            Activate your savings target and weekly commitment to see personal progress here.
+            {readOnly
+              ? "Savings were not set up for this challenge. Completed and cancelled challenges are read-only."
+              : "Activate your savings target and weekly commitment to see personal progress here."}
           </p>
-          <Link href={`/challenge/${data.challengeId}`} className="at-btn-primary mt-5">
-            Open challenge setup
-          </Link>
+          {!readOnly ? (
+            <Link href={savingsSetupHref} className="at-btn-primary mt-5">
+              Set up savings.
+            </Link>
+          ) : null}
         </section>
       ) : (
         <section aria-labelledby="personal-label">
@@ -273,7 +288,7 @@ export function ChallengeDashboardView({
                 </ul>
               </div>
               <p className="mt-2 text-xs text-[var(--mute)]">
-                Visible only to you. Pause scheduling remains open.
+                Visible only to you.
               </p>
             </div>
           ) : null}
@@ -316,71 +331,93 @@ export function ChallengeDashboardView({
         ) : null}
       </section>
 
-      <section aria-labelledby="roster-label" data-testid="challenge-roster">
-        <div className="flex items-baseline justify-between gap-2">
-          <p className="at-section-label" id="roster-label">
-            Members
-          </p>
-          <Link href="/activity" className="text-sm font-semibold text-[var(--accent)] underline">
-            Activity
-          </Link>
-        </div>
-        <ul className="mt-1 border-t border-[var(--line)]">
-          {data.roster.map((m) => (
-            <li
-              key={m.membershipId}
-              className="at-list-row border-b border-[var(--line)]"
-              data-user-id={m.userId}
-              data-privacy-chip={m.privacyChip ?? ""}
-              data-share-monetary={m.shareMonetaryInfo ? "true" : "false"}
-            >
-              <span
-                className={`at-avatar ${
-                  m.privacyChip ? "bg-[var(--surface-soft)] text-[var(--mute)]" : ""
-                }`}
-                aria-hidden="true"
+      {!compact ? (
+        <section aria-labelledby="roster-label" data-testid="challenge-roster">
+          <div className="flex items-baseline justify-between gap-2">
+            <p className="at-section-label" id="roster-label">
+              Members
+            </p>
+            {peopleHref ? (
+              <Link
+                href={peopleHref}
+                className="text-sm font-semibold text-[var(--accent)] underline"
               >
-                {initials(m.displayName)}
-              </span>
-              <div className="at-label-stack">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-semibold text-[var(--ink)]">
-                    {m.displayName}
-                    {m.isSelf ? " (you)" : ""}
-                  </span>
-                  {m.privacyChip ? (
-                    <span className="at-chip text-[10px] uppercase tracking-wide">
-                      {m.privacyChip}
+                People
+              </Link>
+            ) : (
+              <Link
+                href="/activity"
+                className="text-sm font-semibold text-[var(--accent)] underline"
+              >
+                Activity
+              </Link>
+            )}
+          </div>
+          <ul className="mt-1 border-t border-[var(--line)]">
+            {data.roster.map((m) => (
+              <li
+                key={m.membershipId}
+                className="at-list-row border-b border-[var(--line)]"
+                data-user-id={m.userId}
+                data-privacy-chip={m.privacyChip ?? ""}
+                data-share-monetary={m.shareMonetaryInfo ? "true" : "false"}
+              >
+                <span
+                  className={`at-avatar ${
+                    m.privacyChip ? "bg-[var(--surface-soft)] text-[var(--mute)]" : ""
+                  }`}
+                  aria-hidden="true"
+                >
+                  {initials(m.displayName)}
+                </span>
+                <div className="at-label-stack">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-semibold text-[var(--ink)]">
+                      {m.displayName}
+                      {m.isSelf ? " (you)" : ""}
                     </span>
-                  ) : null}
+                    {m.privacyChip ? (
+                      <span className="at-chip text-[10px] uppercase tracking-wide">
+                        {m.privacyChip}
+                      </span>
+                    ) : null}
+                  </div>
+                  {m.eligibleTotalMinor != null && m.targetMinor != null && m.currency ? (
+                    <p className="text-sm tabular-nums text-[var(--mute)]">
+                      {formatMinorAsMajor(m.eligibleTotalMinor, m.currency)} of{" "}
+                      {formatMinorAsMajor(m.targetMinor, m.currency)}
+                      {m.progressPercent != null ? ` · ${m.progressPercent}%` : ""}
+                      {" · "}
+                      self-reported
+                    </p>
+                  ) : m.privacyChip ? (
+                    <p className="text-sm text-[var(--mute)]">
+                      Monetary amounts and target hidden
+                    </p>
+                  ) : (
+                    <p className="text-sm text-[var(--mute)]">Savings setup not active</p>
+                  )}
                 </div>
-                {m.eligibleTotalMinor != null && m.targetMinor != null && m.currency ? (
-                  <p className="text-sm tabular-nums text-[var(--mute)]">
-                    {formatMinorAsMajor(m.eligibleTotalMinor, m.currency)} of{" "}
-                    {formatMinorAsMajor(m.targetMinor, m.currency)}
-                    {m.progressPercent != null ? ` · ${m.progressPercent}%` : ""}
-                    {" · "}
-                    self-reported
-                  </p>
-                ) : m.privacyChip ? (
-                  <p className="text-sm text-[var(--mute)]">
-                    Monetary amounts and target hidden
-                  </p>
-                ) : (
-                  <p className="text-sm text-[var(--mute)]">Savings setup not active</p>
-                )}
-              </div>
-              <Chevron />
-            </li>
-          ))}
-        </ul>
-        <p className="mt-2 text-xs text-[var(--mute)]">
-          Commitment figures stay in each member&apos;s own view.{" "}
-          <Link href="/profile#privacy" className="font-semibold text-[var(--accent)] underline">
-            Financial privacy settings
+                <Chevron />
+              </li>
+            ))}
+          </ul>
+          <p className="mt-2 text-xs text-[var(--mute)]">
+            Commitment figures stay in each member&apos;s own view.{" "}
+            <Link href="/profile#privacy" className="font-semibold text-[var(--accent)] underline">
+              Financial privacy settings
+            </Link>
+          </p>
+        </section>
+      ) : peopleHref ? (
+        <p className="text-sm text-[var(--mute)]">
+          Roster, invites and membership tools live on{" "}
+          <Link href={peopleHref} className="font-semibold text-[var(--accent)] underline">
+            People
           </Link>
+          .
         </p>
-      </section>
+      ) : null}
 
       <section aria-labelledby="preview-label">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -413,7 +450,7 @@ export function ChallengeDashboardView({
       )}
 
       <p className="text-center text-[10px] text-[var(--mute)]">
-        Live at {new Date(data.generatedAt).toLocaleString()} · Path B: streak → roster → activity
+        Live at {new Date(data.generatedAt).toLocaleString()}
       </p>
     </div>
   );

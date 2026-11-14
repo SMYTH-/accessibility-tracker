@@ -8,9 +8,8 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Accountability Tracker",
-  description:
-    "Accountability Tracker — personal savings with sharing-member totals. Manrope working type; brand typography remains open.",
+  title: "Pactwell",
+  description: "Pactwell — personal savings with sharing-member totals.",
 };
 
 export const viewport: Viewport = {

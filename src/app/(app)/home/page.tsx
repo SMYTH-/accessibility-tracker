@@ -56,7 +56,9 @@ export default async function HomePage() {
         <div className="space-y-4">
           <ChallengeDashboardView
             data={dashboard}
-            recordHref={`/challenge/${dashboard.challengeId}`}
+            recordHref={`/challenge/${dashboard.challengeId}?tab=savings#contributions`}
+            setupHref={`/challenge/${dashboard.challengeId}?tab=savings#setup`}
+            peopleHref={`/challenge/${dashboard.challengeId}?tab=people`}
           />
           {rows.length > 1 ? (
             <p className="text-center text-xs text-[var(--mute)]">

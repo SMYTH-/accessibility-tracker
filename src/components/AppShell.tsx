@@ -12,7 +12,7 @@ export function AppShell({
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col overflow-x-clip px-4 pb-28 pt-5">
       <header className="mb-6 min-w-0">
-        <p className="text-xs font-semibold text-[var(--accent)]">Accountability Tracker</p>
+        <p className="text-xs font-semibold text-[var(--accent)]">Pactwell</p>
         <h1 className="mt-1 break-words text-[1.75rem] font-bold tracking-tight text-[var(--ink)]">
           {title}
         </h1>

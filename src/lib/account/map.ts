@@ -12,7 +12,11 @@ export function mapPersonalDataExport(raw: unknown): PersonalDataExport {
     exportedAt: String(row.exported_at ?? ""),
     subjectUserId: String(row.subject_user_id ?? ""),
     scope: "personal_authorised_only",
-    privacyNote: String(row.privacy_note ?? ""),
+    privacyNote: String(row.privacy_note ?? "")
+      .replace(/\s*\(ACC-01\s*\/\s*G1\.1-06\)/gi, "")
+      .replace(/\s*\(ACC-01\)/gi, "")
+      .replace(/\s*\(G1\.1-\d+(?:\/\d+)*\)/gi, "")
+      .trim(),
     profile: {
       userId: String(profile.user_id ?? ""),
       email: String(profile.email ?? ""),

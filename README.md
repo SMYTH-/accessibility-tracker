@@ -1,6 +1,6 @@
-# Accountability Tracker
+# Pactwell
 
-Mobile-first web app for private savings challenges (product docs under `docs/`).
+Mobile-first web app for private savings challenges (product docs under `docs/`). Repo folder remains `accessibility-tracker`.
 
 ## M8 status
 
