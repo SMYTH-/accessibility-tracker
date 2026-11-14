@@ -17,6 +17,7 @@ import {
   getOwnEligibleTotals,
   listOwnContributions,
 } from "@/lib/contributions/service";
+import { getSharingMemberTotals } from "@/lib/dashboard/service";
 import {
   getPendingAccessView,
   listInvitations,
@@ -24,6 +25,8 @@ import {
 } from "@/lib/membership/service";
 import { getOwnSavingsSetup, listOwnSavingsAudit } from "@/lib/savings/service";
 import { formatMinorAsMajor } from "@/lib/savings/money";
+
+export const dynamic = "force-dynamic";
 
 export default async function ChallengeOverviewPage({
   params,
@@ -92,6 +95,7 @@ export default async function ChallengeOverviewPage({
   const savingsAudit = await listOwnSavingsAudit(user.id, challenge.id);
   const contributionView = await listOwnContributions(user.id, challenge.id);
   const eligibleTotals = await getOwnEligibleTotals(user.id, challenge.id);
+  const sharingTotals = await getSharingMemberTotals(user.id, challenge.id);
   const isOwner = membership.role === "owner";
 
   const invites = isOwner ? await listInvitations(challenge.id, user.id) : { ok: true as const, invitations: [] };
@@ -152,7 +156,7 @@ export default async function ChallengeOverviewPage({
         </section>
 
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Membership</h2>
+          <h2 className="text-lg font-semibold">Membership</h2>
           <ul className="mt-3 space-y-2 text-sm">
             <li>
               Status: <strong className="font-semibold">{membership.status}</strong> · Role:{" "}
@@ -196,7 +200,7 @@ export default async function ChallengeOverviewPage({
         />
 
         {setup ? (
-          <p className="text-xs text-[var(--mute)]">
+          <p className="text-xs tabular-nums text-[var(--mute)]">
             Your target {formatMinorAsMajor(setup.targetMinor, challenge.currency)} · weekly{" "}
             {formatMinorAsMajor(setup.weeklyCommitmentMinor, challenge.currency)}
           </p>
@@ -216,7 +220,7 @@ export default async function ChallengeOverviewPage({
 
         {savingsAudit.length > 0 ? (
           <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-            <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+            <h2 className="text-lg font-semibold">
               Savings setup audit
             </h2>
             <ul className="mt-3 space-y-2 text-sm">
@@ -234,16 +238,35 @@ export default async function ChallengeOverviewPage({
           </section>
         ) : null}
 
+        {sharingTotals ? (
+          <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+            <h2 className="text-lg font-semibold">
+              {sharingTotals.label}
+            </h2>
+            <p className="mt-2 text-lg font-semibold tabular-nums text-[var(--ink)]">
+              {formatMinorAsMajor(sharingTotals.savedMinor, sharingTotals.currency)} of{" "}
+              {formatMinorAsMajor(sharingTotals.targetMinor, sharingTotals.currency)}
+            </p>
+            <p className="mt-1 text-sm text-[var(--mute)]">{sharingTotals.scopeExplanation}</p>
+            <Link
+              href="/home"
+              className="mt-3 inline-flex text-sm font-semibold text-[var(--deep-sea)] underline"
+            >
+              Open personal dashboard
+            </Link>
+          </section>
+        ) : null}
+
         <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Not in M5</h2>
+          <h2 className="text-lg font-semibold">Not in M6</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
-            Sharing-member dashboard totals (M6), privacy opt-out (M7), weekly assessment / streak UI
-            (M8), and cancel remain out of scope. Post-activation target editing stays parked (M4).
+            Privacy opt-out settings UI (M7), weekly assessment / streak calculation (M8), and cancel
+            remain out of scope. Post-activation target editing stays parked (M4).
           </p>
         </section>
 
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+          <h2 className="text-lg font-semibold">
             Lifecycle audit
           </h2>
           <ul className="mt-3 space-y-2 text-sm">

@@ -30,7 +30,7 @@ export default async function ProfilePage() {
         </section>
 
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="mb-3 font-[family-name:var(--font-display)] text-lg font-semibold">
+          <h2 className="mb-3 text-lg font-semibold">
             Display name
           </h2>
           <ProfileForm displayName={user.displayName} />

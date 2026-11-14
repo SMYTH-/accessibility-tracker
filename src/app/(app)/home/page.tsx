@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
-import { ChallengeStatusBadge } from "@/components/ChallengeStatusBadge";
+import {
+  ChallengeDashboardView,
+  DashboardEmptyState,
+} from "@/components/ChallengeDashboard";
 import { getCurrentUser } from "@/lib/auth/session";
 import { listChallengesForUser } from "@/lib/challenge/service";
+import { getChallengeDashboard } from "@/lib/dashboard/service";
 import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const user = await getCurrentUser();
@@ -11,49 +17,36 @@ export default async function HomePage() {
 
   const rows = await listChallengesForUser(user.id);
   const primary = rows[0];
+  const dashboard = primary
+    ? await getChallengeDashboard(user.id, primary.challenge.id)
+    : null;
 
   return (
     <AppShell title="Home" subtitle={`Signed in as ${user.displayName}`}>
-      <div className="space-y-4">
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <p className="text-sm text-[var(--mute)]">{user.email}</p>
-          <p className="mt-3 text-sm text-[var(--ink)]">
-            Personal dashboard totals arrive in M6. Create or open a challenge to activate personal
-            savings (target + weekly commitment) when ready.
+      {!primary || !dashboard ? (
+        <div className="space-y-4">
+          <DashboardEmptyState />
+          <p className="text-center text-xs text-[var(--mute)]">
+            Personal progress and Sharing members only totals load from live eligible
+            contributions once you join an approved challenge.
           </p>
-          <Link
-            href="/challenge/new"
-            className="mt-4 flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
-          >
-            Create challenge
-          </Link>
-        </section>
-
-        {primary ? (
-          <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-            <div className="flex items-center justify-between gap-2">
-              <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
-                Latest challenge
-              </h2>
-              <ChallengeStatusBadge status={primary.challenge.lifecycleStatus} />
-            </div>
-            <p className="mt-2 font-medium text-[var(--ink)]">{primary.challenge.name}</p>
-            <p className="mt-1 text-sm text-[var(--mute)]">
-              {primary.challenge.startDate} → {primary.challenge.endDate}
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <ChallengeDashboardView
+            data={dashboard}
+            recordHref={`/challenge/${dashboard.challengeId}`}
+          />
+          {rows.length > 1 ? (
+            <p className="text-center text-xs text-[var(--mute)]">
+              Showing your latest challenge.{" "}
+              <Link href="/challenge" className="font-semibold text-[var(--deep-sea)] underline">
+                All challenges
+              </Link>
             </p>
-            <Link
-              href={`/challenge/${primary.challenge.id}`}
-              className="mt-3 inline-flex text-sm font-semibold text-[var(--deep-sea)] underline"
-            >
-              Open overview
-            </Link>
-          </section>
-        ) : null}
-
-        <p className="text-center text-xs text-[var(--mute)]">
-          M4 savings setup is available on challenge overview. Contribution recording is M5.
-        </p>
-      </div>
+          ) : null}
+        </div>
+      )}
     </AppShell>
   );
 }

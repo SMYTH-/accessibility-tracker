@@ -92,7 +92,7 @@ export function InviteOwnerPanel({
 
       {isOwner ? (
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+          <h2 className="text-lg font-semibold">
             Invite links
           </h2>
           <p className="mt-1 text-sm text-[var(--mute)]">
@@ -163,7 +163,7 @@ export function InviteOwnerPanel({
 
       {isOwner ? (
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+          <h2 className="text-lg font-semibold">
             Pending requests
           </h2>
           {pending.length === 0 ? (
@@ -213,7 +213,7 @@ export function InviteOwnerPanel({
       ) : null}
 
       <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-        <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+        <h2 className="text-lg font-semibold">
           Members
         </h2>
         <ul className="mt-3 space-y-2 text-sm">
@@ -250,7 +250,7 @@ export function InviteOwnerPanel({
       </section>
 
       <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-        <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">Leave</h2>
+        <h2 className="text-lg font-semibold">Leave</h2>
         {canLeave ? (
           <form action={leaveAction} className="mt-3">
             <input type="hidden" name="challengeId" value={challengeId} />

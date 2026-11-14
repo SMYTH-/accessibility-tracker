@@ -18,7 +18,7 @@ export function AuthCard({
         <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-[var(--deep-sea)]">
           Accountability Tracker
         </p>
-        <h1 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[var(--ink)]">
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--ink)]">
           {title}
         </h1>
         {subtitle ? <p className="mt-2 text-sm text-[var(--mute)]">{subtitle}</p> : null}

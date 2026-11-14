@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Syne } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -7,15 +7,10 @@ const manrope = Manrope({
   variable: "--font-ui",
 });
 
-const syne = Syne({
-  subsets: ["latin"],
-  variable: "--font-display",
-});
-
 export const metadata: Metadata = {
   title: "Accountability Tracker",
   description:
-    "M4 — personal savings target and weekly commitment setup (working accents only; stop before M5).",
+    "M6 — personal dashboard and sharing-member totals (working accents only; stop before M7). Brand typography remains open.",
 };
 
 export const viewport: Viewport = {
@@ -27,7 +22,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${manrope.variable} ${syne.variable} antialiased`}>{children}</body>
+      <body className={`${manrope.variable} antialiased`}>{children}</body>
     </html>
   );
 }

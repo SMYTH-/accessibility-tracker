@@ -88,12 +88,12 @@ export function ContributionPanel({
   return (
     <div className="space-y-4">
       <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-        <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+        <h2 className="text-lg font-semibold">
           Record savings
         </h2>
         <p className="mt-2 text-sm text-[var(--mute)]">{gateReason}</p>
         {totals ? (
-          <p className="mt-2 text-sm text-[var(--ink)]">
+          <p className="mt-2 text-sm tabular-nums text-[var(--ink)]">
             Eligible total (self-reported):{" "}
             <strong className="font-semibold">
               {formatMinorAsMajor(totals.eligibleTotalMinor, currency)}
@@ -127,7 +127,7 @@ export function ContributionPanel({
                 inputMode="decimal"
                 placeholder="50.00"
                 required
-                className="mt-1 w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-[var(--ink)]"
+                className="mt-1 w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 tabular-nums text-[var(--ink)]"
               />
             </label>
             <p className="text-xs text-[var(--mute)]">
@@ -170,7 +170,7 @@ export function ContributionPanel({
 
       {contributions.length > 0 ? (
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+          <h2 className="text-lg font-semibold">
             Your contributions
           </h2>
           <p className="mt-1 text-sm text-[var(--mute)]">Self-reported · own entries only</p>
@@ -181,7 +181,7 @@ export function ContributionPanel({
                 className="rounded-xl border border-[var(--line)] bg-[var(--paper)] px-3 py-3 text-sm"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="font-semibold text-[var(--ink)]">
+                  <p className="font-semibold tabular-nums text-[var(--ink)]">
                     {formatMinorAsMajor(c.amountMinor, c.currency)}
                     <span className="ml-2 text-xs font-medium text-[var(--mute)]">
                       {c.sourceLabel}
@@ -237,7 +237,7 @@ export function ContributionPanel({
 
       {revisions.length > 0 ? (
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+          <h2 className="text-lg font-semibold">
             Contribution audit
           </h2>
           <ul className="mt-3 space-y-2 text-sm">

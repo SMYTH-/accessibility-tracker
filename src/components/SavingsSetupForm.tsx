@@ -49,7 +49,7 @@ export function SavingsSetupForm({
   if (savingsParticipationActive && setup) {
     return (
       <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-        <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+        <h2 className="text-lg font-semibold">
           Your savings setup
         </h2>
         <p className="mt-1 text-sm text-[var(--mute)]">
@@ -86,7 +86,7 @@ export function SavingsSetupForm({
 
   return (
     <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-      <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
+      <h2 className="text-lg font-semibold">
         Activate savings participation
       </h2>
       <p className="mt-2 text-sm text-[var(--mute)]">
