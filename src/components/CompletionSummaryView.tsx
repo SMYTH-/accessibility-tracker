@@ -32,8 +32,8 @@ export function CompletionSummaryView({
           {data.startDate} → {data.endDate} · {data.currency} · {data.timeZone}
         </p>
         <p className="mt-3 text-sm text-[var(--ink)]">
-          Ordinary contributions, target changes and commitment changes are disabled
-          (G1.1-12). Reopening remains open.
+          Ordinary contributions, target changes and commitment changes are disabled for
+          completed challenges.
         </p>
       </header>
 

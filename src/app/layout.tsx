@@ -9,8 +9,7 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: "Pactwell",
-  description:
-    "Pactwell — personal savings with sharing-member totals. Manrope working type; brand typography remains open.",
+  description: "Pactwell — personal savings with sharing-member totals.",
 };
 
 export const viewport: Viewport = {

@@ -16,7 +16,7 @@ export function mapSavingsRpcError(error: {
     SAVINGS_ALREADY_ACTIVE: "Savings participation is already active.",
     SAVINGS_NOT_ACTIVE: "Complete savings setup before changing your target.",
     TARGET_CHANGE_DEFERRED:
-      "Post-activation target changes are parked until G1.1-10 progress/milestone rules are approved.",
+      "Changing your personal target after activation is not available yet.",
   };
   for (const [code, msg] of Object.entries(map)) {
     if (raw.includes(code)) return msg;

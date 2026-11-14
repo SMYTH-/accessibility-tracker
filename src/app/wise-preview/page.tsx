@@ -41,7 +41,7 @@ export default async function WisePreviewPage({
           Design preview
         </h1>
         <p className="mt-1 text-sm text-[var(--mute)]">
-          Design review v2 · MD3 / Dom refs · Portugal 2027
+          Sample challenge layout for design review.
         </p>
       </header>
 

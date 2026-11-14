@@ -159,7 +159,7 @@ export async function mockActivityFeed(
       userId: a.userId,
       displayName: displayName(a.userId),
       title: `${displayName(a.userId)} reached ${label}`,
-      meta: "Personal progress milestone · G1.1-08",
+      meta: "Personal progress milestone",
       milestonePercent: thr,
       at: a.announcedAt,
     });

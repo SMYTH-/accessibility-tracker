@@ -85,8 +85,8 @@ export function AccountControlsPanel({
       <div>
         <h2 className="text-lg font-semibold text-[var(--ink)]">Account controls</h2>
         <p className="mt-1 text-sm text-[var(--mute)]">
-          Export your authorised personal data (ACC-01). Request deletion under the approved
-          transfer / 7-day grace rules.
+          Export your personal data, or request account deletion. Ownership may need a transfer,
+          or a 7-day grace period, before deletion can finish.
         </p>
       </div>
 

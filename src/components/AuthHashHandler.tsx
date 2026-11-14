@@ -76,7 +76,7 @@ export function AuthHashHandler({
         clearAuthHash();
         if (cancelled) return;
         setStatus("error");
-        setMessage("Supabase is not configured in this browser.");
+        setMessage("Sign-in is not available in this browser right now. Try again later.");
         return;
       }
 

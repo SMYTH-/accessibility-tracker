@@ -7,7 +7,6 @@ import {
   listTransferCandidates,
 } from "@/lib/account/service";
 import { signOutAction } from "@/lib/auth/actions";
-import { getAuthMode } from "@/lib/auth/config";
 import { getCurrentUser } from "@/lib/auth/session";
 import { listOwnPrivacySettings } from "@/lib/privacy/service";
 import { redirect } from "next/navigation";
@@ -58,7 +57,7 @@ export default async function ProfilePage() {
   return (
     <AppShell
       title="Profile"
-      subtitle="Display name, privacy, and account controls (ACC-01)."
+      subtitle="Manage your display name, privacy and account."
     >
       <div className="space-y-4">
         <section className="at-surface p-5">
@@ -72,10 +71,6 @@ export default async function ProfilePage() {
               <dd className="font-medium text-[var(--ink)]">
                 {user.emailVerified ? "Yes" : "No"}
               </dd>
-            </div>
-            <div>
-              <dt className="text-[var(--mute)]">Auth mode</dt>
-              <dd className="font-medium text-[var(--ink)]">{getAuthMode()}</dd>
             </div>
           </dl>
         </section>

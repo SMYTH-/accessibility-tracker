@@ -67,7 +67,7 @@ export default async function InvitePreviewPage({
 
       <p className="mt-4 text-xs text-[var(--mute)]">
         Preview shows only name, description, dates, and participant count — no amounts, targets, or
-        totals (G1.1-07).
+        totals.
       </p>
 
       {membershipStatus === "approved" ? (

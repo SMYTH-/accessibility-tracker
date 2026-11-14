@@ -53,8 +53,8 @@ export default async function ActivityPage() {
           >
             <p className="text-sm font-semibold text-[var(--ink)]">Challenge completed</p>
             <p className="mt-1 text-sm text-[var(--mute)]">
-              See the authorised completion summary on the challenge page. Ordinary writes remain
-              rejected (G1.1-12).
+              See the authorised completion summary on the challenge page. Recording and edits
+              are disabled for completed challenges.
             </p>
           </section>
         ) : null}

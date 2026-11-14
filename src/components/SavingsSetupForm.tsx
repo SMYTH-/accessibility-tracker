@@ -77,8 +77,8 @@ export function SavingsSetupForm({
         </dl>
 
         <p className="mt-5 border-t border-[var(--line)] pt-4 text-sm text-[var(--mute)]">
-          Target editing after activation is parked until G1.1-10 progress/milestone rules are
-          approved. Weekly commitment amount changes remain open and are not edited here.
+          Changing your personal target after activation is not available yet. Weekly commitment
+          changes are also not edited here.
         </p>
       </section>
     );
@@ -91,7 +91,7 @@ export function SavingsSetupForm({
       </h2>
       <p className="mt-2 text-sm text-[var(--mute)]">
         Set a positive personal target and weekly commitment in {currency}. Until both are set,
-        savings stay inactive — no missed weeks, and recording stays gated (G1.1-01/03/04).
+        savings stay inactive — no missed weeks, and you cannot record contributions yet.
       </p>
       <form action={activateAction} className="mt-4 space-y-3">
         <input type="hidden" name="challengeId" value={challengeId} />
