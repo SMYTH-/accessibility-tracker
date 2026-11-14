@@ -76,8 +76,8 @@ Verified-sender four-mail inbox verify **4/4 Pass** (delivery + Dom sight). Priv
 | Lifecycle missing/invalid secret | **Pass** | **401** `UNAUTHORIZED_LIFECYCLE_TICK` |
 | Lifecycle valid secret | **Pass** | Bearer + `x-lifecycle-tick-secret` → **200** `{ok:true,…}` |
 | Membership approve + reject mail | **Pass** | Evidence script **23/23**; Resend accepted (Dom sight optional for From) |
-| Signup confirm → Home | **Pending Dom** | Confirm queued to hosted `/auth/callback` — Dom must open newest Confirm |
-| Recovery → Choose a new password | **Pending Dom** | Reset queued to hosted `/auth/callback?next=/update-password` — Dom must open after Confirm |
+| Signup confirm → Home | **Pending Dom** | Redirect fix: Site URL + allow list prefer Railway; fresh Confirm resent (ignore localhost:8080). Dom opens newest Confirm → Home |
+| Recovery → Choose a new password | **Pending Dom** | Fresh Reset resent with Railway `/auth/callback?next=/update-password` — Dom opens after Confirm |
 
 **Gate 7** still separate — no tester invitations from this smoke.
 
