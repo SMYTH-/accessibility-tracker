@@ -5,7 +5,9 @@ const PROTECTED_PREFIXES = ["/home", "/challenge", "/activity", "/profile"];
 const AUTH_PAGES = ["/sign-in", "/sign-up", "/reset-password", "/verify-email"];
 
 function getAuthModeFromEnv(): "supabase" | "mock" {
-  if (process.env.AUTH_MODE === "mock") return "mock";
+  if (process.env.AUTH_MODE === "mock" || process.env.NEXT_PUBLIC_AUTH_MODE === "mock") {
+    return "mock";
+  }
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
   if (url && key) return "supabase";

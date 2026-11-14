@@ -2,14 +2,16 @@
 
 Mobile-first web app for private savings challenges (product docs under `docs/`).
 
-## M1 status
+## M2 status
 
-Milestone **M1** (shell + managed email auth + profile) is implemented on this branch.
+Milestone **M2** (create private challenge + lifecycle) on **Supabase Postgres** (`gdrkejobqlvtwnlaedpu` non-prod), on top of signed-off M1.
 
 - Working accents only: Deep Sea `#1A6B7C` · Honey Amber `#C9842A`
-- Provisional nav: Home · Challenge · Activity · Profile
-- Auth: Supabase when `NEXT_PUBLIC_SUPABASE_*` is set; otherwise **local mock** (see `docs/engineering/m1-walkthrough.md`)
-- **Stop before M2** — no challenge creation
+- Create: name, start/end, currency, time zone, optional description
+- Atomic owner + approved membership in one DB transaction; savings participation deferred
+- RLS: private challenges not readable by non-members
+- Lifecycle: future → Scheduled; today → Active; past start rejected; midnight transitions in challenge TZ
+- **Stop before M3** — no cancel, invites, or savings setup UI
 
 ## Local preview
 
@@ -20,13 +22,20 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Optional real auth: copy `.env.example` → `.env.local` and add Supabase URL + anon key.
+Configure `.env.local` from `.env.example` (URL + anon key; optional service role for ticks/scripts). Do not commit secrets.
+
+```bash
+npm run smoke:m2
+npm run evidence:m2:pg
+npm run evidence:m2:ui
+```
 
 ## Docs
 
 | Doc | Path |
 | --- | --- |
-| M0 architecture | `docs/engineering/m0-architecture.md` |
-| MVP build plan | `docs/engineering/mvp-build-plan.md` |
+| M2 plan | `docs/engineering/m2-challenge-plan.md` |
+| M2 walkthrough | `docs/engineering/m2-walkthrough.md` |
+| M2 acceptance | `docs/engineering/m2-acceptance.md` |
 | M1 walkthrough | `docs/engineering/m1-walkthrough.md` |
-| M1 acceptance | `docs/engineering/m1-acceptance.md` |
+| M0 architecture | `docs/engineering/m0-architecture.md` |

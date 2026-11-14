@@ -8,6 +8,7 @@ function siteOrigin(): string {
 }
 
 export function isBrowserSupabaseConfigured(): boolean {
+  if (process.env.NEXT_PUBLIC_AUTH_MODE === "mock") return false;
   return Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() &&
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim(),

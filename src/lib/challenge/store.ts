@@ -1,0 +1,52 @@
+import { promises as fs } from "fs";
+import path from "path";
+import type { Challenge, LifecycleAuditEvent, Membership } from "./types";
+
+export type ChallengeDb = {
+  challenges: Challenge[];
+  memberships: Membership[];
+  audit: LifecycleAuditEvent[];
+};
+
+const DATA_DIR = path.join(process.cwd(), ".data");
+const DB_PATH =
+  process.env.CHALLENGE_DATA_PATH?.trim() || path.join(DATA_DIR, "challenges.json");
+
+async function ensureDb(): Promise<ChallengeDb> {
+  try {
+    const raw = await fs.readFile(DB_PATH, "utf8");
+    const parsed = JSON.parse(raw) as ChallengeDb;
+    return {
+      challenges: parsed.challenges ?? [],
+      memberships: parsed.memberships ?? [],
+      audit: parsed.audit ?? [],
+    };
+  } catch {
+    const empty: ChallengeDb = { challenges: [], memberships: [], audit: [] };
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    await fs.writeFile(DB_PATH, JSON.stringify(empty, null, 2));
+    return empty;
+  }
+}
+
+async function saveDb(db: ChallengeDb): Promise<void> {
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  await fs.writeFile(DB_PATH, JSON.stringify(db, null, 2));
+}
+
+/**
+ * Run a mutation against the challenge store with a simple write lock via
+ * read→mutate→write. Sufficient for local single-process Next.js preview.
+ */
+export async function withChallengeDb<T>(
+  fn: (db: ChallengeDb) => Promise<T> | T,
+): Promise<T> {
+  const db = await ensureDb();
+  const result = await fn(db);
+  await saveDb(db);
+  return result;
+}
+
+export async function readChallengeDb(): Promise<ChallengeDb> {
+  return ensureDb();
+}

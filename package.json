@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "smoke:m2": "node scripts/m2-lifecycle-smoke.mjs && npx --yes tsx scripts/m2-service-smoke.ts",
+    "evidence:m2:pg": "node --env-file=.env.local scripts/m2-postgres-evidence.mjs",
+    "evidence:m2:ui": "node scripts/m2-supabase-ui-evidence.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -27,5 +30,5 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
-  "description": "Accountability Tracker — M1 shell & auth"
+  "description": "Accountability Tracker — M2 challenge create & Postgres lifecycle"
 }
