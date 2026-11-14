@@ -37,11 +37,11 @@ Applied via Supabase Management API after enabling custom SMTP (Resend). Local `
 | Custom SMTP + sender name | **Applied** | `smtp.resend.com` · `smtp_sender_name=Pactwell` · admin `onboarding@resend.dev` |
 | Fresh confirm delivery | **Delivered** (Resend) | To `smyth.developer@gmail.com` · From `Pactwell <onboarding@resend.dev>` · subject above · HTML has Pactwell copy · ~14:47Z 14 Nov 2026 |
 | Fresh recovery delivery | **Delivered** (Resend) | Same From/branding · subject above · ~14:50Z 14 Nov 2026 (use this Reset; ignore earlier ~14:46Z Reset — superseded after auth user recreate) |
-| Dom inbox click — confirm → Home | **Pending** | Dominic — open Inbox/Spam; click newest Confirm only |
-| Dom inbox click — recovery → Choose a new password | **Pending** | Dominic — click newest Reset only |
+| Dom inbox click — confirm → Home | **Pass** | Dominic — newest Confirm: sender/subject/Pactwell branding OK → Home |
+| Dom inbox click — recovery → Choose a new password | **Pass** | Dominic — newest Reset (~14:50Z): same → Choose a new password |
 | Preview | **Live** | `http://localhost:3000` with `.env.local` |
 
-Prior **4/4 Pass** and callback retest **Pass** retained above. Private beta remains **NO-GO** until verified sending domain + Gate 7. **Stop** before deploy / tester invites.
+Hosted Auth branding inbox verify **Pass** (delivery + Dom sight). Prior **4/4 Pass** and callback retest **Pass** retained above. Private beta remains **NO-GO** until verified sending domain + Gate 7. **Stop** before deploy / tester invites.
 
 ### Auth callback hash fix (retest)
 
