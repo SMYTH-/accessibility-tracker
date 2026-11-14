@@ -31,15 +31,15 @@
 | --- | --- | --- |
 | Config | `EMAIL_FROM=Accountability Tracker <onboarding@resend.dev>`; `M3_TEST_INBOX` = exact Resend-account email (no `+`) | `.env.local` (not committed) |
 | Supabase Auth SMTP | Same sender | Dominic dashboard (prior “email ready”) |
-| Membership **rejection** | **Pass** — outbox → exact inbox; Resend send **200** `01a1da33-7e4f-7a82-aea0-160338567421` | `media/m11/email-resend-evidence.json` |
-| Membership **approval** | **Pass** — outbox → exact inbox; Resend send **200** `01a1da33-826f-7326-92f5-105c1bbfbd3a` | same |
-| Sign-up **verification** | **Queued** via Supabase Auth SMTP | same — **Dominic: open fresh Confirm signup now** |
-| Password **recovery** | **Queued** via Supabase Auth SMTP | same — **Dominic: open fresh Reset password after verify** |
-| Resend GET metadata | N/A — send-only API key (`restricted_api_key`); recipient proven via outbox + send 200 | script handles as optional |
-| Resend MCP | **Declined** — not used; no further auth prompts | — |
+| Membership **rejection** | **Pass** — Resend MCP **delivered** → `smyth.developer@gmail.com` · `01a1da33-7e4f-…` | `media/m11/email-resend-evidence.json` + Resend MCP |
+| Membership **approval** | **Pass** — Resend MCP **delivered** → same inbox · `01a1da33-826f-…` | same |
+| Sign-up **verification** | **Queued** via Supabase Auth SMTP (not in Resend transactional `list-emails`) | same — **Dominic: open fresh Confirm signup** |
+| Password **recovery** | **Queued** via Supabase Auth SMTP (not in Resend transactional list) | same — **Dominic: open fresh Reset password after verify** |
+| Resend GET via send-only key | N/A earlier; MCP now provides delivery status | — |
+| Resend MCP | **Connected** — approve + reject **delivered** to exact `M3_TEST_INBOX`; auth mails not visible in transactional list (SMTP path) | Resend `list-emails` / `get-email` |
 | Caveat | **Test-inbox only** — verified sending domain still required before beta testers | — |
 
-**Human pending (blocks final go/no-go):** Dominic confirms (1) membership approve + reject mail arrived in the exact inbox, (2) fresh Confirm signup link worked, (3) fresh Reset password link worked. Corroboration is Resend API send 200s already recorded + that inbox confirm — not Resend MCP.
+**Human pending (blocks final go/no-go):** Dominic confirms fresh **Confirm signup** then **Reset password** links worked. Approve/reject delivery is MCP-corroborated (**delivered**); optional sighting still welcome.
 
 ### LIFECYCLE_TICK_SECRET
 

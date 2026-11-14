@@ -164,8 +164,41 @@
   },
   "agent_verdict": {
     "approve_reject_send": "PASS",
+    "approve_reject_delivered_mcp": "PASS",
     "verify_recovery_queued": "PASS",
     "human_link_opens": "PENDING",
     "invite_go": "NO-GO"
+  },
+  "resend_mcp": {
+    "status": "connected",
+    "checked_at": "2026-11-14T13:33:55.653780+00:00",
+    "list_emails_count": 4,
+    "membership": {
+      "reject": {
+        "id": "01a1da33-7e4f-7a82-aea0-160338567421",
+        "to": "smyth.developer@gmail.com",
+        "status": "delivered",
+        "from": "Accountability Tracker <onboarding@resend.dev>",
+        "subject": "Membership declined \u2014 M11 Resend 1794662164593"
+      },
+      "approve": {
+        "id": "01a1da33-826f-7326-92f5-105c1bbfbd3a",
+        "to": "smyth.developer@gmail.com",
+        "status": "delivered",
+        "from": "Accountability Tracker <onboarding@resend.dev>",
+        "subject": "Membership approved \u2014 M11 Resend 1794662164593"
+      }
+    },
+    "auth_verify_recovery": {
+      "visible_in_resend_transactional_list": false,
+      "note": "Expected \u2014 Auth mails go via Supabase Auth SMTP, not Resend send API; not listed in list-emails."
+    },
+    "also_seen": [
+      {
+        "id": "01a1da33-b84f-7301-b518-30f88f116535",
+        "subject": "M11 probe",
+        "status": "delivered"
+      }
+    ]
   }
 }
