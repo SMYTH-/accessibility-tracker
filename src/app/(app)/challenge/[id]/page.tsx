@@ -196,7 +196,7 @@ export default async function ChallengeOverviewPage({
               Weekly commitment assessment:{" "}
               {assessed
                 ? `In scope from Monday ${setup?.firstAssessedWeekStart ?? "—"} (challenge TZ; your view only)`
-                : "Not assessed while savings inactive (G1.1-01/03/04)"}
+                : "Not assessed while savings inactive"}
             </li>
           </ul>
         </section>
@@ -220,7 +220,7 @@ export default async function ChallengeOverviewPage({
           canLeave={!leaveBlocked}
           leaveBlockedReason={
             leaveBlocked
-              ? "Owners of Scheduled or Active challenges must transfer ownership before leaving (G1.1-13). Ownership transfer remains open."
+              ? "Owners of Scheduled or Active challenges must transfer ownership before leaving."
               : undefined
           }
         />
@@ -240,7 +240,7 @@ export default async function ChallengeOverviewPage({
             allowed={recordGate.allowed && !isCompleted}
             gateReason={
               isCompleted
-                ? "Completed challenges are read-only — ordinary contribution changes are disabled (G1.1-12)."
+                ? "Completed challenges are read-only — ordinary contribution changes are disabled."
                 : recordGate.reason
             }
             initialIdempotencyKey={randomUUID()}
@@ -308,15 +308,6 @@ export default async function ChallengeOverviewPage({
           >
             Open privacy settings
           </Link>
-        </section>
-
-        <section className="rounded-[var(--radius-lg)] border border-dashed border-[var(--line-strong)] bg-[var(--elevated)] p-5">
-          <h2 className="text-lg font-semibold">Not in M9</h2>
-          <p className="mt-2 text-sm text-[var(--mute)]">
-            Pause scheduling, streak awards, challenge reopen/cancellation, ownership transfer and
-            streak awards / reopen remain OPEN. Post-activation target editing stays parked
-            (M4). Re-opt-in and small-group suppression stay OPEN. Stop before M10.
-          </p>
         </section>
 
         <section className="at-surface p-5">

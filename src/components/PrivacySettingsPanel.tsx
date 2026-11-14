@@ -52,8 +52,8 @@ function ChallengePrivacyCard({ item }: { item: PrivacySettingItem }) {
             figures.
           </p>
           <p className="text-xs text-[var(--mute)]">
-            Re-enabling sharing after opt-out is not available yet (product decision still open).
-            Small-group suppression also remains open and is not invented here.
+            Re-enabling sharing after opt-out is not available yet. Contact support if you need
+            help.
           </p>
         </div>
       ) : (

@@ -110,7 +110,7 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
           </div>
           <p className="rounded-xl bg-[var(--deep-sea-soft)] px-3 py-2 text-sm text-[var(--ink)]">
             Personal savings target and weekly commitment are not required to create — you can
-            set those later (M4).
+            set those later.
           </p>
           <button
             type="button"
@@ -218,8 +218,8 @@ export function ChallengeCreateForm({ defaultTimeZone }: { defaultTimeZone: stri
           <ul className="space-y-1 rounded-xl bg-[var(--honey-soft)] px-3 py-3 text-sm text-[var(--ink)]">
             <li>Private invitation-only challenge (no public listing).</li>
             <li>You become owner and approved member.</li>
-            <li>Savings setup deferred — invites arrive in M3.</li>
-            <li>No cancel action in M2.</li>
+            <li>You can invite members and set up savings after creating.</li>
+            <li>Cancel is not available yet — contact support if you need help.</li>
           </ul>
           {state.error ? (
             <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-900" role="alert">

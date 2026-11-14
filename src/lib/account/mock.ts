@@ -104,7 +104,7 @@ async function buildMockExport(userId: string): Promise<PersonalDataExport> {
     subject_user_id: userId,
     scope: "personal_authorised_only",
     privacy_note:
-      "Contains only the requester's personal records and challenge descriptors for memberships they hold. Other members' emails, amounts, targets, and private monetary fields are excluded (ACC-01 / G1.1-06).",
+      "Contains only your personal records and challenge descriptors for memberships you hold. Other members' emails, amounts, targets, and private monetary fields are excluded.",
     profile: {
       user_id: user.id,
       email: user.email,

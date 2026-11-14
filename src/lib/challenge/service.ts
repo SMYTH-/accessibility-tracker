@@ -257,7 +257,7 @@ export function canRecordSavings(
     return {
       allowed: false,
       reason:
-        "Recording savings requires personal target and weekly commitment setup. Ownership alone is not enough (G1.1-01/03/04).",
+        "Recording savings requires personal target and weekly commitment setup first.",
     };
   }
   return { allowed: true, reason: "Eligible." };

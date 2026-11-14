@@ -112,8 +112,8 @@ export function ChallengeDashboardView({
         </p>
         {isCompleted ? (
           <p className="text-sm text-[var(--ink)]">
-            Ordinary contributions, target changes and commitment changes are disabled
-            (G1.1-12).
+            Ordinary contributions, target changes and commitment changes are disabled for
+            completed challenges.
           </p>
         ) : null}
       </header>
@@ -273,7 +273,7 @@ export function ChallengeDashboardView({
                 </ul>
               </div>
               <p className="mt-2 text-xs text-[var(--mute)]">
-                Visible only to you. Pause scheduling remains open.
+                Visible only to you.
               </p>
             </div>
           ) : null}

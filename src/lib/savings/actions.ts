@@ -42,6 +42,6 @@ export async function updateTargetAction(
 ): Promise<SavingsActionState> {
   return {
     error:
-      "Post-activation target changes are parked until G1.1-10 progress/milestone rules are approved.",
+      "Changing your personal target after activation is not available yet.",
   };
 }
