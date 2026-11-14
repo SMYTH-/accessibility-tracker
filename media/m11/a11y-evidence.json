@@ -1,0 +1,130 @@
+{
+  "stamp": 1794659832064,
+  "project": "gdrkejobqlvtwnlaedpu",
+  "challengeId": "7c242d62-5510-4ed8-94a5-dc5fca66e5bd",
+  "methodology": "OPEN per mvp-build-plan §3.3 — Manual WCAG 2.2 AA checklist + axe on core journeys",
+  "axeReports": [
+    {
+      "label": "sign-in",
+      "url": "http://127.0.0.1:3011/sign-in",
+      "violations": [],
+      "passes": 25,
+      "incomplete": []
+    },
+    {
+      "label": "home",
+      "url": "http://127.0.0.1:3011/home",
+      "violations": [],
+      "passes": 25,
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "label": "challenge",
+      "url": "http://127.0.0.1:3011/challenge/7c242d62-5510-4ed8-94a5-dc5fca66e5bd",
+      "violations": [],
+      "passes": 29,
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "label": "record-on-challenge",
+      "url": "http://127.0.0.1:3011/challenge/7c242d62-5510-4ed8-94a5-dc5fca66e5bd#contributions",
+      "violations": [],
+      "passes": 29,
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "label": "activity",
+      "url": "http://127.0.0.1:3011/activity",
+      "violations": [],
+      "passes": 21,
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "label": "profile",
+      "url": "http://127.0.0.1:3011/profile",
+      "violations": [],
+      "passes": 28,
+      "incomplete": []
+    }
+  ],
+  "results": [
+    {
+      "name": "axe:sign-in no critical/serious",
+      "ok": true,
+      "detail": "clean"
+    },
+    {
+      "name": "keyboard: focus reaches email or interactive control",
+      "ok": true,
+      "detail": "password"
+    },
+    {
+      "name": "axe:home no critical/serious",
+      "ok": true,
+      "detail": "clean"
+    },
+    {
+      "name": "axe:challenge no critical/serious",
+      "ok": true,
+      "detail": "clean"
+    },
+    {
+      "name": "axe:record-on-challenge no critical/serious",
+      "ok": true,
+      "detail": "clean"
+    },
+    {
+      "name": "axe:activity no critical/serious",
+      "ok": true,
+      "detail": "clean"
+    },
+    {
+      "name": "axe:profile no critical/serious",
+      "ok": true,
+      "detail": "clean"
+    },
+    {
+      "name": "focus: visible indicator on interactive",
+      "ok": true,
+      "detail": "{\"ok\":true,\"outline\":\"color(srgb 0.124706 0.214314 0.669216) solid 3px\",\"boxShadow\":\"none\"}"
+    },
+    {
+      "name": "reflow: 320px default text no page horizontal scroll",
+      "ok": true,
+      "detail": "{\"scrollWidth\":320,\"clientWidth\":320}"
+    },
+    {
+      "name": "resize-text: ~200% at 320px no page horizontal scroll",
+      "ok": true,
+      "detail": "{\"scrollWidth\":320,\"clientWidth\":320}"
+    },
+    {
+      "name": "contrast: axe color-contrast on sampled pages",
+      "ok": true,
+      "detail": "none"
+    }
+  ],
+  "untestedCriteria": [
+    "Full screen-reader walkthrough with VoiceOver/TalkBack (manual; partial keyboard only)",
+    "All WCAG 2.2 AA success criteria beyond axe tags + focus/zoom probes",
+    "Honey Amber contrast pairs formal lock (OPEN — working accents)",
+    "Reduced-motion preference verification across all animated surfaces",
+    "Error-message association audit on every form validation state",
+    "Auth recovery email flow a11y (rate-limited live path)"
+  ],
+  "blockers": [],
+  "summary": {
+    "total": 11,
+    "passed": 11,
+    "failed": 0,
+    "axeViolationPages": 0
+  }
+}

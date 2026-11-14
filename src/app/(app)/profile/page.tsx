@@ -61,7 +61,7 @@ export default async function ProfilePage() {
       subtitle="Display name, privacy, and account controls (ACC-01)."
     >
       <div className="space-y-4">
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="at-surface p-5">
           <dl className="space-y-3 text-sm">
             <div>
               <dt className="text-[var(--mute)]">Email</dt>
@@ -80,7 +80,7 @@ export default async function ProfilePage() {
           </dl>
         </section>
 
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+        <section className="at-surface p-5">
           <h2 className="mb-3 text-lg font-semibold">Display name</h2>
           <ProfileForm displayName={user.displayName} />
         </section>
@@ -95,7 +95,7 @@ export default async function ProfilePage() {
         <form action={signOutAction}>
           <button
             type="submit"
-            className="w-full rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold text-[var(--ink)] transition hover:bg-[var(--paper)]"
+            className="at-btn-secondary w-full"
           >
             Sign out
           </button>

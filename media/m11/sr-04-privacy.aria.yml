@@ -1,0 +1,71 @@
+- banner:
+  - paragraph: Accountability Tracker
+  - heading "Profile" [level=1]
+  - paragraph: Display name, privacy, and account controls (ACC-01).
+- main:
+  - term: Email
+  - definition: m11.sr.1794656523785@example.com
+  - term: Email verified
+  - definition: "Yes"
+  - term: Auth mode
+  - definition: supabase
+  - heading "Display name" [level=2]
+  - text: Display name
+  - textbox "Display name": Alex
+  - button "Save profile"
+  - region "Financial privacy":
+    - heading "Financial privacy" [level=2]
+    - paragraph:
+      - text: Monetary information is visible to
+      - strong: approved challenge members
+      - text: by default — not private by default.
+    - list:
+      - listitem:
+        - text: "One control per challenge:"
+        - strong: Hide monetary information (opt-out)
+        - text: hides amounts
+        - emphasis: and
+        - text: target.
+      - listitem: You always see your own authorised figures.
+      - listitem:
+        - text: Visible totals are labelled
+        - strong: Sharing members only
+        - text: — not a full-group total.
+    - strong: "Warning:"
+    - text: Opting out cannot undo what others already saw.
+    - article:
+      - heading "M11 SR 1794656523785" [level=3]
+      - paragraph: Active · owner · GBP
+      - text: Sharing
+      - checkbox "Hide monetary information (opt-out) Hides both your reported savings amounts and your individual target from other approved members, and excludes you from Sharing members only totals. Default is off — you are visible until you opt out."
+      - strong: Hide monetary information (opt-out)
+      - text: Hides both your reported savings amounts and your individual target from other approved members, and excludes you from Sharing members only totals. Default is off — you are visible until you opt out.
+      - strong: "Warning:"
+      - text: Opting out cannot undo what others already saw.
+      - checkbox "I understand that opting out cannot undo what others already saw."
+      - text: I understand that opting out cannot undo what others already saw.
+      - button "Save privacy setting" [disabled]
+  - heading "Account controls" [level=2]
+  - paragraph: Export your authorised personal data (ACC-01). Request deletion under the approved transfer / 7-day grace rules.
+  - heading "Personal data export" [level=3]
+  - paragraph: Includes only your profile, memberships, savings, contributions, and challenge descriptors you belong to. Other members' private monetary information is excluded.
+  - button "Export my data"
+  - heading "Account deletion" [level=3]
+  - list:
+    - listitem: Active/Scheduled ownership requires an audited transfer to an eligible approved member when one exists.
+    - listitem: If none exist, remaining members are notified and a 7-day grace starts; at expiry the challenge is cancelled before your access is removed.
+    - listitem: A valid transfer during grace prevents cancellation.
+  - checkbox "I understand deletion revokes access, removes identity data, and may cancel Active/Scheduled challenges I own if no eligible replacement exists after the grace period."
+  - text: I understand deletion revokes access, removes identity data, and may cancel Active/Scheduled challenges I own if no eligible replacement exists after the grace period.
+  - button "Request account deletion" [disabled]
+  - button "Sign out"
+- navigation "Primary":
+  - link "Home":
+    - /url: /home
+  - link "Challenge":
+    - /url: /challenge
+  - link "Activity":
+    - /url: /activity
+  - link "Profile":
+    - /url: /profile
+- alert

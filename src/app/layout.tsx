@@ -10,13 +10,13 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "Accountability Tracker",
   description:
-    "M6 — personal dashboard and sharing-member totals (working accents only; stop before M7). Brand typography remains open.",
+    "Accountability Tracker — personal savings with sharing-member totals. Manrope working type; brand typography remains open.",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#1A6B7C",
+  themeColor: "#2B4CFF",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -19,7 +19,7 @@ export function JoinDisclosureForm({
     <form action={action} className="space-y-4">
       <input type="hidden" name="token" value={token} />
 
-      <article className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+      <article className="at-surface p-5">
         <p className="text-xs font-semibold uppercase tracking-wide text-[var(--mute)]">
           How monetary visibility works
         </p>
@@ -41,7 +41,7 @@ export function JoinDisclosureForm({
         </div>
       </article>
 
-      <label className="flex items-start gap-3 rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-4 text-sm">
+      <label className="flex items-start gap-3 at-surface p-4 text-sm">
         <input
           type="checkbox"
           name="privacyAck"
@@ -64,7 +64,7 @@ export function JoinDisclosureForm({
         type="submit"
         disabled={!acked || pending}
         aria-disabled={!acked || pending}
-        className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
+        className="at-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
       >
         {pending ? "Submitting…" : "Continue to request join"}
       </button>

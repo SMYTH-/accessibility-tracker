@@ -21,7 +21,7 @@ export default async function InviteJoinDisclosurePage({
     return (
       <AuthCard title="Before you join" subtitle="Invitation unavailable">
         <p className="text-sm text-[var(--mute)]">{previewResult.error}</p>
-        <Link href={`/invite/${token}`} className="mt-4 inline-block text-sm font-semibold text-[var(--deep-sea)] underline">
+        <Link href={`/invite/${token}`} className="mt-4 inline-block text-sm font-semibold text-[var(--accent)] underline">
           Back
         </Link>
       </AuthCard>
@@ -47,7 +47,7 @@ export default async function InviteJoinDisclosurePage({
       <JoinDisclosureForm token={token} challengeName={preview.name} />
       <Link
         href={`/invite/${token}`}
-        className="mt-3 inline-flex w-full items-center justify-center rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold"
+        className="at-btn-secondary mt-3 w-full"
       >
         Cancel
       </Link>

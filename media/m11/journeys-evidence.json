@@ -1,0 +1,478 @@
+{
+  "stamp": 1794659748827,
+  "project": "gdrkejobqlvtwnlaedpu",
+  "challengeId": "3cfcd8d4-4e99-412a-8baa-1b5abd9b3fae",
+  "streakId": "0a9265dd-e3c7-490b-8e87-020b9b0fadc5",
+  "completeId": "8b9de25d-85fd-4836-96f5-8b5f612785da",
+  "email": {
+    "intendedBetaPath": "Resend → Dominic inbox (M3 carry-forward)",
+    "resendConfigured": false,
+    "actualProvider": "ethereal",
+    "reject": {
+      "notificationId": "965e27d4-48dc-4f47-a530-34ad47638d77",
+      "messageId": "<9e694ccd-bb7e-adc0-496b-ac7818e21a5d@resend.dev>",
+      "previewUrl": "https://ethereal.email/message/avhVqUs6EhPCtoqMavhVqs40LAJkY01FAAAAAaE2O7Bb5hPdkRFHuLOyh.0",
+      "subject": "Membership declined — M11 Journey 1794659748827"
+    },
+    "approve": {
+      "notificationId": "333395f7-2425-464e-ad72-164ce8e5b97e",
+      "messageId": "<ff51da3e-3517-45aa-4483-eed38d046917@resend.dev>",
+      "previewUrl": "https://ethereal.email/message/avhVqUs6EhPCtoqMavhVq2jCd8MK6g7OAAAAAhccy4O3lUTD1seHV2VjLI0",
+      "subject": "Membership approved — M11 Journey 1794659748827"
+    },
+    "note": "No RESEND_API_KEY in env — delivery verified via Ethereal (M3 interim). Beta invite path still needs Resend configured before inviting human testers."
+  },
+  "openItemsNoted": [
+    "Pause scheduling / streak awards (G1.1-08 thresholds UX / G1.1-11) still OPEN",
+    "Re-opt-in after monetary opt-out still OPEN (REOPT_IN_DEFERRED)",
+    "Manual cancel UX (non-deletion) still OPEN",
+    "Multi-year anonymised history purge calendar still OPEN — proposal only in M11"
+  ],
+  "results": [
+    {
+      "name": "users ready",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "alex sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sam sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pending sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "stranger sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "removable sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "solo sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A: create challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A: challenge id",
+      "ok": true,
+      "detail": "3cfcd8d4-4e99-412a-8baa-1b5abd9b3fae"
+    },
+    {
+      "name": "A: owner approved participant",
+      "ok": true,
+      "detail": "{\"id\":\"3a23bda7-5d8d-4876-a0a5-29381e4e5680\",\"role\":\"owner\",\"status\":\"approved\",\"user_id\":\"95532449-00bf-4964-8847-2c2bcf9c6bac\",\"created_at\":\"2026-11-14T12:35:52.454569+00:00\",\"decided_at\":null,\"decided_by\":null,\"updated_at\":\"2026-11-14T12:35:52.454569+00:00\",\"challenge_id\":\"3cfcd8d4-4e99-412a-8baa-1b5abd9b3fae\",\"requested_at\":null,\"invitation_id\":null,\"share_monetary_info\":true,\"privacy_disclosure_acked_at\":null,\"savings_participation_active\":false}"
+    },
+    {
+      "name": "A: invite token",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A: invite ~7 day expiry",
+      "ok": true,
+      "detail": "deltaMs=604800000"
+    },
+    {
+      "name": "signed-out: invite preview ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "signed-out: preview no financial keys",
+      "ok": true,
+      "detail": "challenge_id,description,end_date,expires_at,invitation_id,name,participant_count,start_date"
+    },
+    {
+      "name": "signed-out: dashboard denied",
+      "ok": true,
+      "detail": "UNAUTHENTICATED"
+    },
+    {
+      "name": "signed-out: export denied",
+      "ok": true,
+      "detail": "permission denied for function export_own_personal_data"
+    },
+    {
+      "name": "B: sam request pending",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pending: dashboard denied",
+      "ok": true,
+      "detail": "MEMBERSHIP_REQUIRED"
+    },
+    {
+      "name": "B: owner decline + notif",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B: reject outbox recorded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B: reject email delivered (provider)",
+      "ok": true,
+      "detail": "ethereal"
+    },
+    {
+      "name": "B: sam re-request pending",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B: owner approve; savings inactive",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B: approve outbox recorded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B: approve email delivered (provider)",
+      "ok": true,
+      "detail": "ethereal"
+    },
+    {
+      "name": "B: intended beta email = Resend; actual provider recorded",
+      "ok": true,
+      "detail": "intended=resend actual=ethereal resendConfigured=false"
+    },
+    {
+      "name": "B: removable request",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B: removable approved",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pending user stays pending",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B/setup: activate alex",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B/setup: activate sam",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B/setup: activate removable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C: alex record",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C: alex duplicate submit ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C: duplicate same contribution id (no double count)",
+      "ok": true,
+      "detail": "first=1f359cf6-0495-4c61-bd2c-2fc7750da5d2 dup=1f359cf6-0495-4c61-bd2c-2fc7750da5d2 replayed=true"
+    },
+    {
+      "name": "C: alex amend → 1240",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C: sam record",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "C: removable record",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D: alex dashboard",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D: sam dashboard",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "D: sharing label",
+      "ok": true,
+      "detail": "Sharing members only"
+    },
+    {
+      "name": "D: alex sees own personal",
+      "ok": true,
+      "detail": "124000"
+    },
+    {
+      "name": "D: sam sees alex amounts while sharing",
+      "ok": true,
+      "detail": "{\"role\":\"owner\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"95532449-00bf-4964-8847-2c2bcf9c6bac\",\"currency\":\"GBP\",\"display_name\":\"Alex\",\"privacy_chip\":null,\"source_label\":\"self-reported\",\"target_minor\":200000,\"membership_id\":\"3a23bda7-5d8d-4876-a0a5-29381e4e5680\",\"progress_percent\":62,\"share_monetary_info\":true,\"eligible_total_minor\":124000,\"weekly_commitment_minor\":5000,\"savings_participation_active\":true}"
+    },
+    {
+      "name": "stranger: dashboard denied",
+      "ok": true,
+      "detail": "MEMBERSHIP_REQUIRED"
+    },
+    {
+      "name": "pending: still denied after others approved",
+      "ok": true,
+      "detail": "MEMBERSHIP_REQUIRED"
+    },
+    {
+      "name": "E: streak challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: activate Mon W43",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: seed m11-w43-1794659748827",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: seed m11-w44-1794659748827",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: seed m11-w45-1794659748827",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: assess after miss",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: W45 missed preserved",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: streak 0 after miss",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: seed m11-w46-meet-1794659748827",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: recovery streak begins automatically (W46)",
+      "ok": true,
+      "detail": "streak=1 status=completed"
+    },
+    {
+      "name": "E: missed week still recorded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: amend miss week",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "E: W45 completed after amend; streak includes recovery",
+      "ok": true,
+      "detail": "status=completed streak=4"
+    },
+    {
+      "name": "E: pause scheduling OPEN (not tested as product feature)",
+      "ok": true,
+      "detail": "G1.1-11 pause UX still OPEN per M8/M10 carry-forward"
+    },
+    {
+      "name": "opt-out: alex",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opt-out: sam sees Private chip",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opt-out: sam loses alex monetary fields",
+      "ok": true,
+      "detail": "{\"role\":\"owner\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"95532449-00bf-4964-8847-2c2bcf9c6bac\",\"display_name\":\"Alex\",\"privacy_chip\":\"Private\",\"membership_id\":\"3a23bda7-5d8d-4876-a0a5-29381e4e5680\",\"share_monetary_info\":false,\"savings_participation_active\":true}"
+    },
+    {
+      "name": "opt-out: alex still sees own figures",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opt-out: sam",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opt-out: alex sees sam Private",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opt-out: alex loses sam monetary fields",
+      "ok": true,
+      "detail": "{\"role\":\"member\",\"status\":\"approved\",\"is_self\":false,\"user_id\":\"886e5ec1-ce27-4fdf-b1b2-c90ab025161c\",\"display_name\":\"Sam\",\"privacy_chip\":\"Private\",\"membership_id\":\"77a4d6c8-dc96-43d3-971a-6622c1298ace\",\"share_monetary_info\":false,\"savings_participation_active\":true}"
+    },
+    {
+      "name": "removed: owner remove rpc",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "removed: dashboard denied",
+      "ok": true,
+      "detail": "MEMBERSHIP_REQUIRED"
+    },
+    {
+      "name": "removed: can still export own account data",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "completion: tick ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "completion: Completed",
+      "ok": true,
+      "detail": "Completed"
+    },
+    {
+      "name": "completion: ordinary create rejected",
+      "ok": true,
+      "detail": "CHALLENGE_READONLY"
+    },
+    {
+      "name": "export: alex ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "export: sam ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "export: stranger ok (empty own)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "export: alex blob excludes sam email",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "export: sam blob excludes alex email",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "export: alex excludes peer private monetary after opt-out context",
+      "ok": true,
+      "detail": "peer amounts must not appear as alex-owned figures"
+    },
+    {
+      "name": "export: alex contributions only self",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "name": "deletion: solo challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "deletion: second session sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "deletion: second session export before",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "deletion: request completes or revoking",
+      "ok": true,
+      "detail": "completed"
+    },
+    {
+      "name": "deletion: completed",
+      "ok": true,
+      "detail": "completed"
+    },
+    {
+      "name": "deleted/revoked session: export denied",
+      "ok": true,
+      "detail": "ACCOUNT_ACCESS_REVOKED"
+    },
+    {
+      "name": "deleted/revoked session: dashboard denied",
+      "ok": true,
+      "detail": "ACCOUNT_ACCESS_REVOKED"
+    },
+    {
+      "name": "deleted/revoked session: refresh fails",
+      "ok": true,
+      "detail": "Invalid Refresh Token: Refresh Token Not Found"
+    },
+    {
+      "name": "deleted: old password sign-in fails",
+      "ok": true,
+      "detail": "Invalid login credentials"
+    }
+  ],
+  "summary": {
+    "total": 88,
+    "passed": 88,
+    "failed": 0
+  }
+}

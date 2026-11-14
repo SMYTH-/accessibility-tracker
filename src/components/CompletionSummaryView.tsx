@@ -12,7 +12,7 @@ export function CompletionSummaryView({
 
   return (
     <div className="space-y-4" data-testid="completion-summary">
-      <header className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+      <header className="at-surface p-5">
         <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
           Completed challenge
         </p>
@@ -38,7 +38,7 @@ export function CompletionSummaryView({
       </header>
 
       <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
+        className="at-surface p-5"
         aria-labelledby="completion-personal-label"
       >
         <p
@@ -80,7 +80,7 @@ export function CompletionSummaryView({
       </section>
 
       <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
+        className="at-surface p-5"
         aria-labelledby="completion-participation-label"
       >
         <p
@@ -97,7 +97,7 @@ export function CompletionSummaryView({
       </section>
 
       <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
+        className="at-surface p-5"
         aria-labelledby="completion-share-label"
       >
         <p
@@ -114,7 +114,7 @@ export function CompletionSummaryView({
       </section>
 
       <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
+        className="at-surface p-5"
         aria-labelledby="completion-roster-label"
         data-testid="completion-roster"
       >
@@ -162,7 +162,7 @@ export function CompletionSummaryView({
       </section>
 
       <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
+        className="at-surface p-5"
         aria-labelledby="completion-activity-label"
       >
         <p

@@ -122,6 +122,12 @@ async function pgConsume(
   };
 }
 
+const PRE_AUTH_ACTIONS: ReadonlySet<RateLimitAction> = new Set([
+  "auth.sign_in",
+  "auth.sign_up",
+  "auth.recovery",
+]);
+
 export async function consumeRateLimit(
   action: RateLimitAction,
   subject: string,
@@ -130,6 +136,19 @@ export async function consumeRateLimit(
   const normalized = subject.trim().toLowerCase() || "anonymous";
   if (getAuthMode() === "supabase") {
     try {
+      // Pre-auth buckets must use service_role (M11 subject binding forbids
+      // unauthenticated JWT callers from choosing arbitrary email subjects).
+      if (PRE_AUTH_ACTIONS.has(action)) {
+        const { createAdminClient } = await import("@/lib/auth/supabase/admin");
+        const admin = createAdminClient();
+        return pgConsume(
+          admin,
+          policy.action,
+          normalized,
+          policy.limit,
+          policy.windowSeconds,
+        );
+      }
       const supabase = await createClient();
       return pgConsume(
         supabase,

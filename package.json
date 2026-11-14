@@ -16,6 +16,11 @@
     "smoke:m8": "node scripts/m8-assessment-smoke.mjs && npx --yes tsx scripts/m8-service-smoke.ts",
     "smoke:m9": "npx --yes tsx scripts/m9-service-smoke.ts",
     "smoke:m10": "npx --yes tsx scripts/m10-service-smoke.ts",
+    "evidence:m11:journeys": "node --env-file=.env.local scripts/m11-journeys-evidence.mjs",
+    "evidence:m11:ui": "node --env-file=.env.local scripts/m11-ui-evidence.mjs",
+    "evidence:m11:a11y": "node --env-file=.env.local scripts/m11-a11y-evidence.mjs",
+    "evidence:m11:sr": "node --env-file=.env.local scripts/m11-screenreader-evidence.mjs",
+    "evidence:m11:tick": "node --env-file=.env.local scripts/m11-lifecycle-tick-auth.mjs",
     "evidence:m2:pg": "node --env-file=.env.local scripts/m2-postgres-evidence.mjs",
     "evidence:m2:ui": "node scripts/m2-supabase-ui-evidence.mjs",
     "evidence:m3:pg": "node --env-file=.env.local scripts/m3-postgres-evidence.mjs",
@@ -46,6 +51,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/nodemailer": "^8.0.2",
@@ -54,9 +60,16 @@
     "eslint": "^9",
     "eslint-config-next": "^15.5.7",
     "playwright": "^1.65.0",
-    "postcss": "^8",
+    "postcss": "8.5.32",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
-  "description": "Accountability Tracker — M10 account controls and hardening"
+  "description": "Accountability Tracker \u2014 M11 private-beta readiness",
+  "optionalDependencies": {
+    "sharp": "0.35.5"
+  },
+  "overrides": {
+    "sharp": "0.35.5",
+    "postcss": "8.5.32"
+  }
 }

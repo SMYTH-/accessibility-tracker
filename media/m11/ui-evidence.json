@@ -1,0 +1,14 @@
+{
+  "stamp": 1794609104771,
+  "challengeId": "8fab1f84-1679-4e36-a3cd-80222a6c3f6d",
+  "tokenPresent": true,
+  "shots": [
+    "01-invite-preview-signed-out.png",
+    "02-alex-home.png",
+    "03-alex-challenge-sharing.png",
+    "04-alex-profile-account-controls.png",
+    "05-sam-challenge-sees-alex.png",
+    "06-sam-challenge-after-alex-opt-out.png",
+    "07-sam-activity-privacy.png"
+  ]
+}

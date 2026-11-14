@@ -2,17 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Working direction v2.1 — MD3 / Wise-inspired structure (Dom refs).
+  Royal blue accent (not Wise lime) for unique AT identity.
+  White/off-white surfaces. Manrope only. Hold — not product direction.
+*/
 :root {
-  --paper: #f5f7fa;
+  --paper: #f7f7f4;
   --elevated: #ffffff;
-  --ink: #142033;
-  --mute: #5a6577;
-  --line: #d8dee8;
-  --deep-sea: #1a6b7c;
-  --deep-sea-soft: #e6f2f5;
+  --surface-soft: #f2f2ef;
+  --ink: #0b0f0e;
+  /* Darkened for AA on --surface-soft / --honey-soft (≥4.5:1) */
+  --mute: #4b5563;
+  --line: #e5e7eb;
+  --line-strong: #d1d5db;
+  --deep-sea: #16332b;
+  --deep-sea-soft: #e8f0ec;
+  /* Royal blue — replaces Wise-like lime CTAs */
+  --accent: #2b4cff;
+  --accent-ink: #ffffff;
+  --accent-soft: #e8eeff;
+  /* Back-compat aliases used sparsely during rename */
+  --lime: var(--accent);
+  --lime-ink: var(--accent-ink);
+  --lime-soft: var(--accent-soft);
   --honey: #c9842a;
-  --honey-soft: #f8efdf;
-  --shadow: 0 1px 2px rgba(20, 32, 51, 0.06), 0 8px 24px rgba(20, 32, 51, 0.04);
+  --honey-soft: #f7f0e4;
+  --nav-pill: rgba(255, 255, 255, 0.92);
+  --nav-active: #e8e8e4;
+  --shadow: 0 1px 2px rgba(11, 15, 14, 0.04), 0 8px 24px rgba(11, 15, 14, 0.06);
+  --shadow-nav: 0 4px 24px rgba(11, 15, 14, 0.12);
+  --radius-lg: 1.25rem;
+  --radius-md: 1rem;
+  --radius-sheet: 1.75rem;
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, white);
 }
 
 html,
@@ -22,10 +45,101 @@ body {
 
 body {
   color: var(--ink);
-  background:
-    radial-gradient(ellipse 80% 50% at 20% 0%, #dfeaf0 0%, transparent 55%),
-    radial-gradient(ellipse 70% 40% at 90% 10%, #f3e8d4 0%, transparent 45%),
-    linear-gradient(165deg, #e8eef3 0%, #f5f7fa 45%, #ece7dc 100%);
+  background: var(--paper);
   font-family: var(--font-ui), "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--accent) 65%, var(--ink));
+    outline-offset: 2px;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--accent) 65%, var(--ink));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .at-surface {
+    @apply rounded-[var(--radius-lg)] bg-[var(--elevated)];
+    border: 1px solid var(--line);
+  }
+
+  .at-surface-soft {
+    @apply rounded-[var(--radius-lg)] bg-[var(--surface-soft)];
+  }
+
+  .at-section-label {
+    @apply text-sm font-medium text-[var(--mute)];
+  }
+
+  .at-hero-figure {
+    @apply text-[2.5rem] font-bold leading-none tracking-tight tabular-nums text-[var(--ink)] sm:text-[2.85rem];
+  }
+
+  .at-btn-primary {
+    @apply inline-flex w-full items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3.5 text-sm font-semibold text-[var(--accent-ink)] transition-[transform,filter] duration-150 ease-out hover:brightness-95 active:scale-[0.99] disabled:opacity-55;
+  }
+
+  .at-btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-[var(--line-strong)] bg-[var(--elevated)] px-4 py-2.5 text-sm font-semibold text-[var(--ink)] transition-colors hover:bg-[var(--surface-soft)];
+  }
+
+  .at-btn-circle {
+    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--line-strong)] bg-[var(--elevated)] text-[var(--ink)] transition-colors hover:bg-[var(--surface-soft)];
+  }
+
+  .at-chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-[var(--line-strong)] bg-[var(--elevated)] px-3 py-1.5 text-xs font-semibold text-[var(--ink)];
+  }
+
+  .at-chip-selected {
+    @apply inline-flex items-center gap-1 rounded-full border border-transparent bg-[var(--accent)] px-3 py-1.5 text-xs font-semibold text-[var(--accent-ink)];
+  }
+
+  .at-input {
+    @apply mt-1.5 w-full rounded-[var(--radius-md)] border border-[var(--line-strong)] bg-[var(--elevated)] px-3.5 py-3.5 text-base tabular-nums text-[var(--ink)] transition-[border-color,box-shadow] placeholder:text-[var(--mute)];
+  }
+
+  .at-input:focus-visible {
+    border-color: var(--accent);
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+
+  .at-list-row {
+    @apply flex items-center gap-3 py-3.5;
+  }
+
+  .at-avatar {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--elevated)] text-sm font-semibold text-[var(--ink)];
+  }
+
+  .at-chevron {
+    @apply shrink-0 text-[var(--mute)];
+  }
+
+  .at-label-stack {
+    @apply flex min-w-0 flex-1 flex-col gap-0.5;
+  }
+
+  .at-label-stack > .label {
+    @apply text-xs font-medium text-[var(--mute)];
+  }
+
+  .at-label-stack > .value {
+    @apply text-base font-semibold text-[var(--ink)];
+  }
 }

@@ -45,7 +45,7 @@ function Field({
         autoComplete={autoComplete}
         required={required}
         defaultValue={defaultValue}
-        className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 text-[var(--ink)] outline-none ring-[var(--deep-sea)] transition focus:ring-2"
+        className="at-input"
       />
     </label>
   );
@@ -55,7 +55,7 @@ function Alert({ tone, children }: { tone: "error" | "ok"; children: React.React
   const styles =
     tone === "error"
       ? "border-red-200 bg-red-50 text-red-900"
-      : "border-[color-mix(in_srgb,var(--deep-sea)_25%,white)] bg-[var(--deep-sea-soft)] text-[var(--ink)]";
+      : "border-[var(--line)] bg-[var(--accent-soft)] text-[var(--ink)]";
   return (
     <div className={`rounded-xl border px-3 py-2 text-sm ${styles}`} role="status">
       {children}
@@ -122,7 +122,7 @@ export function SignUpForm({ nextPath }: { nextPath?: string }) {
           {message}
           {verifyHref ? (
             <p className="mt-2">
-              <Link className="font-semibold text-[var(--deep-sea)] underline" href={verifyHref}>
+              <Link className="font-semibold text-[var(--accent)] underline" href={verifyHref}>
                 Verify email (mock link)
               </Link>
             </p>
@@ -132,13 +132,13 @@ export function SignUpForm({ nextPath }: { nextPath?: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white transition hover:brightness-110 disabled:opacity-60"
+        className="at-btn-primary disabled:opacity-60"
       >
         {pending ? "Creating…" : "Create account"}
       </button>
       <p className="text-center text-sm text-[var(--mute)]">
         Already have an account?{" "}
-        <Link href={signInHref} className="font-semibold text-[var(--deep-sea)]">
+        <Link href={signInHref} className="font-semibold text-[var(--accent)]">
           Sign in
         </Link>
       </p>
@@ -186,12 +186,12 @@ export function SignInForm({ nextPath = "/home" }: { nextPath?: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white transition hover:brightness-110 disabled:opacity-60"
+        className="at-btn-primary disabled:opacity-60"
       >
         {pending ? "Signing in…" : "Sign in"}
       </button>
       <div className="flex justify-between text-sm">
-        <Link href="/sign-up" className="font-semibold text-[var(--deep-sea)]">
+        <Link href="/sign-up" className="font-semibold text-[var(--accent)]">
           Create account
         </Link>
         <Link href="/reset-password" className="text-[var(--mute)] hover:text-[var(--ink)]">
@@ -240,7 +240,7 @@ export function ResetPasswordForm() {
           {message}
           {resetHref ? (
             <p className="mt-2">
-              <Link className="font-semibold text-[var(--deep-sea)] underline" href={resetHref}>
+              <Link className="font-semibold text-[var(--accent)] underline" href={resetHref}>
                 Open recovery link (mock)
               </Link>
             </p>
@@ -297,7 +297,7 @@ export function UpdatePasswordForm({ token }: { token?: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white transition hover:brightness-110 disabled:opacity-60"
+        className="at-btn-primary disabled:opacity-60"
       >
         {pending ? "Updating…" : "Update password"}
       </button>
@@ -325,7 +325,7 @@ export function VerifyEmailPanel({ token }: { token?: string }) {
       <button
         type="button"
         disabled={pending}
-        className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white transition hover:brightness-110 disabled:opacity-60"
+        className="at-btn-primary disabled:opacity-60"
         onClick={() => {
           setError(null);
           start(async () => {
@@ -341,7 +341,7 @@ export function VerifyEmailPanel({ token }: { token?: string }) {
         {pending ? "Verifying…" : "Confirm email verification"}
       </button>
       <p className="text-center text-sm">
-        <Link href="/sign-in" className="font-semibold text-[var(--deep-sea)]">
+        <Link href="/sign-in" className="font-semibold text-[var(--accent)]">
           Continue to sign in
         </Link>
       </p>
@@ -387,7 +387,7 @@ export function ProfileForm({ displayName }: { displayName: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white transition hover:brightness-110 disabled:opacity-60"
+        className="at-btn-primary disabled:opacity-60"
       >
         {pending ? "Saving…" : "Save profile"}
       </button>

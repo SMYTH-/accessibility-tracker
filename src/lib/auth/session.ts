@@ -6,9 +6,8 @@ import type { AuthUser } from "./types";
 async function isAccessDenied(supabase: Awaited<ReturnType<typeof createClient>>) {
   const { data, error } = await supabase.rpc("account_access_denied_for_me");
   if (error) {
-    // Fail closed when the denial probe itself is rejected as revoked.
-    if (error.message?.includes("ACCOUNT_ACCESS_REVOKED")) return true;
-    return false;
+    // Fail closed: unexpected probe errors must not leave a revoked JWT usable.
+    return true;
   }
   return Boolean(data);
 }

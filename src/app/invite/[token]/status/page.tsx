@@ -95,13 +95,13 @@ export default async function InviteStatusPage({
       <div className="mt-5 space-y-2">
         <Link
           href="/home"
-          className="flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
+          className="at-btn-primary"
         >
           Go to home
         </Link>
         <Link
           href={`/invite/${token}`}
-          className="flex w-full items-center justify-center rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-sm font-semibold"
+          className="at-btn-secondary w-full"
         >
           Back to invite
         </Link>

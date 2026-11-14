@@ -20,7 +20,7 @@ function Alert({
   const styles =
     tone === "error"
       ? "border-red-200 bg-red-50 text-red-900"
-      : "border-[color-mix(in_srgb,var(--deep-sea)_25%,white)] bg-[var(--deep-sea-soft)] text-[var(--ink)]";
+      : "border-[var(--line)] bg-[var(--accent-soft)] text-[var(--ink)]";
   return (
     <div className={`rounded-xl border px-3 py-2 text-sm ${styles}`} role="status">
       {children}
@@ -48,7 +48,7 @@ export function SavingsSetupForm({
 
   if (savingsParticipationActive && setup) {
     return (
-      <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+      <section className="at-surface p-5">
         <h2 className="text-lg font-semibold">
           Your savings setup
         </h2>
@@ -85,7 +85,7 @@ export function SavingsSetupForm({
   }
 
   return (
-    <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
+    <section className="at-surface p-5">
       <h2 className="text-lg font-semibold">
         Activate savings participation
       </h2>
@@ -106,7 +106,7 @@ export function SavingsSetupForm({
             inputMode="decimal"
             placeholder="2000.00"
             required
-            className="mt-1 w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 text-sm"
+            className="at-input text-sm"
           />
         </div>
         <div>
@@ -123,7 +123,7 @@ export function SavingsSetupForm({
             inputMode="decimal"
             placeholder="50.00"
             required
-            className="mt-1 w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 text-sm"
+            className="at-input text-sm"
           />
         </div>
         <p className="text-xs text-[var(--mute)]">
@@ -135,7 +135,7 @@ export function SavingsSetupForm({
         <button
           type="submit"
           disabled={activatePending}
-          className="w-full rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white disabled:opacity-60"
+          className="at-btn-primary disabled:opacity-60"
         >
           {activatePending ? "Activating…" : "Activate savings"}
         </button>

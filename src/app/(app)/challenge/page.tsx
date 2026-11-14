@@ -19,13 +19,13 @@ export default async function ChallengeIndexPage() {
       <div className="space-y-4">
         <Link
           href="/challenge/new"
-          className="flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
+          className="at-btn-primary"
         >
           Create challenge
         </Link>
 
         {rows.length === 0 ? (
-          <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
+          <section className="rounded-[var(--radius-lg)] border border-dashed border-[var(--line-strong)] bg-[var(--elevated)] p-5">
             <p className="text-sm text-[var(--mute)]">
               No challenges yet. Create a private challenge — you become owner and approved member
               without setting a savings target.
@@ -37,7 +37,7 @@ export default async function ChallengeIndexPage() {
               <li key={challenge.id}>
                 <Link
                   href={`/challenge/${challenge.id}`}
-                  className="block rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-4 shadow-[var(--shadow)] transition hover:border-[var(--deep-sea)]"
+                  className="at-surface block p-4 transition hover:border-[var(--accent)]"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>

@@ -1,0 +1,174 @@
+- banner:
+  - paragraph: Accountability Tracker
+  - heading "M11 SR 1794656523785" [level=1]
+  - paragraph: Challenge overview
+- main:
+  - paragraph: Challenge
+  - heading "M11 SR 1794656523785" [level=2]
+  - text: Active
+  - paragraph: 2026-11-14 → 2027-06-01 · GBP · Europe/London
+  - region "Personal progress":
+    - paragraph: Personal progress
+    - paragraph: £25.00 of £2,000.00
+    - paragraph: Self-reported · Current 1%
+    - paragraph: Progress milestones (25 / 50 / 75 / 100%) appear here when reached — kept separate from current %.
+    - paragraph: Of which £25.00 was before your first assessed week — counts toward personal target and milestones only.
+  - region "Weekly commitment and streak":
+    - text: This week · £0.00 of £50.00 · Before first assessed week Your streak · 0 weeks
+    - paragraph: Savings before Monday 2026-11-16 count toward your personal target and milestones only — not weekly Completed / Missed.
+  - region "Members":
+    - paragraph: Members
+    - list:
+      - listitem:
+        - text: Alex (you)
+        - paragraph: £25.00 of £2,000.00 · 1% · self-reported
+    - paragraph:
+      - text: Commitment figures and assessment history stay in each member's own view.
+      - link "Financial privacy settings":
+        - /url: /profile#privacy
+  - region "Sharing members only":
+    - paragraph: Sharing members only
+    - paragraph: £25.00 of £2,000.00
+    - paragraph: Excludes members who opted out of sharing monetary information. Not a full-group total.
+    - paragraph: 1% · 1 sharing member · self-reported
+  - region "Activity":
+    - paragraph: Activity
+    - link "Full feed":
+      - /url: /activity
+    - list:
+      - listitem:
+        - paragraph: Alex recorded a self-reported contribution
+        - paragraph: Self-reported · 2026-11-14
+        - paragraph: £25.00 · self-reported
+        - paragraph: 11/14/2026, 11:42:10 AM
+      - listitem:
+        - paragraph: Alex joined the challenge
+        - paragraph: Approved member
+        - paragraph: 11/14/2026, 11:42:04 AM
+  - link "Record savings":
+    - /url: /challenge/a852bc32-20ff-436a-abe1-d77a570a0768#contributions
+  - paragraph: "Live at 11/14/2026, 11:42:10 AM · Path B: streak → roster → activity"
+  - text: Active Private Owner
+  - paragraph: screen-reader walkthrough
+  - term: Start
+  - definition: 2026-11-14
+  - term: End
+  - definition: 2027-06-01
+  - term: Currency
+  - definition: GBP
+  - term: Time zone
+  - definition: Europe/London
+  - heading "Membership" [level=2]
+  - list:
+    - listitem:
+      - text: "Status:"
+      - strong: approved
+      - text: "· Role:"
+      - strong: owner
+    - listitem:
+      - text: "Savings participation:"
+      - strong: Active
+    - listitem: "Weekly commitment assessment: In scope from Monday 2026-11-16 (challenge TZ; your view only)"
+  - heading "Your savings setup" [level=2]
+  - paragraph: Participation is active · assessed in Europe/London
+  - term: Personal target
+  - definition: £2,000.00
+  - term: Weekly commitment
+  - definition: £50.00
+  - term: First assessed week
+  - definition: Monday 2026-11-16
+  - term: Target effective from
+  - definition: 2026-11-16
+  - paragraph: Target editing after activation is parked until G1.1-10 progress/milestone rules are approved. Weekly commitment amount changes remain open and are not edited here.
+  - heading "Invite links" [level=2]
+  - paragraph: Default expiry is 7 days. Links are revocable. Invitees only see name, description, dates, and participant count.
+  - text: Expires (days)
+  - spinbutton "Expires (days)": "7"
+  - button "Create invite link"
+  - list:
+    - listitem: No invites yet.
+  - heading "Pending requests" [level=2]
+  - paragraph: No pending requests.
+  - heading "Members" [level=2]
+  - list:
+    - listitem:
+      - paragraph: Alex · owner
+      - paragraph: Savings active
+  - heading "Leave" [level=2]
+  - paragraph: Owners of Scheduled or Active challenges must transfer ownership before leaving (G1.1-13). Ownership transfer remains open.
+  - paragraph: Your target £2,000.00 · weekly £50.00
+  - heading "Record savings" [level=2]
+  - paragraph: Eligible.
+  - paragraph:
+    - text: "Eligible total (self-reported):"
+    - strong: £25.00
+    - text: of £2,000.00 · 1%
+  - paragraph: Of which £25.00 was before your first assessed week — counts toward personal target and progress milestones only.
+  - text: Amount (GBP)
+  - textbox "Amount (GBP)":
+    - /placeholder: "50.00"
+  - paragraph:
+    - text: Date is fixed to
+    - strong: today in Europe/London
+    - text: . Labelled self-reported. Safe to retry — the same submit will not count twice.
+  - button "Record contribution"
+  - status: Recorded £25.00 on 2026-11-14 (self-reported). Eligible total £25.00.
+  - paragraph: Your contribution is included in the sharing-member total if you share monetary information.
+  - heading "Your contributions" [level=2]
+  - paragraph: Self-reported · own entries only
+  - list:
+    - listitem:
+      - paragraph: £25.00self-reported
+      - paragraph: active
+      - paragraph: Date 2026-11-14 · week of 2026-11-09
+      - text: Amend amount
+      - textbox "Amend amount":
+        - /placeholder: "25.00"
+      - button "Amend"
+      - button "Reverse"
+  - heading "Contribution audit" [level=2]
+  - list:
+    - listitem:
+      - paragraph: create
+      - paragraph: Self-reported contribution recorded
+      - paragraph: Date 2026-11-14 · week 2026-11-09 · ∅ → 2500 minor
+      - paragraph: 2026-11-14T11:42:10.163898+00:00
+  - heading "Savings setup audit" [level=2]
+  - list:
+    - listitem:
+      - paragraph: activate
+      - paragraph: Test-infra frozen-clock activate
+      - paragraph: Effective from 2026-11-16
+      - paragraph: 2026-11-14T11:42:04.404+00:00
+  - heading "Sharing members only" [level=2]
+  - paragraph: £25.00 of £2,000.00
+  - paragraph: Excludes members who opted out of sharing monetary information. Not a full-group total.
+  - link "Open personal dashboard":
+    - /url: /home
+  - heading "Financial privacy" [level=2]
+  - paragraph: Monetary information is visible to approved members by default. Opt out per challenge from Profile — Hide monetary information hides amounts and target, and cannot undo what others already saw.
+  - paragraph:
+    - text: "Your setting:"
+    - strong: Sharing
+  - link "Open privacy settings":
+    - /url: /profile#privacy
+  - heading "Not in M9" [level=2]
+  - paragraph: Pause scheduling, streak awards, challenge reopen/cancellation, ownership transfer and streak awards / reopen remain OPEN. Post-activation target editing stays parked (M4). Re-opt-in and small-group suppression stay OPEN. Stop before M10.
+  - heading "Lifecycle audit" [level=2]
+  - list:
+    - listitem:
+      - paragraph: "create: ∅ → Active"
+      - paragraph: Created private challenge as Active
+      - paragraph: 2026-11-14T11:42:04.375216+00:00
+  - link "All challenges":
+    - /url: /challenge
+- navigation "Primary":
+  - link "Home":
+    - /url: /home
+  - link "Challenge":
+    - /url: /challenge
+  - link "Activity":
+    - /url: /activity
+  - link "Profile":
+    - /url: /profile
+- alert

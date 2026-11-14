@@ -31,25 +31,45 @@ function weekStatusLabel(status: DashboardAssessmentStatus): string {
 function ProgressBar({
   percent,
   tone = "primary",
+  label,
 }: {
   percent: number | null;
   tone?: "primary" | "secondary";
+  label?: string;
 }) {
   const width = percent == null ? 0 : Math.max(0, Math.min(100, percent));
-  const bar =
-    tone === "secondary"
-      ? "bg-[color-mix(in_srgb,var(--honey)_85%,#8a5a12)]"
-      : "bg-[var(--deep-sea)]";
+  const bar = tone === "secondary" ? "bg-[var(--honey)]" : "bg-[var(--accent)]";
   return (
-    <div
-      className="mt-3 h-2.5 overflow-hidden rounded-full bg-[color-mix(in_srgb,var(--line)_70%,white)]"
-      aria-hidden="true"
-    >
+    <div className="mt-3">
       <div
-        className={`h-full rounded-full ${bar} transition-[width] duration-500 ease-out`}
-        style={{ width: `${width}%` }}
-      />
+        className="h-1.5 overflow-hidden rounded-full bg-[var(--line)]"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={percent == null ? undefined : Math.round(width)}
+        aria-label={label ?? "Progress"}
+      >
+        <div
+          className={`h-full rounded-full ${bar} transition-[width] duration-500 ease-out`}
+          style={{ width: `${width}%` }}
+        />
+      </div>
     </div>
+  );
+}
+
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
+  return `${parts[0]![0] ?? ""}${parts[1]![0] ?? ""}`.toUpperCase();
+}
+
+function Chevron() {
+  return (
+    <svg className="at-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
@@ -65,32 +85,33 @@ export function ChallengeDashboardView({
   const isCompleted = data.lifecycleStatus === "Completed";
   const isCancelled = data.lifecycleStatus === "Cancelled";
   const readOnly = isCompleted || isCancelled;
+  const remaining =
+    hasSetup && personal.targetMinor != null
+      ? Math.max(0, personal.targetMinor - personal.eligibleTotalMinor)
+      : null;
 
   return (
-    <div className="space-y-4" data-testid="challenge-path-b">
-      <header className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-          {isCompleted ? "Completed challenge" : "Challenge"}
-        </p>
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          <h2 className="text-xl font-semibold text-[var(--ink)]">
+    <div className="space-y-6" data-testid="challenge-path-b">
+      <header className="space-y-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 className="min-w-0 break-words text-xl font-bold tracking-tight text-[var(--ink)]">
             {data.challengeName}
           </h2>
           <ChallengeStatusBadge status={data.lifecycleStatus as LifecycleStatus} />
           {readOnly ? (
             <span
-              className="rounded-lg border border-[var(--line)] bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700"
+              className="at-chip"
               data-testid="read-only-badge"
             >
               Read-only
             </span>
           ) : null}
         </div>
-        <p className="mt-1 text-sm text-[var(--mute)]">
+        <p className="text-sm text-[var(--mute)]">
           {data.startDate} → {data.endDate} · {data.currency} · {data.timeZone}
         </p>
         {isCompleted ? (
-          <p className="mt-3 text-sm text-[var(--ink)]">
+          <p className="text-sm text-[var(--ink)]">
             Ordinary contributions, target changes and commitment changes are disabled
             (G1.1-12).
           </p>
@@ -98,58 +119,98 @@ export function ChallengeDashboardView({
       </header>
 
       {!hasSetup ? (
-        <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-          <p className="text-lg font-semibold">
-            Personal progress
-          </p>
+        <section className="at-surface p-5">
+          <p className="text-lg font-bold">Personal savings</p>
           <p className="mt-2 text-sm text-[var(--mute)]">
             Activate your savings target and weekly commitment to see personal progress here.
           </p>
-          <Link
-            href={`/challenge/${data.challengeId}`}
-            className="mt-4 inline-flex rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
-          >
+          <Link href={`/challenge/${data.challengeId}`} className="at-btn-primary mt-5">
             Open challenge setup
           </Link>
         </section>
       ) : (
-        <section
-          className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
-          aria-labelledby="personal-label"
-        >
-          <p
-            className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]"
-            id="personal-label"
-          >
-            Personal progress
+        <section aria-labelledby="personal-label">
+          <div className="flex items-start justify-between gap-3">
+            <p className="at-section-label" id="personal-label">
+              Your savings · self-reported
+            </p>
+            {personal.currentProgressPercent != null ? (
+              <p className="text-sm font-semibold tabular-nums text-[var(--accent)]">
+                {personal.currentProgressPercent}%
+              </p>
+            ) : null}
+          </div>
+
+          <p className="at-hero-figure mt-3">
+            {formatMinorAsMajor(personal.eligibleTotalMinor, personal.currency)}
           </p>
-          <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--ink)] tabular-nums">
-            {formatMinorAsMajor(personal.eligibleTotalMinor, personal.currency)} of{" "}
-            {formatMinorAsMajor(personal.targetMinor!, personal.currency)}
+          <p className="mt-2 text-sm text-[var(--mute)]">
+            of {formatMinorAsMajor(personal.targetMinor!, personal.currency)} personal target
+            {remaining != null && remaining > 0
+              ? ` · ${formatMinorAsMajor(remaining, personal.currency)} to go`
+              : remaining === 0
+                ? " · target reached"
+                : ""}
           </p>
-          <p className="mt-1 text-sm tabular-nums text-[var(--mute)]">
-            Self-reported
-            {personal.currentProgressPercent != null
-              ? ` · Current ${personal.currentProgressPercent}%`
-              : ""}
-          </p>
-          <ProgressBar percent={personal.currentProgressPercent} />
+
+          <ProgressBar
+            percent={personal.currentProgressPercent}
+            label="Personal target progress"
+          />
+
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <div className="at-surface-soft px-4 py-3">
+              <p className="label text-xs font-medium text-[var(--mute)]">This week</p>
+              <p
+                className="mt-1 text-base font-bold tabular-nums text-[var(--ink)]"
+                data-testid="this-week-chip"
+              >
+                {formatMinorAsMajor(personal.currentWeekEligibleMinor, personal.currency)}
+              </p>
+              <p className="mt-0.5 text-xs text-[var(--mute)]">
+                of{" "}
+                {formatMinorAsMajor(personal.weeklyCommitmentMinor ?? 0, personal.currency)} ·{" "}
+                {weekStatusLabel(personal.weeklyAssessmentStatus)}
+              </p>
+            </div>
+            <div className="at-surface-soft px-4 py-3">
+              <p className="text-xs font-medium text-[var(--mute)]">Your streak</p>
+              <p
+                className="mt-1 text-base font-bold text-[var(--ink)]"
+                data-testid="your-streak-chip"
+              >
+                {personal.streakWeeks > 0
+                  ? `${personal.streakWeeks} week${personal.streakWeeks === 1 ? "" : "s"}`
+                  : personal.streakStatus === "recovering"
+                    ? "Ready to restart"
+                    : "0 weeks"}
+              </p>
+              <p className="mt-0.5 text-xs text-[var(--mute)]">{personal.streakLabel}</p>
+            </div>
+          </div>
 
           {personal.milestoneRecognitionLabel ? (
             <div
-              className="mt-4 flex items-center gap-2 rounded-xl border border-[color-mix(in_srgb,var(--honey)_35%,var(--line))] bg-[var(--honey-soft)] px-3 py-2 text-sm text-[var(--ink)]"
+              className="mt-4 flex items-center gap-3 rounded-[var(--radius-md)] bg-[var(--honey-soft)] px-3.5 py-3 text-sm text-[var(--ink)]"
               role="status"
             >
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full bg-[var(--honey)]"
-                aria-hidden="true"
-              />
-              <span>{personal.milestoneRecognitionLabel}</span>
+              <span className="at-chip-selected" aria-hidden>
+                Milestone
+              </span>
+              <span className="min-w-0">
+                <span className="font-semibold">{personal.milestoneRecognitionLabel}</span>
+                {personal.currentProgressPercent != null ? (
+                  <span className="text-[var(--mute)]">
+                    {" "}
+                    · current {personal.currentProgressPercent}% is separate
+                  </span>
+                ) : null}
+              </span>
             </div>
           ) : (
             <p className="mt-3 text-xs text-[var(--mute)]">
-              Progress milestones (25 / 50 / 75 / 100%) appear here when reached — kept separate
-              from current %.
+              Progress milestones (25 / 50 / 75 / 100%) appear when earned — separate from live
+              current %.
             </p>
           )}
 
@@ -163,52 +224,18 @@ export function ChallengeDashboardView({
       )}
 
       {hasSetup ? (
-        <section
-          className="space-y-3"
-          aria-label="Weekly commitment and streak"
-        >
-          <div className="flex flex-wrap gap-2">
-            <span
-              className="rounded-xl border border-[var(--line)] bg-[var(--elevated)] px-3 py-2 text-sm tabular-nums text-[var(--ink)] shadow-[var(--shadow)]"
-              data-testid="this-week-chip"
-            >
-              This week ·{" "}
-              {formatMinorAsMajor(
-                personal.currentWeekEligibleMinor,
-                personal.currency,
-              )}{" "}
-              of{" "}
-              {formatMinorAsMajor(
-                personal.weeklyCommitmentMinor ?? 0,
-                personal.currency,
-              )}{" "}
-              · {weekStatusLabel(personal.weeklyAssessmentStatus)}
-            </span>
-            <span
-              className="rounded-xl border border-[color-mix(in_srgb,var(--deep-sea)_30%,var(--line))] bg-[var(--deep-sea-soft)] px-3 py-2 text-sm font-medium text-[var(--ink)] shadow-[var(--shadow)]"
-              data-testid="your-streak-chip"
-            >
-              {personal.streakLabel}
-              {personal.streakWeeks > 0
-                ? ` · ${personal.streakWeeks} week${personal.streakWeeks === 1 ? "" : "s"}`
-                : personal.streakStatus === "recovering"
-                  ? " · ready to restart"
-                  : " · 0 weeks"}
-            </span>
-          </div>
-
+        <section className="space-y-3" aria-label="Weekly commitment detail">
           {personal.weeklyAssessmentStatus === "pre_assessment" ? (
             <p className="text-sm text-[var(--mute)]">
-              Savings before Monday {personal.firstAssessedWeekStart} count toward
-              your personal target and milestones only — not weekly Completed /
-              Missed.
+              Savings before Monday {personal.firstAssessedWeekStart} count toward your personal
+              target and milestones only — not weekly Completed / Missed.
             </p>
           ) : null}
 
           {personal.assessmentHistory.some((w) => w.status === "missed") &&
           personal.streakStatus === "recovering" ? (
             <p
-              className="rounded-xl border border-[color-mix(in_srgb,var(--honey)_35%,var(--line))] bg-[var(--honey-soft)] px-3 py-2 text-sm text-[var(--ink)]"
+              className="rounded-[var(--radius-md)] bg-[var(--honey-soft)] px-3.5 py-3 text-sm text-[var(--ink)]"
               role="status"
               data-testid="miss-recovery-message"
             >
@@ -217,117 +244,54 @@ export function ChallengeDashboardView({
           ) : null}
 
           {personal.assessmentHistory.length > 0 ? (
-            <div
-              className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-4 shadow-[var(--shadow)]"
-              data-testid="assessment-history"
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-                Your weekly assessments
-              </p>
-              <ul className="mt-2 space-y-1.5 text-sm">
-                {[...personal.assessmentHistory]
-                  .sort((a, b) => b.weekStart.localeCompare(a.weekStart))
-                  .slice(0, 8)
-                  .map((w) => (
-                    <li
-                      key={w.weekStart}
-                      className="flex flex-wrap items-baseline justify-between gap-2 tabular-nums"
-                      data-week-start={w.weekStart}
-                      data-week-status={w.status}
-                    >
-                      <span className="text-[var(--ink)]">
-                        Week of {w.weekStart}
-                      </span>
-                      <span className="text-[var(--mute)]">
-                        {formatMinorAsMajor(w.eligibleSumMinor, personal.currency)} /{" "}
-                        {formatMinorAsMajor(w.commitmentMinor, personal.currency)} ·{" "}
-                        {weekStatusLabel(w.status)}
-                      </span>
-                    </li>
-                  ))}
-              </ul>
+            <div data-testid="assessment-history">
+              <p className="at-section-label">Your weekly assessments</p>
+              <div className="mt-2 border-t border-[var(--line)]">
+                <ul>
+                  {[...personal.assessmentHistory]
+                    .sort((a, b) => b.weekStart.localeCompare(a.weekStart))
+                    .slice(0, 8)
+                    .map((w) => (
+                      <li
+                        key={w.weekStart}
+                        className="at-list-row justify-between border-b border-[var(--line)] text-sm"
+                        data-week-start={w.weekStart}
+                        data-week-status={w.status}
+                      >
+                        <div className="at-label-stack">
+                          <span className="label">Week of {w.weekStart}</span>
+                          <span className="value text-sm">
+                            {formatMinorAsMajor(w.eligibleSumMinor, personal.currency)} /{" "}
+                            {formatMinorAsMajor(w.commitmentMinor, personal.currency)}
+                          </span>
+                        </div>
+                        <span className="text-xs font-semibold text-[var(--mute)]">
+                          {weekStatusLabel(w.status)}
+                        </span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
               <p className="mt-2 text-xs text-[var(--mute)]">
-                Visible only to you. Pause scheduling remains open — Paused is
-                distinct from Completed and Missed when represented.
+                Visible only to you. Pause scheduling remains open.
               </p>
             </div>
           ) : null}
         </section>
       ) : null}
 
-      {/* Path B order: Your streak / commitment (above) → roster → sharing → activity */}
-      <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
-        aria-labelledby="roster-label"
-        data-testid="challenge-roster"
-      >
-        <p
-          className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]"
-          id="roster-label"
-        >
-          Members
-        </p>
-        <ul className="mt-3 space-y-3">
-          {data.roster.map((m) => (
-            <li
-              key={m.membershipId}
-              className="rounded-xl bg-[var(--paper)] px-3 py-2.5 text-sm"
-              data-user-id={m.userId}
-              data-privacy-chip={m.privacyChip ?? ""}
-              data-share-monetary={m.shareMonetaryInfo ? "true" : "false"}
-            >
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-medium text-[var(--ink)]">
-                  {m.displayName}
-                  {m.isSelf ? " (you)" : ""}
-                </span>
-                {m.privacyChip ? (
-                  <span className="rounded-md border border-[var(--line)] bg-white px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--mute)]">
-                    {m.privacyChip}
-                  </span>
-                ) : null}
-              </div>
-              {m.eligibleTotalMinor != null && m.targetMinor != null && m.currency ? (
-                <p className="mt-1 tabular-nums text-[var(--mute)]">
-                  {formatMinorAsMajor(m.eligibleTotalMinor, m.currency)} of{" "}
-                  {formatMinorAsMajor(m.targetMinor, m.currency)}
-                  {m.progressPercent != null ? ` · ${m.progressPercent}%` : ""}
-                  {" · "}
-                  self-reported
-                </p>
-              ) : m.privacyChip ? (
-                <p className="mt-1 text-[var(--mute)]">
-                  Monetary amounts and target hidden
-                </p>
-              ) : (
-                <p className="mt-1 text-[var(--mute)]">Savings setup not active</p>
-              )}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-3 text-xs text-[var(--mute)]">
-          Commitment figures and assessment history stay in each member&apos;s own view.{" "}
-          <Link href="/profile#privacy" className="font-semibold text-[var(--deep-sea)] underline">
-            Financial privacy settings
-          </Link>
-        </p>
-      </section>
-
-      <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
-        aria-labelledby="share-label"
-      >
-        <p
-          className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]"
-          id="share-label"
-        >
+      <section aria-labelledby="share-label">
+        <p className="at-section-label" id="share-label">
           {sharing.label}
         </p>
-        <p className="mt-2 text-xl font-semibold tabular-nums text-[var(--ink)]">
-          {formatMinorAsMajor(sharing.savedMinor, sharing.currency)} of{" "}
-          {formatMinorAsMajor(sharing.targetMinor, sharing.currency)}
+        <p className="mt-2 text-[1.75rem] font-bold tracking-tight tabular-nums text-[var(--ink)]">
+          {formatMinorAsMajor(sharing.savedMinor, sharing.currency)}
         </p>
-        <p className="mt-1 text-sm text-[var(--mute)]">{sharing.scopeExplanation}</p>
+        <p className="mt-1 text-sm text-[var(--mute)]">
+          of {formatMinorAsMajor(sharing.targetMinor, sharing.currency)} · distinct from your
+          personal total
+        </p>
+        <p className="mt-2 text-sm text-[var(--mute)]">{sharing.scopeExplanation}</p>
         {sharing.progressPercent != null ? (
           <p className="mt-1 text-xs tabular-nums text-[var(--mute)]">
             {sharing.progressPercent}% · {sharing.sharerCount} sharing member
@@ -339,7 +303,11 @@ export function ChallengeDashboardView({
             active target
           </p>
         )}
-        <ProgressBar percent={sharing.progressPercent} tone="secondary" />
+        <ProgressBar
+          percent={sharing.progressPercent}
+          tone="secondary"
+          label="Sharing members progress"
+        />
         {!personal.shareMonetaryInfo ? (
           <p className="mt-3 text-xs text-[var(--mute)]">
             You opted out of sharing monetary information. Your own figures stay visible to you
@@ -348,21 +316,78 @@ export function ChallengeDashboardView({
         ) : null}
       </section>
 
-      <section
-        className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
-        aria-labelledby="preview-label"
-      >
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <p
-            className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]"
-            id="preview-label"
-          >
-            Activity
+      <section aria-labelledby="roster-label" data-testid="challenge-roster">
+        <div className="flex items-baseline justify-between gap-2">
+          <p className="at-section-label" id="roster-label">
+            Members
           </p>
-          <Link
-            href="/activity"
-            className="text-xs font-semibold text-[var(--deep-sea)] underline"
-          >
+          <Link href="/activity" className="text-sm font-semibold text-[var(--accent)] underline">
+            Activity
+          </Link>
+        </div>
+        <ul className="mt-1 border-t border-[var(--line)]">
+          {data.roster.map((m) => (
+            <li
+              key={m.membershipId}
+              className="at-list-row border-b border-[var(--line)]"
+              data-user-id={m.userId}
+              data-privacy-chip={m.privacyChip ?? ""}
+              data-share-monetary={m.shareMonetaryInfo ? "true" : "false"}
+            >
+              <span
+                className={`at-avatar ${
+                  m.privacyChip ? "bg-[var(--surface-soft)] text-[var(--mute)]" : ""
+                }`}
+                aria-hidden="true"
+              >
+                {initials(m.displayName)}
+              </span>
+              <div className="at-label-stack">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-semibold text-[var(--ink)]">
+                    {m.displayName}
+                    {m.isSelf ? " (you)" : ""}
+                  </span>
+                  {m.privacyChip ? (
+                    <span className="at-chip text-[10px] uppercase tracking-wide">
+                      {m.privacyChip}
+                    </span>
+                  ) : null}
+                </div>
+                {m.eligibleTotalMinor != null && m.targetMinor != null && m.currency ? (
+                  <p className="text-sm tabular-nums text-[var(--mute)]">
+                    {formatMinorAsMajor(m.eligibleTotalMinor, m.currency)} of{" "}
+                    {formatMinorAsMajor(m.targetMinor, m.currency)}
+                    {m.progressPercent != null ? ` · ${m.progressPercent}%` : ""}
+                    {" · "}
+                    self-reported
+                  </p>
+                ) : m.privacyChip ? (
+                  <p className="text-sm text-[var(--mute)]">
+                    Monetary amounts and target hidden
+                  </p>
+                ) : (
+                  <p className="text-sm text-[var(--mute)]">Savings setup not active</p>
+                )}
+              </div>
+              <Chevron />
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 text-xs text-[var(--mute)]">
+          Commitment figures stay in each member&apos;s own view.{" "}
+          <Link href="/profile#privacy" className="font-semibold text-[var(--accent)] underline">
+            Financial privacy settings
+          </Link>
+        </p>
+      </section>
+
+      <section aria-labelledby="preview-label">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <p className="at-section-label" id="preview-label">
+            Recent activity
+          </p>
+          <Link href="/activity" className="text-sm font-semibold text-[var(--accent)] underline">
             Full feed
           </Link>
         </div>
@@ -375,17 +400,14 @@ export function ChallengeDashboardView({
 
       {readOnly ? (
         <p
-          className="rounded-xl border border-[var(--line)] bg-slate-50 px-4 py-3 text-center text-sm text-[var(--mute)]"
+          className="rounded-[var(--radius-md)] bg-[var(--surface-soft)] px-4 py-3 text-center text-sm text-[var(--mute)]"
           data-testid="record-savings-disabled"
         >
           Recording savings is disabled while this challenge is{" "}
           {data.lifecycleStatus.toLowerCase()}.
         </p>
       ) : (
-        <Link
-          href={recordHref}
-          className="flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow)]"
-        >
+        <Link href={recordHref} className="at-btn-primary">
           Record savings
         </Link>
       )}
@@ -403,17 +425,12 @@ export function DashboardEmptyState({
   createHref?: string;
 }) {
   return (
-    <section className="rounded-2xl border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]">
-      <h2 className="text-lg font-semibold">
-        No challenge yet
-      </h2>
+    <section className="at-surface p-5">
+      <h2 className="text-lg font-bold">No challenge yet</h2>
       <p className="mt-2 text-sm text-[var(--mute)]">
         Create a private challenge to track personal progress and sharing-member totals.
       </p>
-      <Link
-        href={createHref}
-        className="mt-4 flex w-full items-center justify-center rounded-xl bg-[var(--deep-sea)] px-4 py-3 text-sm font-semibold text-white"
-      >
+      <Link href={createHref} className="at-btn-primary mt-5">
         Create challenge
       </Link>
     </section>

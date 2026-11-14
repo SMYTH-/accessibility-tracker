@@ -19,6 +19,7 @@ export function isAuthConfigured(): boolean {
 }
 
 export const WORKING_ACCENTS = {
-  deepSea: "#1A6B7C",
+  royalBlue: "#2B4CFF",
+  deepSea: "#16332B",
   honeyAmber: "#C9842A",
 } as const;
