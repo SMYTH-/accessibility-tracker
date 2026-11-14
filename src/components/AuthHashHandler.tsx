@@ -110,11 +110,14 @@ export function AuthHashHandler({
           return;
         }
 
-        const target =
-          type === "recovery" || outcome.type === "recovery"
+        const isRecovery = type === "recovery" || outcome.type === "recovery";
+        const target = isRecovery
+          ? "/update-password"
+          : dest === "/update-password"
             ? "/update-password"
             : dest;
-        window.location.replace(target);
+        // Full navigation after setSession so /update-password sees auth cookies.
+        window.location.assign(target);
       } catch (err) {
         if (cancelled) return;
         clearAuthHash();

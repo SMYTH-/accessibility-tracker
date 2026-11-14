@@ -74,6 +74,13 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Password recovery must keep the short-lived recovery session on
+  // /update-password. Do not run access-denied / signOut here — a failed RPC
+  // would clear the session and bounce Dom to sign-in before the form loads.
+  if (pathname === "/update-password" || pathname.startsWith("/update-password/")) {
+    return response;
+  }
+
   let accessDenied = false;
   if (user) {
     const denied = await supabase.rpc("account_access_denied_for_me");
