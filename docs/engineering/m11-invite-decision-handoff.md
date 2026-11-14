@@ -4,7 +4,7 @@
 | --- | --- |
 | Date | 14 November 2026 |
 | PR | [#12](https://github.com/SMYTH-/accessibility-tracker/pull/12) · `cursor/m11-beta-readiness-cb14` |
-| Tip | email-evidence commit on `cursor/m11-beta-readiness-cb14` |
+| Tip | `58282ab9` |
 | Preview | Local `http://localhost:3000` only (restarted on redesign tip) |
 | Closed-lab | **Accepted** |
 | Private beta invites / deploy | **NO-GO** — stopped |
