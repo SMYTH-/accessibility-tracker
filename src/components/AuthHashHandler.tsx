@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   classifyAuthHash,
@@ -28,7 +27,6 @@ export function AuthHashHandler({
   /** confirm = dedicated landing; sign-in = recover hash if still on sign-in */
   mode?: "confirm" | "sign-in";
 }) {
-  const router = useRouter();
   const [status, setStatus] = useState<"working" | "verified" | "error" | "idle">(
     mode === "confirm" ? "working" : "idle",
   );
@@ -44,7 +42,7 @@ export function AuthHashHandler({
         if (mode === "confirm") {
           // Arrived from callback with no usable hash → real failure.
           clearAuthHash();
-          router.replace("/sign-in?error=auth_callback");
+          window.location.replace("/sign-in?error=auth_callback");
         }
         return;
       }
@@ -53,7 +51,7 @@ export function AuthHashHandler({
         clearAuthHash();
         if (cancelled) return;
         if (mode === "confirm") {
-          router.replace(`/sign-in?error=auth_callback`);
+          window.location.replace("/sign-in?error=auth_callback");
           return;
         }
         setStatus("error");
@@ -65,7 +63,7 @@ export function AuthHashHandler({
         clearAuthHash();
         if (cancelled) return;
         if (mode === "confirm") {
-          router.replace("/sign-in?verified=1");
+          window.location.replace("/sign-in?verified=1");
           return;
         }
         setStatus("verified");
@@ -83,47 +81,62 @@ export function AuthHashHandler({
       }
 
       const { accessToken, refreshToken, type } = readAuthHash();
-      const supabase = createClient();
-      const { data, error } = await supabase.auth.setSession({
-        access_token: accessToken!,
-        refresh_token: refreshToken!,
-      });
-      clearAuthHash();
-      if (cancelled) return;
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase.auth.setSession({
+          access_token: accessToken!,
+          refresh_token: refreshToken!,
+        });
+        if (cancelled) return;
+        clearAuthHash();
 
-      if (error || !data.session) {
-        // Signup confirmation may still be valid even if session restore fails.
-        if (type === "signup" || outcome.type === "signup") {
-          if (mode === "confirm") {
-            router.replace("/sign-in?verified=1");
+        if (error || !data.session) {
+          // Signup confirmation may still be valid even if session restore fails.
+          if (type === "signup" || outcome.type === "signup") {
+            if (mode === "confirm") {
+              window.location.replace("/sign-in?verified=1");
+              return;
+            }
+            setStatus("verified");
+            setMessage("Email verified. Sign in to continue.");
             return;
           }
-          setStatus("verified");
-          setMessage("Email verified. Sign in to continue.");
+          if (mode === "confirm") {
+            window.location.replace("/sign-in?error=auth_callback");
+            return;
+          }
+          setStatus("error");
+          setMessage(error?.message ?? "Could not establish a session from this link.");
+          return;
+        }
+
+        const target =
+          type === "recovery" || outcome.type === "recovery"
+            ? "/update-password"
+            : dest;
+        window.location.replace(target);
+      } catch (err) {
+        if (cancelled) return;
+        clearAuthHash();
+        const msg = err instanceof Error ? err.message : "Authentication failed.";
+        if (type === "signup" || outcome.type === "signup") {
+          window.location.replace("/sign-in?verified=1");
           return;
         }
         if (mode === "confirm") {
-          router.replace("/sign-in?error=auth_callback");
+          window.location.replace("/sign-in?error=auth_callback");
           return;
         }
         setStatus("error");
-        setMessage(error?.message ?? "Could not establish a session from this link.");
-        return;
+        setMessage(msg);
       }
-
-      const target =
-        type === "recovery" || outcome.type === "recovery"
-          ? "/update-password"
-          : dest;
-      router.replace(target);
-      router.refresh();
     }
 
     void run();
     return () => {
       cancelled = true;
     };
-  }, [dest, mode, router]);
+  }, [dest, mode]);
 
   if (status === "idle") return null;
 
