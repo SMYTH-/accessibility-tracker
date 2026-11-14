@@ -38,7 +38,7 @@ function ProgressBar({
   label?: string;
 }) {
   const width = percent == null ? 0 : Math.max(0, Math.min(100, percent));
-  const bar = tone === "secondary" ? "bg-[var(--honey)]" : "bg-[var(--deep-sea)]";
+  const bar = tone === "secondary" ? "bg-[var(--honey)]" : "bg-[var(--accent)]";
   return (
     <div className="mt-3">
       <div
@@ -135,7 +135,7 @@ export function ChallengeDashboardView({
               Your savings · self-reported
             </p>
             {personal.currentProgressPercent != null ? (
-              <p className="text-sm font-semibold tabular-nums text-[var(--deep-sea)]">
+              <p className="text-sm font-semibold tabular-nums text-[var(--accent)]">
                 {personal.currentProgressPercent}%
               </p>
             ) : null}

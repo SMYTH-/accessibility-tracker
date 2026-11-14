@@ -26,7 +26,7 @@ function tone(kind: FeedItem["kind"]): string {
     case "member_joined":
       return "bg-[var(--deep-sea-soft)] text-[var(--deep-sea)]";
     case "commitment_completed":
-      return "bg-[var(--lime)] text-[var(--lime-ink)]";
+      return "bg-[var(--accent)] text-[var(--accent-ink)]";
     case "milestone_reached":
       return "bg-[var(--honey-soft)] text-[var(--honey)]";
     case "challenge_completed":

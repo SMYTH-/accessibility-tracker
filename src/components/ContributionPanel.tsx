@@ -26,7 +26,7 @@ function Alert({
   const styles =
     tone === "error"
       ? "border-red-200 bg-red-50 text-red-900"
-      : "border-[var(--line)] bg-[var(--lime-soft)] text-[var(--ink)]";
+      : "border-[var(--line)] bg-[var(--accent-soft)] text-[var(--ink)]";
   return (
     <div className={`rounded-[var(--radius-md)] border px-3.5 py-3 text-sm ${styles}`} role="status">
       {children}

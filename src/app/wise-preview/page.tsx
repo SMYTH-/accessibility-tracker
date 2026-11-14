@@ -58,7 +58,7 @@ export default async function WisePreviewPage({
               href={tab.href}
               className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold transition-colors ${
                 active
-                  ? "bg-[var(--deep-sea)] text-[var(--lime)]"
+                  ? "bg-[var(--accent)] text-[var(--accent-ink)]"
                   : "text-[var(--mute)] hover:text-[var(--ink)]"
               }`}
               aria-current={active ? "page" : undefined}

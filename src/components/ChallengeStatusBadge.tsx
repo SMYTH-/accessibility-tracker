@@ -3,7 +3,7 @@ import type { LifecycleStatus } from "@/lib/challenge/types";
 const STYLES: Record<LifecycleStatus, string> = {
   Draft: "border-[var(--line-strong)] bg-[var(--elevated)] text-[var(--mute)]",
   Scheduled: "border-transparent bg-[var(--honey-soft)] text-[var(--ink)]",
-  Active: "border-transparent bg-[var(--deep-sea)] text-[var(--lime)]",
+  Active: "border-transparent bg-[var(--accent)] text-[var(--accent-ink)]",
   Completed: "border-[var(--line-strong)] bg-[var(--surface-soft)] text-[var(--mute)]",
   Cancelled: "border-red-200 bg-red-50 text-red-800",
 };
