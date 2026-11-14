@@ -48,7 +48,7 @@ export function SavingsSetupForm({
 
   if (savingsParticipationActive && setup) {
     return (
-      <section className="at-surface p-5">
+      <section id="setup" className="at-surface scroll-mt-4 p-5">
         <h2 className="text-lg font-semibold">
           Your savings setup
         </h2>
@@ -85,7 +85,7 @@ export function SavingsSetupForm({
   }
 
   return (
-    <section className="at-surface p-5">
+    <section id="setup" className="at-surface scroll-mt-4 p-5">
       <h2 className="text-lg font-semibold">
         Activate savings participation
       </h2>

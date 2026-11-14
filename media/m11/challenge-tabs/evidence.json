@@ -1,0 +1,35 @@
+{
+  "shots": [
+    "01-owner-overview-mobile.png",
+    "02-owner-people-mobile.png",
+    "03-dashboard-setup-cta.png",
+    "04-savings-setup-deeplink.png",
+    "05-owner-savings-after-back.png",
+    "06-member-dashboard-setup-cta.png",
+    "07-member-savings-tab.png",
+    "08-member-people-tab.png"
+  ],
+  "notes": [
+    {
+      "challengeId": "0f29adb829858b2de1df3b2b",
+      "challengeUrl": "http://127.0.0.1:3011/challenge/0f29adb829858b2de1df3b2b"
+    },
+    {
+      "invitePath": "http://localhost:3000/invite/e96356bf30492fbebd59190535f45447e3e161db28866e57b6a8b885a1b7619a",
+      "resolvedInvite": "http://127.0.0.1:3011/invite/e96356bf30492fbebd59190535f45447e3e161db28866e57b6a8b885a1b7619a"
+    },
+    {
+      "focusedAfterSetupDeepLink": "targetMajor"
+    },
+    {
+      "joinUrl": "http://127.0.0.1:3011/invite/e96356bf30492fbebd59190535f45447e3e161db28866e57b6a8b885a1b7619a"
+    },
+    {
+      "memberSeesInvites": false
+    }
+  ],
+  "ownerEmail": "tabs.owner.1794675694088@example.com",
+  "memberEmail": "tabs.member.1794675694088@example.com",
+  "mode": "mock",
+  "base": "http://127.0.0.1:3011"
+}
