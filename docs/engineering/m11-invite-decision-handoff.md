@@ -28,10 +28,11 @@ Closed-lab may continue. Email path to the **exact test inbox** is agent-proven 
 | Membership reject → Resend → `M3_TEST_INBOX` | Send 200 · `01a1da33-7e4f-…` — `media/m11/email-resend-evidence.json` |
 | Membership approve → Resend → same inbox | Send 200 · `01a1da33-826f-…` |
 | Sign-up verification + password recovery | Queued via Supabase Auth SMTP (same `onboarding@resend.dev` sender) |
+| Resend MCP | Declined — not relied on |
 
 ### Still blocking invite GO
 
-1. **Dominic inbox actions** — open fresh Confirm signup, then Reset password; sight approve/reject mails.
+1. **Dominic inbox confirm** — approve+reject arrived; fresh Confirm signup then Reset password links worked.
 2. **Verified sending domain** — test-inbox / `onboarding@resend.dev` only until then.
 3. **Gate 7** explicit invite authorisation.
 4. Public-host `LIFECYCLE_TICK_SECRET` only when a non-local deploy is authorised.

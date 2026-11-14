@@ -36,9 +36,10 @@
 | Sign-up **verification** | **Queued** via Supabase Auth SMTP | same — **Dominic: open fresh Confirm signup now** |
 | Password **recovery** | **Queued** via Supabase Auth SMTP | same — **Dominic: open fresh Reset password after verify** |
 | Resend GET metadata | N/A — send-only API key (`restricted_api_key`); recipient proven via outbox + send 200 | script handles as optional |
+| Resend MCP | **Declined** — not used; no further auth prompts | — |
 | Caveat | **Test-inbox only** — verified sending domain still required before beta testers | — |
 
-**Human pending (blocks final go/no-go):** Dominic confirms (1) membership approve + reject mail arrived in the exact inbox, (2) fresh Confirm signup link worked, (3) fresh Reset password link worked. Agent will not flip invite GO until that confirmation.
+**Human pending (blocks final go/no-go):** Dominic confirms (1) membership approve + reject mail arrived in the exact inbox, (2) fresh Confirm signup link worked, (3) fresh Reset password link worked. Corroboration is Resend API send 200s already recorded + that inbox confirm — not Resend MCP.
 
 ### LIFECYCLE_TICK_SECRET
 
