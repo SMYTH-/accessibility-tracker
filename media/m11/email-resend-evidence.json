@@ -1,25 +1,25 @@
 {
-  "stamp": 1794662164593,
+  "stamp": 1794668962573,
   "project": "gdrkejobqlvtwnlaedpu",
   "provider": "resend",
-  "fromMasked": "Accountability Tracker <\u2026>",
-  "inboxMasked": "sm\u2026@gmail.com",
+  "fromMasked": "Pactwell <…>",
+  "inboxMasked": "sm…@gmail.com",
   "site": "http://localhost:3000",
-  "challengeId": "42ab107b-f36f-431b-8216-bef50525bd66",
+  "challengeId": "2f4a3df4-7d71-4131-baf5-d150edc82c0f",
   "membership": {
     "reject": {
-      "notificationId": "85bfc822-5fc9-41db-b5b1-9aecca196fdd",
-      "messageId": "01a1da33-7e4f-7a82-aea0-160338567421",
-      "subject": "Membership declined \u2014 M11 Resend 1794662164593"
+      "notificationId": "8f0b0170-a2d2-4093-8cb5-e55c9244e4ba",
+      "messageId": "01a1da9b-2ae3-7116-9e8d-5b8b6dbc7bf7",
+      "subject": "Pactwell — Membership declined — M11 Resend 1794668962573"
     },
     "approve": {
-      "notificationId": "129d541e-b722-4ffe-a718-bb3e62a1809c",
-      "messageId": "01a1da33-826f-7326-92f5-105c1bbfbd3a",
-      "subject": "Membership approved \u2014 M11 Resend 1794662164593"
+      "notificationId": "f0ea9fbb-2c57-45f2-8797-2d7abb31617b",
+      "messageId": "01a1da9b-2ce9-7b12-aa14-cc3de1c82375",
+      "subject": "Pactwell — Membership approved — M11 Resend 1794668962573"
     }
   },
   "auth": {
-    "signUpUserId": "6ea37338-96fc-4c84-a649-0705b86ae511",
+    "signUpUserId": "879a858b-249a-4082-92ed-983f397d438d",
     "signUpConfirmedAt": null,
     "verification": {
       "status": "queued_via_supabase_auth_smtp",
@@ -31,9 +31,9 @@
     }
   },
   "caveats": [
-    "Test inbox / onboarding@resend.dev only \u2014 verified sending domain still required before beta testers.",
-    "Approve/reject via Resend API send 200 + outbox recipient=M3_TEST_INBOX; GET /emails/:id blocked on send-only key.",
-    "Verify/recovery queued via Supabase Auth SMTP (same sender); Dominic must open fresh links."
+    "Verified domain pactwell.app — From Pactwell <noreply@pactwell.app> for membership + Auth SMTP.",
+    "Approve/reject via outbox → Resend API; verify/recovery via Supabase Auth SMTP (same sender).",
+    "Gate 7 PO invite authorisation still required before tester invitations; no deploy from this script."
   ],
   "results": [
     {
@@ -44,12 +44,12 @@
     {
       "name": "inbox exact no plus",
       "ok": true,
-      "detail": "sm\u2026@gmail.com"
+      "detail": "sm…@gmail.com"
     },
     {
-      "name": "EMAIL_FROM uses onboarding@resend.dev or set",
+      "name": "EMAIL_FROM uses verified Pactwell sender or set",
       "ok": true,
-      "detail": "Accountability Tracker <\u2026>"
+      "detail": "Pactwell <…>"
     },
     {
       "name": "owner+invitee users",
@@ -87,19 +87,19 @@
       "detail": ""
     },
     {
-      "name": "reject outbox \u2192 inbox",
+      "name": "reject outbox → inbox",
       "ok": true,
-      "detail": "sm\u2026@gmail.com"
+      "detail": "sm…@gmail.com"
     },
     {
       "name": "reject Resend accepted",
       "ok": true,
-      "detail": "01a1da33-7e4f-7a82-aea0-160338567421"
+      "detail": "01a1da9b-2ae3-7116-9e8d-5b8b6dbc7bf7"
     },
     {
       "name": "reject Resend metadata (optional)",
       "ok": true,
-      "detail": "send-only key \u2014 recipient proven via outbox + send 200"
+      "detail": "send-only key — recipient proven via outbox + send 200"
     },
     {
       "name": "re-request",
@@ -119,17 +119,17 @@
     {
       "name": "approve Resend accepted",
       "ok": true,
-      "detail": "01a1da33-826f-7326-92f5-105c1bbfbd3a"
+      "detail": "01a1da9b-2ce9-7b12-aa14-cc3de1c82375"
     },
     {
       "name": "approve Resend metadata (optional)",
       "ok": true,
-      "detail": "send-only key \u2014 recipient proven via outbox + send 200"
+      "detail": "send-only key — recipient proven via outbox + send 200"
     },
     {
       "name": "cleared inbox user for fresh sign-up",
       "ok": true,
-      "detail": "absent"
+      "detail": "deleted"
     },
     {
       "name": "signUp ok (verification mail queued)",
@@ -139,7 +139,7 @@
     {
       "name": "signUp user created unconfirmed or identities present",
       "ok": true,
-      "detail": "6ea37338-96fc-4c84-a649-0705b86ae511"
+      "detail": "879a858b-249a-4082-92ed-983f397d438d"
     },
     {
       "name": "verification email expected from Supabase Auth SMTP",
@@ -156,104 +156,5 @@
     "total": 23,
     "passed": 23,
     "failed": 0
-  },
-  "human_pending": {
-    "verification_link": "Dominic open fresh Confirm signup in M3_TEST_INBOX",
-    "recovery_link": "Dominic open fresh Reset password after verify",
-    "inbox_confirm_approve_reject": "Dominic confirm membership approve + reject arrived"
-  },
-  "agent_verdict": {
-    "approve": "PASS",
-    "reject": "PASS",
-    "recovery": "PASS",
-    "verify": "PASS",
-    "four_check": "4/4",
-    "invite_go": "NO-GO",
-    "invite_blockers": [
-      "verified custom sending domain",
-      "Gate 7 PO"
-    ]
-  },
-  "resend_mcp": {
-    "status": "connected",
-    "checked_at": "2026-11-14T13:33:55.653780+00:00",
-    "list_emails_count": 4,
-    "membership": {
-      "reject": {
-        "id": "01a1da33-7e4f-7a82-aea0-160338567421",
-        "to": "smyth.developer@gmail.com",
-        "status": "delivered",
-        "from": "Accountability Tracker <onboarding@resend.dev>",
-        "subject": "Membership declined \u2014 M11 Resend 1794662164593"
-      },
-      "approve": {
-        "id": "01a1da33-826f-7326-92f5-105c1bbfbd3a",
-        "to": "smyth.developer@gmail.com",
-        "status": "delivered",
-        "from": "Accountability Tracker <onboarding@resend.dev>",
-        "subject": "Membership approved \u2014 M11 Resend 1794662164593"
-      }
-    },
-    "auth_verify_recovery": {
-      "visible_in_resend_transactional_list": false,
-      "note": "Expected \u2014 Auth mails go via Supabase Auth SMTP, not Resend send API; not listed in list-emails."
-    },
-    "also_seen": [
-      {
-        "id": "01a1da33-b84f-7301-b518-30f88f116535",
-        "subject": "M11 probe",
-        "status": "delivered"
-      }
-    ]
-  },
-  "dominic_inbox_confirm": {
-    "membership_approved": true,
-    "membership_declined": true,
-    "reset_password": {
-      "received": true,
-      "from": "noreply@mail.app.supabase.io"
-    },
-    "confirm_signup": {
-      "prior": "not_found",
-      "spam_note": "Only M11 probe from Resend seen in spam \u2014 onboarding@resend.dev spam risk"
-    }
-  },
-  "verify_retry": {
-    "at": "2026-11-14T13:37:59.817676+00:00",
-    "userId": "518ac527-4ba0-42ca-a134-30a0def0e75c",
-    "email_confirmed_at": null,
-    "method": "deleted prior (auto-confirmed) user; fresh signUp identities=1; resend rate-limited after (mail already requested)",
-    "action_required": "Dominic open fresh Confirm signup now; check Inbox + Spam; ignore M11 probe",
-    "expected_from": "likely noreply@mail.app.supabase.io (Auth default), not onboarding@resend.dev",
-    "receipt_confirmed_by_dominic": true,
-    "receipt_at_approx": "2026-11-14T13:36:00Z",
-    "from": "Supabase Auth <noreply@mail.app.supabase.io>",
-    "to": "smyth.developer@gmail.com",
-    "link_open": "PENDING",
-    "no_resend": true,
-    "updated_at": "2026-11-14T13:41:14.080603+00:00",
-    "first_click_failed": "local preview down",
-    "preview_restart_worker": "bc-0fb86284"
-  },
-  "verify_otp_expired_retry": {
-    "at": "2026-11-14T13:48:55.570967+00:00",
-    "prior_error": "otp_expired / access_denied on /sign-in?error=auth_callback",
-    "auth_smtp_resend": "rate_limited",
-    "method": "admin.generateLink(signup) + Resend delivery to exact inbox",
-    "resend_message_id": "01a1da51-3b25-77c8-a7d4-130db9c7fd14",
-    "resend_status_mcp": "delivered",
-    "from": "Accountability Tracker <onboarding@resend.dev>",
-    "to": "smyth.developer@gmail.com",
-    "userId": "d28f358c-4dcf-4218-814b-6cca1d00e74d",
-    "link_open": "PENDING",
-    "subject": "Confirm your email address (fresh link \u2014 Auth SMTP rate-limited)"
-  },
-  "verify_final": {
-    "at": "2026-11-14T13:49:57.630002+00:00",
-    "status": "PASS",
-    "userId": "d28f358c-4dcf-4218-814b-6cca1d00e74d",
-    "email_confirmed_at": "2026-11-14T13:49:14.89033Z",
-    "dominic": "fresh Confirm succeeded; hash access_token type=signup email_verified=true",
-    "polish_bug": "/sign-in?error=auth_callback query with valid session hash \u2014 separate fix"
   }
 }

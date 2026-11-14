@@ -26,6 +26,40 @@
 
 User-facing shell / auth / titles / membership From+templates / Auth confirm+recovery templates renamed to **Pactwell**. Prior **4/4 Pass** inbox evidence and callback retest **Pass** above are unchanged historical records (not re-run). Private beta remains **NO-GO** until verified sending domain + Gate 7.
 
+### Hosted Auth email branding (test project `gdrkejobqlvtwnlaedpu`)
+
+Applied via Supabase Management API after enabling custom SMTP (Resend). Local `EMAIL_FROM` already `Pactwell <onboarding@resend.dev>`. Secrets not committed.
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Confirm template + subject | **Applied** | Subject `Confirm your Pactwell email`; body = `supabase/templates/confirmation.html` |
+| Recovery template + subject | **Applied** | Subject `Reset your Pactwell password`; body = `supabase/templates/recovery.html` |
+| Custom SMTP + sender name | **Applied** | `smtp.resend.com` · `smtp_sender_name=Pactwell` · admin `onboarding@resend.dev` |
+| Fresh confirm delivery | **Delivered** (Resend) | To `smyth.developer@gmail.com` · From `Pactwell <onboarding@resend.dev>` · subject above · HTML has Pactwell copy · ~14:47Z 14 Nov 2026 |
+| Fresh recovery delivery | **Delivered** (Resend) | Same From/branding · subject above · ~14:50Z 14 Nov 2026 (use this Reset; ignore earlier ~14:46Z Reset — superseded after auth user recreate) |
+| Dom inbox click — confirm → Home | **Pass** | Dominic — newest Confirm: sender/subject/Pactwell branding OK → Home |
+| Dom inbox click — recovery → Choose a new password | **Pass** | Dominic — newest Reset (~14:50Z): same → Choose a new password |
+| Preview | **Live** | `http://localhost:3000` with `.env.local` |
+
+Hosted Auth branding inbox verify **Pass** (delivery + Dom sight on lab `onboarding@resend.dev`). Prior **4/4 Pass** and callback retest **Pass** retained above.
+
+### Verified domain sender — `pactwell.app` (retest)
+
+Resend domain **`pactwell.app`** (`eu-west-1`) **verified** (DKIM + `send` MX/TXT + `rsend` CNAME). Wired:
+
+- Local `.env.local` `EMAIL_FROM=Pactwell <noreply@pactwell.app>` (not committed)
+- Auth SMTP `smtp_admin_email=noreply@pactwell.app`, `smtp_sender_name=Pactwell`, templates/subjects preserved, callback Site URL unchanged
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Membership **approval** | **Pass** | Resend delivered From `Pactwell <noreply@pactwell.app>` · `Pactwell — Membership approved — M11 Resend 1794668962573` · ~15:09Z · Dom sight |
+| Membership **rejection** | **Pass** | Same From · `Pactwell — Membership declined — M11 Resend 1794668962573` · ~15:09Z · Dom sight |
+| Sign-up **verification** | **Pass** | From `Pactwell <noreply@pactwell.app>` · `Confirm your Pactwell email` · ~15:09Z · Dominic → Home |
+| Password **recovery** | **Pass** | Same From · `Reset your Pactwell password` · ~15:10Z · Dominic → Choose a new password |
+| Evidence script | **23/23 Pass** | `scripts/m11-email-resend-evidence.mjs` → `media/m11/email-resend-evidence.json` |
+
+Verified-sender four-mail inbox verify **4/4 Pass** (delivery + Dom sight). Private beta remains **NO-GO** until **Gate 7**. **Stop** before deploy / tester invites.
+
 ### Auth callback hash fix (retest)
 
 | Item | Status | Evidence |
@@ -47,14 +81,14 @@ Journeys 86/86 · a11y 11/11 · SR 13/13 · tick 9/9 · security F-01–F-05 · 
 
 ### Recommendation: **NO-GO for private-beta invites / deploy**
 
-Test-inbox four-mail proof **Pass**. Closed-lab may continue.
+Verified domain `pactwell.app` **cleared**. Verified-sender four-mail **4/4 Pass** from `Pactwell <noreply@pactwell.app>` (Dom sight). Closed-lab may continue. **Gate 7** still blocks invites / deploy.
 
 | Blocker | Status |
 | --- | --- |
-| 1. Four-mail test-inbox proof | **Cleared** |
-| 2. Verified custom sending domain | **Still required** before non–test-inbox recipients |
+| 1. Four-mail test-inbox proof | **Cleared** (historical + verified-sender **4/4 Pass**) |
+| 2. Verified custom sending domain | **Cleared** — `pactwell.app` verified; From `Pactwell <noreply@pactwell.app>` |
 | 3. Gate 7 PO invite authorisation | **Still required** |
 | 4. Public-host `LIFECYCLE_TICK_SECRET` | Only if/when non-local deploy authorised |
 | 5. Retention purge | Separate implementation approval |
 
-**Stop:** no deploy, no tester invitations until separate approval.
+**Stop:** no deploy, no tester invitations until Gate 7 approval.
