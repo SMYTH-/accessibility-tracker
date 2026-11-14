@@ -41,7 +41,24 @@ Applied via Supabase Management API after enabling custom SMTP (Resend). Local `
 | Dom inbox click — recovery → Choose a new password | **Pass** | Dominic — newest Reset (~14:50Z): same → Choose a new password |
 | Preview | **Live** | `http://localhost:3000` with `.env.local` |
 
-Hosted Auth branding inbox verify **Pass** (delivery + Dom sight). Prior **4/4 Pass** and callback retest **Pass** retained above. Private beta remains **NO-GO** until verified sending domain + Gate 7. **Stop** before deploy / tester invites.
+Hosted Auth branding inbox verify **Pass** (delivery + Dom sight on lab `onboarding@resend.dev`). Prior **4/4 Pass** and callback retest **Pass** retained above.
+
+### Verified domain sender — `pactwell.app` (retest)
+
+Resend domain **`pactwell.app`** (`eu-west-1`) **verified** (DKIM + `send` MX/TXT + `rsend` CNAME). Wired:
+
+- Local `.env.local` `EMAIL_FROM=Pactwell <noreply@pactwell.app>` (not committed)
+- Auth SMTP `smtp_admin_email=noreply@pactwell.app`, `smtp_sender_name=Pactwell`, templates/subjects preserved, callback Site URL unchanged
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Membership **approval** | **Delivered** | Resend From `Pactwell <noreply@pactwell.app>` · subject `Pactwell — Membership approved — M11 Resend 1794668962573` · ~15:09Z |
+| Membership **rejection** | **Delivered** | Same From · `Pactwell — Membership declined — M11 Resend 1794668962573` · ~15:09Z |
+| Sign-up **verification** | **Delivered** · Dom click **Pending** | From `Pactwell <noreply@pactwell.app>` · `Confirm your Pactwell email` · ~15:09Z — Dominic open → Home |
+| Password **recovery** | **Delivered** · Dom click **Pending** | Same From · `Reset your Pactwell password` · ~15:10Z — Dominic open → Choose a new password |
+| Evidence script | **23/23 Pass** | `scripts/m11-email-resend-evidence.mjs` → `media/m11/email-resend-evidence.json` |
+
+Private beta remains **NO-GO** until Dom auth-link sight + **Gate 7**. **Stop** before deploy / tester invites.
 
 ### Auth callback hash fix (retest)
 
@@ -64,14 +81,14 @@ Journeys 86/86 · a11y 11/11 · SR 13/13 · tick 9/9 · security F-01–F-05 · 
 
 ### Recommendation: **NO-GO for private-beta invites / deploy**
 
-Test-inbox four-mail proof **Pass**. Closed-lab may continue.
+Verified domain `pactwell.app` **cleared**. Four mails **delivered** from `Pactwell <noreply@pactwell.app>`; Dom auth-link click still **Pending**. Closed-lab may continue. **Gate 7** still blocks invites.
 
 | Blocker | Status |
 | --- | --- |
-| 1. Four-mail test-inbox proof | **Cleared** |
-| 2. Verified custom sending domain | **Still required** before non–test-inbox recipients |
+| 1. Four-mail test-inbox proof | **Cleared** (historical) · verified-sender retest **delivered** / auth clicks **Pending** |
+| 2. Verified custom sending domain | **Cleared** — `pactwell.app` verified; From `Pactwell <noreply@pactwell.app>` |
 | 3. Gate 7 PO invite authorisation | **Still required** |
 | 4. Public-host `LIFECYCLE_TICK_SECRET` | Only if/when non-local deploy authorised |
 | 5. Retention purge | Separate implementation approval |
 
-**Stop:** no deploy, no tester invitations until separate approval.
+**Stop:** no deploy, no tester invitations until Gate 7 approval.

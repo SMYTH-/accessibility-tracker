@@ -54,7 +54,29 @@ function userClient() {
 }
 
 async function findUserByEmail(email) {
-  // paginate a bit — lab projects stay small
+  // Prefer filter — listUsers pagination can miss on some GoTrue builds.
+  const filtered = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
+  // Also try REST filter via auth admin generate path: query users with email eq
+  try {
+    const res = await fetch(
+      `${url}/auth/v1/admin/users?page=1&per_page=200&filter=${encodeURIComponent(email)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${service}`,
+          apikey: service,
+          Accept: "application/json",
+        },
+      },
+    );
+    if (res.ok) {
+      const json = await res.json();
+      const users = json.users || [];
+      const hit = users.find((u) => u.email?.toLowerCase() === email.toLowerCase());
+      if (hit) return hit;
+    }
+  } catch {
+    /* fall through */
+  }
   for (let page = 1; page <= 5; page += 1) {
     const listed = await admin.auth.admin.listUsers({ page, perPage: 200 });
     const hit = listed.data.users.find(
@@ -126,8 +148,8 @@ mkdirSync(mediaDir, { recursive: true });
 assert("provider=resend", Boolean(resendKey));
 assert("inbox exact no plus", Boolean(inbox) && !inbox.includes("+"), maskEmail(inbox));
 assert(
-  "EMAIL_FROM uses onboarding@resend.dev or set",
-  /onboarding@resend\.dev|>/.test(from),
+  "EMAIL_FROM uses verified Pactwell sender or set",
+  /noreply@pactwell\.app|onboarding@resend\.dev|>/.test(from),
   from.replace(/<[^>]+>/, "<…>"),
 );
 
@@ -339,6 +361,8 @@ if (afterSignup && !afterSignup.email_confirmed_at) {
   // Keep unconfirmed for Dominic's verify click; still send recovery after a short note.
   // Many setups allow recovery on unconfirmed; we still send and ask Dominic to open verify FIRST.
 }
+// Respect Auth SMTP max frequency (~60s) after signup confirmation send.
+await new Promise((r) => setTimeout(r, 65000));
 const recoveryClient = userClient();
 const recovery = await recoveryClient.auth.resetPasswordForEmail(inbox, {
   redirectTo: `${SITE}/auth/callback?next=/update-password`,
@@ -380,8 +404,9 @@ const evidence = {
     },
   },
   caveats: [
-    "Test inbox / onboarding@resend.dev only — verified sending domain still required before beta testers.",
-    "Approve/reject delivered via app → Resend API; verify/recovery via Supabase Auth SMTP (same sender).",
+    "Verified domain pactwell.app — From Pactwell <noreply@pactwell.app> for membership + Auth SMTP.",
+    "Approve/reject via outbox → Resend API; verify/recovery via Supabase Auth SMTP (same sender).",
+    "Gate 7 PO invite authorisation still required before tester invitations; no deploy from this script.",
   ],
   results,
   summary: {
