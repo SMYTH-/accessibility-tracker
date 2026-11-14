@@ -29,7 +29,7 @@
 | Membership **approval** | **Pass** | Resend MCP delivered + Dominic inbox sight (`Accountability Tracker` / `onboarding@resend.dev`) |
 | Membership **rejection** | **Pass** | Same |
 | Password **recovery** | **Pass** | Dominic — Reset password from `noreply@mail.app.supabase.io` |
-| Sign-up **verification** | **Pending — link open** | Receipt confirmed (~13:36 UTC, `noreply@mail.app.supabase.io`). First click failed — local preview was down; another worker restarting server. **Same link** after preview is back — **no re-send**. Awaiting Dominic confirm link opened cleanly |
+| Sign-up **verification** | **Pending — link open** | Receipt confirmed. Preview back at `http://localhost:3000` (`NEXT_PUBLIC_SITE_URL` matches). Dominic reusing **same** Confirm email address link — **no re-send**. Mark Pass only after he confirms click worked |
 | Spam note | Resend `onboarding@resend.dev` **spam risk** — Dominic found only “M11 probe …” in spam; Auth mails may use `noreply@mail.app.supabase.io` | Dominic |
 | Auth SMTP vs Resend | Recovery (and likely verify) still on **default Supabase mail host**, not Resend sender | Dominic paste |
 | Caveat | **Test-inbox only** — verified sending domain still required before beta testers | — |
