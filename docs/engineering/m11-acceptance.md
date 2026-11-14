@@ -58,7 +58,28 @@ Resend domain **`pactwell.app`** (`eu-west-1`) **verified** (DKIM + `send` MX/TX
 | Password **recovery** | **Pass** | Same From · `Reset your Pactwell password` · ~15:10Z · Dominic → Choose a new password |
 | Evidence script | **23/23 Pass** | `scripts/m11-email-resend-evidence.mjs` → `media/m11/email-resend-evidence.json` |
 
-Verified-sender four-mail inbox verify **4/4 Pass** (delivery + Dom sight). Private beta remains **NO-GO** until **Gate 7**. **Stop** before deploy / tester invites.
+Verified-sender four-mail inbox verify **4/4 Pass** (delivery + Dom sight). Private beta remains **NO-GO** until **Gate 7**. **Stop** before tester invites.
+
+### Railway hosted smoke (personal account)
+
+| Field | Value |
+| --- | --- |
+| Account | Personal CLI `smyth.developer@…` · project `pactwell` (never Plug and Play) |
+| Live URL | `https://web-production-088c4880.up.railway.app` |
+| Deployed tip | `f9ce390d` (PR #16 Wise-strip; base `a6ee49f6`) |
+| Sender | `Pactwell <noreply@pactwell.app>` |
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| App starts | **Pass** | `/` → 307 `/sign-in` → 200; title Pactwell |
+| `/wise-preview` | **Pass** | **404** |
+| Lifecycle missing/invalid secret | **Pass** | **401** `UNAUTHORIZED_LIFECYCLE_TICK` |
+| Lifecycle valid secret | **Pass** | Bearer + `x-lifecycle-tick-secret` → **200** `{ok:true,…}` |
+| Membership approve + reject mail | **Pass** | Evidence script **23/23**; Resend accepted (Dom sight optional for From) |
+| Signup confirm → Home | **Pending Dom** | Confirm queued to hosted `/auth/callback` — Dom must open newest Confirm |
+| Recovery → Choose a new password | **Pending Dom** | Reset queued to hosted `/auth/callback?next=/update-password` — Dom must open after Confirm |
+
+**Gate 7** still separate — no tester invitations from this smoke.
 
 ### Auth callback hash fix (retest)
 
@@ -88,7 +109,7 @@ Verified domain `pactwell.app` **cleared**. Verified-sender four-mail **4/4 Pass
 | 1. Four-mail test-inbox proof | **Cleared** (historical + verified-sender **4/4 Pass**) |
 | 2. Verified custom sending domain | **Cleared** — `pactwell.app` verified; From `Pactwell <noreply@pactwell.app>` |
 | 3. Gate 7 PO invite authorisation | **Still required** |
-| 4. Public-host `LIFECYCLE_TICK_SECRET` | Only if/when non-local deploy authorised |
+| 4. Public-host `LIFECYCLE_TICK_SECRET` | **Set** on personal Railway smoke (`pactwell` / `web`) — rotate if leaked |
 | 5. Retention purge | Separate implementation approval |
 
 **Stop:** no deploy, no tester invitations until Gate 7 approval.
