@@ -171,7 +171,7 @@ export default async function ChallengeOverviewPage({
             <li className="text-[var(--mute)]">
               Weekly commitment assessment:{" "}
               {assessed
-                ? `In scope from Monday ${setup?.firstAssessedWeekStart ?? "—"} (M8 runs weeks)`
+                ? `In scope from Monday ${setup?.firstAssessedWeekStart ?? "—"} (challenge TZ; your view only)`
                 : "Not assessed while savings inactive (G1.1-01/03/04)"}
             </li>
           </ul>
@@ -279,11 +279,11 @@ export default async function ChallengeOverviewPage({
         </section>
 
         <section className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--elevated)] p-5">
-          <h2 className="text-lg font-semibold">Not in M7</h2>
+          <h2 className="text-lg font-semibold">Not in M8</h2>
           <p className="mt-2 text-sm text-[var(--mute)]">
-            Weekly assessment / streak calculation (M8), full activity feed (M9), and cancel remain
-            out of scope. Post-activation target editing stays parked (M4). Re-opt-in and
-            small-group suppression stay OPEN.
+            Full activity feed (M9), cancel, and ownership transfer remain out of scope. Pause
+            scheduling / duration / resume and streak awards stay OPEN. Post-activation target
+            editing stays parked (M4). Re-opt-in and small-group suppression stay OPEN.
           </p>
         </section>
 

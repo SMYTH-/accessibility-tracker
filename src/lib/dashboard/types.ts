@@ -1,3 +1,9 @@
+import type {
+  DashboardAssessmentStatus,
+  StreakStatus,
+  WeekAssessment,
+} from "@/lib/assessment/engine";
+
 export type MilestonePercent = 25 | 50 | 75 | 100;
 
 export type PersonalDashboard = {
@@ -15,11 +21,15 @@ export type PersonalDashboard = {
   savingsParticipationActive: boolean;
   shareMonetaryInfo: boolean;
   firstAssessedWeekStart: string | null;
-  /** M8 owns calculation; label locked to mid-fi "Your streak". */
-  streakWeeks: number | null;
+  /** Personal streak only — mid-fi label "Your streak". */
+  streakWeeks: number;
   streakLabel: "Your streak";
-  streakStatus: "deferred_to_m8";
-  weeklyAssessmentStatus: "deferred_to_m8";
+  streakStatus: StreakStatus;
+  weeklyAssessmentStatus: DashboardAssessmentStatus;
+  currentWeekStart: string | null;
+  currentWeekEligibleMinor: number;
+  /** Own-view week history (Completed / Missed / In progress / Paused). */
+  assessmentHistory: WeekAssessment[];
 };
 
 export type SharingMemberTotals = {
