@@ -22,7 +22,18 @@
 | Spam note | `onboarding@resend.dev` can land in Spam | Dominic |
 | Auth sender note | Recovery / early Auth mail used default Supabase host; membership + rate-limit fallback verify via Resend | — |
 
-**Polish (not an inbox fail):** callback landed on `/sign-in?error=auth_callback` while hash contained a valid signup session — fix callback routing separately.
+### Auth callback hash fix (retest)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Fix | **Shipped** | `/auth/callback` with no `code`/`token_hash` → `/auth/confirm`; client consumes `#access_token` hash. Commits `7edb783a`, `81091592` on `cursor/m11-beta-readiness-cb14` |
+| Valid session hash → Home | **Pass** | Playwright + live Supabase magiclink tokens → `http://localhost:3000/home` |
+| Signup verified, sign-in needed | **Pass** | `#type=signup&email_verified=true` → `/sign-in?verified=1` with “Email verified. Sign in to continue.” |
+| Invalid / expired link | **Pass** | `#error=…&error_code=otp_expired` and empty confirm → `/sign-in?error=auth_callback` |
+| Password recovery routing | **Pass** | Live recovery hash → `/update-password` (recovery session active) |
+| Inbox Dom sight (confirm + recovery links) | **Pending** | Resend lab mail to `smyth.developer@gmail.com` (subjects `M11 auth callback retest — Confirm…` / `…Reset password…`); Auth SMTP rate-limited — action links via Supabase verify + Resend delivery |
+
+Prior **4/4** test-inbox Pass **unchanged** (not regressed).
 
 ## Other gates (unchanged Pass)
 

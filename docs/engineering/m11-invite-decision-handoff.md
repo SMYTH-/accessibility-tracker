@@ -23,7 +23,7 @@ Test-inbox email path is proven (4/4). That does **not** clear Gate 7: a **verif
 | Membership approve + reject | Resend MCP **delivered** + Dominic inbox |
 | Password recovery | Dominic · `noreply@mail.app.supabase.io` |
 | Sign-up verification | Dominic · fresh link; Auth confirmed `d28f358c-…` @ 13:49:14Z; session hash valid (`email_verified=true`) |
-| Auth callback query polish | Noted only — `/sign-in?error=auth_callback` with valid hash; **not** an inbox fail |
+| Auth callback hash routing | **Fixed** — `/auth/confirm` consumes session hash → Home / “Email verified…” / error; see `m11-acceptance.md` retest table |
 
 ### Still blocking invite GO
 
