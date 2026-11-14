@@ -31,7 +31,7 @@
 | Signup verified, sign-in needed | **Pass** | `#type=signup&email_verified=true` → `/sign-in?verified=1` with “Email verified. Sign in to continue.” |
 | Invalid / expired link | **Pass** | `#error=…&error_code=otp_expired` and empty confirm → `/sign-in?error=auth_callback` |
 | Password recovery routing | **Pass** | Live recovery hash → `/update-password` (recovery session active) |
-| Inbox Dom sight (confirm + recovery links) | **Pending** | Resend lab mail to `smyth.developer@gmail.com` (subjects `M11 auth callback retest — Confirm…` / `…Reset password…`); Auth SMTP rate-limited — action links via Supabase verify + Resend delivery |
+| Inbox Dom sight (confirm + recovery links) | **Pass** | Dominic — Confirm → `http://localhost:3000/home`; Reset → Choose a new password. Resend lab mail (`onboarding@resend.dev` → `smyth.developer@gmail.com`) |
 
 Prior **4/4** test-inbox Pass **unchanged** (not regressed).
 
