@@ -19,7 +19,7 @@ export type ContributionActionState = {
   message?: string;
   /** Fresh key for the next create attempt after a successful (or replayed) submit. */
   nextIdempotencyKey?: string;
-  /** Structured confirmation for Wise-inspired record UI (amounts in minor units). */
+  /** Structured confirmation for record UI (amounts in minor units). */
   confirmation?: {
     recordedMinor: number;
     currency: string;
