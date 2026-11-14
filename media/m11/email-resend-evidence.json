@@ -163,10 +163,11 @@
     "inbox_confirm_approve_reject": "Dominic confirm membership approve + reject arrived"
   },
   "agent_verdict": {
-    "approve_reject_send": "PASS",
-    "approve_reject_delivered_mcp": "PASS",
-    "verify_recovery_queued": "PASS",
-    "human_link_opens": "PENDING",
+    "approve": "PASS",
+    "reject": "PASS",
+    "recovery": "PASS",
+    "verify": "PENDING_RETRY",
+    "four_check": "3/4",
     "invite_go": "NO-GO"
   },
   "resend_mcp": {
@@ -200,5 +201,25 @@
         "status": "delivered"
       }
     ]
+  },
+  "dominic_inbox_confirm": {
+    "membership_approved": true,
+    "membership_declined": true,
+    "reset_password": {
+      "received": true,
+      "from": "noreply@mail.app.supabase.io"
+    },
+    "confirm_signup": {
+      "prior": "not_found",
+      "spam_note": "Only M11 probe from Resend seen in spam \u2014 onboarding@resend.dev spam risk"
+    }
+  },
+  "verify_retry": {
+    "at": "2026-11-14T13:37:59.817676+00:00",
+    "userId": "518ac527-4ba0-42ca-a134-30a0def0e75c",
+    "email_confirmed_at": null,
+    "method": "deleted prior (auto-confirmed) user; fresh signUp identities=1; resend rate-limited after (mail already requested)",
+    "action_required": "Dominic open fresh Confirm signup now; check Inbox + Spam; ignore M11 probe",
+    "expected_from": "likely noreply@mail.app.supabase.io (Auth default), not onboarding@resend.dev"
   }
 }
