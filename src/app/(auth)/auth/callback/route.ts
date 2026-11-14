@@ -73,7 +73,10 @@ export async function GET(request: NextRequest) {
       return successRedirect;
     }
     logCallbackError(`exchange_failed:${error.message}`);
-  } else if (tokenHash && otpType) {
+    return NextResponse.redirect(`${origin}/sign-in?error=auth_callback`);
+  }
+
+  if (tokenHash && otpType) {
     const { error } = await supabase.auth.verifyOtp({
       type: otpType,
       token_hash: tokenHash,
@@ -82,9 +85,14 @@ export async function GET(request: NextRequest) {
       return successRedirect;
     }
     logCallbackError(`verify_otp_failed:${error.message}`);
-  } else {
-    logCallbackError("missing_code_and_token_hash");
+    return NextResponse.redirect(`${origin}/sign-in?error=auth_callback`);
   }
 
-  return NextResponse.redirect(`${origin}/sign-in?error=auth_callback`);
+  // No query tokens — Supabase may have put the session in the URL hash
+  // (`#access_token=…&type=signup`). The server never sees that fragment;
+  // hand off to a client page (browser preserves the hash across this redirect).
+  logCallbackError("missing_code_and_token_hash_handoff_confirm");
+  const confirm = new URL(`${origin}/auth/confirm`);
+  if (next !== "/home") confirm.searchParams.set("next", next);
+  return NextResponse.redirect(confirm);
 }
