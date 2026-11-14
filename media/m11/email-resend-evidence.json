@@ -166,9 +166,13 @@
     "approve": "PASS",
     "reject": "PASS",
     "recovery": "PASS",
-    "verify": "PENDING \u2014 fresh link delivered; await clean open",
-    "four_check": "3/4",
-    "invite_go": "NO-GO"
+    "verify": "PASS",
+    "four_check": "4/4",
+    "invite_go": "NO-GO",
+    "invite_blockers": [
+      "verified custom sending domain",
+      "Gate 7 PO"
+    ]
   },
   "resend_mcp": {
     "status": "connected",
@@ -243,5 +247,13 @@
     "userId": "d28f358c-4dcf-4218-814b-6cca1d00e74d",
     "link_open": "PENDING",
     "subject": "Confirm your email address (fresh link \u2014 Auth SMTP rate-limited)"
+  },
+  "verify_final": {
+    "at": "2026-11-14T13:49:57.630002+00:00",
+    "status": "PASS",
+    "userId": "d28f358c-4dcf-4218-814b-6cca1d00e74d",
+    "email_confirmed_at": "2026-11-14T13:49:14.89033Z",
+    "dominic": "fresh Confirm succeeded; hash access_token type=signup email_verified=true",
+    "polish_bug": "/sign-in?error=auth_callback query with valid session hash \u2014 separate fix"
   }
 }
