@@ -21,6 +21,7 @@
     "evidence:m11:a11y": "node --env-file=.env.local scripts/m11-a11y-evidence.mjs",
     "evidence:m11:sr": "node --env-file=.env.local scripts/m11-screenreader-evidence.mjs",
     "evidence:m11:tick": "node --env-file=.env.local scripts/m11-lifecycle-tick-auth.mjs",
+    "evidence:m11:email": "node --env-file=.env.local scripts/m11-email-resend-evidence.mjs",
     "evidence:m2:pg": "node --env-file=.env.local scripts/m2-postgres-evidence.mjs",
     "evidence:m2:ui": "node scripts/m2-supabase-ui-evidence.mjs",
     "evidence:m3:pg": "node --env-file=.env.local scripts/m3-postgres-evidence.mjs",

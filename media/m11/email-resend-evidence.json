@@ -1,0 +1,171 @@
+{
+  "stamp": 1794662164593,
+  "project": "gdrkejobqlvtwnlaedpu",
+  "provider": "resend",
+  "fromMasked": "Accountability Tracker <\u2026>",
+  "inboxMasked": "sm\u2026@gmail.com",
+  "site": "http://localhost:3000",
+  "challengeId": "42ab107b-f36f-431b-8216-bef50525bd66",
+  "membership": {
+    "reject": {
+      "notificationId": "85bfc822-5fc9-41db-b5b1-9aecca196fdd",
+      "messageId": "01a1da33-7e4f-7a82-aea0-160338567421",
+      "subject": "Membership declined \u2014 M11 Resend 1794662164593"
+    },
+    "approve": {
+      "notificationId": "129d541e-b722-4ffe-a718-bb3e62a1809c",
+      "messageId": "01a1da33-826f-7326-92f5-105c1bbfbd3a",
+      "subject": "Membership approved \u2014 M11 Resend 1794662164593"
+    }
+  },
+  "auth": {
+    "signUpUserId": "6ea37338-96fc-4c84-a649-0705b86ae511",
+    "signUpConfirmedAt": null,
+    "verification": {
+      "status": "queued_via_supabase_auth_smtp",
+      "actionRequired": "Dominic: open the fresh verification (Confirm signup) link in the exact M3_TEST_INBOX now."
+    },
+    "recovery": {
+      "status": "queued_via_supabase_auth_smtp",
+      "actionRequired": "Dominic: after verification succeeds, open the fresh password recovery link in the same inbox (or open recovery if it arrived and works pre-confirm)."
+    }
+  },
+  "caveats": [
+    "Test inbox / onboarding@resend.dev only \u2014 verified sending domain still required before beta testers.",
+    "Approve/reject via Resend API send 200 + outbox recipient=M3_TEST_INBOX; GET /emails/:id blocked on send-only key.",
+    "Verify/recovery queued via Supabase Auth SMTP (same sender); Dominic must open fresh links."
+  ],
+  "results": [
+    {
+      "name": "provider=resend",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "inbox exact no plus",
+      "ok": true,
+      "detail": "sm\u2026@gmail.com"
+    },
+    {
+      "name": "EMAIL_FROM uses onboarding@resend.dev or set",
+      "ok": true,
+      "detail": "Accountability Tracker <\u2026>"
+    },
+    {
+      "name": "owner+invitee users",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "owner sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "invitee sign-in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "create challenge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "create invite",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "request pending",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "decline + notif",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "reject outbox \u2192 inbox",
+      "ok": true,
+      "detail": "sm\u2026@gmail.com"
+    },
+    {
+      "name": "reject Resend accepted",
+      "ok": true,
+      "detail": "01a1da33-7e4f-7a82-aea0-160338567421"
+    },
+    {
+      "name": "reject Resend metadata (optional)",
+      "ok": true,
+      "detail": "send-only key \u2014 recipient proven via outbox + send 200"
+    },
+    {
+      "name": "re-request",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "approve + notif",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "approve outbox kind",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "approve Resend accepted",
+      "ok": true,
+      "detail": "01a1da33-826f-7326-92f5-105c1bbfbd3a"
+    },
+    {
+      "name": "approve Resend metadata (optional)",
+      "ok": true,
+      "detail": "send-only key \u2014 recipient proven via outbox + send 200"
+    },
+    {
+      "name": "cleared inbox user for fresh sign-up",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "name": "signUp ok (verification mail queued)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "signUp user created unconfirmed or identities present",
+      "ok": true,
+      "detail": "6ea37338-96fc-4c84-a649-0705b86ae511"
+    },
+    {
+      "name": "verification email expected from Supabase Auth SMTP",
+      "ok": true,
+      "detail": "Dominic must open the fresh Confirm signup link in M3_TEST_INBOX"
+    },
+    {
+      "name": "recovery mail queued",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "summary": {
+    "total": 23,
+    "passed": 23,
+    "failed": 0
+  },
+  "human_pending": {
+    "verification_link": "Dominic open fresh Confirm signup in M3_TEST_INBOX",
+    "recovery_link": "Dominic open fresh Reset password after verify",
+    "inbox_confirm_approve_reject": "Dominic confirm membership approve + reject arrived"
+  },
+  "agent_verdict": {
+    "approve_reject_send": "PASS",
+    "verify_recovery_queued": "PASS",
+    "human_link_opens": "PENDING",
+    "invite_go": "NO-GO"
+  }
+}
