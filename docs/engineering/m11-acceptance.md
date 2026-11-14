@@ -26,6 +26,23 @@
 
 User-facing shell / auth / titles / membership From+templates / Auth confirm+recovery templates renamed to **Pactwell**. Prior **4/4 Pass** inbox evidence and callback retest **Pass** above are unchanged historical records (not re-run). Private beta remains **NO-GO** until verified sending domain + Gate 7.
 
+### Hosted Auth email branding (test project `gdrkejobqlvtwnlaedpu`)
+
+Applied via Supabase Management API after enabling custom SMTP (Resend). Local `EMAIL_FROM` already `Pactwell <onboarding@resend.dev>`. Secrets not committed.
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Confirm template + subject | **Applied** | Subject `Confirm your Pactwell email`; body = `supabase/templates/confirmation.html` |
+| Recovery template + subject | **Applied** | Subject `Reset your Pactwell password`; body = `supabase/templates/recovery.html` |
+| Custom SMTP + sender name | **Applied** | `smtp.resend.com` · `smtp_sender_name=Pactwell` · admin `onboarding@resend.dev` |
+| Fresh confirm delivery | **Delivered** (Resend) | To `smyth.developer@gmail.com` · From `Pactwell <onboarding@resend.dev>` · subject above · HTML has Pactwell copy · ~14:47Z 14 Nov 2026 |
+| Fresh recovery delivery | **Delivered** (Resend) | Same From/branding · subject above · ~14:50Z 14 Nov 2026 (use this Reset; ignore earlier ~14:46Z Reset — superseded after auth user recreate) |
+| Dom inbox click — confirm → Home | **Pending** | Dominic — open Inbox/Spam; click newest Confirm only |
+| Dom inbox click — recovery → Choose a new password | **Pending** | Dominic — click newest Reset only |
+| Preview | **Live** | `http://localhost:3000` with `.env.local` |
+
+Prior **4/4 Pass** and callback retest **Pass** retained above. Private beta remains **NO-GO** until verified sending domain + Gate 7. **Stop** before deploy / tester invites.
+
 ### Auth callback hash fix (retest)
 
 | Item | Status | Evidence |
