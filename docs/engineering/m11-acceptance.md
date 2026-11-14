@@ -29,12 +29,12 @@
 | Membership **approval** | **Pass** | Resend MCP delivered + Dominic inbox sight (`Accountability Tracker` / `onboarding@resend.dev`) |
 | Membership **rejection** | **Pass** | Same |
 | Password **recovery** | **Pass** | Dominic — Reset password from `noreply@mail.app.supabase.io` |
-| Sign-up **verification** | **Pending / retry** | Prior Confirm signup not found; fresh signup re-triggered to exact `M3_TEST_INBOX` (user `518ac527-…`, unconfirmed). **Dominic: open fresh Confirm signup now** (Inbox + **Spam**) |
+| Sign-up **verification** | **Pending — link open** | Dominic confirmed receipt (~13:36 UTC) of “Confirm your email address” from `Supabase Auth <noreply@mail.app.supabase.io>` to exact inbox; **awaiting confirm that the Confirm email address link opened cleanly** (no re-send) |
 | Spam note | Resend `onboarding@resend.dev` **spam risk** — Dominic found only “M11 probe …” in spam; Auth mails may use `noreply@mail.app.supabase.io` | Dominic |
 | Auth SMTP vs Resend | Recovery (and likely verify) still on **default Supabase mail host**, not Resend sender | Dominic paste |
 | Caveat | **Test-inbox only** — verified sending domain still required before beta testers | — |
 
-**Four-check:** **3/4 Pass** (approve · reject · recovery). **Verify pending** after fresh re-trigger.
+**Four-check:** **3/4 Pass** (approve · reject · recovery). **Verify:** receipt Pass; link-open pending Dominic.
 
 ### Other gates (unchanged Pass)
 

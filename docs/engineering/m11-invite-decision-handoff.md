@@ -12,7 +12,7 @@
 
 **NO-GO for invites / deploy.** Test-inbox closed-lab OK.
 
-Approve · reject · recovery **Pass**. Sign-up verification **pending** after fresh re-trigger (prior Confirm signup not found; probe was in spam). Verified domain + Gate 7 still required before testers.
+Approve · reject · recovery **Pass**. Sign-up verification: **receipt confirmed** (~13:36 UTC from `noreply@mail.app.supabase.io`); **link-open pending** Dominic (no re-send). Verified domain + Gate 7 still required before testers.
 
 ### Cleared
 
@@ -22,7 +22,7 @@ Approve · reject · recovery **Pass**. Sign-up verification **pending** after f
 
 ### Open
 
-1. Dominic opens **fresh Confirm signup** (check Inbox + Spam) for user re-created unconfirmed on exact `M3_TEST_INBOX`
+1. Dominic confirms **Confirm email address** link opened cleanly (receipt already confirmed; no re-send)
 2. Verified sending domain (note: `onboarding@resend.dev` spam risk)
 3. Gate 7 invite authorisation
 

@@ -166,8 +166,9 @@
     "approve": "PASS",
     "reject": "PASS",
     "recovery": "PASS",
-    "verify": "PENDING_RETRY",
-    "four_check": "3/4",
+    "verify_receipt": "PASS",
+    "verify_link_open": "PENDING",
+    "four_check": "3/4 \u2014 verify link-open pending",
     "invite_go": "NO-GO"
   },
   "resend_mcp": {
@@ -220,6 +221,13 @@
     "email_confirmed_at": null,
     "method": "deleted prior (auto-confirmed) user; fresh signUp identities=1; resend rate-limited after (mail already requested)",
     "action_required": "Dominic open fresh Confirm signup now; check Inbox + Spam; ignore M11 probe",
-    "expected_from": "likely noreply@mail.app.supabase.io (Auth default), not onboarding@resend.dev"
+    "expected_from": "likely noreply@mail.app.supabase.io (Auth default), not onboarding@resend.dev",
+    "receipt_confirmed_by_dominic": true,
+    "receipt_at_approx": "2026-11-14T13:36:00Z",
+    "from": "Supabase Auth <noreply@mail.app.supabase.io>",
+    "to": "smyth.developer@gmail.com",
+    "link_open": "PENDING",
+    "no_resend": true,
+    "updated_at": "2026-11-14T13:40:43.632527+00:00"
   }
 }
