@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 /*
-  Working direction v2.1 — MD3 / Wise-inspired structure (Dom refs).
-  Royal blue accent (not Wise lime) for unique AT identity.
+  Working direction v2.1 — MD3 structure (Dom refs).
+  Royal blue accent for unique AT identity.
   White/off-white surfaces. Manrope only. Hold — not product direction.
 */
 :root {
@@ -18,7 +18,7 @@
   --line-strong: #d1d5db;
   --deep-sea: #16332b;
   --deep-sea-soft: #e8f0ec;
-  /* Royal blue — replaces Wise-like lime CTAs */
+  /* Royal blue — primary CTAs */
   --accent: #2b4cff;
   --accent-ink: #ffffff;
   --accent-soft: #e8eeff;

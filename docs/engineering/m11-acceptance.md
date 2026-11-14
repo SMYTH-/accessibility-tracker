@@ -58,7 +58,30 @@ Resend domain **`pactwell.app`** (`eu-west-1`) **verified** (DKIM + `send` MX/TX
 | Password **recovery** | **Pass** | Same From · `Reset your Pactwell password` · ~15:10Z · Dominic → Choose a new password |
 | Evidence script | **23/23 Pass** | `scripts/m11-email-resend-evidence.mjs` → `media/m11/email-resend-evidence.json` |
 
-Verified-sender four-mail inbox verify **4/4 Pass** (delivery + Dom sight). Private beta remains **NO-GO** until **Gate 7**. **Stop** before deploy / tester invites.
+Verified-sender four-mail inbox verify **4/4 Pass** (delivery + Dom sight). Private beta remains **NO-GO** until **Gate 7**. **Stop** before tester invites.
+
+### Railway hosted smoke (personal account) — **Pass**
+
+| Field | Value |
+| --- | --- |
+| Account | Personal CLI `smyth.developer@gmail.com` · project `pactwell` (never Plug and Play) |
+| Live URL | `https://web-production-088c4880.up.railway.app` |
+| Deployed tip | `935a9c6f` on `cursor/m11-wise-strip-deploy-c889` (PR #16; base `a6ee49f6` + Wise-strip + Railway fixes) |
+| Deploy id | `236b026a` SUCCESS |
+| Sender | `Pactwell <noreply@pactwell.app>` |
+| Healthcheck | `/api/health` → **200** |
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| App starts | **Pass** | Hosted app up; `/sign-in` **200**; `/api/health` **200** |
+| Signup → Home | **Pass** | Dominic — lands `https://web-production-088c4880.up.railway.app/home` |
+| Recovery → Choose a new password | **Pass** | Dominic — newest Reset → Choose a new password on Railway (`935a9c6f` recovery handoff) |
+| Membership approve + reject mail | **Pass** | Hosted evidence script **23/23**; From `Pactwell <noreply@pactwell.app>` |
+| Lifecycle missing/invalid secret | **Pass** | **401** `UNAUTHORIZED_LIFECYCLE_TICK` |
+| Lifecycle valid secret | **Pass** | Bearer → **200** `{ok:true,…}` |
+| `/wise-preview` | **Pass** | **404** |
+
+Hosted smoke checklist **cleared**. **Gate 7** still separate — **no tester invitations**.
 
 ### Auth callback hash fix (retest)
 
@@ -79,16 +102,16 @@ Journeys 86/86 · a11y 11/11 · SR 13/13 · tick 9/9 · security F-01–F-05 · 
 
 ## Go / no-go
 
-### Recommendation: **NO-GO for private-beta invites / deploy**
+### Recommendation: **NO-GO for private-beta invites** (hosted smoke cleared)
 
-Verified domain `pactwell.app` **cleared**. Verified-sender four-mail **4/4 Pass** from `Pactwell <noreply@pactwell.app>` (Dom sight). Closed-lab may continue. **Gate 7** still blocks invites / deploy.
+Verified domain + verified-sender **4/4 Pass**. Personal Railway hosted smoke **Pass** (`935a9c6f`). Closed-lab / hosted preview may continue. **Gate 7** still blocks tester invitations.
 
 | Blocker | Status |
 | --- | --- |
 | 1. Four-mail test-inbox proof | **Cleared** (historical + verified-sender **4/4 Pass**) |
 | 2. Verified custom sending domain | **Cleared** — `pactwell.app` verified; From `Pactwell <noreply@pactwell.app>` |
 | 3. Gate 7 PO invite authorisation | **Still required** |
-| 4. Public-host `LIFECYCLE_TICK_SECRET` | Only if/when non-local deploy authorised |
+| 4. Public-host `LIFECYCLE_TICK_SECRET` | **Cleared for smoke** — set on personal Railway `pactwell` / `web` |
 | 5. Retention purge | Separate implementation approval |
 
-**Stop:** no deploy, no tester invitations until Gate 7 approval.
+**Stop:** no tester invitations until Gate 7 approval.
