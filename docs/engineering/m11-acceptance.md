@@ -3,54 +3,30 @@
 | Field | Value |
 | --- | --- |
 | Against | `docs/engineering/mvp-build-plan.md` § M11 · Gates 6–7 · §10.1 · §10.5 · Journeys A–E · WCAG 2.2 AA |
-| M10 base tip | `6e9cca6d` (PR #11) |
 | Implementation branch | `cursor/m11-beta-readiness-cb14` · PR #12 |
-| Tip SHA | branch tip after verify-retry |
-| Persistence | **Supabase** project `gdrkejobqlvtwnlaedpu` (non-prod linked) |
+| Persistence | **Supabase** `gdrkejobqlvtwnlaedpu` |
 | Date | 14 November 2026 |
-| Machine | Dom Mac · `~/Local Sites/accessibility-tracker` |
-| Preview | `http://localhost:3000` (**local only**) |
-| Evidence | `evidence:m11:*` · `media/m11/email-resend-evidence.json` |
+| Preview | `http://localhost:3000` (up; `.env.local` / `NEXT_PUBLIC_SITE_URL` match) |
 | Closed-lab | **Accepted** |
 | Private beta | **NO-GO** for invites / deploy |
 
-## Checklist
-
-### Journeys A–E
-
-| Check | Result | Evidence |
-| --- | --- | --- |
-| A–E + access boundaries | **Pass 86/86** | `media/m11/journeys-evidence.json` |
-
-### Email (four-mail proof)
+## Email (four-mail proof)
 
 | Item | Status | Evidence |
 | --- | --- | --- |
-| Membership **approval** | **Pass** | Resend MCP delivered + Dominic inbox sight (`Accountability Tracker` / `onboarding@resend.dev`) |
+| Membership **approval** | **Pass** | MCP delivered + Dominic sight (`onboarding@resend.dev`) |
 | Membership **rejection** | **Pass** | Same |
-| Password **recovery** | **Pass** | Dominic — Reset password from `noreply@mail.app.supabase.io` |
-| Sign-up **verification** | **Pending — link open** | Receipt confirmed. Preview back at `http://localhost:3000` (`NEXT_PUBLIC_SITE_URL` matches). Dominic reusing **same** Confirm email address link — **no re-send**. Mark Pass only after he confirms click worked |
-| Spam note | Resend `onboarding@resend.dev` **spam risk** — Dominic found only “M11 probe …” in spam; Auth mails may use `noreply@mail.app.supabase.io` | Dominic |
-| Auth SMTP vs Resend | Recovery (and likely verify) still on **default Supabase mail host**, not Resend sender | Dominic paste |
-| Caveat | **Test-inbox only** — verified sending domain still required before beta testers | — |
+| Password **recovery** | **Pass** | Dominic — `noreply@mail.app.supabase.io` |
+| Sign-up **verification** | **Pending — fresh link** | Prior link → `otp_expired` / `access_denied` on `/sign-in?error=auth_callback`. Auth SMTP **rate-limited**; fresh Auth `generateLink(signup)` delivered via Resend `01a1da51-3b25-…` to exact inbox. **Await Dominic open + clean confirm** |
+| Spam note | Check **Inbox + Spam** — `onboarding@resend.dev` spam risk | Dominic prior probe-in-spam |
+| Caveat | Test-inbox only; verified domain still required before testers | — |
 
-**Four-check:** **3/4 Pass** (approve · reject · recovery). **Verify:** receipt Pass; link-open pending Dominic.
+**Four-check:** **3/4 Pass**. Verify **not Pass** until Dominic confirms the new link opened cleanly.
 
-### Other gates (unchanged Pass)
+## Other gates (unchanged)
 
-Tick 9/9 · Security F-01–F-05 · PostCSS resolved · a11y 11/11 · SR 13/13 · Retention planning approved (purge disabled).
+Journeys 86/86 · a11y 11/11 · SR 13/13 · tick 9/9 · security remediations · PostCSS resolved · retention planning approved (purge disabled).
 
-## Invite decision — go / no-go
+## Go / no-go
 
-### Recommendation: **NO-GO for private-beta invites / deploy**
-
-Test-inbox OK for closed-lab. Four-mail Pass incomplete until verify confirmed. Even then: **verified domain + Gate 7** still block invites.
-
-| Blocker | Status |
-| --- | --- |
-| 1. Beta email four-check | Approve/reject/recovery **Pass**; verify **pending/retry** |
-| 2. Verified sending domain | Required before tester addresses |
-| 3. Gate 7 | Explicit PO yes |
-| 4. Public-host tick secret | Only if non-local deploy authorised |
-
-**Stop:** no deploy, no tester invitations.
+**NO-GO for private-beta invites / deploy.** Even after four-check Pass: verified sending domain + Gate 7 still required. **Stop:** no deploy, no invitations.

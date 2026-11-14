@@ -166,9 +166,8 @@
     "approve": "PASS",
     "reject": "PASS",
     "recovery": "PASS",
-    "verify_receipt": "PASS",
-    "verify_link_open": "PENDING \u2014 preview restart; same link; no resend",
-    "four_check": "3/4 \u2014 verify link-open pending",
+    "verify": "PENDING \u2014 fresh link delivered; await clean open",
+    "four_check": "3/4",
     "invite_go": "NO-GO"
   },
   "resend_mcp": {
@@ -231,5 +230,18 @@
     "updated_at": "2026-11-14T13:41:14.080603+00:00",
     "first_click_failed": "local preview down",
     "preview_restart_worker": "bc-0fb86284"
+  },
+  "verify_otp_expired_retry": {
+    "at": "2026-11-14T13:48:55.570967+00:00",
+    "prior_error": "otp_expired / access_denied on /sign-in?error=auth_callback",
+    "auth_smtp_resend": "rate_limited",
+    "method": "admin.generateLink(signup) + Resend delivery to exact inbox",
+    "resend_message_id": "01a1da51-3b25-77c8-a7d4-130db9c7fd14",
+    "resend_status_mcp": "delivered",
+    "from": "Accountability Tracker <onboarding@resend.dev>",
+    "to": "smyth.developer@gmail.com",
+    "userId": "d28f358c-4dcf-4218-814b-6cca1d00e74d",
+    "link_open": "PENDING",
+    "subject": "Confirm your email address (fresh link \u2014 Auth SMTP rate-limited)"
   }
 }
