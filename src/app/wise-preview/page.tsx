@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BottomNav } from "@/components/BottomNav";
 import { ChallengeActivityView } from "@/components/ChallengeActivityView";
 import { ChallengeDashboardView } from "@/components/ChallengeDashboard";
 import { formatMinorAsMajor } from "@/lib/savings/money";
@@ -12,20 +13,10 @@ import {
 export const dynamic = "force-dynamic";
 
 /**
- * Auth-free mobile design preview for Wise-inspired direction review.
- * Uses Portugal 2027 fixture data; does not mutate live savings behaviour.
+ * Auth-free mobile design preview — MD3 / Dom Wise-ref direction.
+ * Portugal 2027 fixture; does not mutate live savings behaviour.
  */
-export default function WisePreviewPage({
-  searchParams,
-}: {
-  searchParams?: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  return (
-    <WisePreviewBody searchParams={searchParams} />
-  );
-}
-
-async function WisePreviewBody({
+export default async function WisePreviewPage({
   searchParams,
 }: {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -43,22 +34,20 @@ async function WisePreviewBody({
   ] as const;
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col overflow-x-clip px-4 pb-10 pt-6">
-      <header className="mb-5 min-w-0 px-0.5">
-        <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[var(--deep-sea)]">
-          Accountability Tracker
-        </p>
-        <h1 className="mt-1.5 text-[1.75rem] font-semibold tracking-tight text-[var(--ink)]">
+    <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col overflow-x-clip px-4 pb-28 pt-5">
+      <header className="mb-5 min-w-0">
+        <p className="text-xs font-semibold text-[var(--deep-sea)]">Accountability Tracker</p>
+        <h1 className="mt-1 text-[1.75rem] font-bold tracking-tight text-[var(--ink)]">
           Wise preview
         </h1>
-        <p className="mt-1.5 text-sm text-[var(--mute)]">
-          Design review only · Portugal 2027 fixture · branch{" "}
+        <p className="mt-1 text-sm text-[var(--mute)]">
+          Design review v2 · MD3 / Dom refs · Portugal 2027 ·{" "}
           <code className="text-xs">design/wise-inspired-preview</code>
         </p>
       </header>
 
       <nav
-        className="mb-5 flex gap-1 overflow-x-auto rounded-full border border-[var(--line)] bg-[var(--elevated)] p-1 shadow-[var(--shadow)]"
+        className="mb-6 flex gap-1 overflow-x-auto rounded-full border border-[var(--line)] bg-[var(--elevated)] p-1"
         aria-label="Preview screens"
       >
         {tabs.map((tab) => {
@@ -69,7 +58,7 @@ async function WisePreviewBody({
               href={tab.href}
               className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold transition-colors ${
                 active
-                  ? "bg-[var(--deep-sea)] text-white"
+                  ? "bg-[var(--deep-sea)] text-[var(--lime)]"
                   : "text-[var(--mute)] hover:text-[var(--ink)]"
               }`}
               aria-current={active ? "page" : undefined}
@@ -91,18 +80,16 @@ async function WisePreviewBody({
         ) : null}
 
         {view === "record" ? (
-          <div className="space-y-5" data-preview-screen="record">
-            <section className="at-surface p-5">
-              <p className="at-eyebrow">Self-reported</p>
-              <h2 className="mt-1 text-xl font-semibold tracking-tight">Record savings</h2>
+          <div className="space-y-6" data-preview-screen="record">
+            <section>
+              <p className="at-section-label">Self-reported</p>
+              <h2 className="mt-1 text-xl font-bold tracking-tight">Record savings</h2>
               <p className="mt-2 text-sm text-[var(--mute)]">
                 Active challenge · savings setup complete · today in Europe/London.
               </p>
-              <div className="mt-4 rounded-[var(--radius-md)] bg-[var(--deep-sea-soft)] px-4 py-3">
-                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-                  Eligible total now
-                </p>
-                <p className="mt-1 text-2xl font-semibold tabular-nums tracking-tight">
+              <div className="at-surface-soft mt-5 px-4 py-4">
+                <p className="text-xs font-medium text-[var(--mute)]">Eligible total now</p>
+                <p className="mt-1 text-2xl font-bold tabular-nums tracking-tight">
                   {formatMinorAsMajor(
                     wisePreviewTotals.eligibleTotalMinor,
                     wisePreviewTotals.currency,
@@ -117,7 +104,7 @@ async function WisePreviewBody({
                   · 41%
                 </p>
               </div>
-              <form className="mt-5 space-y-4" action="/wise-preview?view=confirm">
+              <div className="mt-5 space-y-4">
                 <label className="block text-sm font-medium">
                   Amount (GBP)
                   <input
@@ -137,19 +124,19 @@ async function WisePreviewBody({
                 <Link href="/wise-preview?view=confirm" className="at-btn-primary">
                   Record contribution
                 </Link>
-              </form>
+              </div>
             </section>
 
-            <section className="at-surface p-5">
-              <h2 className="text-lg font-semibold">Your contributions</h2>
+            <section>
+              <h2 className="text-lg font-bold">Your contributions</h2>
               <p className="mt-1 text-sm text-[var(--mute)]">Self-reported · own entries only</p>
-              <ul className="mt-2">
+              <ul className="mt-2 border-t border-[var(--line)]">
                 {wisePreviewContributions.map((c) => (
                   <li
                     key={c.id}
-                    className="border-b border-[var(--line)] py-3.5 text-sm last:border-b-0"
+                    className="border-b border-[var(--line)] py-4 text-sm"
                   >
-                    <p className="font-semibold tabular-nums">
+                    <p className="font-bold tabular-nums">
                       {formatMinorAsMajor(c.amountMinor, c.currency)}
                       <span className="ml-2 text-xs font-medium text-[var(--mute)]">
                         {c.sourceLabel}
@@ -166,17 +153,17 @@ async function WisePreviewBody({
         ) : null}
 
         {view === "confirm" ? (
-          <div className="space-y-5" data-preview-screen="confirm">
-            <section className="at-surface p-5">
-              <p className="at-eyebrow">Self-reported</p>
-              <h2 className="mt-1 text-xl font-semibold tracking-tight">Record savings</h2>
+          <div className="space-y-6" data-preview-screen="confirm">
+            <section>
+              <p className="at-section-label">Self-reported</p>
+              <h2 className="mt-1 text-xl font-bold tracking-tight">Record savings</h2>
               <div
-                className="mt-4 space-y-3 rounded-[var(--radius-lg)] border border-[color-mix(in_srgb,var(--deep-sea)_28%,var(--line))] bg-[var(--deep-sea-soft)] p-4"
+                className="mt-5 space-y-3 rounded-[var(--radius-sheet)] border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
                 role="status"
                 data-testid="contribution-confirmation"
               >
                 <p className="text-sm font-semibold">Contribution recorded</p>
-                <p className="text-3xl font-semibold tabular-nums tracking-tight">
+                <p className="text-3xl font-bold tabular-nums tracking-tight">
                   +
                   {formatMinorAsMajor(
                     wisePreviewConfirmation.recordedMinor,
@@ -186,28 +173,24 @@ async function WisePreviewBody({
                 <p className="text-sm text-[var(--mute)]">
                   Self-reported · {wisePreviewConfirmation.contributionDate}
                 </p>
-                <dl className="grid grid-cols-2 gap-3 text-sm">
-                  <div>
-                    <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-                      Before
-                    </dt>
-                    <dd className="mt-1 font-semibold tabular-nums">
+                <dl className="grid grid-cols-2 gap-4">
+                  <div className="at-label-stack">
+                    <dt className="label">Before</dt>
+                    <dd className="value tabular-nums">
                       {formatMinorAsMajor(
                         wisePreviewConfirmation.previousEligibleMinor,
                         wisePreviewConfirmation.currency,
                       )}
                     </dd>
                   </div>
-                  <div>
-                    <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-                      After
-                    </dt>
-                    <dd className="mt-1 font-semibold tabular-nums">
+                  <div className="at-label-stack">
+                    <dt className="label">After</dt>
+                    <dd className="value tabular-nums">
                       {formatMinorAsMajor(
                         wisePreviewConfirmation.eligibleTotalMinor,
                         wisePreviewConfirmation.currency,
                       )}
-                      <span className="ml-1 font-medium text-[var(--mute)]">· 43%</span>
+                      <span className="ml-1 text-sm font-medium text-[var(--mute)]">· 43%</span>
                     </dd>
                   </div>
                 </dl>
@@ -216,7 +199,7 @@ async function WisePreviewBody({
                   information.
                 </p>
               </div>
-              <Link href="/wise-preview?view=dashboard" className="at-btn-secondary mt-4 w-full">
+              <Link href="/wise-preview?view=dashboard" className="at-btn-secondary mt-5 w-full">
                 Back to dashboard
               </Link>
             </section>
@@ -235,6 +218,9 @@ async function WisePreviewBody({
           </div>
         ) : null}
       </main>
+
+      {/* Floating pill nav preview (same component as live AppShell). */}
+      <BottomNav />
     </div>
   );
 }

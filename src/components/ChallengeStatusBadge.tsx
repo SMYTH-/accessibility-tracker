@@ -1,17 +1,17 @@
 import type { LifecycleStatus } from "@/lib/challenge/types";
 
 const STYLES: Record<LifecycleStatus, string> = {
-  Draft: "bg-slate-100 text-slate-700 border-slate-200",
-  Scheduled: "bg-[var(--honey-soft)] text-[var(--ink)] border-[color-mix(in_srgb,var(--honey)_35%,white)]",
-  Active: "bg-[var(--deep-sea-soft)] text-[var(--deep-sea)] border-[color-mix(in_srgb,var(--deep-sea)_30%,white)]",
-  Completed: "bg-slate-100 text-slate-600 border-slate-200",
-  Cancelled: "bg-red-50 text-red-800 border-red-100",
+  Draft: "border-[var(--line-strong)] bg-[var(--elevated)] text-[var(--mute)]",
+  Scheduled: "border-transparent bg-[var(--honey-soft)] text-[var(--ink)]",
+  Active: "border-transparent bg-[var(--deep-sea)] text-[var(--lime)]",
+  Completed: "border-[var(--line-strong)] bg-[var(--surface-soft)] text-[var(--mute)]",
+  Cancelled: "border-red-200 bg-red-50 text-red-800",
 };
 
 export function ChallengeStatusBadge({ status }: { status: LifecycleStatus }) {
   return (
     <span
-      className={`inline-flex items-center rounded-lg border px-2 py-0.5 text-xs font-semibold ${STYLES[status]}`}
+      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${STYLES[status]}`}
     >
       {status}
     </span>

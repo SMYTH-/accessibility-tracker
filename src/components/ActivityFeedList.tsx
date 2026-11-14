@@ -26,13 +26,13 @@ function tone(kind: FeedItem["kind"]): string {
     case "member_joined":
       return "bg-[var(--deep-sea-soft)] text-[var(--deep-sea)]";
     case "commitment_completed":
-      return "bg-[var(--accent-bright)] text-[var(--accent-bright-ink)]";
+      return "bg-[var(--lime)] text-[var(--lime-ink)]";
     case "milestone_reached":
       return "bg-[var(--honey-soft)] text-[var(--honey)]";
     case "challenge_completed":
-      return "bg-[color-mix(in_srgb,var(--mute)_16%,white)] text-[var(--ink)]";
+      return "bg-[var(--surface-soft)] text-[var(--ink)]";
     case "private_contribution":
-      return "bg-[color-mix(in_srgb,var(--mute)_14%,white)] text-[var(--mute)]";
+      return "bg-[var(--surface-soft)] text-[var(--mute)]";
     default:
       return "bg-[var(--deep-sea)] text-white";
   }
@@ -56,25 +56,25 @@ export function ActivityFeedList({
   }
 
   return (
-    <ul className="mt-1" data-testid={testId}>
+    <ul className="mt-1 border-t border-[var(--line)]" data-testid={testId}>
       {events.map((ev) => (
         <li
           key={ev.id}
-          className="at-list-row"
+          className="at-list-row border-b border-[var(--line)]"
           data-event-kind={ev.kind}
           data-event-user={ev.userId}
         >
           <span
-            className={`at-avatar text-base ${tone(ev.kind)}`}
+            className={`at-avatar border-0 ${tone(ev.kind)}`}
             aria-hidden="true"
           >
             {glyph(ev.kind)}
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-3">
-              <p className="break-words font-medium text-[var(--ink)]">{ev.title}</p>
+              <p className="break-words font-semibold text-[var(--ink)]">{ev.title}</p>
               {ev.amountMinor != null && ev.currency ? (
-                <p className="shrink-0 text-sm font-semibold tabular-nums text-[var(--ink)]">
+                <p className="shrink-0 text-sm font-bold tabular-nums text-[var(--ink)]">
                   {formatMinorAsMajor(ev.amountMinor, ev.currency)}
                 </p>
               ) : null}

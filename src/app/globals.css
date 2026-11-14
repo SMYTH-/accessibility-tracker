@@ -3,25 +3,33 @@
 @tailwind utilities;
 
 /*
-  Working palette — "Moss Horizon" (Wise-inspired patterns, not a Wise clone).
-  Deep Sea / Honey lineage kept as semantic roles; greens shifted away from Wise Bright Green.
+  Working direction v2 — MD3 / real-Wise cues (Dom refs in media/wise-refs/).
+  White/off-white surfaces, lime CTA sparingly, forest for selected chips.
+  Not a Wise clone — no Wise marks. Manrope only.
 */
 :root {
-  --paper: #eef3ef;
+  --paper: #f7f7f4;
   --elevated: #ffffff;
-  --ink: #12261f;
-  --mute: #5a6b63;
-  --line: #d5e0d9;
-  --deep-sea: #0f4c3a;
-  --deep-sea-soft: #e4f2e8;
-  --accent-bright: #c5e86b;
-  --accent-bright-ink: #1a2e14;
+  --surface-soft: #f2f2ef;
+  --ink: #0b0f0e;
+  --mute: #6b7280;
+  --line: #e5e7eb;
+  --line-strong: #d1d5db;
+  --deep-sea: #16332b;
+  --deep-sea-soft: #e8f5e1;
+  --lime: #9fe870;
+  --lime-ink: #0b0f0e;
+  --lime-soft: #eef9e3;
   --honey: #c9842a;
-  --honey-soft: #f8efdf;
-  --shadow: 0 1px 2px rgba(18, 38, 31, 0.05), 0 10px 28px rgba(18, 38, 31, 0.06);
+  --honey-soft: #f7f0e4;
+  --nav-pill: rgba(255, 255, 255, 0.92);
+  --nav-active: #e8e8e4;
+  --shadow: 0 1px 2px rgba(11, 15, 14, 0.04), 0 8px 24px rgba(11, 15, 14, 0.06);
+  --shadow-nav: 0 4px 24px rgba(11, 15, 14, 0.12);
   --radius-lg: 1.25rem;
-  --radius-md: 0.875rem;
-  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--deep-sea) 35%, white);
+  --radius-md: 1rem;
+  --radius-sheet: 1.75rem;
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--lime) 55%, white);
 }
 
 html,
@@ -31,10 +39,7 @@ body {
 
 body {
   color: var(--ink);
-  background:
-    radial-gradient(ellipse 90% 55% at 12% -5%, #d7ebe0 0%, transparent 55%),
-    radial-gradient(ellipse 70% 45% at 95% 5%, #f3ecd8 0%, transparent 48%),
-    linear-gradient(168deg, #e5efe8 0%, #eef3ef 42%, #ebe6da 100%);
+  background: var(--paper);
   font-family: var(--font-ui), "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -45,7 +50,7 @@ body {
   }
 
   :focus-visible {
-    outline: 3px solid color-mix(in srgb, var(--deep-sea) 55%, white);
+    outline: 3px solid color-mix(in srgb, var(--deep-sea) 70%, var(--lime));
     outline-offset: 2px;
   }
 
@@ -55,47 +60,80 @@ body {
   select:focus-visible,
   textarea:focus-visible,
   [tabindex]:focus-visible {
-    outline: 3px solid color-mix(in srgb, var(--deep-sea) 55%, white);
+    outline: 3px solid color-mix(in srgb, var(--deep-sea) 70%, var(--lime));
     outline-offset: 2px;
   }
 }
 
 @layer components {
   .at-surface {
-    @apply rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--elevated)] shadow-[var(--shadow)];
+    @apply rounded-[var(--radius-lg)] bg-[var(--elevated)];
+    border: 1px solid var(--line);
   }
 
-  .at-eyebrow {
-    @apply text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-[var(--mute)];
+  .at-surface-soft {
+    @apply rounded-[var(--radius-lg)] bg-[var(--surface-soft)];
+  }
+
+  .at-section-label {
+    @apply text-sm font-medium text-[var(--mute)];
   }
 
   .at-hero-figure {
-    @apply text-[2.35rem] font-semibold leading-none tracking-tight tabular-nums text-[var(--ink)] sm:text-[2.75rem];
+    @apply text-[2.5rem] font-bold leading-none tracking-tight tabular-nums text-[var(--ink)] sm:text-[2.85rem];
   }
 
   .at-btn-primary {
-    @apply inline-flex w-full items-center justify-center rounded-full bg-[var(--deep-sea)] px-5 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow)] transition-[transform,background-color] duration-200 ease-out hover:bg-[color-mix(in_srgb,var(--deep-sea)_88%,black)] active:scale-[0.99] disabled:opacity-60;
+    @apply inline-flex w-full items-center justify-center rounded-full bg-[var(--lime)] px-5 py-3.5 text-sm font-semibold text-[var(--lime-ink)] transition-[transform,filter] duration-150 ease-out hover:brightness-95 active:scale-[0.99] disabled:opacity-55;
   }
 
   .at-btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-[var(--line)] bg-white px-4 py-2.5 text-sm font-semibold text-[var(--ink)] transition-colors hover:bg-[var(--deep-sea-soft)];
+    @apply inline-flex items-center justify-center rounded-full border border-[var(--line-strong)] bg-[var(--elevated)] px-4 py-2.5 text-sm font-semibold text-[var(--ink)] transition-colors hover:bg-[var(--surface-soft)];
+  }
+
+  .at-btn-circle {
+    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--line-strong)] bg-[var(--elevated)] text-[var(--ink)] transition-colors hover:bg-[var(--surface-soft)];
+  }
+
+  .at-chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-[var(--line-strong)] bg-[var(--elevated)] px-3 py-1.5 text-xs font-semibold text-[var(--ink)];
+  }
+
+  .at-chip-selected {
+    @apply inline-flex items-center gap-1 rounded-full border border-transparent bg-[var(--deep-sea)] px-3 py-1.5 text-xs font-semibold text-[var(--lime)];
   }
 
   .at-input {
-    @apply mt-1.5 w-full rounded-[var(--radius-md)] border border-[var(--line)] bg-white px-3.5 py-3 text-base tabular-nums text-[var(--ink)] transition-[border-color,box-shadow] placeholder:text-[color-mix(in_srgb,var(--mute)_70%,white)];
+    @apply mt-1.5 w-full rounded-[var(--radius-md)] border border-[var(--line-strong)] bg-[var(--elevated)] px-3.5 py-3.5 text-base tabular-nums text-[var(--ink)] transition-[border-color,box-shadow] placeholder:text-[var(--mute)];
   }
 
   .at-input:focus-visible {
-    border-color: var(--deep-sea);
+    border-color: var(--ink);
     box-shadow: var(--focus-ring);
     outline: none;
   }
 
   .at-list-row {
-    @apply flex gap-3 border-b border-[var(--line)] px-1 py-3.5 last:border-b-0;
+    @apply flex items-center gap-3 py-3.5;
   }
 
   .at-avatar {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold;
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--elevated)] text-sm font-semibold text-[var(--ink)];
+  }
+
+  .at-chevron {
+    @apply shrink-0 text-[var(--mute)];
+  }
+
+  .at-label-stack {
+    @apply flex min-w-0 flex-1 flex-col gap-0.5;
+  }
+
+  .at-label-stack > .label {
+    @apply text-xs font-medium text-[var(--mute)];
+  }
+
+  .at-label-stack > .value {
+    @apply text-base font-semibold text-[var(--ink)];
   }
 }

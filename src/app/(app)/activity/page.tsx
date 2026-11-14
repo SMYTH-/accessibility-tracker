@@ -19,7 +19,7 @@ export default async function ActivityPage() {
   if (!primary) {
     return (
       <AppShell title="Activity" subtitle="Challenge feed">
-        <section className="at-surface border-dashed p-5">
+        <section className="rounded-[var(--radius-lg)] border border-dashed border-[var(--line-strong)] bg-[var(--elevated)] p-5">
           <p className="text-sm text-[var(--mute)]">
             Join or create a challenge to see permitted activity (joins, contributions,
             commitments, milestones, completion).

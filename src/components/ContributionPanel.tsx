@@ -26,7 +26,7 @@ function Alert({
   const styles =
     tone === "error"
       ? "border-red-200 bg-red-50 text-red-900"
-      : "border-[color-mix(in_srgb,var(--deep-sea)_25%,white)] bg-[var(--deep-sea-soft)] text-[var(--ink)]";
+      : "border-[var(--line)] bg-[var(--lime-soft)] text-[var(--ink)]";
   return (
     <div className={`rounded-[var(--radius-md)] border px-3.5 py-3 text-sm ${styles}`} role="status">
       {children}
@@ -91,18 +91,16 @@ export function ContributionPanel({
     : null;
 
   return (
-    <div className="space-y-5">
-      <section className="at-surface p-5">
-        <p className="at-eyebrow">Self-reported</p>
-        <h2 className="mt-1 text-xl font-semibold tracking-tight">Record savings</h2>
+    <div className="space-y-6">
+      <section>
+        <p className="at-section-label">Self-reported</p>
+        <h2 className="mt-1 text-xl font-bold tracking-tight">Record savings</h2>
         <p className="mt-2 text-sm text-[var(--mute)]">{gateReason}</p>
 
         {totals ? (
-          <div className="mt-4 rounded-[var(--radius-md)] bg-[var(--deep-sea-soft)] px-4 py-3">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-              Eligible total now
-            </p>
-            <p className="mt-1 text-2xl font-semibold tabular-nums tracking-tight text-[var(--ink)]">
+          <div className="at-surface-soft mt-5 px-4 py-4">
+            <p className="text-xs font-medium text-[var(--mute)]">Eligible total now</p>
+            <p className="mt-1 text-2xl font-bold tabular-nums tracking-tight text-[var(--ink)]">
               {formatMinorAsMajor(totals.eligibleTotalMinor, currency)}
             </p>
             {totals.targetMinor != null ? (
@@ -149,7 +147,7 @@ export function ContributionPanel({
           <button
             type="button"
             disabled
-            className="at-btn-primary mt-4 cursor-not-allowed opacity-55"
+            className="at-btn-primary mt-5 cursor-not-allowed opacity-55"
           >
             Record savings — gated
           </button>
@@ -163,7 +161,7 @@ export function ContributionPanel({
 
         {confirm ? (
           <div
-            className="mt-4 space-y-3 rounded-[var(--radius-lg)] border border-[color-mix(in_srgb,var(--deep-sea)_28%,var(--line))] bg-[var(--deep-sea-soft)] p-4"
+            className="mt-5 space-y-3 rounded-[var(--radius-sheet)] border border-[var(--line)] bg-[var(--elevated)] p-5 shadow-[var(--shadow)]"
             role="status"
             data-testid="contribution-confirmation"
           >
@@ -171,31 +169,29 @@ export function ContributionPanel({
               Contribution recorded
               {confirm.replayed ? " · same retry, counted once" : ""}
             </p>
-            <p className="text-3xl font-semibold tabular-nums tracking-tight text-[var(--ink)]">
+            <p className="text-3xl font-bold tabular-nums tracking-tight text-[var(--ink)]">
               +{formatMinorAsMajor(confirm.recordedMinor, confirm.currency)}
             </p>
             <p className="text-sm text-[var(--mute)]">
               Self-reported · {confirm.contributionDate}
             </p>
-            <dl className="grid grid-cols-2 gap-3 text-sm">
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-                  Before
-                </dt>
-                <dd className="mt-1 font-semibold tabular-nums text-[var(--ink)]">
+            <dl className="grid grid-cols-2 gap-4">
+              <div className="at-label-stack">
+                <dt className="label">Before</dt>
+                <dd className="value tabular-nums">
                   {confirm.previousEligibleMinor != null
                     ? formatMinorAsMajor(confirm.previousEligibleMinor, confirm.currency)
                     : "—"}
                 </dd>
               </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mute)]">
-                  After
-                </dt>
-                <dd className="mt-1 font-semibold tabular-nums text-[var(--ink)]">
+              <div className="at-label-stack">
+                <dt className="label">After</dt>
+                <dd className="value tabular-nums">
                   {formatMinorAsMajor(confirm.eligibleTotalMinor, confirm.currency)}
                   {confirmPct != null ? (
-                    <span className="ml-1 font-medium text-[var(--mute)]">· {confirmPct}%</span>
+                    <span className="ml-1 text-sm font-medium text-[var(--mute)]">
+                      · {confirmPct}%
+                    </span>
                   ) : null}
                 </dd>
               </div>
@@ -243,17 +239,17 @@ export function ContributionPanel({
       </section>
 
       {contributions.length > 0 ? (
-        <section className="at-surface p-5">
-          <h2 className="text-lg font-semibold">Your contributions</h2>
+        <section>
+          <h2 className="text-lg font-bold">Your contributions</h2>
           <p className="mt-1 text-sm text-[var(--mute)]">Self-reported · own entries only</p>
-          <ul className="mt-2">
+          <ul className="mt-2 border-t border-[var(--line)]">
             {contributions.map((c) => (
               <li
                 key={c.id}
-                className="border-b border-[var(--line)] py-3.5 text-sm last:border-b-0"
+                className="border-b border-[var(--line)] py-4 text-sm"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="font-semibold tabular-nums text-[var(--ink)]">
+                  <p className="font-bold tabular-nums text-[var(--ink)]">
                     {formatMinorAsMajor(c.amountMinor, c.currency)}
                     <span className="ml-2 text-xs font-medium text-[var(--mute)]">
                       {c.sourceLabel}
@@ -311,12 +307,12 @@ export function ContributionPanel({
       ) : null}
 
       {revisions.length > 0 ? (
-        <section className="at-surface p-5">
-          <h2 className="text-lg font-semibold">Contribution audit</h2>
-          <ul className="mt-2">
+        <section>
+          <h2 className="text-lg font-bold">Contribution audit</h2>
+          <ul className="mt-2 border-t border-[var(--line)]">
             {revisions.map((r) => (
-              <li key={r.id} className="at-list-row flex-col gap-1 text-sm">
-                <p className="font-medium text-[var(--ink)]">{r.action}</p>
+              <li key={r.id} className="border-b border-[var(--line)] py-3.5 text-sm">
+                <p className="font-semibold text-[var(--ink)]">{r.action}</p>
                 <p className="text-[var(--mute)]">{r.detail}</p>
                 <p className="text-xs text-[var(--mute)]">
                   Date {r.contributionDate} · week {r.weekStart}
